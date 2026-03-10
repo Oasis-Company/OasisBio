@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export interface ButtonProps {
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
+  asChild?: boolean;
 }
 
 export function Button({
@@ -16,6 +17,7 @@ export function Button({
   className = '',
   onClick,
   disabled = false,
+  asChild = false,
 }: ButtonProps) {
   const variantClasses = {
     primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
@@ -30,15 +32,25 @@ export function Button({
     lg: 'px-6 py-3 text-lg',
   };
 
+  const buttonClasses = `
+    ${variantClasses[variant]}
+    ${sizeClasses[size]}
+    rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+    ${className}
+  `;
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement, {
+      className: buttonClasses,
+      onClick,
+      disabled,
+    });
+  }
+
   return (
     <button
-      className={`
-        ${variantClasses[variant]}
-        ${sizeClasses[size]}
-        rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
-        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-        ${className}
-      `}
+      className={buttonClasses}
       onClick={onClick}
       disabled={disabled}
     >
