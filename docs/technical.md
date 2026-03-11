@@ -110,4 +110,12 @@ OasisBio/
 - createdAt: DateTime
 - updatedAt: DateTime
 - abilities: Array of Ability
-- dcosFiles: Array of Dcos
+- dcosFiles: Array of DcosFile
+- references: Array of ReferenceItem
+- worlds: Array of WorldItem
+- models: Array of ModelItem
+- eras: Array of EraIdentity
+
+### EraIdentity
+- id: String (primary key)
+- oasisBioId: String (foreign key to Oasis
