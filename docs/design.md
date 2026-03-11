@@ -406,4 +406,8 @@ Input.displayName = 'Input';
 - **Colors**: Primary, secondary, grayscale
 - **Spacing**: Base units and scale
 - **Typography**: Font families, sizes, weights
-- **Shadows**: Elevation
+- **Shadows**: Elevation levels
+- **Borders**: Radius, width, style
+
+## Accessibility
+
