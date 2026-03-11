@@ -314,3 +314,7 @@ Input.displayName = 'Input';
 
 ### Animation and Transitions
 
+#### Key Animations
+- **Page Transitions**: Fade-in effects
+- **Hover States**: Subtle scale and color changes
+- **Card Interactions**: Slight elevation on hover
