@@ -273,4 +273,19 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(({
 ));
 CardContent.displayName = 'CardContent';
 
-export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps
+export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={`flex items-center p-6 pt-0 ${className}`}
+    {...props}
+  />
+));
+CardFooter.displayName = 'CardFooter';
+```
+
+#### Input Component
+```tsx
+// src/components/Input.tsx
+import React from 'react';
+
+export interface InputProps extends React.Input
