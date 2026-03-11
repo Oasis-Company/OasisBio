@@ -134,4 +134,9 @@ OasisBio/
 - level: Int (default: 1)
 - description: String (optional)
 - relatedWorldId: String (optional)
--
+- relatedEraId: String (optional)
+
+### DcosFile
+- id: String (primary key)
+- oasisBioId: String (foreign key to OasisBio)
+- title
