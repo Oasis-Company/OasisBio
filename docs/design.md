@@ -341,4 +341,9 @@ Input.displayName = 'Input';
 
 /* Hover animation for cards */
 .card-hover {
-  transition: all 0.3s
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0
