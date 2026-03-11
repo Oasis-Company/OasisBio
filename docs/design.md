@@ -194,3 +194,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     lg: 'h-11 px-8 py-2 text-lg',
   };
   
+  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  
+  if (asChild) {
+    const { children
