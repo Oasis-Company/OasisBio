@@ -310,4 +310,4 @@ OasisBio follows a minimalist, modern design approach inspired by Swiss design p
 
 ## Conclusion
 
-The OasisBio design system is built on the principles of clarity, precision, and
+The OasisBio design system is built on the principles of clarity, precision, and functionality. By following these guidelines, we ensure a consistent, accessible, and visually appealing user experience across all devices and screen sizes. The design system is flexible enough to accommodate future enhancements while maintaining the core aesthetic that makes OasisBio unique.
