@@ -139,4 +139,17 @@ OasisBio/
 ### DcosFile
 - id: String (primary key)
 - oasisBioId: String (foreign key to OasisBio)
-- title
+- title: String
+- content: String
+- folder: String
+- createdAt: DateTime
+- updatedAt: DateTime
+
+### ReferenceItem
+- id: String (primary key)
+- oasisBioId: String (foreign key to OasisBio)
+- url: String
+- title: String
+- type: String
+- description: String (optional)
+- tags: String
