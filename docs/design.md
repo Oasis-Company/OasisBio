@@ -366,4 +366,19 @@ Input.displayName = 'Input';
   animation: textReveal 1.5s ease-in-out;
 }
 
-@keyframes text
+@keyframes textReveal {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+```
+
+## Responsive Design
+
+### Breakpoints
+- **sm**: 640px
+- **md**: 768px
+- **lg**: 1024
