@@ -65,3 +65,19 @@ OasisBio/
 - **DCOS (Dynamic Core Operating Script)**: Core identity narrative files
 - **References**: External links and resources
 - **Worlds**: Fictional world creation and management
+
+### 4. 3D Model Support
+- OBJ file uploads
+- 3D model preview
+- Era-specific models
+- World-bound visuals
+
+### 5. User Authentication
+- Secure registration and login
+- Password hashing
+- Session management
+- Protected routes
+
+## Database Models
+
+### User
