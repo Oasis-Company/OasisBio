@@ -87,8 +87,12 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
-  code, pre, .font-mono {
-    @apply font-mono;
+  code, pre {
+    font-family: var(--font-mono);
+  }
+  
+  .font-mono {
+    font-family: var(--font-mono);
   }
   /* 可访问性 */
   * {

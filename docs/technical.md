@@ -10,7 +10,7 @@ OasisBio is a cross-era identity system that allows users to create and manage m
 - **Framework**: Next.js 14.1.4 with App Router
 - **Language**: TypeScript 5.4.3
 - **Styling**: Tailwind CSS 3.4.3
-- **Authentication**: NextAuth.js 4.24.13
+- **Authentication**: NextAuth.js 4.24.13 with email/password and OAuth (Google, GitHub)
 - **Components**: Custom React components
 - **State Management**: React useState and useEffect hooks
 
@@ -228,6 +228,14 @@ NEXTAUTH_SECRET="[YOUR-NEXTAUTH-SECRET]"
 # Supabase API Keys
 NEXT_PUBLIC_SUPABASE_URL="https://dhkgfdllgtmbkwcbubqt.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="[YOUR-ANON-KEY]"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="[YOUR-GOOGLE-CLIENT-ID]"
+GOOGLE_CLIENT_SECRET="[YOUR-GOOGLE-CLIENT-SECRET]"
+
+# GitHub OAuth
+GITHUB_CLIENT_ID="[YOUR-GITHUB-CLIENT-ID]"
+GITHUB_CLIENT_SECRET="[YOUR-GITHUB-CLIENT-SECRET]"
 ```
 
 ## Development
