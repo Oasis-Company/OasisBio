@@ -47,3 +47,14 @@ OasisBio/
 ├── package.json             # Project dependencies
 └── tailwind.config.js       # Tailwind CSS configuration
 ```
+
+## Core Features
+
+### 1. Cross-Era Identity System
+- Multiple identity versions (Past, Present, Future, Alternate, Fictional)
+- Timeline-based identity management
+- Era-specific attributes and abilities
+
+### 2. Ability Pool System
+- Custom and official ability categories
+- Skill levels (1-5
