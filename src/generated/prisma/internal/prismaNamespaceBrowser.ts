@@ -54,10 +54,12 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   OasisBio: 'OasisBio',
+  EraIdentity: 'EraIdentity',
   Ability: 'Ability',
-  Dco: 'Dco',
-  Reference: 'Reference',
-  World: 'World'
+  DcosFile: 'DcosFile',
+  ReferenceItem: 'ReferenceItem',
+  WorldItem: 'WorldItem',
+  ModelItem: 'ModelItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -127,9 +129,19 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const OasisBioScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  name: 'name',
-  birthday: 'birthday',
+  title: 'title',
+  slug: 'slug',
+  tagline: 'tagline',
+  identityMode: 'identityMode',
+  birthDate: 'birthDate',
   gender: 'gender',
+  pronouns: 'pronouns',
+  placeOfOrigin: 'placeOfOrigin',
+  currentEra: 'currentEra',
+  species: 'species',
+  status: 'status',
+  description: 'description',
+  visibility: 'visibility',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -137,45 +149,85 @@ export const OasisBioScalarFieldEnum = {
 export type OasisBioScalarFieldEnum = (typeof OasisBioScalarFieldEnum)[keyof typeof OasisBioScalarFieldEnum]
 
 
+export const EraIdentityScalarFieldEnum = {
+  id: 'id',
+  oasisBioId: 'oasisBioId',
+  name: 'name',
+  eraType: 'eraType',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  description: 'description'
+} as const
+
+export type EraIdentityScalarFieldEnum = (typeof EraIdentityScalarFieldEnum)[keyof typeof EraIdentityScalarFieldEnum]
+
+
 export const AbilityScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   name: 'name',
+  category: 'category',
+  type: 'type',
   level: 'level',
-  isPreset: 'isPreset'
+  description: 'description',
+  relatedWorldId: 'relatedWorldId',
+  relatedEraId: 'relatedEraId'
 } as const
 
 export type AbilityScalarFieldEnum = (typeof AbilityScalarFieldEnum)[keyof typeof AbilityScalarFieldEnum]
 
 
-export const DcoScalarFieldEnum = {
+export const DcosFileScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   title: 'title',
-  content: 'content'
+  content: 'content',
+  folder: 'folder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type DcoScalarFieldEnum = (typeof DcoScalarFieldEnum)[keyof typeof DcoScalarFieldEnum]
+export type DcosFileScalarFieldEnum = (typeof DcosFileScalarFieldEnum)[keyof typeof DcosFileScalarFieldEnum]
 
 
-export const ReferenceScalarFieldEnum = {
+export const ReferenceItemScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   url: 'url',
-  title: 'title'
+  title: 'title',
+  type: 'type',
+  description: 'description',
+  tags: 'tags'
 } as const
 
-export type ReferenceScalarFieldEnum = (typeof ReferenceScalarFieldEnum)[keyof typeof ReferenceScalarFieldEnum]
+export type ReferenceItemScalarFieldEnum = (typeof ReferenceItemScalarFieldEnum)[keyof typeof ReferenceItemScalarFieldEnum]
 
 
-export const WorldScalarFieldEnum = {
+export const WorldItemScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   name: 'name',
-  content: 'content'
+  summary: 'summary',
+  timeline: 'timeline',
+  rules: 'rules',
+  factions: 'factions'
 } as const
 
-export type WorldScalarFieldEnum = (typeof WorldScalarFieldEnum)[keyof typeof WorldScalarFieldEnum]
+export type WorldItemScalarFieldEnum = (typeof WorldItemScalarFieldEnum)[keyof typeof WorldItemScalarFieldEnum]
+
+
+export const ModelItemScalarFieldEnum = {
+  id: 'id',
+  oasisBioId: 'oasisBioId',
+  name: 'name',
+  objUrl: 'objUrl',
+  mtlUrl: 'mtlUrl',
+  previewImage: 'previewImage',
+  relatedWorldId: 'relatedWorldId',
+  relatedEraId: 'relatedEraId'
+} as const
+
+export type ModelItemScalarFieldEnum = (typeof ModelItemScalarFieldEnum)[keyof typeof ModelItemScalarFieldEnum]
 
 
 export const SortOrder = {

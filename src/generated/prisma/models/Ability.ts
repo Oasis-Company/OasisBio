@@ -38,24 +38,36 @@ export type AbilityMinAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   name: string | null
+  category: string | null
+  type: string | null
   level: number | null
-  isPreset: boolean | null
+  description: string | null
+  relatedWorldId: string | null
+  relatedEraId: string | null
 }
 
 export type AbilityMaxAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   name: string | null
+  category: string | null
+  type: string | null
   level: number | null
-  isPreset: boolean | null
+  description: string | null
+  relatedWorldId: string | null
+  relatedEraId: string | null
 }
 
 export type AbilityCountAggregateOutputType = {
   id: number
   oasisBioId: number
   name: number
+  category: number
+  type: number
   level: number
-  isPreset: number
+  description: number
+  relatedWorldId: number
+  relatedEraId: number
   _all: number
 }
 
@@ -72,24 +84,36 @@ export type AbilityMinAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
+  category?: true
+  type?: true
   level?: true
-  isPreset?: true
+  description?: true
+  relatedWorldId?: true
+  relatedEraId?: true
 }
 
 export type AbilityMaxAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
+  category?: true
+  type?: true
   level?: true
-  isPreset?: true
+  description?: true
+  relatedWorldId?: true
+  relatedEraId?: true
 }
 
 export type AbilityCountAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
+  category?: true
+  type?: true
   level?: true
-  isPreset?: true
+  description?: true
+  relatedWorldId?: true
+  relatedEraId?: true
   _all?: true
 }
 
@@ -183,8 +207,12 @@ export type AbilityGroupByOutputType = {
   id: string
   oasisBioId: string
   name: string
+  category: string
+  type: string
   level: number
-  isPreset: boolean
+  description: string | null
+  relatedWorldId: string | null
+  relatedEraId: string | null
   _count: AbilityCountAggregateOutputType | null
   _avg: AbilityAvgAggregateOutputType | null
   _sum: AbilitySumAggregateOutputType | null
@@ -214,8 +242,12 @@ export type AbilityWhereInput = {
   id?: Prisma.StringFilter<"Ability"> | string
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
+  category?: Prisma.StringFilter<"Ability"> | string
+  type?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
-  isPreset?: Prisma.BoolFilter<"Ability"> | boolean
+  description?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }
 
@@ -223,8 +255,12 @@ export type AbilityOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  isPreset?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedEraId?: Prisma.SortOrderInput | Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
 }
 
@@ -235,8 +271,12 @@ export type AbilityWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AbilityWhereInput | Prisma.AbilityWhereInput[]
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
+  category?: Prisma.StringFilter<"Ability"> | string
+  type?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
-  isPreset?: Prisma.BoolFilter<"Ability"> | boolean
+  description?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }, "id">
 
@@ -244,8 +284,12 @@ export type AbilityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  isPreset?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
+  relatedEraId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AbilityCountOrderByAggregateInput
   _avg?: Prisma.AbilityAvgOrderByAggregateInput
   _max?: Prisma.AbilityMaxOrderByAggregateInput
@@ -260,15 +304,23 @@ export type AbilityScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   oasisBioId?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   name?: Prisma.StringWithAggregatesFilter<"Ability"> | string
+  category?: Prisma.StringWithAggregatesFilter<"Ability"> | string
+  type?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   level?: Prisma.IntWithAggregatesFilter<"Ability"> | number
-  isPreset?: Prisma.BoolWithAggregatesFilter<"Ability"> | boolean
+  description?: Prisma.StringNullableWithAggregatesFilter<"Ability"> | string | null
+  relatedWorldId?: Prisma.StringNullableWithAggregatesFilter<"Ability"> | string | null
+  relatedEraId?: Prisma.StringNullableWithAggregatesFilter<"Ability"> | string | null
 }
 
 export type AbilityCreateInput = {
   id?: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutAbilitiesInput
 }
 
@@ -276,15 +328,23 @@ export type AbilityUncheckedCreateInput = {
   id?: string
   oasisBioId: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
 }
 
 export type AbilityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutAbilitiesNestedInput
 }
 
@@ -292,31 +352,47 @@ export type AbilityUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityCreateManyInput = {
   id?: string
   oasisBioId: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
 }
 
 export type AbilityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityListRelationFilter = {
@@ -333,8 +409,12 @@ export type AbilityCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  isPreset?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  relatedWorldId?: Prisma.SortOrder
+  relatedEraId?: Prisma.SortOrder
 }
 
 export type AbilityAvgOrderByAggregateInput = {
@@ -345,16 +425,24 @@ export type AbilityMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  isPreset?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  relatedWorldId?: Prisma.SortOrder
+  relatedEraId?: Prisma.SortOrder
 }
 
 export type AbilityMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  isPreset?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  relatedWorldId?: Prisma.SortOrder
+  relatedEraId?: Prisma.SortOrder
 }
 
 export type AbilitySumOrderByAggregateInput = {
@@ -411,22 +499,26 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type AbilityCreateWithoutOasisBioInput = {
   id?: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
 }
 
 export type AbilityUncheckedCreateWithoutOasisBioInput = {
   id?: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
 }
 
 export type AbilityCreateOrConnectWithoutOasisBioInput = {
@@ -461,36 +553,56 @@ export type AbilityScalarWhereInput = {
   id?: Prisma.StringFilter<"Ability"> | string
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
+  category?: Prisma.StringFilter<"Ability"> | string
+  type?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
-  isPreset?: Prisma.BoolFilter<"Ability"> | boolean
+  description?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
+  relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
 }
 
 export type AbilityCreateManyOasisBioInput = {
   id?: string
   name: string
+  category: string
+  type?: string
   level?: number
-  isPreset?: boolean
+  description?: string | null
+  relatedWorldId?: string | null
+  relatedEraId?: string | null
 }
 
 export type AbilityUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreset?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -499,8 +611,12 @@ export type AbilitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
+  category?: boolean
+  type?: boolean
   level?: boolean
-  isPreset?: boolean
+  description?: boolean
+  relatedWorldId?: boolean
+  relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
@@ -508,8 +624,12 @@ export type AbilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
+  category?: boolean
+  type?: boolean
   level?: boolean
-  isPreset?: boolean
+  description?: boolean
+  relatedWorldId?: boolean
+  relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
@@ -517,8 +637,12 @@ export type AbilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
+  category?: boolean
+  type?: boolean
   level?: boolean
-  isPreset?: boolean
+  description?: boolean
+  relatedWorldId?: boolean
+  relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
@@ -526,11 +650,15 @@ export type AbilitySelectScalar = {
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
+  category?: boolean
+  type?: boolean
   level?: boolean
-  isPreset?: boolean
+  description?: boolean
+  relatedWorldId?: boolean
+  relatedEraId?: boolean
 }
 
-export type AbilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "level" | "isPreset", ExtArgs["result"]["ability"]>
+export type AbilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "category" | "type" | "level" | "description" | "relatedWorldId" | "relatedEraId", ExtArgs["result"]["ability"]>
 export type AbilityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }
@@ -550,8 +678,12 @@ export type $AbilityPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     oasisBioId: string
     name: string
+    category: string
+    type: string
     level: number
-    isPreset: boolean
+    description: string | null
+    relatedWorldId: string | null
+    relatedEraId: string | null
   }, ExtArgs["result"]["ability"]>
   composites: {}
 }
@@ -979,8 +1111,12 @@ export interface AbilityFieldRefs {
   readonly id: Prisma.FieldRef<"Ability", 'String'>
   readonly oasisBioId: Prisma.FieldRef<"Ability", 'String'>
   readonly name: Prisma.FieldRef<"Ability", 'String'>
+  readonly category: Prisma.FieldRef<"Ability", 'String'>
+  readonly type: Prisma.FieldRef<"Ability", 'String'>
   readonly level: Prisma.FieldRef<"Ability", 'Int'>
-  readonly isPreset: Prisma.FieldRef<"Ability", 'Boolean'>
+  readonly description: Prisma.FieldRef<"Ability", 'String'>
+  readonly relatedWorldId: Prisma.FieldRef<"Ability", 'String'>
+  readonly relatedEraId: Prisma.FieldRef<"Ability", 'String'>
 }
     
 

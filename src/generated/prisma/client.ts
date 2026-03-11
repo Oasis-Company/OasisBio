@@ -70,22 +70,32 @@ export type VerificationToken = Prisma.VerificationTokenModel
  */
 export type OasisBio = Prisma.OasisBioModel
 /**
+ * Model EraIdentity
+ * 
+ */
+export type EraIdentity = Prisma.EraIdentityModel
+/**
  * Model Ability
  * 
  */
 export type Ability = Prisma.AbilityModel
 /**
- * Model Dco
+ * Model DcosFile
  * 
  */
-export type Dco = Prisma.DcoModel
+export type DcosFile = Prisma.DcosFileModel
 /**
- * Model Reference
+ * Model ReferenceItem
  * 
  */
-export type Reference = Prisma.ReferenceModel
+export type ReferenceItem = Prisma.ReferenceItemModel
 /**
- * Model World
+ * Model WorldItem
  * 
  */
-export type World = Prisma.WorldModel
+export type WorldItem = Prisma.WorldItemModel
+/**
+ * Model ModelItem
+ * 
+ */
+export type ModelItem = Prisma.ModelItemModel

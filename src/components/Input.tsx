@@ -9,6 +9,9 @@ export interface InputProps {
   className?: string;
   disabled?: boolean;
   required?: boolean;
+  min?: string;
+  max?: string;
+  step?: string;
 }
 
 export function Input({
@@ -20,6 +23,9 @@ export function Input({
   className = '',
   disabled = false,
   required = false,
+  min,
+  max,
+  step,
 }: InputProps) {
   return (
     <input
@@ -36,6 +42,9 @@ export function Input({
       `}
       disabled={disabled}
       required={required}
+      min={min}
+      max={max}
+      step={step}
     />
   );
 }
