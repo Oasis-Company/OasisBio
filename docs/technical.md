@@ -194,4 +194,8 @@ OasisBio/
 
 ### Repository Management
 - **DCOS**: `GET|POST|PUT|DELETE /api/oasisbios/[id]/dcos`
-- **References**: `GET|POST|PUT|DELETE /
+- **References**: `GET|POST|PUT|DELETE /api/oasisbios/[id]/references`
+- **Worlds**: `GET|POST|PUT|DELETE /api/oasisbios/[id]/worlds`
+
+### Model Management
+- `GET /api/oasisbios/[id]/models` -
