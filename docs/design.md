@@ -398,4 +398,6 @@ Input.displayName = 'Input';
 - **Buttons**: Primary, secondary, outline variants
 - **Cards**: Standard, elevated, compact styles
 - **Forms**: Inputs, selects, textareas
-- **Navigation**: Header, sidebar,
+- **Navigation**: Header, sidebar, footer
+- **Layout**: Containers, grids, sections
+- **Typography**: Headings,
