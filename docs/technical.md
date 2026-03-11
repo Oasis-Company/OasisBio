@@ -184,4 +184,10 @@ OasisBio/
 - `POST /api/oasisbios` - Create new OasisBio
 - `GET /api/oasisbios/[id]` - Get specific OasisBio
 - `PUT /api/oasisbios/[id]` - Update OasisBio
-- `DELETE /api/oasisbios/[id]
+- `DELETE /api/oasisbios/[id]` - Delete OasisBio
+
+### Ability Management
+- `GET /api/oasisbios/[id]/abilities` - Get abilities for OasisBio
+- `POST /api/oasisbios/[id]/abilities` - Add ability to OasisBio
+- `PUT /api/abilities/[id]` - Update ability
+-
