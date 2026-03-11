@@ -153,3 +153,12 @@ OasisBio/
 - type: String
 - description: String (optional)
 - tags: String
+
+### WorldItem
+- id: String (primary key)
+- oasisBioId: String (foreign key to OasisBio)
+- name: String
+- summary: String
+- timeline: String (optional)
+- rules: String (optional)
+- factions: String (optional
