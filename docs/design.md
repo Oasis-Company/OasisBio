@@ -360,3 +360,10 @@ Input.displayName = 'Input';
   position: absolute;
   top: 0;
   left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  animation: textReveal 1.5s ease-in-out;
+}
+
+@keyframes text
