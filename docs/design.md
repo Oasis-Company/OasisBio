@@ -54,4 +54,24 @@ OasisBio follows a minimalist, modern design approach inspired by Swiss Grid pri
 - Spacing scale: 0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem, 6rem, 8rem
 
 #### Layout Components
--
+- Hero sections with large typography
+- Card-based content blocks
+- Grid-based feature sections
+- Full-width background sections
+
+## CSS Implementation
+
+### Tailwind CSS Configuration
+
+#### Custom Tailwind Setup
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#000000',
+        secondary: '#FFFFFF',
