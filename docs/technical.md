@@ -161,4 +161,14 @@ OasisBio/
 - summary: String
 - timeline: String (optional)
 - rules: String (optional)
-- factions: String (optional
+- factions: String (optional)
+
+### ModelItem
+- id: String (primary key)
+- oasisBioId: String (foreign key to OasisBio)
+- name: String
+- objUrl: String
+- mtlUrl: String (optional)
+- previewImage: String (optional)
+- relatedWorldId: String (optional)
+- relatedEraId: String (optional)
