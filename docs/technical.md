@@ -220,4 +220,10 @@ OasisBio/
 ### Environment Variables
 ```
 # Supabase Database URL
-DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.dhkgfdllgtmbkwcb
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.dhkgfdllgtmbkwcbubqt.supabase.co:5432/postgres"
+
+# NextAuth.js Secret
+NEXTAUTH_SECRET="[YOUR-NEXTAUTH-SECRET]"
+
+# Supabase API Keys
+NEXT_PUBLIC_SUPABASE_URL="https://dhkgfdllgtmbkwcbubqt
