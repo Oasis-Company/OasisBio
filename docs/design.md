@@ -2,440 +2,312 @@
 
 ## Design Philosophy
 
-OasisBio follows a minimalist, modern design approach inspired by Swiss Grid principles and black/white minimalism. The design emphasizes clean typography, precise alignment, and strategic use of negative space to create a sophisticated, professional aesthetic.
+OasisBio follows a minimalist, modern design approach inspired by Swiss design principles. The design emphasizes clarity, precision, and functionality while maintaining a strong visual identity. The focus is on creating a clean, intuitive interface that allows users to focus on building their digital identities without unnecessary distractions.
 
-## Visual Language
+## Core Design Principles
 
-### Design Keywords
-- Swiss Grid
-- Black / White minimalism
-- Editorial typography
-- Strong negative space
-- Motion restraint
-- Precise alignment
-- Brutalist undertone
-- Awwwards-level transitions
+### 1. Swiss Grid System
+- **12-column grid** for consistent layout structure
+- **Precise alignment** of elements
+- **Strong negative space** to enhance readability
+- **Modular design** for consistent component sizing
 
-### Color Palette
+### 2. Black/White Minimalism
+- **Monochromatic color scheme** with black, white, and shades of gray
+- **High contrast** for improved readability
+- **Clean typography** with clear hierarchy
+- **Subtle animations** for enhanced user experience
 
-#### Primary Colors
+### 3. Editorial Typography
+- **Clear hierarchy** with distinct title and body text styles
+- **Generous line spacing** for improved readability
+- **Consistent font usage** across the application
+- **Responsive typography** that adapts to different screen sizes
+
+### 4. Motion Restraint
+- **Subtle hover effects** for interactive elements
+- **Smooth transitions** between states
+- **Purposeful animations** that enhance functionality
+- **Performance-optimized** motion effects
+
+## Color Palette
+
+### Primary Colors
 - **Black**: #000000
 - **White**: #FFFFFF
 
-#### Grayscale
+### Secondary Colors (Grayscale)
 - **Dark Gray**: #111111
 - **Medium Gray**: #666666
 - **Light Gray**: #D9D9D9
-- **Extra Light Gray**: #F5F5F5
+- **Very Light Gray**: #F5F5F5
 
-### Typography
+### Functional Colors
+- **Success**: #10B981 (Emerald)
+- **Warning**: #F59E0B (Amber)
+- **Error**: #EF4444 (Red)
+- **Info**: #3B82F6 (Blue)
 
-#### Font Recommendations
-- **Headings**: Helvetica Now / Inter Tight / Satoshi style
-- **Body Text**: Inter / Suisse Intl style
+## Typography
+
+### Font Families
+- **Headings**: Inter Tight / Helvetica Now / Satoshi
+- **Body Text**: Inter / Suisse Intl
 - **Monospace**: JetBrains Mono / IBM Plex Mono
 
-#### Typography Hierarchy
-- **H1**: 4xl-8xl, bold, tracking-tight
-- **H2**: 3xl-5xl, bold, tracking-tight
-- **H3**: 2xl-3xl, bold
-- **Body**: base, regular
-- **Small Text**: sm, regular
+### Font Sizes
+- **H1**: 4rem - 6rem (64px - 96px)
+- **H2**: 3rem - 4rem (48px - 64px)
+- **H3**: 2rem - 2.5rem (32px - 40px)
+- **H4**: 1.5rem - 1.75rem (24px - 28px)
+- **Body**: 1rem - 1.25rem (16px - 20px)
+- **Small**: 0.875rem (14px)
+- **Caption**: 0.75rem (12px)
 
-### Layout System
+### Line Heights
+- **Headings**: 1.1 - 1.2
+- **Body Text**: 1.5 - 1.6
+- **Small Text**: 1.4
 
-#### Grid
-- 12-column grid system
-- Responsive breakpoints
-- Consistent spacing units
+## Layout Structure
 
-#### Spacing
-- Base unit: 4px
-- Spacing scale: 0.5rem, 1rem, 1.5rem, 2rem, 3rem, 4rem, 6rem, 8rem
+### Grid System
+```
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
-#### Layout Components
-- Hero sections with large typography
-- Card-based content blocks
-- Grid-based feature sections
-- Full-width background sections
-
-## CSS Implementation
-
-### Tailwind CSS Configuration
-
-#### Custom Tailwind Setup
-```javascript
-// tailwind.config.js
-module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: '#000000',
-        secondary: '#FFFFFF',
-        gray: {
-          100: '#F5F5F5',
-          200: '#D9D9D9',
-          300: '#B3B3B3',
-          400: '#999999',
-          500: '#666666',
-          600: '#4D4D4D',
-          700: '#333333',
-          800: '#1A1A1A',
-          900: '#111111',
-        },
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-      },
-      spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-      },
-      maxWidth: {
-        '8xl': '88rem',
-      },
-    },
-  },
-  plugins: [],
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
 }
 ```
 
-### Global Styles
+### Spacing System
+- **xs**: 0.25rem (4px)
+- **sm**: 0.5rem (8px)
+- **md**: 1rem (16px)
+- **lg**: 1.5rem (24px)
+- **xl**: 2rem (32px)
+- **2xl**: 3rem (48px)
+- **3xl**: 4rem (64px)
+- **4xl**: 6rem (96px)
 
-#### CSS Reset and Base Styles
-```css
-/* src/app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+## Components
 
-:root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --primary: #000000;
-  --primary-foreground: #ffffff;
-  --secondary: #f5f5f5;
-  --secondary-foreground: #000000;
-  --muted: #f5f5f5;
-  --muted-foreground: #666666;
-  --accent: #f5f5f5;
-  --accent-foreground: #000000;
-  --border: #d9d9d9;
-  --ring: #000000;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
-  line-height: 1.6;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-```
-
-### Component Styles
-
-#### Button Component
-```tsx
-// src/components/Button.tsx
-import React from 'react';
-
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
-  asChild?: boolean;
-}
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
-  className,
-  variant = 'primary',
-  size = 'md',
-  asChild = false,
-  ...props
-}, ref) => {
-  const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
-  
-  const variantClasses = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    outline: 'border border-border hover:bg-accent hover:text-accent-foreground',
-  };
-  
-  const sizeClasses = {
-    sm: 'h-9 px-4 py-2 text-sm',
-    md: 'h-10 px-6 py-2',
-    lg: 'h-11 px-8 py-2 text-lg',
-  };
-  
-  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
-  
-  if (asChild) {
-    const { children, ...restProps } = props;
-    return React.cloneElement(React.Children.only(children), {
-      className: classes,
-      ...restProps,
-    });
+### Button
+- **Variants**: primary, secondary, outline, ghost
+- **Sizes**: sm, md, lg, xl
+- **States**: default, hover, active, disabled
+- **Styles**:
+  ```css
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
   
-  return (
-    <button
-      className={classes}
-      ref={ref}
-      {...props}
-    />
-  );
-});
-
-Button.displayName = 'Button';
-```
-
-#### Card Component
-```tsx
-// src/components/Card.tsx
-import React from 'react';
-
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
-export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
-export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
-export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
-export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
-    {...props}
-  />
-));
-Card.displayName = 'Card';
-
-export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={`flex flex-col space-y-1.5 p-6 ${className}`}
-    {...props}
-  />
-));
-CardHeader.displayName = 'CardHeader';
-
-export const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={`text-2xl font-semibold leading-none tracking-tight ${className}`}
-    {...props}
-  />
-));
-CardTitle.displayName = 'CardTitle';
-
-export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={`text-sm text-muted-foreground ${className}`}
-    {...props}
-  />
-));
-CardDescription.displayName = 'CardDescription';
-
-export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={`p-6 pt-0 ${className}`}
-    {...props}
-  />
-));
-CardContent.displayName = 'CardContent';
-
-export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={`flex items-center p-6 pt-0 ${className}`}
-    {...props}
-  />
-));
-CardFooter.displayName = 'CardFooter';
-```
-
-#### Input Component
-```tsx
-// src/components/Input.tsx
-import React from 'react';
-
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  min?: string;
-  max?: string;
-  step?: string;
-}
-
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
-  className,
-  type,
-  ...props
-}, ref) => {
-  return (
-    <input
-      type={type}
-      className={`flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
-      ref={ref}
-      {...props}
-    />
-  );
-});
-
-Input.displayName = 'Input';
-```
-
-### Animation and Transitions
-
-#### Key Animations
-- **Page Transitions**: Fade-in effects
-- **Hover States**: Subtle scale and color changes
-- **Card Interactions**: Slight elevation on hover
-- **Text Reveals**: Mask-based animations
-- **3D Model Interactions**: Controlled rotation and zoom
-
-#### Implementation Examples
-```css
-/* Fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .btn-primary {
+    background-color: #000000;
+    color: #FFFFFF;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .btn-primary:hover {
+    background-color: #111111;
   }
-}
+  ```
 
-.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-/* Hover animation for cards */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Text reveal animation */
-.text-reveal {
-  position: relative;
-  overflow: hidden;
-}
-
-.text-reveal::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, #ffffff, transparent);
-  animation: textReveal 1.5s ease-in-out;
-}
-
-@keyframes textReveal {
-  0% {
-    left: -100%;
+### Card
+- **Structure**: header, content, footer
+- **Variants**: default, elevated, outlined
+- **Styles**:
+  ```css
+  .card {
+    background-color: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
-  100% {
-    left: 100%;
+  
+  .card-header {
+    padding: 1rem;
+    border-bottom: 1px solid #D9D9D9;
   }
-}
-```
+  
+  .card-content {
+    padding: 1rem;
+  }
+  ```
+
+### Input
+- **Types**: text, password, email, number, date, select
+- **States**: default, focus, error, disabled
+- **Styles**:
+  ```css
+  .input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #D9D9D9;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+  ```
+
+### Navbar
+- **Structure**: logo, navigation links, user menu
+- **Responsive**: collapsible for mobile devices
+- **Styles**:
+  ```css
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #D9D9D9;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 1rem;
+  }
+  ```
+
+## Page Layouts
+
+### Homepage
+- **Hero Section**: Large headline, subtitle, CTA buttons
+- **Features Section**: Grid of feature cards
+- **CTA Section**: Bold call-to-action
+- **Footer**: Links and copyright information
+
+### Dashboard
+- **Sidebar**: Navigation menu
+- **Main Content**: Cards for OasisBios, worlds, models
+- **Header**: User information and actions
+
+### OasisBio Builder
+- **Step-by-Step**: Linear progression through creation steps
+- **Form Sections**: Organized input fields
+- **Navigation**: Previous/Next buttons
+
+### Public OasisBio Page
+- **Hero**: Identity name, tagline, era information
+- **Basic Profile**: Core identity information
+- **Ability Pool**: Visual representation of skills
+- **Repositories**: Tabs for DCOS, References, Worlds
+- **3D Model Viewer**: Interactive model display
+- **Timeline**: Era versions navigation
 
 ## Responsive Design
 
 ### Breakpoints
-- **sm**: 640px
-- **md**: 768px
-- **lg**: 1024px
-- **xl**: 1280px
-- **2xl**: 1536px
+- **Mobile**: < 640px
+- **Tablet**: 640px - 1024px
+- **Desktop**: > 1024px
 
 ### Responsive Strategies
-- Mobile-first approach
-- Fluid typography
-- Responsive grid layouts
-- Conditional component rendering
-- Touch-friendly interactions
+- **Fluid typography** that scales with viewport
+- **Grid system** that adjusts column count
+- **Component stacking** for smaller screens
+- **Touch-friendly** interactive elements
 
-## Design System
+## Animations
 
-### Component Library
-- **Buttons**: Primary, secondary, outline variants
-- **Cards**: Standard, elevated, compact styles
-- **Forms**: Inputs, selects, textareas
-- **Navigation**: Header, sidebar, footer
-- **Layout**: Containers, grids, sections
-- **Typography**: Headings, body text, captions
+### Micro-interactions
+- **Button hover**: Subtle scale and color change
+- **Card hover**: Slight lift and shadow increase
+- **Input focus**: Border and shadow animation
+- **Page transitions**: Fade-in effects
 
-### Design Tokens
-- **Colors**: Primary, secondary, grayscale
-- **Spacing**: Base units and scale
-- **Typography**: Font families, sizes, weights
-- **Shadows**: Elevation levels
-- **Borders**: Radius, width, style
+### Keyframe Animations
+- **Hero text reveal**: Typewriter effect
+- **Feature card entrance**: Staggered fade-in
+- **Timeline navigation**: Smooth sliding transitions
+- **3D model rotation**: Subtle continuous rotation
 
 ## Accessibility
 
-### Best Practices
-- Semantic HTML
-- Proper ARIA labels
-- Keyboard navigation
-- Sufficient color contrast
-- Responsive text sizes
-- Focus states
-- Screen reader support
+### Color Contrast
+- **Text vs Background**: Minimum 4.5:1 contrast ratio
+- **Interactive Elements**: Minimum 3:1 contrast ratio
+- **WCAG 2.1 AA compliance**
 
-### Testing
-- Automated accessibility testing
-- Manual keyboard navigation testing
-- Screen reader testing
-- Cross-browser compatibility testing
+### Keyboard Navigation
+- **Tab order** that follows logical flow
+- **Focus indicators** for all interactive elements
+- **Skip links** for screen reader users
+
+### Screen Reader Support
+- **Semantic HTML** for proper element identification
+- **ARIA labels** for non-semantic elements
+- **Landmark regions** for page structure
 
 ## Performance Optimization
 
 ### CSS Optimization
-- Tailwind CSS purging
-- Critical CSS extraction
-- Minification
-- Avoiding render-blocking CSS
+- **Tailwind CSS** for utility-first styling
+- **Purge unused CSS** in production
+- **Minify CSS** for reduced file size
+- **Critical CSS** for above-the-fold content
 
 ### Image Optimization
-- Responsive images
-- Proper sizing
-- Lazy loading
-- Modern
+- **Responsive images** with srcset
+- **Lazy loading** for off-screen images
+- **Optimal file formats** (WebP for modern browsers)
+- **Image compression** without quality loss
+
+### Font Optimization
+- **Font subsetting** for reduced file size
+- **Font display** strategy for better UX
+- **Preload critical fonts** for faster rendering
+
+## Implementation Guidelines
+
+### CSS Best Practices
+- **Utility-first** approach with Tailwind CSS
+- **Component-based** styling for reusability
+- **Consistent naming conventions**
+- **Avoid !important** declarations
+- **Organize styles** logically
+
+### Design System
+- **Consistent component usage** across the application
+- **Shared design tokens** for colors, spacing, and typography
+- **Documentation** for design patterns and components
+- **Regular design reviews** to maintain consistency
+
+## Future Design Considerations
+
+### Dark Mode
+- **Toggleable dark mode** for user preference
+- **Optimized color palette** for dark backgrounds
+- **Accessibility** considerations for dark mode
+
+### Customization
+- **Theme options** for personalization
+- **Custom CSS** support for advanced users
+- **Brand integration** for organizational users
+
+### Internationalization
+- **RTL support** for right-to-left languages
+- **Cultural considerations** for design elements
+- **Localized date and time formats**
+
+## Conclusion
+
+The OasisBio design system is built on the principles of clarity, precision, and
