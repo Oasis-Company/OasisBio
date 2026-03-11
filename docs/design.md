@@ -202,3 +202,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
       className: classes,
       ...restProps,
     });
+  }
+  
+  return (
+    <button
+      className={classes}
+      ref={ref}
+      {...props}
+    />
+  );
+});
