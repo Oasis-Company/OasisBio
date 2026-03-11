@@ -288,4 +288,13 @@ CardFooter.displayName = 'CardFooter';
 // src/components/Input.tsx
 import React from 'react';
 
-export interface InputProps extends React.Input
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  min?: string;
+  max?: string;
+  step?: string;
+}
+
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
+  className,
+  type,
+  ...
