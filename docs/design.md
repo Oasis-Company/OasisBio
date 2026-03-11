@@ -96,4 +96,19 @@ module.exports = {
         '88': '22rem',
       },
       maxWidth: {
-        '8xl':
+        '8xl': '88rem',
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+### Global Styles
+
+#### CSS Reset and Base Styles
+```css
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind
