@@ -206,3 +206,10 @@ OasisBio/
 
 ### Supabase Setup
 1. Create a Supabase project
+2. Configure the database with the provided schema
+3. Set up environment variables with Supabase credentials
+
+### Cloudflare Pages Deployment
+1. Connect your GitHub repository to Cloudflare Pages
+2. Configure build settings:
+   - Build command
