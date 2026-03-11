@@ -411,3 +411,31 @@ Input.displayName = 'Input';
 
 ## Accessibility
 
+### Best Practices
+- Semantic HTML
+- Proper ARIA labels
+- Keyboard navigation
+- Sufficient color contrast
+- Responsive text sizes
+- Focus states
+- Screen reader support
+
+### Testing
+- Automated accessibility testing
+- Manual keyboard navigation testing
+- Screen reader testing
+- Cross-browser compatibility testing
+
+## Performance Optimization
+
+### CSS Optimization
+- Tailwind CSS purging
+- Critical CSS extraction
+- Minification
+- Avoiding render-blocking CSS
+
+### Image Optimization
+- Responsive images
+- Proper sizing
+- Lazy loading
+- Modern
