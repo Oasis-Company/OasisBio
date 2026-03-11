@@ -167,4 +167,6 @@ h1, h2, h3, h4, h5, h6 {
 // src/components/Button.tsx
 import React from 'react';
 
-export interface ButtonProps
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline';
+  size
