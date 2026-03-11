@@ -67,60 +67,112 @@ model VerificationToken {
 }
 
 model OasisBio {
-  id        String   @id @default(cuid())
-  userId    String   @map("user_id")
-  name      String
-  birthday  DateTime
-  gender    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  abilities Ability[]
-  dcos      Dco[]
-  references Reference[]
-  worlds    World[]
+  id            String        @id @default(cuid())
+  userId        String        @map("user_id")
+  title         String
+  slug          String        @unique
+  tagline       String?
+  identityMode  String        @default("real")
+  birthDate     DateTime?
+  gender        String?
+  pronouns      String?
+  placeOfOrigin String?
+  currentEra    String?
+  species       String?
+  status        String?
+  description   String?
+  visibility    String        @default("private")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  abilities     Ability[]
+  dcosFiles     DcosFile[]
+  references    ReferenceItem[]
+  worlds        WorldItem[]
+  models        ModelItem[]
+  eras          EraIdentity[]
 
   @@map("oasis_bios")
 }
 
-model Ability {
+model EraIdentity {
   id        String   @id @default(cuid())
   oasisBioId String   @map("oasis_bio_id")
   name      String
-  level     Int      @default(1)
-  isPreset  Boolean  @default(false)
+  eraType   String
+  startDate DateTime?
+  endDate   DateTime?
+  description String?
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+
+  @@map("era_identities")
+}
+
+model Ability {
+  id            String    @id @default(cuid())
+  oasisBioId    String    @map("oasis_bio_id")
+  name          String
+  category      String
+  type          String    @default("custom")
+  level         Int       @default(1)
+  description   String?
+  relatedWorldId String?
+  relatedEraId  String?
+  oasisBio      OasisBio  @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("abilities")
 }
 
-model Dco {
+model DcosFile {
   id        String   @id @default(cuid())
   oasisBioId String   @map("oasis_bio_id")
   title     String
   content   String
+  folder    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("dcos")
+  @@map("dcos_files")
 }
 
-model Reference {
-  id        String   @id @default(cuid())
-  oasisBioId String   @map("oasis_bio_id")
-  url       String
-  title     String
-  oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+model ReferenceItem {
+  id          String   @id @default(cuid())
+  oasisBioId  String   @map("oasis_bio_id")
+  url         String
+  title       String
+  type        String
+  description String?
+  tags        String
+  oasisBio    OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("references")
+  @@map("reference_items")
 }
 
-model World {
+model WorldItem {
   id        String   @id @default(cuid())
   oasisBioId String   @map("oasis_bio_id")
   name      String
-  content   String
+  summary   String
+  timeline  String?
+  rules     String?
+  factions  String?
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("worlds")
+  @@map("world_items")
+}
+
+model ModelItem {
+  id            String   @id @default(cuid())
+  oasisBioId    String   @map("oasis_bio_id")
+  name          String
+  objUrl        String
+  mtlUrl        String?
+  previewImage  String?
+  relatedWorldId String?
+  relatedEraId  String?
+  oasisBio      OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+
+  @@map("model_items")
 }
 
