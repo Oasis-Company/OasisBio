@@ -4,6 +4,7 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+/// @ts-nocheck
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -13,6 +14,10 @@ datasource db {
   provider = "postgresql"
   url      = "postgresql://postgres:Ihatevex@123@db.dhkgfdllgtmbkwcbubqt.supabase.co:5432/postgres"
 }
+
+/// Json type
+type Json = String
+
 
 model User {
   id            String    @id @default(cuid())
@@ -95,7 +100,7 @@ model OasisBio {
   birthDate     DateTime?
   gender        String?
   pronouns      String?
-  placeOfOrigin String?
+  placeOfOrigin String?       @map("origin_place")
   currentEra    String?
   species       String?
   status        String        @default("draft")
@@ -126,9 +131,10 @@ model EraIdentity {
   oasisBioId String   @map("oasis_bio_id")
   name      String
   eraType   String
-  startDate DateTime?
-  endDate   DateTime?
+  startYear Int?     @map("start_year")
+  endYear   Int?     @map("end_year")
   description String?
+  sortOrder Int      @default(0) @map("sort_order")
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("era_identities")
@@ -139,7 +145,7 @@ model Ability {
   oasisBioId    String    @map("oasis_bio_id")
   name          String
   category      String
-  type          String    @default("custom")
+  sourceType    String    @default("custom") @map("source_type")
   level         Int       @default(1)
   description   String?
   relatedWorldId String?
@@ -153,8 +159,12 @@ model DcosFile {
   id        String   @id @default(cuid())
   oasisBioId String   @map("oasis_bio_id")
   title     String
+  slug      String   @unique
   content   String
-  folder    String
+  folderPath String   @map("folder_path")
+  status    String   @default("draft")
+  version   Int      @default(1)
+  eraId     String?  @map("era_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
@@ -167,8 +177,13 @@ model ReferenceItem {
   oasisBioId  String   @map("oasis_bio_id")
   url         String
   title       String
-  type        String
   description String?
+  sourceType  String   @map("source_type")
+  provider    String?
+  coverImage  String?  @map("cover_image")
+  metadata    Json?
+  eraId       String?  @map("era_id")
+  worldId     String?  @map("world_id")
   tags        String
   oasisBio    OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
@@ -176,14 +191,21 @@ model ReferenceItem {
 }
 
 model WorldItem {
-  id        String   @id @default(cuid())
-  oasisBioId String   @map("oasis_bio_id")
-  name      String
-  summary   String
-  timeline  String?
-  rules     String?
-  factions  String?
-  oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  oasisBioId        String   @map("oasis_bio_id")
+  name              String
+  summary           String
+  timeSetting       String?  @map("time_setting")
+  geography         String?
+  physicsRules      String?  @map("physics_rules")
+  socialStructure   String?  @map("social_structure")
+  aestheticKeywords String?  @map("aesthetic_keywords")
+  majorConflict     String?  @map("major_conflict")
+  visibility        String   @default("private")
+  timeline          String?
+  rules             String?
+  factions          String?
+  oasisBio          OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("world_items")
 }
@@ -191,10 +213,10 @@ model WorldItem {
 model ModelItem {
   id            String   @id @default(cuid())
   oasisBioId    String   @map("oasis_bio_id")
-  name          String
-  objUrl        String
-  mtlUrl        String?
-  previewImage  String?
+  name          String   @map("model_name")
+  filePath      String   @map("file_path")
+  mtlPath       String?  @map("mtl_path")
+  previewImage  String?  @map("preview_image")
   relatedWorldId String?
   relatedEraId  String?
   isPrimary     Boolean  @default(false) @map("is_primary")
