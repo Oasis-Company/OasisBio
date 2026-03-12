@@ -354,8 +354,8 @@ export default function CreateOasisBioPage() {
           </Card>
         )}
 
-        {/* Step 6: Model */}
-        {step === 6 && (
+        {/* Step 5: Model */}
+        {step === 5 && (
           <Card variant="outlined">
             <CardHeader>
               <CardTitle>Step 6: Upload 3D Model</CardTitle>
