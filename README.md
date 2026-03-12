@@ -1,297 +1,186 @@
 # OasisBio
 
-**OasisBio** is a cross-era identity system that allows users to build expandable digital identities.
+OasisBio is a comprehensive identity management system that allows users to create, manage, and showcase digital identities across multiple time periods and dimensions. It provides a rich set of features for character creation, ability management, worldbuilding, and 3D model integration.
 
-Instead of a single static profile, OasisBio enables users to construct identities across time, worlds, abilities, and archives. A user can create a structured identity container called an **OasisBio**, which includes personal data, ability systems, narrative scripts, references, worldbuilding archives, and 3D character models.
+## Features
 
-The project explores a new way of representing identity — not as a page, but as an evolving archive.
+### 1. Character Creation Flow
+- **Six-step process**: Identity, Era, Abilities, Repositories, Model, Publish
+- **Comprehensive form fields** for all character attributes
+- **Real-time validation** and error handling
 
----
+### 2. Character Public Page
+- **Scroll-based design** with multiple sections
+- **Hero section** with system tags
+- **Identity Panel** with basic information
+- **Ability Matrix** with categorized abilities
+- **DCOS Archive** for character documents
+- **World Gallery** for associated worlds
+- **References Library** for external resources
+- **3D Presence** with interactive 3D model viewer
+- **Era Timeline** with visual time-based progression
 
-## Core Concept
+### 3. Dashboard Management
+- **Left navigation bar** with sections: Overview, Identity, Eras, Abilities, DCOS, References, Worlds, Models, Publish
+- **Stats overview** with key metrics
+- **OasisBios status** with drafts and published bios
+- **Recent updates** activity feed
+- **Quick actions** for common tasks
+- **Account and system status** information
 
-Traditional profile systems describe who you are **now**.
+### 4. 3D Model Support
+- **Interactive 3D viewer** using Three.js
+- **Orbit controls** for rotating and zooming
+- **Real-time rendering** with lighting effects
+- **Placeholder models** for demonstration
 
-OasisBio allows identities to exist across multiple layers:
+### 5. Era System
+- **Visual timeline** with interactive elements
+- **Year-based organization** of character development
+- **Ability progression** across different eras
+- **Detailed era descriptions** and context
 
-- Past self
-- Present self
-- Future self
-- Fictional self
-- Parallel identities
-- World-bound identities
+### 6. Ability Pool System
+- **Categorized abilities** (Technology, Languages, Arts, Worldbuilding)
+- **Level-based proficiency** (1-5)
+- **Featured abilities** showcase
+- **Custom ability creation**
 
-An OasisBio becomes a **living identity archive** that can store narratives, abilities, knowledge sources, and fictional worlds.
+### 7. Repository System
+- **DCOS (Digital Character Operating System)** for character documents
+- **References** for external resources
+- **Worlds** for fictional settings
+- **3D Models** for visual representation
 
----
+## Technology Stack
 
-## Key Features
+- **Frontend**: Next.js 14.1.4, React 18, TypeScript 5.4.3, Tailwind CSS 3.4.3
+- **Backend**: Node.js, Next.js API routes
+- **Database**: PostgreSQL (Supabase)
+- **ORM**: Prisma 6.19.1
+- **3D Rendering**: Three.js
+- **Authentication**: NextAuth.js
 
-### 1. OasisBio Identity Container
+## Getting Started
 
-Each user can create multiple **OasisBio profiles**, which act as modular identity containers.
+### Prerequisites
+- Node.js 18.0.0 or later
+- npm 9.0.0 or later
+- PostgreSQL database (Supabase recommended)
 
-Each OasisBio includes:
+### Installation
 
-- Name
-- Basic personal information
-- Ability Pool
-- Archive repositories
-- 3D character model
-- Optional world associations
-
-### 2. Basic Profile Information
-
-Users define core identity attributes:
-
-- Birth date
-- Gender
-- Description
-- Identity mode (real / fictional / hybrid)
-
-### 3. Ability Pool System
-
-The **Ability Pool** allows users to define skills, traits, and abilities.
-
-Abilities can be:
-
-- Custom abilities (user-defined)
-- Official preset abilities (provided by the platform)
-
-Examples:
-
-- Spanish
-- Basketball
-- Rap
-- Frontend Development
-- Storytelling
-- Strategy
-- Worldbuilding
-
-Abilities may include:
-
-- Category
-- Level
-- Description
-- World or era association
-
-### 4. Repository System
-
-Each OasisBio contains three core repositories.
-
-#### DCOS Repository
-
-**DCOS (Dynamic Core Operating Script)**
-
-A narrative layer where users define their identity logic, principles, and internal scripts.
-
-Examples of DCOS content:
-
-- Identity definitions
-- Philosophical statements
-- Narrative fragments
-- Character rules
-- Voice and tone guidelines
-
-All DCOS files are user-written.
-
-Folder structure example:
-
-```
-/dcos
-  core.md
-  voice.md
-  manifesto.md
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/oasisbio.git
+cd oasisbio
 ```
 
-#### References Repository
-
-A structured collection of external sources provided by the user.
-
-Supported items:
-
-- Articles
-- Videos
-- Music
-- Images
-- Research links
-- Archives
-
-Each reference may include:
-
-- URL
-- Title
-- Description
-- Tags
-
-Folder structure:
-
-```
-/references
+2. Install dependencies
+```bash
+npm install
 ```
 
-#### World Repository
-
-Users can create multiple fictional or conceptual **worlds**.
-
-Each world may include:
-
-- World summary
-- Timeline
-- Rules of physics
-- Factions
-- Geography
-- Narrative background
-
-Example folder structure:
-
-```
-/worlds
-  archive-city
-    overview.md
-    timeline.md
-    factions.md
-  neon-desert
-    overview.md
+3. Set up environment variables
+```bash
+# Create .env.local file
+cp .env.example .env.local
+# Edit .env.local with your database credentials and other settings
 ```
 
-These worlds can be linked to OasisBio identities.
-
-### 5. 3D Character Model
-
-Users can upload a 3D model representing their identity.
-
-Supported format:
-
-- OBJ
-
-The model can be previewed directly on the profile page.
-
-Model files:
-
-```
-/models
-  identity.obj
+4. Initialize database
+```bash
+npx prisma db push
+npx prisma generate
 ```
 
-Future versions may support interactive viewing using **Three.js / React Three Fiber**.
+5. Start development server
+```bash
+npm run dev
+```
 
----
+### Deployment
 
-## Website Design
+1. Build for production
+```bash
+npm run build
+```
 
-The OasisBio website follows a minimal editorial design inspired by:
-
-- Swiss design system
-- Awwwards-style interaction design
-
-### Visual Characteristics
-
-- Black & white color palette
-- Strong grid layout
-- Large whitespace
-- Editorial typography
-- Minimal motion
-
----
-
-## Tech Stack
-
-### Frontend:
-
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- React Three Fiber (3D preview)
-
-### Backend:
-
-- Next.js API routes
-- PostgreSQL
-- Prisma ORM
-
-### Storage:
-
-- S3 compatible object storage (for models and files)
-
----
+2. Start production server
+```bash
+npm start
+```
 
 ## Project Structure
 
 ```
-/app
-/components
-/lib
-/prisma
-/public
-
-/features
-  oasisbio
-  abilities
-  repositories
-  worlds
-  models
-```
-
-Repository storage example for each OasisBio:
-
-```
 oasisbio/
-  dcos/
-    core.md
-  references/
-  worlds/
-    archive-city/
-  models/
-    avatar.obj
+├── src/
+│   ├── app/
+│   │   ├── dashboard/          # Dashboard pages
+│   │   │   ├── oasisbios/       # Character management
+│   │   │   ├── worlds/          # World management
+│   │   │   ├── models/          # Model management
+│   │   │   └── page.tsx         # Dashboard overview
+│   │   ├── bio/                 # Public character pages
+│   │   │   └── [slug]/          # Dynamic character pages
+│   │   ├── auth/                # Authentication pages
+│   │   └── api/                 # API routes
+│   ├── components/              # Reusable components
+│   │   ├── Button.tsx           # Button component
+│   │   ├── Card.tsx             # Card component
+│   │   └── ModelViewer.tsx      # 3D model viewer
+│   ├── lib/                     # Utility functions
+│   └── styles/                  # Global styles
+├── prisma/                      # Database schema
+│   └── schema.prisma            # Prisma schema definition
+├── public/                      # Static assets
+│   └── models/                  # 3D model files
+├── .env.example                 # Environment variable example
+├── next.config.js               # Next.js configuration
+├── package.json                 # Package configuration
+└── README.md                    # Project documentation
 ```
 
----
+## Usage
 
-## Example OasisBio Structure
+### Creating a New Character
+1. Navigate to the dashboard
+2. Click "Create New OasisBio"
+3. Follow the six-step process:
+   - **Identity**: Enter basic character information
+   - **Era**: Define time periods and context
+   - **Abilities**: Add and categorize abilities
+   - **Repositories**: Upload documents and references
+   - **Model**: Upload or select 3D model
+   - **Publish**: Review and publish
 
-```
-OasisBio
-├── Basic Info
-├── Ability Pool
-├── DCOS Repository
-├── Reference Library
-├── World Repository
-└── 3D Model
-```
+### Managing Existing Characters
+1. Navigate to the dashboard
+2. Click "Manage OasisBios"
+3. Select a character to edit or view
 
----
+### Viewing Public Character Pages
+1. Navigate to `/bio/[slug]` where [slug] is the character's unique identifier
+2. Explore the scroll-based interface
+3. Interact with the 3D model viewer
+4. Browse through the character's eras, abilities, and repositories
 
-## Future Development
+## Contributing
 
-Planned features include:
+Contributions are welcome! Please follow these steps:
 
-- Cross-era identity timeline
-- Public OasisBio exploration page
-- Shared worldbuilding
-- Collaborative characters
-- AI-assisted identity generation
-- Version history for identity scripts
-
----
-
-## Philosophy
-
-Identity is not static.
-
-A biography captures only a moment.
-
-OasisBio treats identity as a system that can grow, branch, and evolve across time and imagination.
-
----
-
-## Author
-
-CeaserZhao (Oasis Company)
-
----
+1. Fork the repository
+2. Create a new branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
-MIT License
+This project is licensed under the MIT License.
+
+## Contact
+
+For questions or support, please contact:
+- Email: support@oasisbio.com
+- GitHub: https://github.com/yourusername/oasisbio

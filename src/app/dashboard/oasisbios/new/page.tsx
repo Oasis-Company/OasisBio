@@ -358,7 +358,7 @@ export default function CreateOasisBioPage() {
         {step === 5 && (
           <Card variant="outlined">
             <CardHeader>
-              <CardTitle>Step 6: Upload 3D Model</CardTitle>
+              <CardTitle>Step 5: Upload 3D Model</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
@@ -377,11 +377,11 @@ export default function CreateOasisBioPage() {
           </Card>
         )}
 
-        {/* Step 7: Publish */}
-        {step === 7 && (
+        {/* Step 6: Publish */}
+        {step === 6 && (
           <Card variant="outlined">
             <CardHeader>
-              <CardTitle>Step 7: Preview & Publish</CardTitle>
+              <CardTitle>Step 6: Preview & Publish</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
@@ -406,7 +406,7 @@ export default function CreateOasisBioPage() {
               Previous
             </Button>
           )}
-          {step < 7 ? (
+          {step < 6 ? (
             <Button onClick={handleNext}>
               Next
             </Button>

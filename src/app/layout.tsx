@@ -24,6 +24,9 @@ export default function RootLayout({
           <main className="pt-20">
             {children}
           </main>
+          <footer className="py-10 bg-black text-white text-center">
+            <p>Oasis Company，2026</p>
+          </footer>
         </SessionProviderWrapper>
       </body>
     </html>
