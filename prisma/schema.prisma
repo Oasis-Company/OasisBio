@@ -15,9 +15,6 @@ datasource db {
   url      = "postgresql://postgres:Ihatevex@123@db.dhkgfdllgtmbkwcbubqt.supabase.co:5432/postgres"
 }
 
-/// Json type
-type Json = String
-
 
 model User {
   id            String    @id @default(cuid())
@@ -181,7 +178,7 @@ model ReferenceItem {
   sourceType  String   @map("source_type")
   provider    String?
   coverImage  String?  @map("cover_image")
-  metadata    Json?
+  metadata    String?
   eraId       String?  @map("era_id")
   worldId     String?  @map("world_id")
   tags        String
