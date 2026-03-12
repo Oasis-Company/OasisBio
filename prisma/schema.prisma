@@ -188,21 +188,22 @@ model ReferenceItem {
 }
 
 model WorldItem {
-  id                String   @id @default(cuid())
-  oasisBioId        String   @map("oasis_bio_id")
+  id                String         @id @default(cuid())
+  oasisBioId        String         @map("oasis_bio_id")
   name              String
   summary           String
-  timeSetting       String?  @map("time_setting")
+  timeSetting       String?        @map("time_setting")
   geography         String?
-  physicsRules      String?  @map("physics_rules")
-  socialStructure   String?  @map("social_structure")
-  aestheticKeywords String?  @map("aesthetic_keywords")
-  majorConflict     String?  @map("major_conflict")
-  visibility        String   @default("private")
+  physicsRules      String?        @map("physics_rules")
+  socialStructure   String?        @map("social_structure")
+  aestheticKeywords String?        @map("aesthetic_keywords")
+  majorConflict     String?        @map("major_conflict")
+  visibility        String         @default("private")
   timeline          String?
   rules             String?
   factions          String?
-  oasisBio          OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  oasisBio          OasisBio       @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  documents         WorldDocument[]
 
   @@map("world_items")
 }

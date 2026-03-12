@@ -7,7 +7,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useRouter } from 'next/navigation';
 
-type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type Step = 1 | 2 | 3 | 4 | 5 | 6;
 
 export default function CreateOasisBioPage() {
   const { data: session } = useSession();
@@ -39,7 +39,7 @@ export default function CreateOasisBioPage() {
   }
 
   const handleNext = () => {
-    if (step < 7) {
+    if (step < 6) {
       setStep((prev) => (prev + 1) as Step);
     }
   };
@@ -68,21 +68,20 @@ export default function CreateOasisBioPage() {
 
         {/* Progress Bar */}
         <div className="flex items-center justify-between mb-12">
-          {[1, 2, 3, 4, 5, 6, 7].map((stepNum) => (
+          {[1, 2, 3, 4, 5, 6].map((stepNum) => (
             <div key={stepNum} className="flex flex-col items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-mono ${stepNum <= step ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
                 {stepNum}
               </div>
               <div className="mt-2 text-xs font-mono text-center">
-                {stepNum === 1 && 'Identity Mode'}
-                {stepNum === 2 && 'Name'}
-                {stepNum === 3 && 'Basic Info'}
-                {stepNum === 4 && 'Abilities'}
-                {stepNum === 5 && 'Repositories'}
-                {stepNum === 6 && 'Model'}
-                {stepNum === 7 && 'Publish'}
+                {stepNum === 1 && 'Identity'}
+                {stepNum === 2 && 'Era'}
+                {stepNum === 3 && 'Abilities'}
+                {stepNum === 4 && 'Repositories'}
+                {stepNum === 5 && 'Model'}
+                {stepNum === 6 && 'Publish'}
               </div>
-              {stepNum < 7 && (
+              {stepNum < 6 && (
                 <div className={`flex-1 h-1 mx-2 ${stepNum < step ? 'bg-primary' : 'bg-muted'}`} />
               )}
             </div>
