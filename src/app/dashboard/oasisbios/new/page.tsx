@@ -88,82 +88,29 @@ export default function CreateOasisBioPage() {
           ))}
         </div>
 
-        {/* Step 1: Identity Mode */}
+        {/* Step 1: Identity */}
         {step === 1 && (
           <Card variant="outlined">
             <CardHeader>
-              <CardTitle>Step 1: Choose Identity Mode</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-muted-foreground">Select the type of identity you want to create.</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { value: 'real', label: 'Real', description: 'Your actual self' },
-                    { value: 'fictional', label: 'Fictional', description: 'A character you create' },
-                    { value: 'hybrid', label: 'Hybrid', description: 'A mix of real and fictional' },
-                    { value: 'future', label: 'Future', description: 'Your future self' },
-                    { value: 'alternate', label: 'Alternate', description: 'A parallel version of you' },
-                  ].map((mode) => (
-                    <div key={mode.value} className="border border-border rounded-md p-4 cursor-pointer hover:bg-muted transition-colors">
-                      <input
-                        type="radio"
-                        id={`mode-${mode.value}`}
-                        name="identityMode"
-                        value={mode.value}
-                        checked={identityMode === mode.value}
-                        onChange={(e) => setIdentityMode(e.target.value)}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`mode-${mode.value}`} className="font-medium">
-                        {mode.label}
-                      </label>
-                      <p className="text-sm text-muted-foreground ml-6">
-                        {mode.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Step 2: Name */}
-        {step === 2 && (
-          <Card variant="outlined">
-            <CardHeader>
-              <CardTitle>Step 2: Name Your OasisBio</CardTitle>
+              <CardTitle>Step 1: Identity</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium mb-1">
-                    Title
+                    Character Name
                   </label>
                   <Input
                     id="title"
-                    placeholder="Enter a name for your OasisBio"
+                    placeholder="Enter a name for your character"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="slug" className="block text-sm font-medium mb-1">
-                    Slug (URL)
-                  </label>
-                  <Input
-                    id="slug"
-                    placeholder="Enter a unique URL slug"
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
                   <label htmlFor="tagline" className="block text-sm font-medium mb-1">
-                    Tagline (Optional)
+                    Tagline
                   </label>
                   <Input
                     id="tagline"
@@ -172,23 +119,27 @@ export default function CreateOasisBioPage() {
                     onChange={(e) => setTagline(e.target.value)}
                   />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Step 3: Basic Info */}
-        {step === 3 && (
-          <Card variant="outlined">
-            <CardHeader>
-              <CardTitle>Step 3: Basic Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+                <div>
+                  <label htmlFor="identityMode" className="block text-sm font-medium mb-1">
+                    Identity Mode
+                  </label>
+                  <select
+                    id="identityMode"
+                    value={identityMode}
+                    onChange={(e) => setIdentityMode(e.target.value)}
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  >
+                    <option value="real">Real</option>
+                    <option value="fictional">Fictional</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="future">Future</option>
+                    <option value="alternate">Alternate</option>
+                  </select>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="birthDate" className="block text-sm font-medium mb-1">
-                      Birth Date (Optional)
+                      Birth Date
                     </label>
                     <Input
                       id="birthDate"
@@ -199,7 +150,7 @@ export default function CreateOasisBioPage() {
                   </div>
                   <div>
                     <label htmlFor="gender" className="block text-sm font-medium mb-1">
-                      Gender (Optional)
+                      Gender
                     </label>
                     <Input
                       id="gender"
@@ -210,7 +161,7 @@ export default function CreateOasisBioPage() {
                   </div>
                   <div>
                     <label htmlFor="pronouns" className="block text-sm font-medium mb-1">
-                      Pronouns (Optional)
+                      Pronouns
                     </label>
                     <Input
                       id="pronouns"
@@ -221,7 +172,7 @@ export default function CreateOasisBioPage() {
                   </div>
                   <div>
                     <label htmlFor="placeOfOrigin" className="block text-sm font-medium mb-1">
-                      Place of Origin (Optional)
+                      Origin Place
                     </label>
                     <Input
                       id="placeOfOrigin"
@@ -231,42 +182,44 @@ export default function CreateOasisBioPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="currentEra" className="block text-sm font-medium mb-1">
-                      Current Era (Optional)
-                    </label>
-                    <Input
-                      id="currentEra"
-                      placeholder="Enter current era"
-                      value={currentEra}
-                      onChange={(e) => setCurrentEra(e.target.value)}
-                    />
-                  </div>
-                  <div>
                     <label htmlFor="species" className="block text-sm font-medium mb-1">
-                      Species (Optional)
+                      Species
                     </label>
-                    <Input
+                    <select
                       id="species"
-                      placeholder="Enter species"
                       value={species}
                       onChange={(e) => setSpecies(e.target.value)}
-                    />
+                      className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    >
+                      <option value="">Select species</option>
+                      <option value="human">Human</option>
+                      <option value="synthetic">Synthetic</option>
+                      <option value="ai">AI</option>
+                      <option value="unknown">Unknown</option>
+                      <option value="hybrid">Hybrid</option>
+                    </select>
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="status" className="block text-sm font-medium mb-1">
-                    Status (Optional)
-                  </label>
-                  <Input
-                    id="status"
-                    placeholder="Enter status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
+                  <div>
+                    <label htmlFor="status" className="block text-sm font-medium mb-1">
+                      Status
+                    </label>
+                    <select
+                      id="status"
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                      className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    >
+                      <option value="">Select status</option>
+                      <option value="active">Active</option>
+                      <option value="archived">Archived</option>
+                      <option value="unknown">Unknown</option>
+                      <option value="mythic">Mythic</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="description" className="block text-sm font-medium mb-1">
-                    Description (Optional)
+                    Description
                   </label>
                   <textarea
                     id="description"
@@ -282,11 +235,46 @@ export default function CreateOasisBioPage() {
           </Card>
         )}
 
-        {/* Step 4: Abilities */}
-        {step === 4 && (
+        {/* Step 2: Era */}
+        {step === 2 && (
           <Card variant="outlined">
             <CardHeader>
-              <CardTitle>Step 4: Build Your Ability Pool</CardTitle>
+              <CardTitle>Step 2: Era</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <p className="text-muted-foreground">Create era identities for your character.</p>
+                <div className="border border-border rounded-md p-4 mb-4">
+                  <h3 className="font-medium mb-2">Add New Era</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input placeholder="Era Name" />
+                    <select className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                      <option value="past">Past</option>
+                      <option value="present">Present</option>
+                      <option value="future">Future</option>
+                      <option value="alternate">Alternate</option>
+                      <option value="worldbound">Worldbound</option>
+                    </select>
+                    <Input placeholder="Start Year" type="number" />
+                    <Input placeholder="End Year" type="number" />
+                    <Input placeholder="Description" />
+                  </div>
+                  <Button className="mt-4">Add Era</Button>
+                </div>
+                <div className="border border-border rounded-md p-4">
+                  <h3 className="font-medium mb-2">Your Eras</h3>
+                  <p className="text-muted-foreground">No eras added yet.</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 3: Abilities */}
+        {step === 3 && (
+          <Card variant="outlined">
+            <CardHeader>
+              <CardTitle>Step 3: Build Your Ability Pool</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
@@ -296,12 +284,31 @@ export default function CreateOasisBioPage() {
                 <h3 className="font-medium mb-2">Add New Ability</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Input placeholder="Ability Name" />
-                  <Input placeholder="Category" />
-                  <Input placeholder="Level (1-5)" type="number" min="1" max="5" />
                   <select className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                    <option value="custom">Custom</option>
-                    <option value="official">Official</option>
+                    <option value="">Select Category</option>
+                    <option value="languages">Languages</option>
+                    <option value="sports">Sports</option>
+                    <option value="arts">Arts</option>
+                    <option value="music">Music</option>
+                    <option value="technology">Technology</option>
+                    <option value="science">Science</option>
+                    <option value="social">Social</option>
+                    <option value="combat">Combat</option>
+                    <option value="worldbuilding">Worldbuilding</option>
+                    <option value="fantasy">Fantasy</option>
                   </select>
+                  <select className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                    <option value="1">1 - Novice</option>
+                    <option value="2">2 - Basic</option>
+                    <option value="3">3 - Skilled</option>
+                    <option value="4">4 - Advanced</option>
+                    <option value="5">5 - Mastery</option>
+                  </select>
+                  <select className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                    <option value="preset">Preset</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                  <Input placeholder="Description" />
                 </div>
                 <Button className="mt-4">Add Ability</Button>
               </div>
@@ -313,11 +320,11 @@ export default function CreateOasisBioPage() {
           </Card>
         )}
 
-        {/* Step 5: Repositories */}
-        {step === 5 && (
+        {/* Step 4: Repositories */}
+        {step === 4 && (
           <Card variant="outlined">
             <CardHeader>
-              <CardTitle>Step 5: Build Your Repositories</CardTitle>
+              <CardTitle>Step 4: Build Your Repositories</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
