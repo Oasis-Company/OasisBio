@@ -29,8 +29,13 @@ export type ReferenceItemMinAggregateOutputType = {
   oasisBioId: string | null
   url: string | null
   title: string | null
-  type: string | null
   description: string | null
+  sourceType: string | null
+  provider: string | null
+  coverImage: string | null
+  metadata: string | null
+  eraId: string | null
+  worldId: string | null
   tags: string | null
 }
 
@@ -39,8 +44,13 @@ export type ReferenceItemMaxAggregateOutputType = {
   oasisBioId: string | null
   url: string | null
   title: string | null
-  type: string | null
   description: string | null
+  sourceType: string | null
+  provider: string | null
+  coverImage: string | null
+  metadata: string | null
+  eraId: string | null
+  worldId: string | null
   tags: string | null
 }
 
@@ -49,8 +59,13 @@ export type ReferenceItemCountAggregateOutputType = {
   oasisBioId: number
   url: number
   title: number
-  type: number
   description: number
+  sourceType: number
+  provider: number
+  coverImage: number
+  metadata: number
+  eraId: number
+  worldId: number
   tags: number
   _all: number
 }
@@ -61,8 +76,13 @@ export type ReferenceItemMinAggregateInputType = {
   oasisBioId?: true
   url?: true
   title?: true
-  type?: true
   description?: true
+  sourceType?: true
+  provider?: true
+  coverImage?: true
+  metadata?: true
+  eraId?: true
+  worldId?: true
   tags?: true
 }
 
@@ -71,8 +91,13 @@ export type ReferenceItemMaxAggregateInputType = {
   oasisBioId?: true
   url?: true
   title?: true
-  type?: true
   description?: true
+  sourceType?: true
+  provider?: true
+  coverImage?: true
+  metadata?: true
+  eraId?: true
+  worldId?: true
   tags?: true
 }
 
@@ -81,8 +106,13 @@ export type ReferenceItemCountAggregateInputType = {
   oasisBioId?: true
   url?: true
   title?: true
-  type?: true
   description?: true
+  sourceType?: true
+  provider?: true
+  coverImage?: true
+  metadata?: true
+  eraId?: true
+  worldId?: true
   tags?: true
   _all?: true
 }
@@ -164,8 +194,13 @@ export type ReferenceItemGroupByOutputType = {
   oasisBioId: string
   url: string
   title: string
-  type: string
   description: string | null
+  sourceType: string
+  provider: string | null
+  coverImage: string | null
+  metadata: string | null
+  eraId: string | null
+  worldId: string | null
   tags: string
   _count: ReferenceItemCountAggregateOutputType | null
   _min: ReferenceItemMinAggregateOutputType | null
@@ -195,8 +230,13 @@ export type ReferenceItemWhereInput = {
   oasisBioId?: Prisma.StringFilter<"ReferenceItem"> | string
   url?: Prisma.StringFilter<"ReferenceItem"> | string
   title?: Prisma.StringFilter<"ReferenceItem"> | string
-  type?: Prisma.StringFilter<"ReferenceItem"> | string
   description?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  sourceType?: Prisma.StringFilter<"ReferenceItem"> | string
+  provider?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  coverImage?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  metadata?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  eraId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  worldId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
   tags?: Prisma.StringFilter<"ReferenceItem"> | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }
@@ -206,8 +246,13 @@ export type ReferenceItemOrderByWithRelationInput = {
   oasisBioId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  provider?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  eraId?: Prisma.SortOrderInput | Prisma.SortOrder
+  worldId?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
 }
@@ -220,8 +265,13 @@ export type ReferenceItemWhereUniqueInput = Prisma.AtLeast<{
   oasisBioId?: Prisma.StringFilter<"ReferenceItem"> | string
   url?: Prisma.StringFilter<"ReferenceItem"> | string
   title?: Prisma.StringFilter<"ReferenceItem"> | string
-  type?: Prisma.StringFilter<"ReferenceItem"> | string
   description?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  sourceType?: Prisma.StringFilter<"ReferenceItem"> | string
+  provider?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  coverImage?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  metadata?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  eraId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  worldId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
   tags?: Prisma.StringFilter<"ReferenceItem"> | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }, "id">
@@ -231,8 +281,13 @@ export type ReferenceItemOrderByWithAggregationInput = {
   oasisBioId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  provider?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  eraId?: Prisma.SortOrderInput | Prisma.SortOrder
+  worldId?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   _count?: Prisma.ReferenceItemCountOrderByAggregateInput
   _max?: Prisma.ReferenceItemMaxOrderByAggregateInput
@@ -247,8 +302,13 @@ export type ReferenceItemScalarWhereWithAggregatesInput = {
   oasisBioId?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
   url?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
   title?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
-  type?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
+  sourceType?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
+  provider?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
+  coverImage?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
+  metadata?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
+  eraId?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
+  worldId?: Prisma.StringNullableWithAggregatesFilter<"ReferenceItem"> | string | null
   tags?: Prisma.StringWithAggregatesFilter<"ReferenceItem"> | string
 }
 
@@ -256,8 +316,13 @@ export type ReferenceItemCreateInput = {
   id?: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutReferencesInput
 }
@@ -267,8 +332,13 @@ export type ReferenceItemUncheckedCreateInput = {
   oasisBioId: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
 }
 
@@ -276,8 +346,13 @@ export type ReferenceItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutReferencesNestedInput
 }
@@ -287,8 +362,13 @@ export type ReferenceItemUncheckedUpdateInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -297,8 +377,13 @@ export type ReferenceItemCreateManyInput = {
   oasisBioId: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
 }
 
@@ -306,8 +391,13 @@ export type ReferenceItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -316,8 +406,13 @@ export type ReferenceItemUncheckedUpdateManyInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -336,8 +431,13 @@ export type ReferenceItemCountOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
+  worldId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
 }
 
@@ -346,8 +446,13 @@ export type ReferenceItemMaxOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
+  worldId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
 }
 
@@ -356,8 +461,13 @@ export type ReferenceItemMinOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   url?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
+  worldId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
 }
 
@@ -407,8 +517,13 @@ export type ReferenceItemCreateWithoutOasisBioInput = {
   id?: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
 }
 
@@ -416,8 +531,13 @@ export type ReferenceItemUncheckedCreateWithoutOasisBioInput = {
   id?: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
 }
 
@@ -428,6 +548,7 @@ export type ReferenceItemCreateOrConnectWithoutOasisBioInput = {
 
 export type ReferenceItemCreateManyOasisBioInputEnvelope = {
   data: Prisma.ReferenceItemCreateManyOasisBioInput | Prisma.ReferenceItemCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type ReferenceItemUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -454,8 +575,13 @@ export type ReferenceItemScalarWhereInput = {
   oasisBioId?: Prisma.StringFilter<"ReferenceItem"> | string
   url?: Prisma.StringFilter<"ReferenceItem"> | string
   title?: Prisma.StringFilter<"ReferenceItem"> | string
-  type?: Prisma.StringFilter<"ReferenceItem"> | string
   description?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  sourceType?: Prisma.StringFilter<"ReferenceItem"> | string
+  provider?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  coverImage?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  metadata?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  eraId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
+  worldId?: Prisma.StringNullableFilter<"ReferenceItem"> | string | null
   tags?: Prisma.StringFilter<"ReferenceItem"> | string
 }
 
@@ -463,8 +589,13 @@ export type ReferenceItemCreateManyOasisBioInput = {
   id?: string
   url: string
   title: string
-  type: string
   description?: string | null
+  sourceType: string
+  provider?: string | null
+  coverImage?: string | null
+  metadata?: string | null
+  eraId?: string | null
+  worldId?: string | null
   tags: string
 }
 
@@ -472,8 +603,13 @@ export type ReferenceItemUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -481,8 +617,13 @@ export type ReferenceItemUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -490,8 +631,13 @@ export type ReferenceItemUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  worldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -502,8 +648,13 @@ export type ReferenceItemSelect<ExtArgs extends runtime.Types.Extensions.Interna
   oasisBioId?: boolean
   url?: boolean
   title?: boolean
-  type?: boolean
   description?: boolean
+  sourceType?: boolean
+  provider?: boolean
+  coverImage?: boolean
+  metadata?: boolean
+  eraId?: boolean
+  worldId?: boolean
   tags?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referenceItem"]>
@@ -513,8 +664,13 @@ export type ReferenceItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   oasisBioId?: boolean
   url?: boolean
   title?: boolean
-  type?: boolean
   description?: boolean
+  sourceType?: boolean
+  provider?: boolean
+  coverImage?: boolean
+  metadata?: boolean
+  eraId?: boolean
+  worldId?: boolean
   tags?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referenceItem"]>
@@ -524,8 +680,13 @@ export type ReferenceItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   oasisBioId?: boolean
   url?: boolean
   title?: boolean
-  type?: boolean
   description?: boolean
+  sourceType?: boolean
+  provider?: boolean
+  coverImage?: boolean
+  metadata?: boolean
+  eraId?: boolean
+  worldId?: boolean
   tags?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referenceItem"]>
@@ -535,12 +696,17 @@ export type ReferenceItemSelectScalar = {
   oasisBioId?: boolean
   url?: boolean
   title?: boolean
-  type?: boolean
   description?: boolean
+  sourceType?: boolean
+  provider?: boolean
+  coverImage?: boolean
+  metadata?: boolean
+  eraId?: boolean
+  worldId?: boolean
   tags?: boolean
 }
 
-export type ReferenceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "url" | "title" | "type" | "description" | "tags", ExtArgs["result"]["referenceItem"]>
+export type ReferenceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "url" | "title" | "description" | "sourceType" | "provider" | "coverImage" | "metadata" | "eraId" | "worldId" | "tags", ExtArgs["result"]["referenceItem"]>
 export type ReferenceItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }
@@ -561,8 +727,13 @@ export type $ReferenceItemPayload<ExtArgs extends runtime.Types.Extensions.Inter
     oasisBioId: string
     url: string
     title: string
-    type: string
     description: string | null
+    sourceType: string
+    provider: string | null
+    coverImage: string | null
+    metadata: string | null
+    eraId: string | null
+    worldId: string | null
     tags: string
   }, ExtArgs["result"]["referenceItem"]>
   composites: {}
@@ -992,8 +1163,13 @@ export interface ReferenceItemFieldRefs {
   readonly oasisBioId: Prisma.FieldRef<"ReferenceItem", 'String'>
   readonly url: Prisma.FieldRef<"ReferenceItem", 'String'>
   readonly title: Prisma.FieldRef<"ReferenceItem", 'String'>
-  readonly type: Prisma.FieldRef<"ReferenceItem", 'String'>
   readonly description: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly sourceType: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly provider: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly coverImage: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly metadata: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly eraId: Prisma.FieldRef<"ReferenceItem", 'String'>
+  readonly worldId: Prisma.FieldRef<"ReferenceItem", 'String'>
   readonly tags: Prisma.FieldRef<"ReferenceItem", 'String'>
 }
     
@@ -1224,6 +1400,7 @@ export type ReferenceItemCreateManyArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many ReferenceItems.
    */
   data: Prisma.ReferenceItemCreateManyInput | Prisma.ReferenceItemCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1242,6 +1419,7 @@ export type ReferenceItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * The data used to create many ReferenceItems.
    */
   data: Prisma.ReferenceItemCreateManyInput | Prisma.ReferenceItemCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

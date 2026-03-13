@@ -20,16 +20,30 @@ export type DcosFileModel = runtime.Types.Result.DefaultSelection<Prisma.$DcosFi
 
 export type AggregateDcosFile = {
   _count: DcosFileCountAggregateOutputType | null
+  _avg: DcosFileAvgAggregateOutputType | null
+  _sum: DcosFileSumAggregateOutputType | null
   _min: DcosFileMinAggregateOutputType | null
   _max: DcosFileMaxAggregateOutputType | null
+}
+
+export type DcosFileAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type DcosFileSumAggregateOutputType = {
+  version: number | null
 }
 
 export type DcosFileMinAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   title: string | null
+  slug: string | null
   content: string | null
-  folder: string | null
+  folderPath: string | null
+  status: string | null
+  version: number | null
+  eraId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -38,8 +52,12 @@ export type DcosFileMaxAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   title: string | null
+  slug: string | null
   content: string | null
-  folder: string | null
+  folderPath: string | null
+  status: string | null
+  version: number | null
+  eraId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,20 +66,36 @@ export type DcosFileCountAggregateOutputType = {
   id: number
   oasisBioId: number
   title: number
+  slug: number
   content: number
-  folder: number
+  folderPath: number
+  status: number
+  version: number
+  eraId: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
+export type DcosFileAvgAggregateInputType = {
+  version?: true
+}
+
+export type DcosFileSumAggregateInputType = {
+  version?: true
+}
+
 export type DcosFileMinAggregateInputType = {
   id?: true
   oasisBioId?: true
   title?: true
+  slug?: true
   content?: true
-  folder?: true
+  folderPath?: true
+  status?: true
+  version?: true
+  eraId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -70,8 +104,12 @@ export type DcosFileMaxAggregateInputType = {
   id?: true
   oasisBioId?: true
   title?: true
+  slug?: true
   content?: true
-  folder?: true
+  folderPath?: true
+  status?: true
+  version?: true
+  eraId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -80,8 +118,12 @@ export type DcosFileCountAggregateInputType = {
   id?: true
   oasisBioId?: true
   title?: true
+  slug?: true
   content?: true
-  folder?: true
+  folderPath?: true
+  status?: true
+  version?: true
+  eraId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -125,6 +167,18 @@ export type DcosFileAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DcosFileAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DcosFileSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DcosFileMinAggregateInputType
@@ -155,6 +209,8 @@ export type DcosFileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: DcosFileCountAggregateInputType | true
+  _avg?: DcosFileAvgAggregateInputType
+  _sum?: DcosFileSumAggregateInputType
   _min?: DcosFileMinAggregateInputType
   _max?: DcosFileMaxAggregateInputType
 }
@@ -163,11 +219,17 @@ export type DcosFileGroupByOutputType = {
   id: string
   oasisBioId: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status: string
+  version: number
+  eraId: string | null
   createdAt: Date
   updatedAt: Date
   _count: DcosFileCountAggregateOutputType | null
+  _avg: DcosFileAvgAggregateOutputType | null
+  _sum: DcosFileSumAggregateOutputType | null
   _min: DcosFileMinAggregateOutputType | null
   _max: DcosFileMaxAggregateOutputType | null
 }
@@ -194,8 +256,12 @@ export type DcosFileWhereInput = {
   id?: Prisma.StringFilter<"DcosFile"> | string
   oasisBioId?: Prisma.StringFilter<"DcosFile"> | string
   title?: Prisma.StringFilter<"DcosFile"> | string
+  slug?: Prisma.StringFilter<"DcosFile"> | string
   content?: Prisma.StringFilter<"DcosFile"> | string
-  folder?: Prisma.StringFilter<"DcosFile"> | string
+  folderPath?: Prisma.StringFilter<"DcosFile"> | string
+  status?: Prisma.StringFilter<"DcosFile"> | string
+  version?: Prisma.IntFilter<"DcosFile"> | number
+  eraId?: Prisma.StringNullableFilter<"DcosFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
@@ -205,8 +271,12 @@ export type DcosFileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  folder?: Prisma.SortOrder
+  folderPath?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  eraId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
@@ -214,29 +284,39 @@ export type DcosFileOrderByWithRelationInput = {
 
 export type DcosFileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.DcosFileWhereInput | Prisma.DcosFileWhereInput[]
   OR?: Prisma.DcosFileWhereInput[]
   NOT?: Prisma.DcosFileWhereInput | Prisma.DcosFileWhereInput[]
   oasisBioId?: Prisma.StringFilter<"DcosFile"> | string
   title?: Prisma.StringFilter<"DcosFile"> | string
   content?: Prisma.StringFilter<"DcosFile"> | string
-  folder?: Prisma.StringFilter<"DcosFile"> | string
+  folderPath?: Prisma.StringFilter<"DcosFile"> | string
+  status?: Prisma.StringFilter<"DcosFile"> | string
+  version?: Prisma.IntFilter<"DcosFile"> | number
+  eraId?: Prisma.StringNullableFilter<"DcosFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
-}, "id">
+}, "id" | "slug">
 
 export type DcosFileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  folder?: Prisma.SortOrder
+  folderPath?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  eraId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DcosFileCountOrderByAggregateInput
+  _avg?: Prisma.DcosFileAvgOrderByAggregateInput
   _max?: Prisma.DcosFileMaxOrderByAggregateInput
   _min?: Prisma.DcosFileMinOrderByAggregateInput
+  _sum?: Prisma.DcosFileSumOrderByAggregateInput
 }
 
 export type DcosFileScalarWhereWithAggregatesInput = {
@@ -246,8 +326,12 @@ export type DcosFileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
   oasisBioId?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
   title?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
   content?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
-  folder?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
+  folderPath?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
+  status?: Prisma.StringWithAggregatesFilter<"DcosFile"> | string
+  version?: Prisma.IntWithAggregatesFilter<"DcosFile"> | number
+  eraId?: Prisma.StringNullableWithAggregatesFilter<"DcosFile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DcosFile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DcosFile"> | Date | string
 }
@@ -255,8 +339,12 @@ export type DcosFileScalarWhereWithAggregatesInput = {
 export type DcosFileCreateInput = {
   id?: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutDcosFilesInput
@@ -266,8 +354,12 @@ export type DcosFileUncheckedCreateInput = {
   id?: string
   oasisBioId: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -275,8 +367,12 @@ export type DcosFileUncheckedCreateInput = {
 export type DcosFileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutDcosFilesNestedInput
@@ -286,8 +382,12 @@ export type DcosFileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -296,8 +396,12 @@ export type DcosFileCreateManyInput = {
   id?: string
   oasisBioId: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -305,8 +409,12 @@ export type DcosFileCreateManyInput = {
 export type DcosFileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,8 +423,12 @@ export type DcosFileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -335,18 +447,30 @@ export type DcosFileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  folder?: Prisma.SortOrder
+  folderPath?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DcosFileAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type DcosFileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  folder?: Prisma.SortOrder
+  folderPath?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -355,10 +479,18 @@ export type DcosFileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  folder?: Prisma.SortOrder
+  folderPath?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  eraId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DcosFileSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type DcosFileCreateNestedManyWithoutOasisBioInput = {
@@ -406,8 +538,12 @@ export type DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput = {
 export type DcosFileCreateWithoutOasisBioInput = {
   id?: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -415,8 +551,12 @@ export type DcosFileCreateWithoutOasisBioInput = {
 export type DcosFileUncheckedCreateWithoutOasisBioInput = {
   id?: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -428,6 +568,7 @@ export type DcosFileCreateOrConnectWithoutOasisBioInput = {
 
 export type DcosFileCreateManyOasisBioInputEnvelope = {
   data: Prisma.DcosFileCreateManyOasisBioInput | Prisma.DcosFileCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type DcosFileUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -453,8 +594,12 @@ export type DcosFileScalarWhereInput = {
   id?: Prisma.StringFilter<"DcosFile"> | string
   oasisBioId?: Prisma.StringFilter<"DcosFile"> | string
   title?: Prisma.StringFilter<"DcosFile"> | string
+  slug?: Prisma.StringFilter<"DcosFile"> | string
   content?: Prisma.StringFilter<"DcosFile"> | string
-  folder?: Prisma.StringFilter<"DcosFile"> | string
+  folderPath?: Prisma.StringFilter<"DcosFile"> | string
+  status?: Prisma.StringFilter<"DcosFile"> | string
+  version?: Prisma.IntFilter<"DcosFile"> | number
+  eraId?: Prisma.StringNullableFilter<"DcosFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DcosFile"> | Date | string
 }
@@ -462,8 +607,12 @@ export type DcosFileScalarWhereInput = {
 export type DcosFileCreateManyOasisBioInput = {
   id?: string
   title: string
+  slug: string
   content: string
-  folder: string
+  folderPath: string
+  status?: string
+  version?: number
+  eraId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -471,8 +620,12 @@ export type DcosFileCreateManyOasisBioInput = {
 export type DcosFileUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -480,8 +633,12 @@ export type DcosFileUpdateWithoutOasisBioInput = {
 export type DcosFileUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -489,8 +646,12 @@ export type DcosFileUncheckedUpdateWithoutOasisBioInput = {
 export type DcosFileUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  folder?: Prisma.StringFieldUpdateOperationsInput | string
+  folderPath?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  eraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -501,8 +662,12 @@ export type DcosFileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   oasisBioId?: boolean
   title?: boolean
+  slug?: boolean
   content?: boolean
-  folder?: boolean
+  folderPath?: boolean
+  status?: boolean
+  version?: boolean
+  eraId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
@@ -512,8 +677,12 @@ export type DcosFileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   oasisBioId?: boolean
   title?: boolean
+  slug?: boolean
   content?: boolean
-  folder?: boolean
+  folderPath?: boolean
+  status?: boolean
+  version?: boolean
+  eraId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
@@ -523,8 +692,12 @@ export type DcosFileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   oasisBioId?: boolean
   title?: boolean
+  slug?: boolean
   content?: boolean
-  folder?: boolean
+  folderPath?: boolean
+  status?: boolean
+  version?: boolean
+  eraId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
@@ -534,13 +707,17 @@ export type DcosFileSelectScalar = {
   id?: boolean
   oasisBioId?: boolean
   title?: boolean
+  slug?: boolean
   content?: boolean
-  folder?: boolean
+  folderPath?: boolean
+  status?: boolean
+  version?: boolean
+  eraId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DcosFileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "title" | "content" | "folder" | "createdAt" | "updatedAt", ExtArgs["result"]["dcosFile"]>
+export type DcosFileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "title" | "slug" | "content" | "folderPath" | "status" | "version" | "eraId" | "createdAt" | "updatedAt", ExtArgs["result"]["dcosFile"]>
 export type DcosFileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }
@@ -560,8 +737,12 @@ export type $DcosFilePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     oasisBioId: string
     title: string
+    slug: string
     content: string
-    folder: string
+    folderPath: string
+    status: string
+    version: number
+    eraId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["dcosFile"]>
@@ -991,8 +1172,12 @@ export interface DcosFileFieldRefs {
   readonly id: Prisma.FieldRef<"DcosFile", 'String'>
   readonly oasisBioId: Prisma.FieldRef<"DcosFile", 'String'>
   readonly title: Prisma.FieldRef<"DcosFile", 'String'>
+  readonly slug: Prisma.FieldRef<"DcosFile", 'String'>
   readonly content: Prisma.FieldRef<"DcosFile", 'String'>
-  readonly folder: Prisma.FieldRef<"DcosFile", 'String'>
+  readonly folderPath: Prisma.FieldRef<"DcosFile", 'String'>
+  readonly status: Prisma.FieldRef<"DcosFile", 'String'>
+  readonly version: Prisma.FieldRef<"DcosFile", 'Int'>
+  readonly eraId: Prisma.FieldRef<"DcosFile", 'String'>
   readonly createdAt: Prisma.FieldRef<"DcosFile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DcosFile", 'DateTime'>
 }
@@ -1224,6 +1409,7 @@ export type DcosFileCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data used to create many DcosFiles.
    */
   data: Prisma.DcosFileCreateManyInput | Prisma.DcosFileCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1242,6 +1428,7 @@ export type DcosFileCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many DcosFiles.
    */
   data: Prisma.DcosFileCreateManyInput | Prisma.DcosFileCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

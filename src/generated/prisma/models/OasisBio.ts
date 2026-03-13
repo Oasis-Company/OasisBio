@@ -30,6 +30,7 @@ export type OasisBioMinAggregateOutputType = {
   title: string | null
   slug: string | null
   tagline: string | null
+  summary: string | null
   identityMode: string | null
   birthDate: Date | null
   gender: string | null
@@ -39,7 +40,11 @@ export type OasisBioMinAggregateOutputType = {
   species: string | null
   status: string | null
   description: string | null
+  coverImageUrl: string | null
+  defaultLanguage: string | null
   visibility: string | null
+  featured: boolean | null
+  publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +55,7 @@ export type OasisBioMaxAggregateOutputType = {
   title: string | null
   slug: string | null
   tagline: string | null
+  summary: string | null
   identityMode: string | null
   birthDate: Date | null
   gender: string | null
@@ -59,7 +65,11 @@ export type OasisBioMaxAggregateOutputType = {
   species: string | null
   status: string | null
   description: string | null
+  coverImageUrl: string | null
+  defaultLanguage: string | null
   visibility: string | null
+  featured: boolean | null
+  publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,6 +80,7 @@ export type OasisBioCountAggregateOutputType = {
   title: number
   slug: number
   tagline: number
+  summary: number
   identityMode: number
   birthDate: number
   gender: number
@@ -79,7 +90,11 @@ export type OasisBioCountAggregateOutputType = {
   species: number
   status: number
   description: number
+  coverImageUrl: number
+  defaultLanguage: number
   visibility: number
+  featured: number
+  publishedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,6 +107,7 @@ export type OasisBioMinAggregateInputType = {
   title?: true
   slug?: true
   tagline?: true
+  summary?: true
   identityMode?: true
   birthDate?: true
   gender?: true
@@ -101,7 +117,11 @@ export type OasisBioMinAggregateInputType = {
   species?: true
   status?: true
   description?: true
+  coverImageUrl?: true
+  defaultLanguage?: true
   visibility?: true
+  featured?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +132,7 @@ export type OasisBioMaxAggregateInputType = {
   title?: true
   slug?: true
   tagline?: true
+  summary?: true
   identityMode?: true
   birthDate?: true
   gender?: true
@@ -121,7 +142,11 @@ export type OasisBioMaxAggregateInputType = {
   species?: true
   status?: true
   description?: true
+  coverImageUrl?: true
+  defaultLanguage?: true
   visibility?: true
+  featured?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,6 +157,7 @@ export type OasisBioCountAggregateInputType = {
   title?: true
   slug?: true
   tagline?: true
+  summary?: true
   identityMode?: true
   birthDate?: true
   gender?: true
@@ -141,7 +167,11 @@ export type OasisBioCountAggregateInputType = {
   species?: true
   status?: true
   description?: true
+  coverImageUrl?: true
+  defaultLanguage?: true
   visibility?: true
+  featured?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,6 +255,7 @@ export type OasisBioGroupByOutputType = {
   title: string
   slug: string
   tagline: string | null
+  summary: string | null
   identityMode: string
   birthDate: Date | null
   gender: string | null
@@ -232,9 +263,13 @@ export type OasisBioGroupByOutputType = {
   placeOfOrigin: string | null
   currentEra: string | null
   species: string | null
-  status: string | null
+  status: string
   description: string | null
+  coverImageUrl: string | null
+  defaultLanguage: string
   visibility: string
+  featured: boolean
+  publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: OasisBioCountAggregateOutputType | null
@@ -266,6 +301,7 @@ export type OasisBioWhereInput = {
   title?: Prisma.StringFilter<"OasisBio"> | string
   slug?: Prisma.StringFilter<"OasisBio"> | string
   tagline?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  summary?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   identityMode?: Prisma.StringFilter<"OasisBio"> | string
   birthDate?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   gender?: Prisma.StringNullableFilter<"OasisBio"> | string | null
@@ -273,9 +309,13 @@ export type OasisBioWhereInput = {
   placeOfOrigin?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   currentEra?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   species?: Prisma.StringNullableFilter<"OasisBio"> | string | null
-  status?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  status?: Prisma.StringFilter<"OasisBio"> | string
   description?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  coverImageUrl?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  defaultLanguage?: Prisma.StringFilter<"OasisBio"> | string
   visibility?: Prisma.StringFilter<"OasisBio"> | string
+  featured?: Prisma.BoolFilter<"OasisBio"> | boolean
+  publishedAt?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -285,6 +325,9 @@ export type OasisBioWhereInput = {
   worlds?: Prisma.WorldItemListRelationFilter
   models?: Prisma.ModelItemListRelationFilter
   eras?: Prisma.EraIdentityListRelationFilter
+  publication?: Prisma.XOR<Prisma.OasisBioPublicationNullableScalarRelationFilter, Prisma.OasisBioPublicationWhereInput> | null
+  relationshipsA?: Prisma.CharacterRelationshipListRelationFilter
+  relationshipsB?: Prisma.CharacterRelationshipListRelationFilter
 }
 
 export type OasisBioOrderByWithRelationInput = {
@@ -293,6 +336,7 @@ export type OasisBioOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   tagline?: Prisma.SortOrderInput | Prisma.SortOrder
+  summary?: Prisma.SortOrderInput | Prisma.SortOrder
   identityMode?: Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -300,9 +344,13 @@ export type OasisBioOrderByWithRelationInput = {
   placeOfOrigin?: Prisma.SortOrderInput | Prisma.SortOrder
   currentEra?: Prisma.SortOrderInput | Prisma.SortOrder
   species?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  defaultLanguage?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -312,6 +360,9 @@ export type OasisBioOrderByWithRelationInput = {
   worlds?: Prisma.WorldItemOrderByRelationAggregateInput
   models?: Prisma.ModelItemOrderByRelationAggregateInput
   eras?: Prisma.EraIdentityOrderByRelationAggregateInput
+  publication?: Prisma.OasisBioPublicationOrderByWithRelationInput
+  relationshipsA?: Prisma.CharacterRelationshipOrderByRelationAggregateInput
+  relationshipsB?: Prisma.CharacterRelationshipOrderByRelationAggregateInput
 }
 
 export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
@@ -323,6 +374,7 @@ export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"OasisBio"> | string
   title?: Prisma.StringFilter<"OasisBio"> | string
   tagline?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  summary?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   identityMode?: Prisma.StringFilter<"OasisBio"> | string
   birthDate?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   gender?: Prisma.StringNullableFilter<"OasisBio"> | string | null
@@ -330,9 +382,13 @@ export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
   placeOfOrigin?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   currentEra?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   species?: Prisma.StringNullableFilter<"OasisBio"> | string | null
-  status?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  status?: Prisma.StringFilter<"OasisBio"> | string
   description?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  coverImageUrl?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  defaultLanguage?: Prisma.StringFilter<"OasisBio"> | string
   visibility?: Prisma.StringFilter<"OasisBio"> | string
+  featured?: Prisma.BoolFilter<"OasisBio"> | boolean
+  publishedAt?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -342,6 +398,9 @@ export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
   worlds?: Prisma.WorldItemListRelationFilter
   models?: Prisma.ModelItemListRelationFilter
   eras?: Prisma.EraIdentityListRelationFilter
+  publication?: Prisma.XOR<Prisma.OasisBioPublicationNullableScalarRelationFilter, Prisma.OasisBioPublicationWhereInput> | null
+  relationshipsA?: Prisma.CharacterRelationshipListRelationFilter
+  relationshipsB?: Prisma.CharacterRelationshipListRelationFilter
 }, "id" | "slug">
 
 export type OasisBioOrderByWithAggregationInput = {
@@ -350,6 +409,7 @@ export type OasisBioOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   tagline?: Prisma.SortOrderInput | Prisma.SortOrder
+  summary?: Prisma.SortOrderInput | Prisma.SortOrder
   identityMode?: Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -357,9 +417,13 @@ export type OasisBioOrderByWithAggregationInput = {
   placeOfOrigin?: Prisma.SortOrderInput | Prisma.SortOrder
   currentEra?: Prisma.SortOrderInput | Prisma.SortOrder
   species?: Prisma.SortOrderInput | Prisma.SortOrder
-  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  defaultLanguage?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.OasisBioCountOrderByAggregateInput
@@ -376,6 +440,7 @@ export type OasisBioScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
   slug?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
   tagline?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
+  summary?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
   identityMode?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
   birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"OasisBio"> | Date | string | null
   gender?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
@@ -383,9 +448,13 @@ export type OasisBioScalarWhereWithAggregatesInput = {
   placeOfOrigin?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
   currentEra?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
   species?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
-  status?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
+  status?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
+  coverImageUrl?: Prisma.StringNullableWithAggregatesFilter<"OasisBio"> | string | null
+  defaultLanguage?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
   visibility?: Prisma.StringWithAggregatesFilter<"OasisBio"> | string
+  featured?: Prisma.BoolWithAggregatesFilter<"OasisBio"> | boolean
+  publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"OasisBio"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OasisBio"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OasisBio"> | Date | string
 }
@@ -395,6 +464,7 @@ export type OasisBioCreateInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -402,9 +472,13 @@ export type OasisBioCreateInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -414,6 +488,9 @@ export type OasisBioCreateInput = {
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateInput = {
@@ -422,6 +499,7 @@ export type OasisBioUncheckedCreateInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -429,9 +507,13 @@ export type OasisBioUncheckedCreateInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -440,6 +522,9 @@ export type OasisBioUncheckedCreateInput = {
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUpdateInput = {
@@ -447,6 +532,7 @@ export type OasisBioUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -454,9 +540,13 @@ export type OasisBioUpdateInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -466,6 +556,9 @@ export type OasisBioUpdateInput = {
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateInput = {
@@ -474,6 +567,7 @@ export type OasisBioUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -481,9 +575,13 @@ export type OasisBioUncheckedUpdateInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -492,6 +590,9 @@ export type OasisBioUncheckedUpdateInput = {
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateManyInput = {
@@ -500,6 +601,7 @@ export type OasisBioCreateManyInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -507,9 +609,13 @@ export type OasisBioCreateManyInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -519,6 +625,7 @@ export type OasisBioUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -526,9 +633,13 @@ export type OasisBioUpdateManyMutationInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -539,6 +650,7 @@ export type OasisBioUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -546,9 +658,13 @@ export type OasisBioUncheckedUpdateManyInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -569,6 +685,7 @@ export type OasisBioCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   identityMode?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -578,7 +695,11 @@ export type OasisBioCountOrderByAggregateInput = {
   species?: Prisma.SortOrder
   status?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrder
+  defaultLanguage?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -589,6 +710,7 @@ export type OasisBioMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   identityMode?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -598,7 +720,11 @@ export type OasisBioMaxOrderByAggregateInput = {
   species?: Prisma.SortOrder
   status?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrder
+  defaultLanguage?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -609,6 +735,7 @@ export type OasisBioMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
   identityMode?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -618,7 +745,11 @@ export type OasisBioMinOrderByAggregateInput = {
   species?: Prisma.SortOrder
   status?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrder
+  defaultLanguage?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -668,6 +799,10 @@ export type OasisBioUncheckedUpdateManyWithoutUserNestedInput = {
   update?: Prisma.OasisBioUpdateWithWhereUniqueWithoutUserInput | Prisma.OasisBioUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.OasisBioUpdateManyWithWhereWithoutUserInput | Prisma.OasisBioUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.OasisBioScalarWhereInput | Prisma.OasisBioScalarWhereInput[]
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type OasisBioCreateNestedOneWithoutErasInput = {
@@ -754,11 +889,54 @@ export type OasisBioUpdateOneRequiredWithoutModelsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutModelsInput, Prisma.OasisBioUpdateWithoutModelsInput>, Prisma.OasisBioUncheckedUpdateWithoutModelsInput>
 }
 
+export type OasisBioCreateNestedOneWithoutPublicationInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutPublicationInput, Prisma.OasisBioUncheckedCreateWithoutPublicationInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutPublicationInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+}
+
+export type OasisBioUpdateOneRequiredWithoutPublicationNestedInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutPublicationInput, Prisma.OasisBioUncheckedCreateWithoutPublicationInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutPublicationInput
+  upsert?: Prisma.OasisBioUpsertWithoutPublicationInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutPublicationInput, Prisma.OasisBioUpdateWithoutPublicationInput>, Prisma.OasisBioUncheckedUpdateWithoutPublicationInput>
+}
+
+export type OasisBioCreateNestedOneWithoutRelationshipsAInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsAInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutRelationshipsAInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+}
+
+export type OasisBioCreateNestedOneWithoutRelationshipsBInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsBInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutRelationshipsBInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+}
+
+export type OasisBioUpdateOneRequiredWithoutRelationshipsANestedInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsAInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutRelationshipsAInput
+  upsert?: Prisma.OasisBioUpsertWithoutRelationshipsAInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutRelationshipsAInput, Prisma.OasisBioUpdateWithoutRelationshipsAInput>, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsAInput>
+}
+
+export type OasisBioUpdateOneRequiredWithoutRelationshipsBNestedInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsBInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutRelationshipsBInput
+  upsert?: Prisma.OasisBioUpsertWithoutRelationshipsBInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutRelationshipsBInput, Prisma.OasisBioUpdateWithoutRelationshipsBInput>, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsBInput>
+}
+
 export type OasisBioCreateWithoutUserInput = {
   id?: string
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -766,9 +944,13 @@ export type OasisBioCreateWithoutUserInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityCreateNestedManyWithoutOasisBioInput
@@ -777,6 +959,9 @@ export type OasisBioCreateWithoutUserInput = {
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutUserInput = {
@@ -784,6 +969,7 @@ export type OasisBioUncheckedCreateWithoutUserInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -791,9 +977,13 @@ export type OasisBioUncheckedCreateWithoutUserInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -802,6 +992,9 @@ export type OasisBioUncheckedCreateWithoutUserInput = {
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutUserInput = {
@@ -811,6 +1004,7 @@ export type OasisBioCreateOrConnectWithoutUserInput = {
 
 export type OasisBioCreateManyUserInputEnvelope = {
   data: Prisma.OasisBioCreateManyUserInput | Prisma.OasisBioCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type OasisBioUpsertWithWhereUniqueWithoutUserInput = {
@@ -838,6 +1032,7 @@ export type OasisBioScalarWhereInput = {
   title?: Prisma.StringFilter<"OasisBio"> | string
   slug?: Prisma.StringFilter<"OasisBio"> | string
   tagline?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  summary?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   identityMode?: Prisma.StringFilter<"OasisBio"> | string
   birthDate?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   gender?: Prisma.StringNullableFilter<"OasisBio"> | string | null
@@ -845,9 +1040,13 @@ export type OasisBioScalarWhereInput = {
   placeOfOrigin?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   currentEra?: Prisma.StringNullableFilter<"OasisBio"> | string | null
   species?: Prisma.StringNullableFilter<"OasisBio"> | string | null
-  status?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  status?: Prisma.StringFilter<"OasisBio"> | string
   description?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  coverImageUrl?: Prisma.StringNullableFilter<"OasisBio"> | string | null
+  defaultLanguage?: Prisma.StringFilter<"OasisBio"> | string
   visibility?: Prisma.StringFilter<"OasisBio"> | string
+  featured?: Prisma.BoolFilter<"OasisBio"> | boolean
+  publishedAt?: Prisma.DateTimeNullableFilter<"OasisBio"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OasisBio"> | Date | string
 }
@@ -857,6 +1056,7 @@ export type OasisBioCreateWithoutErasInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -864,9 +1064,13 @@ export type OasisBioCreateWithoutErasInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -875,6 +1079,9 @@ export type OasisBioCreateWithoutErasInput = {
   references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutErasInput = {
@@ -883,6 +1090,7 @@ export type OasisBioUncheckedCreateWithoutErasInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -890,9 +1098,13 @@ export type OasisBioUncheckedCreateWithoutErasInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -900,6 +1112,9 @@ export type OasisBioUncheckedCreateWithoutErasInput = {
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutErasInput = {
@@ -923,6 +1138,7 @@ export type OasisBioUpdateWithoutErasInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -930,9 +1146,13 @@ export type OasisBioUpdateWithoutErasInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -941,6 +1161,9 @@ export type OasisBioUpdateWithoutErasInput = {
   references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutErasInput = {
@@ -949,6 +1172,7 @@ export type OasisBioUncheckedUpdateWithoutErasInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -956,9 +1180,13 @@ export type OasisBioUncheckedUpdateWithoutErasInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -966,6 +1194,9 @@ export type OasisBioUncheckedUpdateWithoutErasInput = {
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateWithoutAbilitiesInput = {
@@ -973,6 +1204,7 @@ export type OasisBioCreateWithoutAbilitiesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -980,9 +1212,13 @@ export type OasisBioCreateWithoutAbilitiesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -991,6 +1227,9 @@ export type OasisBioCreateWithoutAbilitiesInput = {
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
@@ -999,6 +1238,7 @@ export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1006,9 +1246,13 @@ export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   dcosFiles?: Prisma.DcosFileUncheckedCreateNestedManyWithoutOasisBioInput
@@ -1016,6 +1260,9 @@ export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutAbilitiesInput = {
@@ -1039,6 +1286,7 @@ export type OasisBioUpdateWithoutAbilitiesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1046,9 +1294,13 @@ export type OasisBioUpdateWithoutAbilitiesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -1057,6 +1309,9 @@ export type OasisBioUpdateWithoutAbilitiesInput = {
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
@@ -1065,6 +1320,7 @@ export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1072,9 +1328,13 @@ export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dcosFiles?: Prisma.DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1082,6 +1342,9 @@ export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateWithoutDcosFilesInput = {
@@ -1089,6 +1352,7 @@ export type OasisBioCreateWithoutDcosFilesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1096,9 +1360,13 @@ export type OasisBioCreateWithoutDcosFilesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -1107,6 +1375,9 @@ export type OasisBioCreateWithoutDcosFilesInput = {
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
@@ -1115,6 +1386,7 @@ export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1122,9 +1394,13 @@ export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -1132,6 +1408,9 @@ export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutDcosFilesInput = {
@@ -1155,6 +1434,7 @@ export type OasisBioUpdateWithoutDcosFilesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1162,9 +1442,13 @@ export type OasisBioUpdateWithoutDcosFilesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -1173,6 +1457,9 @@ export type OasisBioUpdateWithoutDcosFilesInput = {
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
@@ -1181,6 +1468,7 @@ export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1188,9 +1476,13 @@ export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1198,6 +1490,9 @@ export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateWithoutReferencesInput = {
@@ -1205,6 +1500,7 @@ export type OasisBioCreateWithoutReferencesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1212,9 +1508,13 @@ export type OasisBioCreateWithoutReferencesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -1223,6 +1523,9 @@ export type OasisBioCreateWithoutReferencesInput = {
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutReferencesInput = {
@@ -1231,6 +1534,7 @@ export type OasisBioUncheckedCreateWithoutReferencesInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1238,9 +1542,13 @@ export type OasisBioUncheckedCreateWithoutReferencesInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -1248,6 +1556,9 @@ export type OasisBioUncheckedCreateWithoutReferencesInput = {
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutReferencesInput = {
@@ -1271,6 +1582,7 @@ export type OasisBioUpdateWithoutReferencesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1278,9 +1590,13 @@ export type OasisBioUpdateWithoutReferencesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -1289,6 +1605,9 @@ export type OasisBioUpdateWithoutReferencesInput = {
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutReferencesInput = {
@@ -1297,6 +1616,7 @@ export type OasisBioUncheckedUpdateWithoutReferencesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1304,9 +1624,13 @@ export type OasisBioUncheckedUpdateWithoutReferencesInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1314,6 +1638,9 @@ export type OasisBioUncheckedUpdateWithoutReferencesInput = {
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateWithoutWorldsInput = {
@@ -1321,6 +1648,7 @@ export type OasisBioCreateWithoutWorldsInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1328,9 +1656,13 @@ export type OasisBioCreateWithoutWorldsInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -1339,6 +1671,9 @@ export type OasisBioCreateWithoutWorldsInput = {
   references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutWorldsInput = {
@@ -1347,6 +1682,7 @@ export type OasisBioUncheckedCreateWithoutWorldsInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1354,9 +1690,13 @@ export type OasisBioUncheckedCreateWithoutWorldsInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -1364,6 +1704,9 @@ export type OasisBioUncheckedCreateWithoutWorldsInput = {
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
   models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutWorldsInput = {
@@ -1387,6 +1730,7 @@ export type OasisBioUpdateWithoutWorldsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1394,9 +1738,13 @@ export type OasisBioUpdateWithoutWorldsInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -1405,6 +1753,9 @@ export type OasisBioUpdateWithoutWorldsInput = {
   references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutWorldsInput = {
@@ -1413,6 +1764,7 @@ export type OasisBioUncheckedUpdateWithoutWorldsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1420,9 +1772,13 @@ export type OasisBioUncheckedUpdateWithoutWorldsInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1430,6 +1786,9 @@ export type OasisBioUncheckedUpdateWithoutWorldsInput = {
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateWithoutModelsInput = {
@@ -1437,6 +1796,7 @@ export type OasisBioCreateWithoutModelsInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1444,9 +1804,13 @@ export type OasisBioCreateWithoutModelsInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
@@ -1455,6 +1819,9 @@ export type OasisBioCreateWithoutModelsInput = {
   references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
   worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioUncheckedCreateWithoutModelsInput = {
@@ -1463,6 +1830,7 @@ export type OasisBioUncheckedCreateWithoutModelsInput = {
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1470,9 +1838,13 @@ export type OasisBioUncheckedCreateWithoutModelsInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
@@ -1480,6 +1852,9 @@ export type OasisBioUncheckedCreateWithoutModelsInput = {
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
   worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
 }
 
 export type OasisBioCreateOrConnectWithoutModelsInput = {
@@ -1503,6 +1878,7 @@ export type OasisBioUpdateWithoutModelsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1510,9 +1886,13 @@ export type OasisBioUpdateWithoutModelsInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
@@ -1521,6 +1901,9 @@ export type OasisBioUpdateWithoutModelsInput = {
   references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutModelsInput = {
@@ -1529,6 +1912,7 @@ export type OasisBioUncheckedUpdateWithoutModelsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1536,9 +1920,13 @@ export type OasisBioUncheckedUpdateWithoutModelsInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1546,13 +1934,17 @@ export type OasisBioUncheckedUpdateWithoutModelsInput = {
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
-export type OasisBioCreateManyUserInput = {
+export type OasisBioCreateWithoutPublicationInput = {
   id?: string
   title: string
   slug: string
   tagline?: string | null
+  summary?: string | null
   identityMode?: string
   birthDate?: Date | string | null
   gender?: string | null
@@ -1560,9 +1952,457 @@ export type OasisBioCreateManyUserInput = {
   placeOfOrigin?: string | null
   currentEra?: string | null
   species?: string | null
-  status?: string | null
+  status?: string
   description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
   visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioUncheckedCreateWithoutPublicationInput = {
+  id?: string
+  userId: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileUncheckedCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioCreateOrConnectWithoutPublicationInput = {
+  where: Prisma.OasisBioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutPublicationInput, Prisma.OasisBioUncheckedCreateWithoutPublicationInput>
+}
+
+export type OasisBioUpsertWithoutPublicationInput = {
+  update: Prisma.XOR<Prisma.OasisBioUpdateWithoutPublicationInput, Prisma.OasisBioUncheckedUpdateWithoutPublicationInput>
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutPublicationInput, Prisma.OasisBioUncheckedCreateWithoutPublicationInput>
+  where?: Prisma.OasisBioWhereInput
+}
+
+export type OasisBioUpdateToOneWithWhereWithoutPublicationInput = {
+  where?: Prisma.OasisBioWhereInput
+  data: Prisma.XOR<Prisma.OasisBioUpdateWithoutPublicationInput, Prisma.OasisBioUncheckedUpdateWithoutPublicationInput>
+}
+
+export type OasisBioUpdateWithoutPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+}
+
+export type OasisBioUncheckedUpdateWithoutPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+}
+
+export type OasisBioCreateWithoutRelationshipsAInput = {
+  id?: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioUncheckedCreateWithoutRelationshipsAInput = {
+  id?: string
+  userId: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileUncheckedCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioCreateOrConnectWithoutRelationshipsAInput = {
+  where: Prisma.OasisBioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsAInput>
+}
+
+export type OasisBioCreateWithoutRelationshipsBInput = {
+  id?: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+}
+
+export type OasisBioUncheckedCreateWithoutRelationshipsBInput = {
+  id?: string
+  userId: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileUncheckedCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+}
+
+export type OasisBioCreateOrConnectWithoutRelationshipsBInput = {
+  where: Prisma.OasisBioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsBInput>
+}
+
+export type OasisBioUpsertWithoutRelationshipsAInput = {
+  update: Prisma.XOR<Prisma.OasisBioUpdateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsAInput>
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsAInput>
+  where?: Prisma.OasisBioWhereInput
+}
+
+export type OasisBioUpdateToOneWithWhereWithoutRelationshipsAInput = {
+  where?: Prisma.OasisBioWhereInput
+  data: Prisma.XOR<Prisma.OasisBioUpdateWithoutRelationshipsAInput, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsAInput>
+}
+
+export type OasisBioUpdateWithoutRelationshipsAInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+}
+
+export type OasisBioUncheckedUpdateWithoutRelationshipsAInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+}
+
+export type OasisBioUpsertWithoutRelationshipsBInput = {
+  update: Prisma.XOR<Prisma.OasisBioUpdateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsBInput>
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedCreateWithoutRelationshipsBInput>
+  where?: Prisma.OasisBioWhereInput
+}
+
+export type OasisBioUpdateToOneWithWhereWithoutRelationshipsBInput = {
+  where?: Prisma.OasisBioWhereInput
+  data: Prisma.XOR<Prisma.OasisBioUpdateWithoutRelationshipsBInput, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsBInput>
+}
+
+export type OasisBioUpdateWithoutRelationshipsBInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+}
+
+export type OasisBioUncheckedUpdateWithoutRelationshipsBInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+}
+
+export type OasisBioCreateManyUserInput = {
+  id?: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1572,6 +2412,7 @@ export type OasisBioUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1579,9 +2420,13 @@ export type OasisBioUpdateWithoutUserInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUpdateManyWithoutOasisBioNestedInput
@@ -1590,6 +2435,9 @@ export type OasisBioUpdateWithoutUserInput = {
   worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutUserInput = {
@@ -1597,6 +2445,7 @@ export type OasisBioUncheckedUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1604,9 +2453,13 @@ export type OasisBioUncheckedUpdateWithoutUserInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
@@ -1615,6 +2468,9 @@ export type OasisBioUncheckedUpdateWithoutUserInput = {
   worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
   models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioUncheckedUpdateManyWithoutUserInput = {
@@ -1622,6 +2478,7 @@ export type OasisBioUncheckedUpdateManyWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   identityMode?: Prisma.StringFieldUpdateOperationsInput | string
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1629,9 +2486,13 @@ export type OasisBioUncheckedUpdateManyWithoutUserInput = {
   placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1648,6 +2509,8 @@ export type OasisBioCountOutputType = {
   worlds: number
   models: number
   eras: number
+  relationshipsA: number
+  relationshipsB: number
 }
 
 export type OasisBioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1657,6 +2520,8 @@ export type OasisBioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   worlds?: boolean | OasisBioCountOutputTypeCountWorldsArgs
   models?: boolean | OasisBioCountOutputTypeCountModelsArgs
   eras?: boolean | OasisBioCountOutputTypeCountErasArgs
+  relationshipsA?: boolean | OasisBioCountOutputTypeCountRelationshipsAArgs
+  relationshipsB?: boolean | OasisBioCountOutputTypeCountRelationshipsBArgs
 }
 
 /**
@@ -1711,6 +2576,20 @@ export type OasisBioCountOutputTypeCountErasArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.EraIdentityWhereInput
 }
 
+/**
+ * OasisBioCountOutputType without action
+ */
+export type OasisBioCountOutputTypeCountRelationshipsAArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CharacterRelationshipWhereInput
+}
+
+/**
+ * OasisBioCountOutputType without action
+ */
+export type OasisBioCountOutputTypeCountRelationshipsBArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CharacterRelationshipWhereInput
+}
+
 
 export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1718,6 +2597,7 @@ export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   title?: boolean
   slug?: boolean
   tagline?: boolean
+  summary?: boolean
   identityMode?: boolean
   birthDate?: boolean
   gender?: boolean
@@ -1727,7 +2607,11 @@ export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   species?: boolean
   status?: boolean
   description?: boolean
+  coverImageUrl?: boolean
+  defaultLanguage?: boolean
   visibility?: boolean
+  featured?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1737,6 +2621,9 @@ export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   worlds?: boolean | Prisma.OasisBio$worldsArgs<ExtArgs>
   models?: boolean | Prisma.OasisBio$modelsArgs<ExtArgs>
   eras?: boolean | Prisma.OasisBio$erasArgs<ExtArgs>
+  publication?: boolean | Prisma.OasisBio$publicationArgs<ExtArgs>
+  relationshipsA?: boolean | Prisma.OasisBio$relationshipsAArgs<ExtArgs>
+  relationshipsB?: boolean | Prisma.OasisBio$relationshipsBArgs<ExtArgs>
   _count?: boolean | Prisma.OasisBioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oasisBio"]>
 
@@ -1746,6 +2633,7 @@ export type OasisBioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   slug?: boolean
   tagline?: boolean
+  summary?: boolean
   identityMode?: boolean
   birthDate?: boolean
   gender?: boolean
@@ -1755,7 +2643,11 @@ export type OasisBioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   species?: boolean
   status?: boolean
   description?: boolean
+  coverImageUrl?: boolean
+  defaultLanguage?: boolean
   visibility?: boolean
+  featured?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1767,6 +2659,7 @@ export type OasisBioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   slug?: boolean
   tagline?: boolean
+  summary?: boolean
   identityMode?: boolean
   birthDate?: boolean
   gender?: boolean
@@ -1776,7 +2669,11 @@ export type OasisBioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   species?: boolean
   status?: boolean
   description?: boolean
+  coverImageUrl?: boolean
+  defaultLanguage?: boolean
   visibility?: boolean
+  featured?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1788,6 +2685,7 @@ export type OasisBioSelectScalar = {
   title?: boolean
   slug?: boolean
   tagline?: boolean
+  summary?: boolean
   identityMode?: boolean
   birthDate?: boolean
   gender?: boolean
@@ -1797,12 +2695,16 @@ export type OasisBioSelectScalar = {
   species?: boolean
   status?: boolean
   description?: boolean
+  coverImageUrl?: boolean
+  defaultLanguage?: boolean
   visibility?: boolean
+  featured?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type OasisBioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "slug" | "tagline" | "identityMode" | "birthDate" | "gender" | "pronouns" | "placeOfOrigin" | "currentEra" | "species" | "status" | "description" | "visibility" | "createdAt" | "updatedAt", ExtArgs["result"]["oasisBio"]>
+export type OasisBioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "slug" | "tagline" | "summary" | "identityMode" | "birthDate" | "gender" | "pronouns" | "placeOfOrigin" | "currentEra" | "species" | "status" | "description" | "coverImageUrl" | "defaultLanguage" | "visibility" | "featured" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["oasisBio"]>
 export type OasisBioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   abilities?: boolean | Prisma.OasisBio$abilitiesArgs<ExtArgs>
@@ -1811,6 +2713,9 @@ export type OasisBioInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   worlds?: boolean | Prisma.OasisBio$worldsArgs<ExtArgs>
   models?: boolean | Prisma.OasisBio$modelsArgs<ExtArgs>
   eras?: boolean | Prisma.OasisBio$erasArgs<ExtArgs>
+  publication?: boolean | Prisma.OasisBio$publicationArgs<ExtArgs>
+  relationshipsA?: boolean | Prisma.OasisBio$relationshipsAArgs<ExtArgs>
+  relationshipsB?: boolean | Prisma.OasisBio$relationshipsBArgs<ExtArgs>
   _count?: boolean | Prisma.OasisBioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OasisBioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1830,6 +2735,9 @@ export type $OasisBioPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     worlds: Prisma.$WorldItemPayload<ExtArgs>[]
     models: Prisma.$ModelItemPayload<ExtArgs>[]
     eras: Prisma.$EraIdentityPayload<ExtArgs>[]
+    publication: Prisma.$OasisBioPublicationPayload<ExtArgs> | null
+    relationshipsA: Prisma.$CharacterRelationshipPayload<ExtArgs>[]
+    relationshipsB: Prisma.$CharacterRelationshipPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1837,6 +2745,7 @@ export type $OasisBioPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     title: string
     slug: string
     tagline: string | null
+    summary: string | null
     identityMode: string
     birthDate: Date | null
     gender: string | null
@@ -1844,9 +2753,13 @@ export type $OasisBioPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     placeOfOrigin: string | null
     currentEra: string | null
     species: string | null
-    status: string | null
+    status: string
     description: string | null
+    coverImageUrl: string | null
+    defaultLanguage: string
     visibility: string
+    featured: boolean
+    publishedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["oasisBio"]>
@@ -2250,6 +3163,9 @@ export interface Prisma__OasisBioClient<T, Null = never, ExtArgs extends runtime
   worlds<T extends Prisma.OasisBio$worldsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$worldsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorldItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   models<T extends Prisma.OasisBio$modelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$modelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModelItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   eras<T extends Prisma.OasisBio$erasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$erasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EraIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  publication<T extends Prisma.OasisBio$publicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$publicationArgs<ExtArgs>>): Prisma.Prisma__OasisBioPublicationClient<runtime.Types.Result.GetResult<Prisma.$OasisBioPublicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  relationshipsA<T extends Prisma.OasisBio$relationshipsAArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$relationshipsAArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterRelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  relationshipsB<T extends Prisma.OasisBio$relationshipsBArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$relationshipsBArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterRelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2284,6 +3200,7 @@ export interface OasisBioFieldRefs {
   readonly title: Prisma.FieldRef<"OasisBio", 'String'>
   readonly slug: Prisma.FieldRef<"OasisBio", 'String'>
   readonly tagline: Prisma.FieldRef<"OasisBio", 'String'>
+  readonly summary: Prisma.FieldRef<"OasisBio", 'String'>
   readonly identityMode: Prisma.FieldRef<"OasisBio", 'String'>
   readonly birthDate: Prisma.FieldRef<"OasisBio", 'DateTime'>
   readonly gender: Prisma.FieldRef<"OasisBio", 'String'>
@@ -2293,7 +3210,11 @@ export interface OasisBioFieldRefs {
   readonly species: Prisma.FieldRef<"OasisBio", 'String'>
   readonly status: Prisma.FieldRef<"OasisBio", 'String'>
   readonly description: Prisma.FieldRef<"OasisBio", 'String'>
+  readonly coverImageUrl: Prisma.FieldRef<"OasisBio", 'String'>
+  readonly defaultLanguage: Prisma.FieldRef<"OasisBio", 'String'>
   readonly visibility: Prisma.FieldRef<"OasisBio", 'String'>
+  readonly featured: Prisma.FieldRef<"OasisBio", 'Boolean'>
+  readonly publishedAt: Prisma.FieldRef<"OasisBio", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"OasisBio", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"OasisBio", 'DateTime'>
 }
@@ -2525,6 +3446,7 @@ export type OasisBioCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data used to create many OasisBios.
    */
   data: Prisma.OasisBioCreateManyInput | Prisma.OasisBioCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -2543,6 +3465,7 @@ export type OasisBioCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many OasisBios.
    */
   data: Prisma.OasisBioCreateManyInput | Prisma.OasisBioCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
@@ -2831,6 +3754,73 @@ export type OasisBio$erasArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.EraIdentityScalarFieldEnum | Prisma.EraIdentityScalarFieldEnum[]
+}
+
+/**
+ * OasisBio.publication
+ */
+export type OasisBio$publicationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OasisBioPublication
+   */
+  select?: Prisma.OasisBioPublicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OasisBioPublication
+   */
+  omit?: Prisma.OasisBioPublicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OasisBioPublicationInclude<ExtArgs> | null
+  where?: Prisma.OasisBioPublicationWhereInput
+}
+
+/**
+ * OasisBio.relationshipsA
+ */
+export type OasisBio$relationshipsAArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CharacterRelationship
+   */
+  select?: Prisma.CharacterRelationshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CharacterRelationship
+   */
+  omit?: Prisma.CharacterRelationshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CharacterRelationshipInclude<ExtArgs> | null
+  where?: Prisma.CharacterRelationshipWhereInput
+  orderBy?: Prisma.CharacterRelationshipOrderByWithRelationInput | Prisma.CharacterRelationshipOrderByWithRelationInput[]
+  cursor?: Prisma.CharacterRelationshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CharacterRelationshipScalarFieldEnum | Prisma.CharacterRelationshipScalarFieldEnum[]
+}
+
+/**
+ * OasisBio.relationshipsB
+ */
+export type OasisBio$relationshipsBArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CharacterRelationship
+   */
+  select?: Prisma.CharacterRelationshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CharacterRelationship
+   */
+  omit?: Prisma.CharacterRelationshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CharacterRelationshipInclude<ExtArgs> | null
+  where?: Prisma.CharacterRelationshipWhereInput
+  orderBy?: Prisma.CharacterRelationshipOrderByWithRelationInput | Prisma.CharacterRelationshipOrderByWithRelationInput[]
+  cursor?: Prisma.CharacterRelationshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CharacterRelationshipScalarFieldEnum | Prisma.CharacterRelationshipScalarFieldEnum[]
 }
 
 /**

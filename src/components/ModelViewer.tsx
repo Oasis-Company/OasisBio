@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 interface ModelViewerProps {
   modelUrl: string;
@@ -48,15 +49,43 @@ export default function ModelViewer({ modelUrl, width = 800, height = 600 }: Mod
     directionalLight.position.set(1, 1, 1);
     scene.add(directionalLight);
 
-    // Add a simple cube as placeholder
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
-    const material = new THREE.MeshStandardMaterial({ 
-      color: 0x0070f3,
-      metalness: 0.3,
-      roughness: 0.4
-    });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Load GLB model
+    const loader = new GLTFLoader();
+    let model: THREE.Object3D | null = null;
+
+    loader.load(
+      modelUrl,
+      (gltf) => {
+        model = gltf.scene;
+        scene.add(model);
+        
+        // Center the model
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center);
+        
+        // Scale the model to fit in the view
+        const size = box.getSize(new THREE.Vector3());
+        const maxSize = Math.max(size.x, size.y, size.z);
+        const scale = 4 / maxSize;
+        model.scale.set(scale, scale, scale);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      (error) => {
+        console.error('Error loading model:', error);
+        // Fallback to cube if model fails to load
+        const geometry = new THREE.BoxGeometry(2, 2, 2);
+        const material = new THREE.MeshStandardMaterial({ 
+          color: 0x0070f3,
+          metalness: 0.3,
+          roughness: 0.4
+        });
+        model = new THREE.Mesh(geometry, material);
+        scene.add(model);
+      }
+    );
 
     // Add renderer to DOM
     containerRef.current.innerHTML = '';
@@ -66,8 +95,9 @@ export default function ModelViewer({ modelUrl, width = 800, height = 600 }: Mod
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
       controls.update();
-      cube.rotation.x += 0.005;
-      cube.rotation.y += 0.005;
+      if (model) {
+        model.rotation.y += 0.005;
+      }
       renderer.render(scene, camera);
     };
 
@@ -97,15 +127,20 @@ export default function ModelViewer({ modelUrl, width = 800, height = 600 }: Mod
         containerRef.current.innerHTML = '';
       }
       // Dispose of Three.js resources
-      if (cube) {
-        if (cube.geometry) cube.geometry.dispose();
-        if (cube.material) {
-          if (Array.isArray(cube.material)) {
-            cube.material.forEach(m => m.dispose());
-          } else {
-            cube.material.dispose();
+      if (model) {
+        // Dispose of model resources
+        model.traverse((object) => {
+          if (object instanceof THREE.Mesh) {
+            if (object.geometry) object.geometry.dispose();
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(m => m.dispose());
+              } else {
+                object.material.dispose();
+              }
+            }
           }
-        }
+        });
       }
       if (rendererRef.current) {
         rendererRef.current.dispose();

@@ -29,6 +29,9 @@ model User {
   sessions      Session[]
   oasisBios     OasisBio[]
   profiles      Profile[]
+
+  @@index([createdAt])
+  @@index([email])
 }
 
 model Profile {
@@ -46,6 +49,9 @@ model Profile {
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("profiles")
+  @@index([userId])
+  @@index([username])
+  @@index([createdAt])
 }
 
 model Account {
@@ -121,6 +127,13 @@ model OasisBio {
   relationshipsB CharacterRelationship[] @relation("CharacterBRelationship")
 
   @@map("oasis_bios")
+  @@index([userId])
+  @@index([slug])
+  @@index([visibility])
+  @@index([featured])
+  @@index([createdAt])
+  @@index([updatedAt])
+  @@index([publishedAt])
 }
 
 model EraIdentity {
@@ -133,8 +146,11 @@ model EraIdentity {
   description String?
   sortOrder Int      @default(0) @map("sort_order")
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  abilities Ability[]
 
   @@map("era_identities")
+  @@index([oasisBioId])
+  @@index([sortOrder])
 }
 
 model Ability {
@@ -145,11 +161,18 @@ model Ability {
   sourceType    String    @default("custom") @map("source_type")
   level         Int       @default(1)
   description   String?
-  relatedWorldId String?
-  relatedEraId  String?
+  relatedWorldId String?   @map("related_world_id")
+  relatedEraId  String?   @map("related_era_id")
   oasisBio      OasisBio  @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  relatedWorld  WorldItem? @relation(fields: [relatedWorldId], references: [id], onDelete: SetNull)
+  relatedEra    EraIdentity? @relation(fields: [relatedEraId], references: [id], onDelete: SetNull)
 
   @@map("abilities")
+  @@index([oasisBioId])
+  @@index([category])
+  @@index([level])
+  @@index([relatedWorldId])
+  @@index([relatedEraId])
 }
 
 model DcosFile {
@@ -167,6 +190,12 @@ model DcosFile {
   oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("dcos_files")
+  @@index([oasisBioId])
+  @@index([slug])
+  @@index([status])
+  @@index([eraId])
+  @@index([createdAt])
+  @@index([updatedAt])
 }
 
 model ReferenceItem {
@@ -185,6 +214,10 @@ model ReferenceItem {
   oasisBio    OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("reference_items")
+  @@index([oasisBioId])
+  @@index([sourceType])
+  @@index([eraId])
+  @@index([worldId])
 }
 
 model WorldItem {
@@ -204,8 +237,11 @@ model WorldItem {
   factions          String?
   oasisBio          OasisBio       @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   documents         WorldDocument[]
+  abilities         Ability[]
 
   @@map("world_items")
+  @@index([oasisBioId])
+  @@index([visibility])
 }
 
 model ModelItem {
@@ -213,7 +249,7 @@ model ModelItem {
   oasisBioId    String   @map("oasis_bio_id")
   name          String   @map("model_name")
   filePath      String   @map("file_path")
-  mtlPath       String?  @map("mtl_path")
+  modelFormat   String   @default("glb") @map("model_format")
   previewImage  String?  @map("preview_image")
   relatedWorldId String?
   relatedEraId  String?
@@ -224,6 +260,10 @@ model ModelItem {
   oasisBio      OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
   @@map("model_items")
+  @@index([oasisBioId])
+  @@index([isPrimary])
+  @@index([modelFormat])
+  @@index([createdAt])
 }
 
 model AbilityCategory {

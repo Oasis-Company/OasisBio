@@ -39,7 +39,7 @@ export type AbilityMinAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   category: string | null
-  type: string | null
+  sourceType: string | null
   level: number | null
   description: string | null
   relatedWorldId: string | null
@@ -51,7 +51,7 @@ export type AbilityMaxAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   category: string | null
-  type: string | null
+  sourceType: string | null
   level: number | null
   description: string | null
   relatedWorldId: string | null
@@ -63,7 +63,7 @@ export type AbilityCountAggregateOutputType = {
   oasisBioId: number
   name: number
   category: number
-  type: number
+  sourceType: number
   level: number
   description: number
   relatedWorldId: number
@@ -85,7 +85,7 @@ export type AbilityMinAggregateInputType = {
   oasisBioId?: true
   name?: true
   category?: true
-  type?: true
+  sourceType?: true
   level?: true
   description?: true
   relatedWorldId?: true
@@ -97,7 +97,7 @@ export type AbilityMaxAggregateInputType = {
   oasisBioId?: true
   name?: true
   category?: true
-  type?: true
+  sourceType?: true
   level?: true
   description?: true
   relatedWorldId?: true
@@ -109,7 +109,7 @@ export type AbilityCountAggregateInputType = {
   oasisBioId?: true
   name?: true
   category?: true
-  type?: true
+  sourceType?: true
   level?: true
   description?: true
   relatedWorldId?: true
@@ -208,7 +208,7 @@ export type AbilityGroupByOutputType = {
   oasisBioId: string
   name: string
   category: string
-  type: string
+  sourceType: string
   level: number
   description: string | null
   relatedWorldId: string | null
@@ -243,12 +243,14 @@ export type AbilityWhereInput = {
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
   category?: Prisma.StringFilter<"Ability"> | string
-  type?: Prisma.StringFilter<"Ability"> | string
+  sourceType?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
   description?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  relatedWorld?: Prisma.XOR<Prisma.WorldItemNullableScalarRelationFilter, Prisma.WorldItemWhereInput> | null
+  relatedEra?: Prisma.XOR<Prisma.EraIdentityNullableScalarRelationFilter, Prisma.EraIdentityWhereInput> | null
 }
 
 export type AbilityOrderByWithRelationInput = {
@@ -256,12 +258,14 @@ export type AbilityOrderByWithRelationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
   level?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedEraId?: Prisma.SortOrderInput | Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
+  relatedWorld?: Prisma.WorldItemOrderByWithRelationInput
+  relatedEra?: Prisma.EraIdentityOrderByWithRelationInput
 }
 
 export type AbilityWhereUniqueInput = Prisma.AtLeast<{
@@ -272,12 +276,14 @@ export type AbilityWhereUniqueInput = Prisma.AtLeast<{
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
   category?: Prisma.StringFilter<"Ability"> | string
-  type?: Prisma.StringFilter<"Ability"> | string
+  sourceType?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
   description?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  relatedWorld?: Prisma.XOR<Prisma.WorldItemNullableScalarRelationFilter, Prisma.WorldItemWhereInput> | null
+  relatedEra?: Prisma.XOR<Prisma.EraIdentityNullableScalarRelationFilter, Prisma.EraIdentityWhereInput> | null
 }, "id">
 
 export type AbilityOrderByWithAggregationInput = {
@@ -285,7 +291,7 @@ export type AbilityOrderByWithAggregationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
   level?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -305,7 +311,7 @@ export type AbilityScalarWhereWithAggregatesInput = {
   oasisBioId?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   name?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   category?: Prisma.StringWithAggregatesFilter<"Ability"> | string
-  type?: Prisma.StringWithAggregatesFilter<"Ability"> | string
+  sourceType?: Prisma.StringWithAggregatesFilter<"Ability"> | string
   level?: Prisma.IntWithAggregatesFilter<"Ability"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"Ability"> | string | null
   relatedWorldId?: Prisma.StringNullableWithAggregatesFilter<"Ability"> | string | null
@@ -316,12 +322,12 @@ export type AbilityCreateInput = {
   id?: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
-  relatedWorldId?: string | null
-  relatedEraId?: string | null
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutAbilitiesInput
+  relatedWorld?: Prisma.WorldItemCreateNestedOneWithoutAbilitiesInput
+  relatedEra?: Prisma.EraIdentityCreateNestedOneWithoutAbilitiesInput
 }
 
 export type AbilityUncheckedCreateInput = {
@@ -329,7 +335,7 @@ export type AbilityUncheckedCreateInput = {
   oasisBioId: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
   relatedWorldId?: string | null
@@ -340,12 +346,12 @@ export type AbilityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutAbilitiesNestedInput
+  relatedWorld?: Prisma.WorldItemUpdateOneWithoutAbilitiesNestedInput
+  relatedEra?: Prisma.EraIdentityUpdateOneWithoutAbilitiesNestedInput
 }
 
 export type AbilityUncheckedUpdateInput = {
@@ -353,7 +359,7 @@ export type AbilityUncheckedUpdateInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -365,7 +371,7 @@ export type AbilityCreateManyInput = {
   oasisBioId: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
   relatedWorldId?: string | null
@@ -376,11 +382,9 @@ export type AbilityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AbilityUncheckedUpdateManyInput = {
@@ -388,7 +392,7 @@ export type AbilityUncheckedUpdateManyInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -410,7 +414,7 @@ export type AbilityCountOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
   level?: Prisma.SortOrder
   description?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
@@ -426,7 +430,7 @@ export type AbilityMaxOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
   level?: Prisma.SortOrder
   description?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
@@ -438,7 +442,7 @@ export type AbilityMinOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
   level?: Prisma.SortOrder
   description?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
@@ -491,30 +495,106 @@ export type AbilityUncheckedUpdateManyWithoutOasisBioNestedInput = {
   deleteMany?: Prisma.AbilityScalarWhereInput | Prisma.AbilityScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type AbilityCreateNestedManyWithoutRelatedEraInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput> | Prisma.AbilityCreateWithoutRelatedEraInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedEraInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedEraInput | Prisma.AbilityCreateOrConnectWithoutRelatedEraInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedEraInputEnvelope
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+}
+
+export type AbilityUncheckedCreateNestedManyWithoutRelatedEraInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput> | Prisma.AbilityCreateWithoutRelatedEraInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedEraInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedEraInput | Prisma.AbilityCreateOrConnectWithoutRelatedEraInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedEraInputEnvelope
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+}
+
+export type AbilityUpdateManyWithoutRelatedEraNestedInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput> | Prisma.AbilityCreateWithoutRelatedEraInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedEraInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedEraInput | Prisma.AbilityCreateOrConnectWithoutRelatedEraInput[]
+  upsert?: Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedEraInput | Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedEraInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedEraInputEnvelope
+  set?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  disconnect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  delete?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  update?: Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedEraInput | Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedEraInput[]
+  updateMany?: Prisma.AbilityUpdateManyWithWhereWithoutRelatedEraInput | Prisma.AbilityUpdateManyWithWhereWithoutRelatedEraInput[]
+  deleteMany?: Prisma.AbilityScalarWhereInput | Prisma.AbilityScalarWhereInput[]
+}
+
+export type AbilityUncheckedUpdateManyWithoutRelatedEraNestedInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput> | Prisma.AbilityCreateWithoutRelatedEraInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedEraInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedEraInput | Prisma.AbilityCreateOrConnectWithoutRelatedEraInput[]
+  upsert?: Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedEraInput | Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedEraInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedEraInputEnvelope
+  set?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  disconnect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  delete?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  update?: Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedEraInput | Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedEraInput[]
+  updateMany?: Prisma.AbilityUpdateManyWithWhereWithoutRelatedEraInput | Prisma.AbilityUpdateManyWithWhereWithoutRelatedEraInput[]
+  deleteMany?: Prisma.AbilityScalarWhereInput | Prisma.AbilityScalarWhereInput[]
+}
+
+export type AbilityCreateNestedManyWithoutRelatedWorldInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput> | Prisma.AbilityCreateWithoutRelatedWorldInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput | Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedWorldInputEnvelope
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+}
+
+export type AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput> | Prisma.AbilityCreateWithoutRelatedWorldInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput | Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedWorldInputEnvelope
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+}
+
+export type AbilityUpdateManyWithoutRelatedWorldNestedInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput> | Prisma.AbilityCreateWithoutRelatedWorldInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput | Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput[]
+  upsert?: Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedWorldInput | Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedWorldInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedWorldInputEnvelope
+  set?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  disconnect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  delete?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  update?: Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedWorldInput | Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedWorldInput[]
+  updateMany?: Prisma.AbilityUpdateManyWithWhereWithoutRelatedWorldInput | Prisma.AbilityUpdateManyWithWhereWithoutRelatedWorldInput[]
+  deleteMany?: Prisma.AbilityScalarWhereInput | Prisma.AbilityScalarWhereInput[]
+}
+
+export type AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput = {
+  create?: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput> | Prisma.AbilityCreateWithoutRelatedWorldInput[] | Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput[]
+  connectOrCreate?: Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput | Prisma.AbilityCreateOrConnectWithoutRelatedWorldInput[]
+  upsert?: Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedWorldInput | Prisma.AbilityUpsertWithWhereUniqueWithoutRelatedWorldInput[]
+  createMany?: Prisma.AbilityCreateManyRelatedWorldInputEnvelope
+  set?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  disconnect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  delete?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  connect?: Prisma.AbilityWhereUniqueInput | Prisma.AbilityWhereUniqueInput[]
+  update?: Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedWorldInput | Prisma.AbilityUpdateWithWhereUniqueWithoutRelatedWorldInput[]
+  updateMany?: Prisma.AbilityUpdateManyWithWhereWithoutRelatedWorldInput | Prisma.AbilityUpdateManyWithWhereWithoutRelatedWorldInput[]
+  deleteMany?: Prisma.AbilityScalarWhereInput | Prisma.AbilityScalarWhereInput[]
 }
 
 export type AbilityCreateWithoutOasisBioInput = {
   id?: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
-  relatedWorldId?: string | null
-  relatedEraId?: string | null
+  relatedWorld?: Prisma.WorldItemCreateNestedOneWithoutAbilitiesInput
+  relatedEra?: Prisma.EraIdentityCreateNestedOneWithoutAbilitiesInput
 }
 
 export type AbilityUncheckedCreateWithoutOasisBioInput = {
   id?: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
   relatedWorldId?: string | null
@@ -528,6 +608,7 @@ export type AbilityCreateOrConnectWithoutOasisBioInput = {
 
 export type AbilityCreateManyOasisBioInputEnvelope = {
   data: Prisma.AbilityCreateManyOasisBioInput | Prisma.AbilityCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type AbilityUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -554,18 +635,114 @@ export type AbilityScalarWhereInput = {
   oasisBioId?: Prisma.StringFilter<"Ability"> | string
   name?: Prisma.StringFilter<"Ability"> | string
   category?: Prisma.StringFilter<"Ability"> | string
-  type?: Prisma.StringFilter<"Ability"> | string
+  sourceType?: Prisma.StringFilter<"Ability"> | string
   level?: Prisma.IntFilter<"Ability"> | number
   description?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"Ability"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"Ability"> | string | null
 }
 
+export type AbilityCreateWithoutRelatedEraInput = {
+  id?: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  oasisBio: Prisma.OasisBioCreateNestedOneWithoutAbilitiesInput
+  relatedWorld?: Prisma.WorldItemCreateNestedOneWithoutAbilitiesInput
+}
+
+export type AbilityUncheckedCreateWithoutRelatedEraInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  relatedWorldId?: string | null
+}
+
+export type AbilityCreateOrConnectWithoutRelatedEraInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput>
+}
+
+export type AbilityCreateManyRelatedEraInputEnvelope = {
+  data: Prisma.AbilityCreateManyRelatedEraInput | Prisma.AbilityCreateManyRelatedEraInput[]
+  skipDuplicates?: boolean
+}
+
+export type AbilityUpsertWithWhereUniqueWithoutRelatedEraInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  update: Prisma.XOR<Prisma.AbilityUpdateWithoutRelatedEraInput, Prisma.AbilityUncheckedUpdateWithoutRelatedEraInput>
+  create: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedEraInput, Prisma.AbilityUncheckedCreateWithoutRelatedEraInput>
+}
+
+export type AbilityUpdateWithWhereUniqueWithoutRelatedEraInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  data: Prisma.XOR<Prisma.AbilityUpdateWithoutRelatedEraInput, Prisma.AbilityUncheckedUpdateWithoutRelatedEraInput>
+}
+
+export type AbilityUpdateManyWithWhereWithoutRelatedEraInput = {
+  where: Prisma.AbilityScalarWhereInput
+  data: Prisma.XOR<Prisma.AbilityUpdateManyMutationInput, Prisma.AbilityUncheckedUpdateManyWithoutRelatedEraInput>
+}
+
+export type AbilityCreateWithoutRelatedWorldInput = {
+  id?: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  oasisBio: Prisma.OasisBioCreateNestedOneWithoutAbilitiesInput
+  relatedEra?: Prisma.EraIdentityCreateNestedOneWithoutAbilitiesInput
+}
+
+export type AbilityUncheckedCreateWithoutRelatedWorldInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  relatedEraId?: string | null
+}
+
+export type AbilityCreateOrConnectWithoutRelatedWorldInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput>
+}
+
+export type AbilityCreateManyRelatedWorldInputEnvelope = {
+  data: Prisma.AbilityCreateManyRelatedWorldInput | Prisma.AbilityCreateManyRelatedWorldInput[]
+  skipDuplicates?: boolean
+}
+
+export type AbilityUpsertWithWhereUniqueWithoutRelatedWorldInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  update: Prisma.XOR<Prisma.AbilityUpdateWithoutRelatedWorldInput, Prisma.AbilityUncheckedUpdateWithoutRelatedWorldInput>
+  create: Prisma.XOR<Prisma.AbilityCreateWithoutRelatedWorldInput, Prisma.AbilityUncheckedCreateWithoutRelatedWorldInput>
+}
+
+export type AbilityUpdateWithWhereUniqueWithoutRelatedWorldInput = {
+  where: Prisma.AbilityWhereUniqueInput
+  data: Prisma.XOR<Prisma.AbilityUpdateWithoutRelatedWorldInput, Prisma.AbilityUncheckedUpdateWithoutRelatedWorldInput>
+}
+
+export type AbilityUpdateManyWithWhereWithoutRelatedWorldInput = {
+  where: Prisma.AbilityScalarWhereInput
+  data: Prisma.XOR<Prisma.AbilityUpdateManyMutationInput, Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldInput>
+}
+
 export type AbilityCreateManyOasisBioInput = {
   id?: string
   name: string
   category: string
-  type?: string
+  sourceType?: string
   level?: number
   description?: string | null
   relatedWorldId?: string | null
@@ -576,18 +753,18 @@ export type AbilityUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorld?: Prisma.WorldItemUpdateOneWithoutAbilitiesNestedInput
+  relatedEra?: Prisma.EraIdentityUpdateOneWithoutAbilitiesNestedInput
 }
 
 export type AbilityUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -598,10 +775,98 @@ export type AbilityUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AbilityCreateManyRelatedEraInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  relatedWorldId?: string | null
+}
+
+export type AbilityUpdateWithoutRelatedEraInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutAbilitiesNestedInput
+  relatedWorld?: Prisma.WorldItemUpdateOneWithoutAbilitiesNestedInput
+}
+
+export type AbilityUncheckedUpdateWithoutRelatedEraInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AbilityUncheckedUpdateManyWithoutRelatedEraInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AbilityCreateManyRelatedWorldInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  category: string
+  sourceType?: string
+  level?: number
+  description?: string | null
+  relatedEraId?: string | null
+}
+
+export type AbilityUpdateWithoutRelatedWorldInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutAbilitiesNestedInput
+  relatedEra?: Prisma.EraIdentityUpdateOneWithoutAbilitiesNestedInput
+}
+
+export type AbilityUncheckedUpdateWithoutRelatedWorldInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AbilityUncheckedUpdateManyWithoutRelatedWorldInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -612,12 +877,14 @@ export type AbilitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   oasisBioId?: boolean
   name?: boolean
   category?: boolean
-  type?: boolean
+  sourceType?: boolean
   level?: boolean
   description?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
 export type AbilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -625,12 +892,14 @@ export type AbilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   oasisBioId?: boolean
   name?: boolean
   category?: boolean
-  type?: boolean
+  sourceType?: boolean
   level?: boolean
   description?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
 export type AbilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -638,12 +907,14 @@ export type AbilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   oasisBioId?: boolean
   name?: boolean
   category?: boolean
-  type?: boolean
+  sourceType?: boolean
   level?: boolean
   description?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }, ExtArgs["result"]["ability"]>
 
 export type AbilitySelectScalar = {
@@ -651,35 +922,43 @@ export type AbilitySelectScalar = {
   oasisBioId?: boolean
   name?: boolean
   category?: boolean
-  type?: boolean
+  sourceType?: boolean
   level?: boolean
   description?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
 }
 
-export type AbilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "category" | "type" | "level" | "description" | "relatedWorldId" | "relatedEraId", ExtArgs["result"]["ability"]>
+export type AbilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "category" | "sourceType" | "level" | "description" | "relatedWorldId" | "relatedEraId", ExtArgs["result"]["ability"]>
 export type AbilityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }
 export type AbilityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }
 export type AbilityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  relatedWorld?: boolean | Prisma.Ability$relatedWorldArgs<ExtArgs>
+  relatedEra?: boolean | Prisma.Ability$relatedEraArgs<ExtArgs>
 }
 
 export type $AbilityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Ability"
   objects: {
     oasisBio: Prisma.$OasisBioPayload<ExtArgs>
+    relatedWorld: Prisma.$WorldItemPayload<ExtArgs> | null
+    relatedEra: Prisma.$EraIdentityPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     oasisBioId: string
     name: string
     category: string
-    type: string
+    sourceType: string
     level: number
     description: string | null
     relatedWorldId: string | null
@@ -1079,6 +1358,8 @@ readonly fields: AbilityFieldRefs;
 export interface Prisma__AbilityClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   oasisBio<T extends Prisma.OasisBioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBioDefaultArgs<ExtArgs>>): Prisma.Prisma__OasisBioClient<runtime.Types.Result.GetResult<Prisma.$OasisBioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  relatedWorld<T extends Prisma.Ability$relatedWorldArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ability$relatedWorldArgs<ExtArgs>>): Prisma.Prisma__WorldItemClient<runtime.Types.Result.GetResult<Prisma.$WorldItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  relatedEra<T extends Prisma.Ability$relatedEraArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ability$relatedEraArgs<ExtArgs>>): Prisma.Prisma__EraIdentityClient<runtime.Types.Result.GetResult<Prisma.$EraIdentityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1112,7 +1393,7 @@ export interface AbilityFieldRefs {
   readonly oasisBioId: Prisma.FieldRef<"Ability", 'String'>
   readonly name: Prisma.FieldRef<"Ability", 'String'>
   readonly category: Prisma.FieldRef<"Ability", 'String'>
-  readonly type: Prisma.FieldRef<"Ability", 'String'>
+  readonly sourceType: Prisma.FieldRef<"Ability", 'String'>
   readonly level: Prisma.FieldRef<"Ability", 'Int'>
   readonly description: Prisma.FieldRef<"Ability", 'String'>
   readonly relatedWorldId: Prisma.FieldRef<"Ability", 'String'>
@@ -1346,6 +1627,7 @@ export type AbilityCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data used to create many Abilities.
    */
   data: Prisma.AbilityCreateManyInput | Prisma.AbilityCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1364,6 +1646,7 @@ export type AbilityCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * The data used to create many Abilities.
    */
   data: Prisma.AbilityCreateManyInput | Prisma.AbilityCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
@@ -1508,6 +1791,44 @@ export type AbilityDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Abilities to delete.
    */
   limit?: number
+}
+
+/**
+ * Ability.relatedWorld
+ */
+export type Ability$relatedWorldArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorldItem
+   */
+  select?: Prisma.WorldItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorldItem
+   */
+  omit?: Prisma.WorldItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorldItemInclude<ExtArgs> | null
+  where?: Prisma.WorldItemWhereInput
+}
+
+/**
+ * Ability.relatedEra
+ */
+export type Ability$relatedEraArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EraIdentity
+   */
+  select?: Prisma.EraIdentitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EraIdentity
+   */
+  omit?: Prisma.EraIdentityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EraIdentityInclude<ExtArgs> | null
+  where?: Prisma.EraIdentityWhereInput
 }
 
 /**

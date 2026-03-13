@@ -20,8 +20,22 @@ export type EraIdentityModel = runtime.Types.Result.DefaultSelection<Prisma.$Era
 
 export type AggregateEraIdentity = {
   _count: EraIdentityCountAggregateOutputType | null
+  _avg: EraIdentityAvgAggregateOutputType | null
+  _sum: EraIdentitySumAggregateOutputType | null
   _min: EraIdentityMinAggregateOutputType | null
   _max: EraIdentityMaxAggregateOutputType | null
+}
+
+export type EraIdentityAvgAggregateOutputType = {
+  startYear: number | null
+  endYear: number | null
+  sortOrder: number | null
+}
+
+export type EraIdentitySumAggregateOutputType = {
+  startYear: number | null
+  endYear: number | null
+  sortOrder: number | null
 }
 
 export type EraIdentityMinAggregateOutputType = {
@@ -29,9 +43,10 @@ export type EraIdentityMinAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   eraType: string | null
-  startDate: Date | null
-  endDate: Date | null
+  startYear: number | null
+  endYear: number | null
   description: string | null
+  sortOrder: number | null
 }
 
 export type EraIdentityMaxAggregateOutputType = {
@@ -39,9 +54,10 @@ export type EraIdentityMaxAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   eraType: string | null
-  startDate: Date | null
-  endDate: Date | null
+  startYear: number | null
+  endYear: number | null
   description: string | null
+  sortOrder: number | null
 }
 
 export type EraIdentityCountAggregateOutputType = {
@@ -49,21 +65,35 @@ export type EraIdentityCountAggregateOutputType = {
   oasisBioId: number
   name: number
   eraType: number
-  startDate: number
-  endDate: number
+  startYear: number
+  endYear: number
   description: number
+  sortOrder: number
   _all: number
 }
 
+
+export type EraIdentityAvgAggregateInputType = {
+  startYear?: true
+  endYear?: true
+  sortOrder?: true
+}
+
+export type EraIdentitySumAggregateInputType = {
+  startYear?: true
+  endYear?: true
+  sortOrder?: true
+}
 
 export type EraIdentityMinAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
   eraType?: true
-  startDate?: true
-  endDate?: true
+  startYear?: true
+  endYear?: true
   description?: true
+  sortOrder?: true
 }
 
 export type EraIdentityMaxAggregateInputType = {
@@ -71,9 +101,10 @@ export type EraIdentityMaxAggregateInputType = {
   oasisBioId?: true
   name?: true
   eraType?: true
-  startDate?: true
-  endDate?: true
+  startYear?: true
+  endYear?: true
   description?: true
+  sortOrder?: true
 }
 
 export type EraIdentityCountAggregateInputType = {
@@ -81,9 +112,10 @@ export type EraIdentityCountAggregateInputType = {
   oasisBioId?: true
   name?: true
   eraType?: true
-  startDate?: true
-  endDate?: true
+  startYear?: true
+  endYear?: true
   description?: true
+  sortOrder?: true
   _all?: true
 }
 
@@ -125,6 +157,18 @@ export type EraIdentityAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EraIdentityAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EraIdentitySumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EraIdentityMinAggregateInputType
@@ -155,6 +199,8 @@ export type EraIdentityGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: EraIdentityCountAggregateInputType | true
+  _avg?: EraIdentityAvgAggregateInputType
+  _sum?: EraIdentitySumAggregateInputType
   _min?: EraIdentityMinAggregateInputType
   _max?: EraIdentityMaxAggregateInputType
 }
@@ -164,10 +210,13 @@ export type EraIdentityGroupByOutputType = {
   oasisBioId: string
   name: string
   eraType: string
-  startDate: Date | null
-  endDate: Date | null
+  startYear: number | null
+  endYear: number | null
   description: string | null
+  sortOrder: number
   _count: EraIdentityCountAggregateOutputType | null
+  _avg: EraIdentityAvgAggregateOutputType | null
+  _sum: EraIdentitySumAggregateOutputType | null
   _min: EraIdentityMinAggregateOutputType | null
   _max: EraIdentityMaxAggregateOutputType | null
 }
@@ -195,10 +244,12 @@ export type EraIdentityWhereInput = {
   oasisBioId?: Prisma.StringFilter<"EraIdentity"> | string
   name?: Prisma.StringFilter<"EraIdentity"> | string
   eraType?: Prisma.StringFilter<"EraIdentity"> | string
-  startDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
+  startYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
+  endYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
   description?: Prisma.StringNullableFilter<"EraIdentity"> | string | null
+  sortOrder?: Prisma.IntFilter<"EraIdentity"> | number
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  abilities?: Prisma.AbilityListRelationFilter
 }
 
 export type EraIdentityOrderByWithRelationInput = {
@@ -206,10 +257,12 @@ export type EraIdentityOrderByWithRelationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   eraType?: Prisma.SortOrder
-  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  startYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  endYear?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
+  abilities?: Prisma.AbilityOrderByRelationAggregateInput
 }
 
 export type EraIdentityWhereUniqueInput = Prisma.AtLeast<{
@@ -220,10 +273,12 @@ export type EraIdentityWhereUniqueInput = Prisma.AtLeast<{
   oasisBioId?: Prisma.StringFilter<"EraIdentity"> | string
   name?: Prisma.StringFilter<"EraIdentity"> | string
   eraType?: Prisma.StringFilter<"EraIdentity"> | string
-  startDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
+  startYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
+  endYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
   description?: Prisma.StringNullableFilter<"EraIdentity"> | string | null
+  sortOrder?: Prisma.IntFilter<"EraIdentity"> | number
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  abilities?: Prisma.AbilityListRelationFilter
 }, "id">
 
 export type EraIdentityOrderByWithAggregationInput = {
@@ -231,12 +286,15 @@ export type EraIdentityOrderByWithAggregationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   eraType?: Prisma.SortOrder
-  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  startYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  endYear?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   _count?: Prisma.EraIdentityCountOrderByAggregateInput
+  _avg?: Prisma.EraIdentityAvgOrderByAggregateInput
   _max?: Prisma.EraIdentityMaxOrderByAggregateInput
   _min?: Prisma.EraIdentityMinOrderByAggregateInput
+  _sum?: Prisma.EraIdentitySumOrderByAggregateInput
 }
 
 export type EraIdentityScalarWhereWithAggregatesInput = {
@@ -247,19 +305,22 @@ export type EraIdentityScalarWhereWithAggregatesInput = {
   oasisBioId?: Prisma.StringWithAggregatesFilter<"EraIdentity"> | string
   name?: Prisma.StringWithAggregatesFilter<"EraIdentity"> | string
   eraType?: Prisma.StringWithAggregatesFilter<"EraIdentity"> | string
-  startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"EraIdentity"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"EraIdentity"> | Date | string | null
+  startYear?: Prisma.IntNullableWithAggregatesFilter<"EraIdentity"> | number | null
+  endYear?: Prisma.IntNullableWithAggregatesFilter<"EraIdentity"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"EraIdentity"> | string | null
+  sortOrder?: Prisma.IntWithAggregatesFilter<"EraIdentity"> | number
 }
 
 export type EraIdentityCreateInput = {
   id?: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutErasInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedEraInput
 }
 
 export type EraIdentityUncheckedCreateInput = {
@@ -267,19 +328,23 @@ export type EraIdentityUncheckedCreateInput = {
   oasisBioId: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedEraInput
 }
 
 export type EraIdentityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutErasNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutRelatedEraNestedInput
 }
 
 export type EraIdentityUncheckedUpdateInput = {
@@ -287,9 +352,11 @@ export type EraIdentityUncheckedUpdateInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedEraNestedInput
 }
 
 export type EraIdentityCreateManyInput = {
@@ -297,18 +364,20 @@ export type EraIdentityCreateManyInput = {
   oasisBioId: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
 }
 
 export type EraIdentityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type EraIdentityUncheckedUpdateManyInput = {
@@ -316,9 +385,10 @@ export type EraIdentityUncheckedUpdateManyInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type EraIdentityListRelationFilter = {
@@ -336,9 +406,16 @@ export type EraIdentityCountOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   eraType?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  startYear?: Prisma.SortOrder
+  endYear?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+}
+
+export type EraIdentityAvgOrderByAggregateInput = {
+  startYear?: Prisma.SortOrder
+  endYear?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type EraIdentityMaxOrderByAggregateInput = {
@@ -346,9 +423,10 @@ export type EraIdentityMaxOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   eraType?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  startYear?: Prisma.SortOrder
+  endYear?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type EraIdentityMinOrderByAggregateInput = {
@@ -356,9 +434,21 @@ export type EraIdentityMinOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   eraType?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  startYear?: Prisma.SortOrder
+  endYear?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+}
+
+export type EraIdentitySumOrderByAggregateInput = {
+  startYear?: Prisma.SortOrder
+  endYear?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+}
+
+export type EraIdentityNullableScalarRelationFilter = {
+  is?: Prisma.EraIdentityWhereInput | null
+  isNot?: Prisma.EraIdentityWhereInput | null
 }
 
 export type EraIdentityCreateNestedManyWithoutOasisBioInput = {
@@ -403,22 +493,50 @@ export type EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput = {
   deleteMany?: Prisma.EraIdentityScalarWhereInput | Prisma.EraIdentityScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type EraIdentityCreateNestedOneWithoutAbilitiesInput = {
+  create?: Prisma.XOR<Prisma.EraIdentityCreateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedCreateWithoutAbilitiesInput>
+  connectOrCreate?: Prisma.EraIdentityCreateOrConnectWithoutAbilitiesInput
+  connect?: Prisma.EraIdentityWhereUniqueInput
+}
+
+export type EraIdentityUpdateOneWithoutAbilitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.EraIdentityCreateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedCreateWithoutAbilitiesInput>
+  connectOrCreate?: Prisma.EraIdentityCreateOrConnectWithoutAbilitiesInput
+  upsert?: Prisma.EraIdentityUpsertWithoutAbilitiesInput
+  disconnect?: Prisma.EraIdentityWhereInput | boolean
+  delete?: Prisma.EraIdentityWhereInput | boolean
+  connect?: Prisma.EraIdentityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EraIdentityUpdateToOneWithWhereWithoutAbilitiesInput, Prisma.EraIdentityUpdateWithoutAbilitiesInput>, Prisma.EraIdentityUncheckedUpdateWithoutAbilitiesInput>
+}
+
 export type EraIdentityCreateWithoutOasisBioInput = {
   id?: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
+  abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedEraInput
 }
 
 export type EraIdentityUncheckedCreateWithoutOasisBioInput = {
   id?: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedEraInput
 }
 
 export type EraIdentityCreateOrConnectWithoutOasisBioInput = {
@@ -428,6 +546,7 @@ export type EraIdentityCreateOrConnectWithoutOasisBioInput = {
 
 export type EraIdentityCreateManyOasisBioInputEnvelope = {
   data: Prisma.EraIdentityCreateManyOasisBioInput | Prisma.EraIdentityCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type EraIdentityUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -454,47 +573,143 @@ export type EraIdentityScalarWhereInput = {
   oasisBioId?: Prisma.StringFilter<"EraIdentity"> | string
   name?: Prisma.StringFilter<"EraIdentity"> | string
   eraType?: Prisma.StringFilter<"EraIdentity"> | string
-  startDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"EraIdentity"> | Date | string | null
+  startYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
+  endYear?: Prisma.IntNullableFilter<"EraIdentity"> | number | null
   description?: Prisma.StringNullableFilter<"EraIdentity"> | string | null
+  sortOrder?: Prisma.IntFilter<"EraIdentity"> | number
+}
+
+export type EraIdentityCreateWithoutAbilitiesInput = {
+  id?: string
+  name: string
+  eraType: string
+  startYear?: number | null
+  endYear?: number | null
+  description?: string | null
+  sortOrder?: number
+  oasisBio: Prisma.OasisBioCreateNestedOneWithoutErasInput
+}
+
+export type EraIdentityUncheckedCreateWithoutAbilitiesInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  eraType: string
+  startYear?: number | null
+  endYear?: number | null
+  description?: string | null
+  sortOrder?: number
+}
+
+export type EraIdentityCreateOrConnectWithoutAbilitiesInput = {
+  where: Prisma.EraIdentityWhereUniqueInput
+  create: Prisma.XOR<Prisma.EraIdentityCreateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedCreateWithoutAbilitiesInput>
+}
+
+export type EraIdentityUpsertWithoutAbilitiesInput = {
+  update: Prisma.XOR<Prisma.EraIdentityUpdateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedUpdateWithoutAbilitiesInput>
+  create: Prisma.XOR<Prisma.EraIdentityCreateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedCreateWithoutAbilitiesInput>
+  where?: Prisma.EraIdentityWhereInput
+}
+
+export type EraIdentityUpdateToOneWithWhereWithoutAbilitiesInput = {
+  where?: Prisma.EraIdentityWhereInput
+  data: Prisma.XOR<Prisma.EraIdentityUpdateWithoutAbilitiesInput, Prisma.EraIdentityUncheckedUpdateWithoutAbilitiesInput>
+}
+
+export type EraIdentityUpdateWithoutAbilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  eraType?: Prisma.StringFieldUpdateOperationsInput | string
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutErasNestedInput
+}
+
+export type EraIdentityUncheckedUpdateWithoutAbilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  eraType?: Prisma.StringFieldUpdateOperationsInput | string
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type EraIdentityCreateManyOasisBioInput = {
   id?: string
   name: string
   eraType: string
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  startYear?: number | null
+  endYear?: number | null
   description?: string | null
+  sortOrder?: number
 }
 
 export type EraIdentityUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  abilities?: Prisma.AbilityUpdateManyWithoutRelatedEraNestedInput
 }
 
 export type EraIdentityUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedEraNestedInput
 }
 
 export type EraIdentityUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   eraType?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  endYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
+
+/**
+ * Count Type EraIdentityCountOutputType
+ */
+
+export type EraIdentityCountOutputType = {
+  abilities: number
+}
+
+export type EraIdentityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  abilities?: boolean | EraIdentityCountOutputTypeCountAbilitiesArgs
+}
+
+/**
+ * EraIdentityCountOutputType without action
+ */
+export type EraIdentityCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EraIdentityCountOutputType
+   */
+  select?: Prisma.EraIdentityCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * EraIdentityCountOutputType without action
+ */
+export type EraIdentityCountOutputTypeCountAbilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AbilityWhereInput
+}
 
 
 export type EraIdentitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -502,10 +717,13 @@ export type EraIdentitySelect<ExtArgs extends runtime.Types.Extensions.InternalA
   oasisBioId?: boolean
   name?: boolean
   eraType?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  startYear?: boolean
+  endYear?: boolean
   description?: boolean
+  sortOrder?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  abilities?: boolean | Prisma.EraIdentity$abilitiesArgs<ExtArgs>
+  _count?: boolean | Prisma.EraIdentityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eraIdentity"]>
 
 export type EraIdentitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -513,9 +731,10 @@ export type EraIdentitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   oasisBioId?: boolean
   name?: boolean
   eraType?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  startYear?: boolean
+  endYear?: boolean
   description?: boolean
+  sortOrder?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eraIdentity"]>
 
@@ -524,9 +743,10 @@ export type EraIdentitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   oasisBioId?: boolean
   name?: boolean
   eraType?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  startYear?: boolean
+  endYear?: boolean
   description?: boolean
+  sortOrder?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eraIdentity"]>
 
@@ -535,14 +755,17 @@ export type EraIdentitySelectScalar = {
   oasisBioId?: boolean
   name?: boolean
   eraType?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  startYear?: boolean
+  endYear?: boolean
   description?: boolean
+  sortOrder?: boolean
 }
 
-export type EraIdentityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "eraType" | "startDate" | "endDate" | "description", ExtArgs["result"]["eraIdentity"]>
+export type EraIdentityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "eraType" | "startYear" | "endYear" | "description" | "sortOrder", ExtArgs["result"]["eraIdentity"]>
 export type EraIdentityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  abilities?: boolean | Prisma.EraIdentity$abilitiesArgs<ExtArgs>
+  _count?: boolean | Prisma.EraIdentityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EraIdentityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
@@ -555,15 +778,17 @@ export type $EraIdentityPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "EraIdentity"
   objects: {
     oasisBio: Prisma.$OasisBioPayload<ExtArgs>
+    abilities: Prisma.$AbilityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     oasisBioId: string
     name: string
     eraType: string
-    startDate: Date | null
-    endDate: Date | null
+    startYear: number | null
+    endYear: number | null
     description: string | null
+    sortOrder: number
   }, ExtArgs["result"]["eraIdentity"]>
   composites: {}
 }
@@ -959,6 +1184,7 @@ readonly fields: EraIdentityFieldRefs;
 export interface Prisma__EraIdentityClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   oasisBio<T extends Prisma.OasisBioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBioDefaultArgs<ExtArgs>>): Prisma.Prisma__OasisBioClient<runtime.Types.Result.GetResult<Prisma.$OasisBioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  abilities<T extends Prisma.EraIdentity$abilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EraIdentity$abilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AbilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -992,9 +1218,10 @@ export interface EraIdentityFieldRefs {
   readonly oasisBioId: Prisma.FieldRef<"EraIdentity", 'String'>
   readonly name: Prisma.FieldRef<"EraIdentity", 'String'>
   readonly eraType: Prisma.FieldRef<"EraIdentity", 'String'>
-  readonly startDate: Prisma.FieldRef<"EraIdentity", 'DateTime'>
-  readonly endDate: Prisma.FieldRef<"EraIdentity", 'DateTime'>
+  readonly startYear: Prisma.FieldRef<"EraIdentity", 'Int'>
+  readonly endYear: Prisma.FieldRef<"EraIdentity", 'Int'>
   readonly description: Prisma.FieldRef<"EraIdentity", 'String'>
+  readonly sortOrder: Prisma.FieldRef<"EraIdentity", 'Int'>
 }
     
 
@@ -1224,6 +1451,7 @@ export type EraIdentityCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many EraIdentities.
    */
   data: Prisma.EraIdentityCreateManyInput | Prisma.EraIdentityCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1242,6 +1470,7 @@ export type EraIdentityCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many EraIdentities.
    */
   data: Prisma.EraIdentityCreateManyInput | Prisma.EraIdentityCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
@@ -1386,6 +1615,30 @@ export type EraIdentityDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many EraIdentities to delete.
    */
   limit?: number
+}
+
+/**
+ * EraIdentity.abilities
+ */
+export type EraIdentity$abilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ability
+   */
+  select?: Prisma.AbilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ability
+   */
+  omit?: Prisma.AbilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AbilityInclude<ExtArgs> | null
+  where?: Prisma.AbilityWhereInput
+  orderBy?: Prisma.AbilityOrderByWithRelationInput | Prisma.AbilityOrderByWithRelationInput[]
+  cursor?: Prisma.AbilityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AbilityScalarFieldEnum | Prisma.AbilityScalarFieldEnum[]
 }
 
 /**

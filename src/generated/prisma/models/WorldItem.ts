@@ -29,6 +29,13 @@ export type WorldItemMinAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   summary: string | null
+  timeSetting: string | null
+  geography: string | null
+  physicsRules: string | null
+  socialStructure: string | null
+  aestheticKeywords: string | null
+  majorConflict: string | null
+  visibility: string | null
   timeline: string | null
   rules: string | null
   factions: string | null
@@ -39,6 +46,13 @@ export type WorldItemMaxAggregateOutputType = {
   oasisBioId: string | null
   name: string | null
   summary: string | null
+  timeSetting: string | null
+  geography: string | null
+  physicsRules: string | null
+  socialStructure: string | null
+  aestheticKeywords: string | null
+  majorConflict: string | null
+  visibility: string | null
   timeline: string | null
   rules: string | null
   factions: string | null
@@ -49,6 +63,13 @@ export type WorldItemCountAggregateOutputType = {
   oasisBioId: number
   name: number
   summary: number
+  timeSetting: number
+  geography: number
+  physicsRules: number
+  socialStructure: number
+  aestheticKeywords: number
+  majorConflict: number
+  visibility: number
   timeline: number
   rules: number
   factions: number
@@ -61,6 +82,13 @@ export type WorldItemMinAggregateInputType = {
   oasisBioId?: true
   name?: true
   summary?: true
+  timeSetting?: true
+  geography?: true
+  physicsRules?: true
+  socialStructure?: true
+  aestheticKeywords?: true
+  majorConflict?: true
+  visibility?: true
   timeline?: true
   rules?: true
   factions?: true
@@ -71,6 +99,13 @@ export type WorldItemMaxAggregateInputType = {
   oasisBioId?: true
   name?: true
   summary?: true
+  timeSetting?: true
+  geography?: true
+  physicsRules?: true
+  socialStructure?: true
+  aestheticKeywords?: true
+  majorConflict?: true
+  visibility?: true
   timeline?: true
   rules?: true
   factions?: true
@@ -81,6 +116,13 @@ export type WorldItemCountAggregateInputType = {
   oasisBioId?: true
   name?: true
   summary?: true
+  timeSetting?: true
+  geography?: true
+  physicsRules?: true
+  socialStructure?: true
+  aestheticKeywords?: true
+  majorConflict?: true
+  visibility?: true
   timeline?: true
   rules?: true
   factions?: true
@@ -164,6 +206,13 @@ export type WorldItemGroupByOutputType = {
   oasisBioId: string
   name: string
   summary: string
+  timeSetting: string | null
+  geography: string | null
+  physicsRules: string | null
+  socialStructure: string | null
+  aestheticKeywords: string | null
+  majorConflict: string | null
+  visibility: string
   timeline: string | null
   rules: string | null
   factions: string | null
@@ -195,10 +244,19 @@ export type WorldItemWhereInput = {
   oasisBioId?: Prisma.StringFilter<"WorldItem"> | string
   name?: Prisma.StringFilter<"WorldItem"> | string
   summary?: Prisma.StringFilter<"WorldItem"> | string
+  timeSetting?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  geography?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  physicsRules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  socialStructure?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  aestheticKeywords?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  majorConflict?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  visibility?: Prisma.StringFilter<"WorldItem"> | string
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  documents?: Prisma.WorldDocumentListRelationFilter
+  abilities?: Prisma.AbilityListRelationFilter
 }
 
 export type WorldItemOrderByWithRelationInput = {
@@ -206,10 +264,19 @@ export type WorldItemOrderByWithRelationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  timeSetting?: Prisma.SortOrderInput | Prisma.SortOrder
+  geography?: Prisma.SortOrderInput | Prisma.SortOrder
+  physicsRules?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialStructure?: Prisma.SortOrderInput | Prisma.SortOrder
+  aestheticKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
+  majorConflict?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   timeline?: Prisma.SortOrderInput | Prisma.SortOrder
   rules?: Prisma.SortOrderInput | Prisma.SortOrder
   factions?: Prisma.SortOrderInput | Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
+  documents?: Prisma.WorldDocumentOrderByRelationAggregateInput
+  abilities?: Prisma.AbilityOrderByRelationAggregateInput
 }
 
 export type WorldItemWhereUniqueInput = Prisma.AtLeast<{
@@ -220,10 +287,19 @@ export type WorldItemWhereUniqueInput = Prisma.AtLeast<{
   oasisBioId?: Prisma.StringFilter<"WorldItem"> | string
   name?: Prisma.StringFilter<"WorldItem"> | string
   summary?: Prisma.StringFilter<"WorldItem"> | string
+  timeSetting?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  geography?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  physicsRules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  socialStructure?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  aestheticKeywords?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  majorConflict?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  visibility?: Prisma.StringFilter<"WorldItem"> | string
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
+  documents?: Prisma.WorldDocumentListRelationFilter
+  abilities?: Prisma.AbilityListRelationFilter
 }, "id">
 
 export type WorldItemOrderByWithAggregationInput = {
@@ -231,6 +307,13 @@ export type WorldItemOrderByWithAggregationInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  timeSetting?: Prisma.SortOrderInput | Prisma.SortOrder
+  geography?: Prisma.SortOrderInput | Prisma.SortOrder
+  physicsRules?: Prisma.SortOrderInput | Prisma.SortOrder
+  socialStructure?: Prisma.SortOrderInput | Prisma.SortOrder
+  aestheticKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
+  majorConflict?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   timeline?: Prisma.SortOrderInput | Prisma.SortOrder
   rules?: Prisma.SortOrderInput | Prisma.SortOrder
   factions?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -247,6 +330,13 @@ export type WorldItemScalarWhereWithAggregatesInput = {
   oasisBioId?: Prisma.StringWithAggregatesFilter<"WorldItem"> | string
   name?: Prisma.StringWithAggregatesFilter<"WorldItem"> | string
   summary?: Prisma.StringWithAggregatesFilter<"WorldItem"> | string
+  timeSetting?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  geography?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  physicsRules?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  socialStructure?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  aestheticKeywords?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  majorConflict?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  visibility?: Prisma.StringWithAggregatesFilter<"WorldItem"> | string
   timeline?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
@@ -256,10 +346,19 @@ export type WorldItemCreateInput = {
   id?: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
+  documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
 }
 
 export type WorldItemUncheckedCreateInput = {
@@ -267,19 +366,37 @@ export type WorldItemUncheckedCreateInput = {
   oasisBioId: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
 }
 
 export type WorldItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
+  documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
 }
 
 export type WorldItemUncheckedUpdateInput = {
@@ -287,9 +404,18 @@ export type WorldItemUncheckedUpdateInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
 }
 
 export type WorldItemCreateManyInput = {
@@ -297,6 +423,13 @@ export type WorldItemCreateManyInput = {
   oasisBioId: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
@@ -306,6 +439,13 @@ export type WorldItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -316,6 +456,13 @@ export type WorldItemUncheckedUpdateManyInput = {
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -331,11 +478,23 @@ export type WorldItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type WorldItemNullableScalarRelationFilter = {
+  is?: Prisma.WorldItemWhereInput | null
+  isNot?: Prisma.WorldItemWhereInput | null
+}
+
 export type WorldItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  timeSetting?: Prisma.SortOrder
+  geography?: Prisma.SortOrder
+  physicsRules?: Prisma.SortOrder
+  socialStructure?: Prisma.SortOrder
+  aestheticKeywords?: Prisma.SortOrder
+  majorConflict?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
@@ -346,6 +505,13 @@ export type WorldItemMaxOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  timeSetting?: Prisma.SortOrder
+  geography?: Prisma.SortOrder
+  physicsRules?: Prisma.SortOrder
+  socialStructure?: Prisma.SortOrder
+  aestheticKeywords?: Prisma.SortOrder
+  majorConflict?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
@@ -356,9 +522,21 @@ export type WorldItemMinOrderByAggregateInput = {
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   summary?: Prisma.SortOrder
+  timeSetting?: Prisma.SortOrder
+  geography?: Prisma.SortOrder
+  physicsRules?: Prisma.SortOrder
+  socialStructure?: Prisma.SortOrder
+  aestheticKeywords?: Prisma.SortOrder
+  majorConflict?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
+}
+
+export type WorldItemScalarRelationFilter = {
+  is?: Prisma.WorldItemWhereInput
+  isNot?: Prisma.WorldItemWhereInput
 }
 
 export type WorldItemCreateNestedManyWithoutOasisBioInput = {
@@ -403,22 +581,70 @@ export type WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput = {
   deleteMany?: Prisma.WorldItemScalarWhereInput | Prisma.WorldItemScalarWhereInput[]
 }
 
+export type WorldItemCreateNestedOneWithoutAbilitiesInput = {
+  create?: Prisma.XOR<Prisma.WorldItemCreateWithoutAbilitiesInput, Prisma.WorldItemUncheckedCreateWithoutAbilitiesInput>
+  connectOrCreate?: Prisma.WorldItemCreateOrConnectWithoutAbilitiesInput
+  connect?: Prisma.WorldItemWhereUniqueInput
+}
+
+export type WorldItemUpdateOneWithoutAbilitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.WorldItemCreateWithoutAbilitiesInput, Prisma.WorldItemUncheckedCreateWithoutAbilitiesInput>
+  connectOrCreate?: Prisma.WorldItemCreateOrConnectWithoutAbilitiesInput
+  upsert?: Prisma.WorldItemUpsertWithoutAbilitiesInput
+  disconnect?: Prisma.WorldItemWhereInput | boolean
+  delete?: Prisma.WorldItemWhereInput | boolean
+  connect?: Prisma.WorldItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorldItemUpdateToOneWithWhereWithoutAbilitiesInput, Prisma.WorldItemUpdateWithoutAbilitiesInput>, Prisma.WorldItemUncheckedUpdateWithoutAbilitiesInput>
+}
+
+export type WorldItemCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.WorldItemCreateWithoutDocumentsInput, Prisma.WorldItemUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.WorldItemCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.WorldItemWhereUniqueInput
+}
+
+export type WorldItemUpdateOneRequiredWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.WorldItemCreateWithoutDocumentsInput, Prisma.WorldItemUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.WorldItemCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.WorldItemUpsertWithoutDocumentsInput
+  connect?: Prisma.WorldItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorldItemUpdateToOneWithWhereWithoutDocumentsInput, Prisma.WorldItemUpdateWithoutDocumentsInput>, Prisma.WorldItemUncheckedUpdateWithoutDocumentsInput>
+}
+
 export type WorldItemCreateWithoutOasisBioInput = {
   id?: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
 }
 
 export type WorldItemUncheckedCreateWithoutOasisBioInput = {
   id?: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
 }
 
 export type WorldItemCreateOrConnectWithoutOasisBioInput = {
@@ -428,6 +654,7 @@ export type WorldItemCreateOrConnectWithoutOasisBioInput = {
 
 export type WorldItemCreateManyOasisBioInputEnvelope = {
   data: Prisma.WorldItemCreateManyOasisBioInput | Prisma.WorldItemCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type WorldItemUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -454,15 +681,205 @@ export type WorldItemScalarWhereInput = {
   oasisBioId?: Prisma.StringFilter<"WorldItem"> | string
   name?: Prisma.StringFilter<"WorldItem"> | string
   summary?: Prisma.StringFilter<"WorldItem"> | string
+  timeSetting?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  geography?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  physicsRules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  socialStructure?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  aestheticKeywords?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  majorConflict?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  visibility?: Prisma.StringFilter<"WorldItem"> | string
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+}
+
+export type WorldItemCreateWithoutAbilitiesInput = {
+  id?: string
+  name: string
+  summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
+  timeline?: string | null
+  rules?: string | null
+  factions?: string | null
+  oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
+  documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
+}
+
+export type WorldItemUncheckedCreateWithoutAbilitiesInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
+  timeline?: string | null
+  rules?: string | null
+  factions?: string | null
+  documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
+}
+
+export type WorldItemCreateOrConnectWithoutAbilitiesInput = {
+  where: Prisma.WorldItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorldItemCreateWithoutAbilitiesInput, Prisma.WorldItemUncheckedCreateWithoutAbilitiesInput>
+}
+
+export type WorldItemUpsertWithoutAbilitiesInput = {
+  update: Prisma.XOR<Prisma.WorldItemUpdateWithoutAbilitiesInput, Prisma.WorldItemUncheckedUpdateWithoutAbilitiesInput>
+  create: Prisma.XOR<Prisma.WorldItemCreateWithoutAbilitiesInput, Prisma.WorldItemUncheckedCreateWithoutAbilitiesInput>
+  where?: Prisma.WorldItemWhereInput
+}
+
+export type WorldItemUpdateToOneWithWhereWithoutAbilitiesInput = {
+  where?: Prisma.WorldItemWhereInput
+  data: Prisma.XOR<Prisma.WorldItemUpdateWithoutAbilitiesInput, Prisma.WorldItemUncheckedUpdateWithoutAbilitiesInput>
+}
+
+export type WorldItemUpdateWithoutAbilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
+  documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
+}
+
+export type WorldItemUncheckedUpdateWithoutAbilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
+}
+
+export type WorldItemCreateWithoutDocumentsInput = {
+  id?: string
+  name: string
+  summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
+  timeline?: string | null
+  rules?: string | null
+  factions?: string | null
+  oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
+}
+
+export type WorldItemUncheckedCreateWithoutDocumentsInput = {
+  id?: string
+  oasisBioId: string
+  name: string
+  summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
+  timeline?: string | null
+  rules?: string | null
+  factions?: string | null
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
+}
+
+export type WorldItemCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.WorldItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorldItemCreateWithoutDocumentsInput, Prisma.WorldItemUncheckedCreateWithoutDocumentsInput>
+}
+
+export type WorldItemUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.WorldItemUpdateWithoutDocumentsInput, Prisma.WorldItemUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.WorldItemCreateWithoutDocumentsInput, Prisma.WorldItemUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.WorldItemWhereInput
+}
+
+export type WorldItemUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.WorldItemWhereInput
+  data: Prisma.XOR<Prisma.WorldItemUpdateWithoutDocumentsInput, Prisma.WorldItemUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type WorldItemUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
+}
+
+export type WorldItemUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
 }
 
 export type WorldItemCreateManyOasisBioInput = {
   id?: string
   name: string
   summary: string
+  timeSetting?: string | null
+  geography?: string | null
+  physicsRules?: string | null
+  socialStructure?: string | null
+  aestheticKeywords?: string | null
+  majorConflict?: string | null
+  visibility?: string
   timeline?: string | null
   rules?: string | null
   factions?: string | null
@@ -472,29 +889,92 @@ export type WorldItemUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
 }
 
 export type WorldItemUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
 }
 
 export type WorldItemUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSetting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geography?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  physicsRules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  socialStructure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aestheticKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorConflict?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+
+/**
+ * Count Type WorldItemCountOutputType
+ */
+
+export type WorldItemCountOutputType = {
+  documents: number
+  abilities: number
+}
+
+export type WorldItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  documents?: boolean | WorldItemCountOutputTypeCountDocumentsArgs
+  abilities?: boolean | WorldItemCountOutputTypeCountAbilitiesArgs
+}
+
+/**
+ * WorldItemCountOutputType without action
+ */
+export type WorldItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorldItemCountOutputType
+   */
+  select?: Prisma.WorldItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * WorldItemCountOutputType without action
+ */
+export type WorldItemCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorldDocumentWhereInput
+}
+
+/**
+ * WorldItemCountOutputType without action
+ */
+export type WorldItemCountOutputTypeCountAbilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AbilityWhereInput
+}
 
 
 export type WorldItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -502,10 +982,20 @@ export type WorldItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   oasisBioId?: boolean
   name?: boolean
   summary?: boolean
+  timeSetting?: boolean
+  geography?: boolean
+  physicsRules?: boolean
+  socialStructure?: boolean
+  aestheticKeywords?: boolean
+  majorConflict?: boolean
+  visibility?: boolean
   timeline?: boolean
   rules?: boolean
   factions?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  documents?: boolean | Prisma.WorldItem$documentsArgs<ExtArgs>
+  abilities?: boolean | Prisma.WorldItem$abilitiesArgs<ExtArgs>
+  _count?: boolean | Prisma.WorldItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["worldItem"]>
 
 export type WorldItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -513,6 +1003,13 @@ export type WorldItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   oasisBioId?: boolean
   name?: boolean
   summary?: boolean
+  timeSetting?: boolean
+  geography?: boolean
+  physicsRules?: boolean
+  socialStructure?: boolean
+  aestheticKeywords?: boolean
+  majorConflict?: boolean
+  visibility?: boolean
   timeline?: boolean
   rules?: boolean
   factions?: boolean
@@ -524,6 +1021,13 @@ export type WorldItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   oasisBioId?: boolean
   name?: boolean
   summary?: boolean
+  timeSetting?: boolean
+  geography?: boolean
+  physicsRules?: boolean
+  socialStructure?: boolean
+  aestheticKeywords?: boolean
+  majorConflict?: boolean
+  visibility?: boolean
   timeline?: boolean
   rules?: boolean
   factions?: boolean
@@ -535,14 +1039,24 @@ export type WorldItemSelectScalar = {
   oasisBioId?: boolean
   name?: boolean
   summary?: boolean
+  timeSetting?: boolean
+  geography?: boolean
+  physicsRules?: boolean
+  socialStructure?: boolean
+  aestheticKeywords?: boolean
+  majorConflict?: boolean
+  visibility?: boolean
   timeline?: boolean
   rules?: boolean
   factions?: boolean
 }
 
-export type WorldItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "summary" | "timeline" | "rules" | "factions", ExtArgs["result"]["worldItem"]>
+export type WorldItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "summary" | "timeSetting" | "geography" | "physicsRules" | "socialStructure" | "aestheticKeywords" | "majorConflict" | "visibility" | "timeline" | "rules" | "factions", ExtArgs["result"]["worldItem"]>
 export type WorldItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
+  documents?: boolean | Prisma.WorldItem$documentsArgs<ExtArgs>
+  abilities?: boolean | Prisma.WorldItem$abilitiesArgs<ExtArgs>
+  _count?: boolean | Prisma.WorldItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WorldItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
@@ -555,12 +1069,21 @@ export type $WorldItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "WorldItem"
   objects: {
     oasisBio: Prisma.$OasisBioPayload<ExtArgs>
+    documents: Prisma.$WorldDocumentPayload<ExtArgs>[]
+    abilities: Prisma.$AbilityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     oasisBioId: string
     name: string
     summary: string
+    timeSetting: string | null
+    geography: string | null
+    physicsRules: string | null
+    socialStructure: string | null
+    aestheticKeywords: string | null
+    majorConflict: string | null
+    visibility: string
     timeline: string | null
     rules: string | null
     factions: string | null
@@ -959,6 +1482,8 @@ readonly fields: WorldItemFieldRefs;
 export interface Prisma__WorldItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   oasisBio<T extends Prisma.OasisBioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBioDefaultArgs<ExtArgs>>): Prisma.Prisma__OasisBioClient<runtime.Types.Result.GetResult<Prisma.$OasisBioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  documents<T extends Prisma.WorldItem$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorldItem$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorldDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  abilities<T extends Prisma.WorldItem$abilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorldItem$abilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AbilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -992,6 +1517,13 @@ export interface WorldItemFieldRefs {
   readonly oasisBioId: Prisma.FieldRef<"WorldItem", 'String'>
   readonly name: Prisma.FieldRef<"WorldItem", 'String'>
   readonly summary: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly timeSetting: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly geography: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly physicsRules: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly socialStructure: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly aestheticKeywords: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly majorConflict: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly visibility: Prisma.FieldRef<"WorldItem", 'String'>
   readonly timeline: Prisma.FieldRef<"WorldItem", 'String'>
   readonly rules: Prisma.FieldRef<"WorldItem", 'String'>
   readonly factions: Prisma.FieldRef<"WorldItem", 'String'>
@@ -1224,6 +1756,7 @@ export type WorldItemCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many WorldItems.
    */
   data: Prisma.WorldItemCreateManyInput | Prisma.WorldItemCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1242,6 +1775,7 @@ export type WorldItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many WorldItems.
    */
   data: Prisma.WorldItemCreateManyInput | Prisma.WorldItemCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
@@ -1386,6 +1920,54 @@ export type WorldItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many WorldItems to delete.
    */
   limit?: number
+}
+
+/**
+ * WorldItem.documents
+ */
+export type WorldItem$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorldDocument
+   */
+  select?: Prisma.WorldDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorldDocument
+   */
+  omit?: Prisma.WorldDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorldDocumentInclude<ExtArgs> | null
+  where?: Prisma.WorldDocumentWhereInput
+  orderBy?: Prisma.WorldDocumentOrderByWithRelationInput | Prisma.WorldDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.WorldDocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorldDocumentScalarFieldEnum | Prisma.WorldDocumentScalarFieldEnum[]
+}
+
+/**
+ * WorldItem.abilities
+ */
+export type WorldItem$abilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ability
+   */
+  select?: Prisma.AbilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ability
+   */
+  omit?: Prisma.AbilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AbilityInclude<ExtArgs> | null
+  where?: Prisma.AbilityWhereInput
+  orderBy?: Prisma.AbilityOrderByWithRelationInput | Prisma.AbilityOrderByWithRelationInput[]
+  cursor?: Prisma.AbilityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AbilityScalarFieldEnum | Prisma.AbilityScalarFieldEnum[]
 }
 
 /**

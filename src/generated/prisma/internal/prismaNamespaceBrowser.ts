@@ -50,6 +50,7 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Profile: 'Profile',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -59,7 +60,14 @@ export const ModelName = {
   DcosFile: 'DcosFile',
   ReferenceItem: 'ReferenceItem',
   WorldItem: 'WorldItem',
-  ModelItem: 'ModelItem'
+  ModelItem: 'ModelItem',
+  AbilityCategory: 'AbilityCategory',
+  AbilityPreset: 'AbilityPreset',
+  WorldDocument: 'WorldDocument',
+  OasisBioPublication: 'OasisBioPublication',
+  Tag: 'Tag',
+  EntityTag: 'EntityTag',
+  CharacterRelationship: 'CharacterRelationship'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -69,6 +77,9 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  */
 
 export const TransactionIsolationLevel = runtime.makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 } as const)
 
@@ -87,6 +98,23 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  displayName: 'displayName',
+  avatarUrl: 'avatarUrl',
+  bio: 'bio',
+  website: 'website',
+  locale: 'locale',
+  defaultLanguage: 'defaultLanguage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -132,6 +160,7 @@ export const OasisBioScalarFieldEnum = {
   title: 'title',
   slug: 'slug',
   tagline: 'tagline',
+  summary: 'summary',
   identityMode: 'identityMode',
   birthDate: 'birthDate',
   gender: 'gender',
@@ -141,7 +170,11 @@ export const OasisBioScalarFieldEnum = {
   species: 'species',
   status: 'status',
   description: 'description',
+  coverImageUrl: 'coverImageUrl',
+  defaultLanguage: 'defaultLanguage',
   visibility: 'visibility',
+  featured: 'featured',
+  publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -154,9 +187,10 @@ export const EraIdentityScalarFieldEnum = {
   oasisBioId: 'oasisBioId',
   name: 'name',
   eraType: 'eraType',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  description: 'description'
+  startYear: 'startYear',
+  endYear: 'endYear',
+  description: 'description',
+  sortOrder: 'sortOrder'
 } as const
 
 export type EraIdentityScalarFieldEnum = (typeof EraIdentityScalarFieldEnum)[keyof typeof EraIdentityScalarFieldEnum]
@@ -167,7 +201,7 @@ export const AbilityScalarFieldEnum = {
   oasisBioId: 'oasisBioId',
   name: 'name',
   category: 'category',
-  type: 'type',
+  sourceType: 'sourceType',
   level: 'level',
   description: 'description',
   relatedWorldId: 'relatedWorldId',
@@ -181,8 +215,12 @@ export const DcosFileScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   title: 'title',
+  slug: 'slug',
   content: 'content',
-  folder: 'folder',
+  folderPath: 'folderPath',
+  status: 'status',
+  version: 'version',
+  eraId: 'eraId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -195,8 +233,13 @@ export const ReferenceItemScalarFieldEnum = {
   oasisBioId: 'oasisBioId',
   url: 'url',
   title: 'title',
-  type: 'type',
   description: 'description',
+  sourceType: 'sourceType',
+  provider: 'provider',
+  coverImage: 'coverImage',
+  metadata: 'metadata',
+  eraId: 'eraId',
+  worldId: 'worldId',
   tags: 'tags'
 } as const
 
@@ -208,6 +251,13 @@ export const WorldItemScalarFieldEnum = {
   oasisBioId: 'oasisBioId',
   name: 'name',
   summary: 'summary',
+  timeSetting: 'timeSetting',
+  geography: 'geography',
+  physicsRules: 'physicsRules',
+  socialStructure: 'socialStructure',
+  aestheticKeywords: 'aestheticKeywords',
+  majorConflict: 'majorConflict',
+  visibility: 'visibility',
   timeline: 'timeline',
   rules: 'rules',
   factions: 'factions'
@@ -220,14 +270,108 @@ export const ModelItemScalarFieldEnum = {
   id: 'id',
   oasisBioId: 'oasisBioId',
   name: 'name',
-  objUrl: 'objUrl',
-  mtlUrl: 'mtlUrl',
+  filePath: 'filePath',
+  modelFormat: 'modelFormat',
   previewImage: 'previewImage',
   relatedWorldId: 'relatedWorldId',
-  relatedEraId: 'relatedEraId'
+  relatedEraId: 'relatedEraId',
+  isPrimary: 'isPrimary',
+  version: 'version',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ModelItemScalarFieldEnum = (typeof ModelItemScalarFieldEnum)[keyof typeof ModelItemScalarFieldEnum]
+
+
+export const AbilityCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type AbilityCategoryScalarFieldEnum = (typeof AbilityCategoryScalarFieldEnum)[keyof typeof AbilityCategoryScalarFieldEnum]
+
+
+export const AbilityPresetScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type AbilityPresetScalarFieldEnum = (typeof AbilityPresetScalarFieldEnum)[keyof typeof AbilityPresetScalarFieldEnum]
+
+
+export const WorldDocumentScalarFieldEnum = {
+  id: 'id',
+  worldId: 'worldId',
+  title: 'title',
+  docType: 'docType',
+  slug: 'slug',
+  content: 'content',
+  folderPath: 'folderPath',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WorldDocumentScalarFieldEnum = (typeof WorldDocumentScalarFieldEnum)[keyof typeof WorldDocumentScalarFieldEnum]
+
+
+export const OasisBioPublicationScalarFieldEnum = {
+  id: 'id',
+  oasisBioId: 'oasisBioId',
+  publicSlug: 'publicSlug',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  socialImageUrl: 'socialImageUrl',
+  customDomain: 'customDomain',
+  isSearchable: 'isSearchable',
+  publishedAt: 'publishedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OasisBioPublicationScalarFieldEnum = (typeof OasisBioPublicationScalarFieldEnum)[keyof typeof OasisBioPublicationScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const EntityTagScalarFieldEnum = {
+  id: 'id',
+  tagId: 'tagId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdAt: 'createdAt'
+} as const
+
+export type EntityTagScalarFieldEnum = (typeof EntityTagScalarFieldEnum)[keyof typeof EntityTagScalarFieldEnum]
+
+
+export const CharacterRelationshipScalarFieldEnum = {
+  id: 'id',
+  characterAId: 'characterAId',
+  characterBId: 'characterBId',
+  relationType: 'relationType',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type CharacterRelationshipScalarFieldEnum = (typeof CharacterRelationshipScalarFieldEnum)[keyof typeof CharacterRelationshipScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -236,6 +380,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const NullsOrder = {

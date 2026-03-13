@@ -19,9 +19,14 @@ export * as $Enums from './enums'
 export * from './enums';
 /**
  * Model User
- * 
+ * @ts-nocheck
  */
 export type User = Prisma.UserModel
+/**
+ * Model Profile
+ * 
+ */
+export type Profile = Prisma.ProfileModel
 /**
  * Model Account
  * 
@@ -72,3 +77,38 @@ export type WorldItem = Prisma.WorldItemModel
  * 
  */
 export type ModelItem = Prisma.ModelItemModel
+/**
+ * Model AbilityCategory
+ * 
+ */
+export type AbilityCategory = Prisma.AbilityCategoryModel
+/**
+ * Model AbilityPreset
+ * 
+ */
+export type AbilityPreset = Prisma.AbilityPresetModel
+/**
+ * Model WorldDocument
+ * 
+ */
+export type WorldDocument = Prisma.WorldDocumentModel
+/**
+ * Model OasisBioPublication
+ * 
+ */
+export type OasisBioPublication = Prisma.OasisBioPublicationModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model EntityTag
+ * 
+ */
+export type EntityTag = Prisma.EntityTagModel
+/**
+ * Model CharacterRelationship
+ * 
+ */
+export type CharacterRelationship = Prisma.CharacterRelationshipModel

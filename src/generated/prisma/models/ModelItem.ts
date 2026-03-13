@@ -20,76 +20,118 @@ export type ModelItemModel = runtime.Types.Result.DefaultSelection<Prisma.$Model
 
 export type AggregateModelItem = {
   _count: ModelItemCountAggregateOutputType | null
+  _avg: ModelItemAvgAggregateOutputType | null
+  _sum: ModelItemSumAggregateOutputType | null
   _min: ModelItemMinAggregateOutputType | null
   _max: ModelItemMaxAggregateOutputType | null
+}
+
+export type ModelItemAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type ModelItemSumAggregateOutputType = {
+  version: number | null
 }
 
 export type ModelItemMinAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   name: string | null
-  objUrl: string | null
-  mtlUrl: string | null
+  filePath: string | null
+  modelFormat: string | null
   previewImage: string | null
   relatedWorldId: string | null
   relatedEraId: string | null
+  isPrimary: boolean | null
+  version: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ModelItemMaxAggregateOutputType = {
   id: string | null
   oasisBioId: string | null
   name: string | null
-  objUrl: string | null
-  mtlUrl: string | null
+  filePath: string | null
+  modelFormat: string | null
   previewImage: string | null
   relatedWorldId: string | null
   relatedEraId: string | null
+  isPrimary: boolean | null
+  version: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ModelItemCountAggregateOutputType = {
   id: number
   oasisBioId: number
   name: number
-  objUrl: number
-  mtlUrl: number
+  filePath: number
+  modelFormat: number
   previewImage: number
   relatedWorldId: number
   relatedEraId: number
+  isPrimary: number
+  version: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
+
+export type ModelItemAvgAggregateInputType = {
+  version?: true
+}
+
+export type ModelItemSumAggregateInputType = {
+  version?: true
+}
 
 export type ModelItemMinAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
-  objUrl?: true
-  mtlUrl?: true
+  filePath?: true
+  modelFormat?: true
   previewImage?: true
   relatedWorldId?: true
   relatedEraId?: true
+  isPrimary?: true
+  version?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ModelItemMaxAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
-  objUrl?: true
-  mtlUrl?: true
+  filePath?: true
+  modelFormat?: true
   previewImage?: true
   relatedWorldId?: true
   relatedEraId?: true
+  isPrimary?: true
+  version?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ModelItemCountAggregateInputType = {
   id?: true
   oasisBioId?: true
   name?: true
-  objUrl?: true
-  mtlUrl?: true
+  filePath?: true
+  modelFormat?: true
   previewImage?: true
   relatedWorldId?: true
   relatedEraId?: true
+  isPrimary?: true
+  version?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -131,6 +173,18 @@ export type ModelItemAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ModelItemAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ModelItemSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ModelItemMinAggregateInputType
@@ -161,6 +215,8 @@ export type ModelItemGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: ModelItemCountAggregateInputType | true
+  _avg?: ModelItemAvgAggregateInputType
+  _sum?: ModelItemSumAggregateInputType
   _min?: ModelItemMinAggregateInputType
   _max?: ModelItemMaxAggregateInputType
 }
@@ -169,12 +225,18 @@ export type ModelItemGroupByOutputType = {
   id: string
   oasisBioId: string
   name: string
-  objUrl: string
-  mtlUrl: string | null
+  filePath: string
+  modelFormat: string
   previewImage: string | null
   relatedWorldId: string | null
   relatedEraId: string | null
+  isPrimary: boolean
+  version: number
+  createdAt: Date
+  updatedAt: Date
   _count: ModelItemCountAggregateOutputType | null
+  _avg: ModelItemAvgAggregateOutputType | null
+  _sum: ModelItemSumAggregateOutputType | null
   _min: ModelItemMinAggregateOutputType | null
   _max: ModelItemMaxAggregateOutputType | null
 }
@@ -201,11 +263,15 @@ export type ModelItemWhereInput = {
   id?: Prisma.StringFilter<"ModelItem"> | string
   oasisBioId?: Prisma.StringFilter<"ModelItem"> | string
   name?: Prisma.StringFilter<"ModelItem"> | string
-  objUrl?: Prisma.StringFilter<"ModelItem"> | string
-  mtlUrl?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  filePath?: Prisma.StringFilter<"ModelItem"> | string
+  modelFormat?: Prisma.StringFilter<"ModelItem"> | string
   previewImage?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  isPrimary?: Prisma.BoolFilter<"ModelItem"> | boolean
+  version?: Prisma.IntFilter<"ModelItem"> | number
+  createdAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }
 
@@ -213,11 +279,15 @@ export type ModelItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  objUrl?: Prisma.SortOrder
-  mtlUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  filePath?: Prisma.SortOrder
+  modelFormat?: Prisma.SortOrder
   previewImage?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedEraId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPrimary?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
 }
 
@@ -228,11 +298,15 @@ export type ModelItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ModelItemWhereInput | Prisma.ModelItemWhereInput[]
   oasisBioId?: Prisma.StringFilter<"ModelItem"> | string
   name?: Prisma.StringFilter<"ModelItem"> | string
-  objUrl?: Prisma.StringFilter<"ModelItem"> | string
-  mtlUrl?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  filePath?: Prisma.StringFilter<"ModelItem"> | string
+  modelFormat?: Prisma.StringFilter<"ModelItem"> | string
   previewImage?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  isPrimary?: Prisma.BoolFilter<"ModelItem"> | boolean
+  version?: Prisma.IntFilter<"ModelItem"> | number
+  createdAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
 }, "id">
 
@@ -240,14 +314,20 @@ export type ModelItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  objUrl?: Prisma.SortOrder
-  mtlUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  filePath?: Prisma.SortOrder
+  modelFormat?: Prisma.SortOrder
   previewImage?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrderInput | Prisma.SortOrder
   relatedEraId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPrimary?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ModelItemCountOrderByAggregateInput
+  _avg?: Prisma.ModelItemAvgOrderByAggregateInput
   _max?: Prisma.ModelItemMaxOrderByAggregateInput
   _min?: Prisma.ModelItemMinOrderByAggregateInput
+  _sum?: Prisma.ModelItemSumOrderByAggregateInput
 }
 
 export type ModelItemScalarWhereWithAggregatesInput = {
@@ -257,21 +337,29 @@ export type ModelItemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
   oasisBioId?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
   name?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
-  objUrl?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
-  mtlUrl?: Prisma.StringNullableWithAggregatesFilter<"ModelItem"> | string | null
+  filePath?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
+  modelFormat?: Prisma.StringWithAggregatesFilter<"ModelItem"> | string
   previewImage?: Prisma.StringNullableWithAggregatesFilter<"ModelItem"> | string | null
   relatedWorldId?: Prisma.StringNullableWithAggregatesFilter<"ModelItem"> | string | null
   relatedEraId?: Prisma.StringNullableWithAggregatesFilter<"ModelItem"> | string | null
+  isPrimary?: Prisma.BoolWithAggregatesFilter<"ModelItem"> | boolean
+  version?: Prisma.IntWithAggregatesFilter<"ModelItem"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"ModelItem"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ModelItem"> | Date | string
 }
 
 export type ModelItemCreateInput = {
   id?: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutModelsInput
 }
 
@@ -279,21 +367,29 @@ export type ModelItemUncheckedCreateInput = {
   id?: string
   oasisBioId: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ModelItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutModelsNestedInput
 }
 
@@ -301,43 +397,59 @@ export type ModelItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModelItemCreateManyInput = {
   id?: string
   oasisBioId: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ModelItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModelItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   oasisBioId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModelItemListRelationFilter = {
@@ -354,33 +466,53 @@ export type ModelItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  objUrl?: Prisma.SortOrder
-  mtlUrl?: Prisma.SortOrder
+  filePath?: Prisma.SortOrder
+  modelFormat?: Prisma.SortOrder
   previewImage?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
   relatedEraId?: Prisma.SortOrder
+  isPrimary?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ModelItemAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type ModelItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  objUrl?: Prisma.SortOrder
-  mtlUrl?: Prisma.SortOrder
+  filePath?: Prisma.SortOrder
+  modelFormat?: Prisma.SortOrder
   previewImage?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
   relatedEraId?: Prisma.SortOrder
+  isPrimary?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ModelItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   oasisBioId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  objUrl?: Prisma.SortOrder
-  mtlUrl?: Prisma.SortOrder
+  filePath?: Prisma.SortOrder
+  modelFormat?: Prisma.SortOrder
   previewImage?: Prisma.SortOrder
   relatedWorldId?: Prisma.SortOrder
   relatedEraId?: Prisma.SortOrder
+  isPrimary?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type ModelItemSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type ModelItemCreateNestedManyWithoutOasisBioInput = {
@@ -428,21 +560,29 @@ export type ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput = {
 export type ModelItemCreateWithoutOasisBioInput = {
   id?: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ModelItemUncheckedCreateWithoutOasisBioInput = {
   id?: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ModelItemCreateOrConnectWithoutOasisBioInput = {
@@ -452,6 +592,7 @@ export type ModelItemCreateOrConnectWithoutOasisBioInput = {
 
 export type ModelItemCreateManyOasisBioInputEnvelope = {
   data: Prisma.ModelItemCreateManyOasisBioInput | Prisma.ModelItemCreateManyOasisBioInput[]
+  skipDuplicates?: boolean
 }
 
 export type ModelItemUpsertWithWhereUniqueWithoutOasisBioInput = {
@@ -477,51 +618,71 @@ export type ModelItemScalarWhereInput = {
   id?: Prisma.StringFilter<"ModelItem"> | string
   oasisBioId?: Prisma.StringFilter<"ModelItem"> | string
   name?: Prisma.StringFilter<"ModelItem"> | string
-  objUrl?: Prisma.StringFilter<"ModelItem"> | string
-  mtlUrl?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  filePath?: Prisma.StringFilter<"ModelItem"> | string
+  modelFormat?: Prisma.StringFilter<"ModelItem"> | string
   previewImage?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedWorldId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
   relatedEraId?: Prisma.StringNullableFilter<"ModelItem"> | string | null
+  isPrimary?: Prisma.BoolFilter<"ModelItem"> | boolean
+  version?: Prisma.IntFilter<"ModelItem"> | number
+  createdAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ModelItem"> | Date | string
 }
 
 export type ModelItemCreateManyOasisBioInput = {
   id?: string
   name: string
-  objUrl: string
-  mtlUrl?: string | null
+  filePath: string
+  modelFormat?: string
   previewImage?: string | null
   relatedWorldId?: string | null
   relatedEraId?: string | null
+  isPrimary?: boolean
+  version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ModelItemUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModelItemUncheckedUpdateWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ModelItemUncheckedUpdateManyWithoutOasisBioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  objUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  mtlUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filePath?: Prisma.StringFieldUpdateOperationsInput | string
+  modelFormat?: Prisma.StringFieldUpdateOperationsInput | string
   previewImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedWorldId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relatedEraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -530,11 +691,15 @@ export type ModelItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
-  objUrl?: boolean
-  mtlUrl?: boolean
+  filePath?: boolean
+  modelFormat?: boolean
   previewImage?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
+  isPrimary?: boolean
+  version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["modelItem"]>
 
@@ -542,11 +707,15 @@ export type ModelItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
-  objUrl?: boolean
-  mtlUrl?: boolean
+  filePath?: boolean
+  modelFormat?: boolean
   previewImage?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
+  isPrimary?: boolean
+  version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["modelItem"]>
 
@@ -554,11 +723,15 @@ export type ModelItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
-  objUrl?: boolean
-  mtlUrl?: boolean
+  filePath?: boolean
+  modelFormat?: boolean
   previewImage?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
+  isPrimary?: boolean
+  version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["modelItem"]>
 
@@ -566,14 +739,18 @@ export type ModelItemSelectScalar = {
   id?: boolean
   oasisBioId?: boolean
   name?: boolean
-  objUrl?: boolean
-  mtlUrl?: boolean
+  filePath?: boolean
+  modelFormat?: boolean
   previewImage?: boolean
   relatedWorldId?: boolean
   relatedEraId?: boolean
+  isPrimary?: boolean
+  version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ModelItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "objUrl" | "mtlUrl" | "previewImage" | "relatedWorldId" | "relatedEraId", ExtArgs["result"]["modelItem"]>
+export type ModelItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "filePath" | "modelFormat" | "previewImage" | "relatedWorldId" | "relatedEraId" | "isPrimary" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["modelItem"]>
 export type ModelItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }
@@ -593,11 +770,15 @@ export type $ModelItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     oasisBioId: string
     name: string
-    objUrl: string
-    mtlUrl: string | null
+    filePath: string
+    modelFormat: string
     previewImage: string | null
     relatedWorldId: string | null
     relatedEraId: string | null
+    isPrimary: boolean
+    version: number
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["modelItem"]>
   composites: {}
 }
@@ -1025,11 +1206,15 @@ export interface ModelItemFieldRefs {
   readonly id: Prisma.FieldRef<"ModelItem", 'String'>
   readonly oasisBioId: Prisma.FieldRef<"ModelItem", 'String'>
   readonly name: Prisma.FieldRef<"ModelItem", 'String'>
-  readonly objUrl: Prisma.FieldRef<"ModelItem", 'String'>
-  readonly mtlUrl: Prisma.FieldRef<"ModelItem", 'String'>
+  readonly filePath: Prisma.FieldRef<"ModelItem", 'String'>
+  readonly modelFormat: Prisma.FieldRef<"ModelItem", 'String'>
   readonly previewImage: Prisma.FieldRef<"ModelItem", 'String'>
   readonly relatedWorldId: Prisma.FieldRef<"ModelItem", 'String'>
   readonly relatedEraId: Prisma.FieldRef<"ModelItem", 'String'>
+  readonly isPrimary: Prisma.FieldRef<"ModelItem", 'Boolean'>
+  readonly version: Prisma.FieldRef<"ModelItem", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"ModelItem", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"ModelItem", 'DateTime'>
 }
     
 
@@ -1259,6 +1444,7 @@ export type ModelItemCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many ModelItems.
    */
   data: Prisma.ModelItemCreateManyInput | Prisma.ModelItemCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1277,6 +1463,7 @@ export type ModelItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many ModelItems.
    */
   data: Prisma.ModelItemCreateManyInput | Prisma.ModelItemCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
