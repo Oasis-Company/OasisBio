@@ -32,8 +32,10 @@
     "dotenv": "^17.3.1",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
+    "null-loader": "^4.0.1",
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.3"
+    "typescript": "5.4.3",
+    "webpack-node-externals": "^3.0.0"
   }
 }
