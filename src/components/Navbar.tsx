@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from './Button';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut } from '@/lib/auth.client';
 
 export function Navbar() {
   const { data: session } = useSession();

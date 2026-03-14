@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { SessionProviderWrapper } from '@/components/SessionProviderWrapper';
 
-const inter = Inter({ subsets: ['latin'] });
+// 使用系统字体而不是从 Google Fonts 加载
+const inter = { className: '' };
 
 export const metadata: Metadata = {
   title: 'OasisBio - Digital Identity Builder & Character Creator Platform',

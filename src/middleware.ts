@@ -30,12 +30,11 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * 匹配所有请求路径，除了：
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
+     * 匹配需要保护的路由：
+     * - /dashboard (dashboard routes)
+     * - /api/auth/protected (protected API routes)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/dashboard/:path*',
+    '/api/auth/protected',
   ],
 };
