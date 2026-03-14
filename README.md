@@ -184,5 +184,5 @@ This project is licensed under the MIT License.
 ## Contact
 
 For questions or support, please contact:
-- Email: support@oasisbio.com
-- GitHub: https://github.com/yourusername/oasisbio
+- Email: oasisbiosupport@oermos.com
+- GitHub: https://github.com/zbbsdsb/oasisbio
