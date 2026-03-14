@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const webpackNodeExternals = require('webpack-node-externals');
-
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -22,37 +20,21 @@ const nextConfig = {
         '@prisma/client': 'commonjs @prisma/client',
       };
       
-      // 处理 node: 前缀的模块
-      config.plugins.push(
-        new (require('webpack').NormalModuleReplacementPlugin)(
-          /^node:/,
-          (resource) => {
-            const mod = resource.request.replace(/^node:/, '');
-            switch (mod) {
-              case 'child_process':
-              case 'fs':
-              case 'fs/promises':
-              case 'module':
-              case 'os':
-              case 'path':
-              case 'process':
-              case 'url':
-                resource.request = false;
-                break;
-              default:
-                resource.request = mod;
-            }
-          }
-        )
-      );
-    } else {
-      // 服务器端构建时使用 webpack-node-externals
-      config.externals = [
-        webpackNodeExternals({
-          allowlist: [/^next-auth/],
-        }),
-        ...config.externals,
-      ];
+      // 处理 server-only 包
+      config.module.rules.push({
+        test: /server-only/,
+        use: {
+          loader: 'null-loader',
+        },
+      });
+      
+      // 重定向所有 Prisma 相关的导入到空模块
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@prisma/client': false,
+        '@/generated/prisma/client': false,
+        '@/generated/prisma/internal/class': false,
+      };
     }
     return config;
   },
