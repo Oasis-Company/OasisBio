@@ -11,20 +11,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://postgres:Ihatevex@123@db.dhkgfdllgtmbkwcbubqt.supabase.co:5432/postgres"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
   password      String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   accounts      Account[]
   sessions      Session[]
   oasisBios     OasisBio[]
@@ -35,39 +35,39 @@ model User {
 }
 
 model Profile {
-  id                String    @id @default(cuid())
-  userId            String    @map("user_id")
-  username          String    @unique
-  displayName       String    @map("display_name")
-  avatarUrl         String?   @map("avatar_url")
-  bio               String?
-  website           String?
-  locale            String    @default("en")
-  defaultLanguage   String    @default("en") @map("default_language")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
-  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  username        String   @unique
+  displayName     String   @map("display_name")
+  avatarUrl       String?  @map("avatar_url")
+  bio             String?
+  website         String?
+  locale          String   @default("en")
+  defaultLanguage String   @default("en") @map("default_language")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("profiles")
   @@index([userId])
   @@index([username])
   @@index([createdAt])
+  @@map("profiles")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -93,40 +93,39 @@ model VerificationToken {
 }
 
 model OasisBio {
-  id            String        @id @default(cuid())
-  userId        String        @map("user_id")
-  title         String
-  slug          String        @unique
-  tagline       String?
-  summary       String?
-  identityMode  String        @default("real")
-  birthDate     DateTime?
-  gender        String?
-  pronouns      String?
-  placeOfOrigin String?       @map("origin_place")
-  currentEra    String?
-  species       String?
-  status        String        @default("draft")
-  description   String?
-  coverImageUrl String?       @map("cover_image_url")
-  defaultLanguage String      @default("en") @map("default_language")
-  visibility    String        @default("private")
-  featured      Boolean       @default(false)
-  publishedAt   DateTime?     @map("published_at")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  abilities     Ability[]
-  dcosFiles     DcosFile[]
-  references    ReferenceItem[]
-  worlds        WorldItem[]
-  models        ModelItem[]
-  eras          EraIdentity[]
-  publication   OasisBioPublication?
-  relationshipsA CharacterRelationship[] @relation("CharacterARelationship")
-  relationshipsB CharacterRelationship[] @relation("CharacterBRelationship")
+  id              String                  @id @default(cuid())
+  userId          String                  @map("user_id")
+  title           String
+  slug            String                  @unique
+  tagline         String?
+  summary         String?
+  identityMode    String                  @default("real")
+  birthDate       DateTime?
+  gender          String?
+  pronouns        String?
+  placeOfOrigin   String?                 @map("origin_place")
+  currentEra      String?
+  species         String?
+  status          String                  @default("draft")
+  description     String?
+  coverImageUrl   String?                 @map("cover_image_url")
+  defaultLanguage String                  @default("en") @map("default_language")
+  visibility      String                  @default("private")
+  featured        Boolean                 @default(false)
+  publishedAt     DateTime?               @map("published_at")
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  user            User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  abilities       Ability[]
+  dcosFiles       DcosFile[]
+  references      ReferenceItem[]
+  worlds          WorldItem[]
+  models          ModelItem[]
+  eras            EraIdentity[]
+  publication     OasisBioPublication?
+  relationshipsA  CharacterRelationship[] @relation("CharacterARelationship")
+  relationshipsB  CharacterRelationship[] @relation("CharacterBRelationship")
 
-  @@map("oasis_bios")
   @@index([userId])
   @@index([slug])
   @@index([visibility])
@@ -134,68 +133,69 @@ model OasisBio {
   @@index([createdAt])
   @@index([updatedAt])
   @@index([publishedAt])
+  @@map("oasis_bios")
 }
 
 model EraIdentity {
-  id        String   @id @default(cuid())
-  oasisBioId String   @map("oasis_bio_id")
-  name      String
-  eraType   String
-  startYear Int?     @map("start_year")
-  endYear   Int?     @map("end_year")
+  id          String    @id @default(cuid())
+  oasisBioId  String    @map("oasis_bio_id")
+  name        String
+  eraType     String
+  startYear   Int?      @map("start_year")
+  endYear     Int?      @map("end_year")
   description String?
-  sortOrder Int      @default(0) @map("sort_order")
-  oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
-  abilities Ability[]
+  sortOrder   Int       @default(0) @map("sort_order")
+  oasisBio    OasisBio  @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  abilities   Ability[]
 
-  @@map("era_identities")
   @@index([oasisBioId])
   @@index([sortOrder])
+  @@map("era_identities")
 }
 
 model Ability {
-  id            String    @id @default(cuid())
-  oasisBioId    String    @map("oasis_bio_id")
-  name          String
-  category      String
-  sourceType    String    @default("custom") @map("source_type")
-  level         Int       @default(1)
-  description   String?
-  relatedWorldId String?   @map("related_world_id")
-  relatedEraId  String?   @map("related_era_id")
-  oasisBio      OasisBio  @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
-  relatedWorld  WorldItem? @relation(fields: [relatedWorldId], references: [id], onDelete: SetNull)
-  relatedEra    EraIdentity? @relation(fields: [relatedEraId], references: [id], onDelete: SetNull)
+  id             String       @id @default(cuid())
+  oasisBioId     String       @map("oasis_bio_id")
+  name           String
+  category       String
+  sourceType     String       @default("custom") @map("source_type")
+  level          Int          @default(1)
+  description    String?
+  relatedWorldId String?      @map("related_world_id")
+  relatedEraId   String?      @map("related_era_id")
+  oasisBio       OasisBio     @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  relatedWorld   WorldItem?   @relation(fields: [relatedWorldId], references: [id], onDelete: SetNull)
+  relatedEra     EraIdentity? @relation(fields: [relatedEraId], references: [id], onDelete: SetNull)
 
-  @@map("abilities")
   @@index([oasisBioId])
   @@index([category])
   @@index([level])
   @@index([relatedWorldId])
   @@index([relatedEraId])
+  @@map("abilities")
 }
 
 model DcosFile {
-  id        String   @id @default(cuid())
+  id         String   @id @default(cuid())
   oasisBioId String   @map("oasis_bio_id")
-  title     String
-  slug      String   @unique
-  content   String
+  title      String
+  slug       String   @unique
+  content    String
   folderPath String   @map("folder_path")
-  status    String   @default("draft")
-  version   Int      @default(1)
-  eraId     String?  @map("era_id")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  oasisBio  OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  status     String   @default("draft")
+  version    Int      @default(1)
+  eraId      String?  @map("era_id")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  oasisBio   OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("dcos_files")
   @@index([oasisBioId])
   @@index([slug])
   @@index([status])
   @@index([eraId])
   @@index([createdAt])
   @@index([updatedAt])
+  @@map("dcos_files")
 }
 
 model ReferenceItem {
@@ -213,96 +213,96 @@ model ReferenceItem {
   tags        String
   oasisBio    OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("reference_items")
   @@index([oasisBioId])
   @@index([sourceType])
   @@index([eraId])
   @@index([worldId])
+  @@map("reference_items")
 }
 
 model WorldItem {
-  id                String         @id @default(cuid())
-  oasisBioId        String         @map("oasis_bio_id")
+  id                String          @id @default(cuid())
+  oasisBioId        String          @map("oasis_bio_id")
   name              String
   summary           String
-  timeSetting       String?        @map("time_setting")
+  timeSetting       String?         @map("time_setting")
   geography         String?
-  physicsRules      String?        @map("physics_rules")
-  socialStructure   String?        @map("social_structure")
-  aestheticKeywords String?        @map("aesthetic_keywords")
-  majorConflict     String?        @map("major_conflict")
-  visibility        String         @default("private")
+  physicsRules      String?         @map("physics_rules")
+  socialStructure   String?         @map("social_structure")
+  aestheticKeywords String?         @map("aesthetic_keywords")
+  majorConflict     String?         @map("major_conflict")
+  visibility        String          @default("private")
   timeline          String?
   rules             String?
   factions          String?
-  oasisBio          OasisBio       @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  oasisBio          OasisBio        @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   documents         WorldDocument[]
   abilities         Ability[]
 
-  @@map("world_items")
   @@index([oasisBioId])
   @@index([visibility])
+  @@map("world_items")
 }
 
 model ModelItem {
-  id            String   @id @default(cuid())
-  oasisBioId    String   @map("oasis_bio_id")
-  name          String   @map("model_name")
-  filePath      String   @map("file_path")
-  modelFormat   String   @default("glb") @map("model_format")
-  previewImage  String?  @map("preview_image")
+  id             String   @id @default(cuid())
+  oasisBioId     String   @map("oasis_bio_id")
+  name           String   @map("model_name")
+  filePath       String   @map("file_path")
+  modelFormat    String   @default("glb") @map("model_format")
+  previewImage   String?  @map("preview_image")
   relatedWorldId String?
-  relatedEraId  String?
-  isPrimary     Boolean  @default(false) @map("is_primary")
-  version       Int      @default(1)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-  oasisBio      OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  relatedEraId   String?
+  isPrimary      Boolean  @default(false) @map("is_primary")
+  version        Int      @default(1)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  oasisBio       OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
 
-  @@map("model_items")
   @@index([oasisBioId])
   @@index([isPrimary])
   @@index([modelFormat])
   @@index([createdAt])
+  @@map("model_items")
 }
 
 model AbilityCategory {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String          @id @default(cuid())
+  name        String          @unique
+  slug        String          @unique
   description String?
-  sortOrder   Int       @default(0) @map("sort_order")
-  createdAt   DateTime  @default(now()) @map("created_at")
+  sortOrder   Int             @default(0) @map("sort_order")
+  createdAt   DateTime        @default(now()) @map("created_at")
   presets     AbilityPreset[]
 
   @@map("ability_categories")
 }
 
 model AbilityPreset {
-  id         String         @id @default(cuid())
-  categoryId String?        @map("category_id")
-  name       String
-  slug       String         @unique
+  id          String           @id @default(cuid())
+  categoryId  String?          @map("category_id")
+  name        String
+  slug        String           @unique
   description String?
-  isActive   Boolean        @default(true) @map("is_active")
-  createdAt  DateTime       @default(now()) @map("created_at")
-  category   AbilityCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  isActive    Boolean          @default(true) @map("is_active")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  category    AbilityCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@map("ability_presets")
 }
 
 model WorldDocument {
-  id          String    @id @default(cuid())
-  worldId     String    @map("world_id")
-  title       String
-  docType     String    @map("doc_type")
-  slug        String
-  content     String
-  folderPath  String    @default("/") @map("folder_path")
-  sortOrder   Int       @default(0) @map("sort_order")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  world       WorldItem @relation(fields: [worldId], references: [id], onDelete: Cascade)
+  id         String    @id @default(cuid())
+  worldId    String    @map("world_id")
+  title      String
+  docType    String    @map("doc_type")
+  slug       String
+  content    String
+  folderPath String    @default("/") @map("folder_path")
+  sortOrder  Int       @default(0) @map("sort_order")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  world      WorldItem @relation(fields: [worldId], references: [id], onDelete: Cascade)
 
   @@map("world_documents")
 }
@@ -324,10 +324,10 @@ model OasisBioPublication {
 }
 
 model Tag {
-  id        String      @id @default(cuid())
-  name      String      @unique
-  slug      String      @unique
-  createdAt DateTime    @default(now()) @map("created_at")
+  id         String      @id @default(cuid())
+  name       String      @unique
+  slug       String      @unique
+  createdAt  DateTime    @default(now()) @map("created_at")
   entityTags EntityTag[]
 
   @@map("tags")
@@ -345,15 +345,14 @@ model EntityTag {
 }
 
 model CharacterRelationship {
-  id           String    @id @default(cuid())
-  characterAId String    @map("character_a_id")
-  characterBId String    @map("character_b_id")
-  relationType String    @map("relation_type")
+  id           String   @id @default(cuid())
+  characterAId String   @map("character_a_id")
+  characterBId String   @map("character_b_id")
+  relationType String   @map("relation_type")
   description  String?
-  createdAt    DateTime  @default(now()) @map("created_at")
-  characterA   OasisBio  @relation("CharacterARelationship", fields: [characterAId], references: [id], onDelete: Cascade)
-  characterB   OasisBio  @relation("CharacterBRelationship", fields: [characterBId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now()) @map("created_at")
+  characterA   OasisBio @relation("CharacterARelationship", fields: [characterAId], references: [id], onDelete: Cascade)
+  characterB   OasisBio @relation("CharacterBRelationship", fields: [characterBId], references: [id], onDelete: Cascade)
 
   @@map("character_relationships")
 }
-
