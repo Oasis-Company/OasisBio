@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "postbuild": "node -e \"const fs = require('fs'); const path = '.next/cache'; if (fs.existsSync(path)) { fs.rmSync(path, { recursive: true, force: true }); }\"",
     "start": "next start",
     "lint": "next lint",
