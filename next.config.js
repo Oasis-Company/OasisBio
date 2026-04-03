@@ -47,8 +47,7 @@ const nextConfig = {
     }
     return config;
   },
-  // 禁用字体优化，避免从 Google Fonts 加载
-  optimizeFonts: false,
+
 };
 
 module.exports = nextConfig;

@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
-
-const ModelViewer = dynamic(() => import('@/components/ModelViewer').then(mod => mod.ModelViewer), { ssr: false });
+import ModelViewerWrapper from '@/components/ModelViewerWrapper';
 
 async function getOasisBio(slug: string) {
   const oasisBio = await prisma.oasisBio.findUnique({
@@ -376,7 +375,7 @@ export default async function PublicOasisBioPage({
                 <CardContent className="p-8">
                   <div className="flex flex-col md:flex-row gap-8">
                     <div className="md:w-2/3 h-96 bg-background">
-                      <ModelViewer 
+                      <ModelViewerWrapper 
                         modelPath={oasisBio.models[0].filePath}
                         mtlPath=""
                         texturePath=""
