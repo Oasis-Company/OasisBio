@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "E:\\ceaserzhao\\github projects\\oasisbio\\src\\generated\\prisma",
+      "value": "D:\\github projects\\OasisBio\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\ceaserzhao\\github projects\\oasisbio\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\github projects\\OasisBio\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
