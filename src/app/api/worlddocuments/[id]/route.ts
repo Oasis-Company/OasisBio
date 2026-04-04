@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // PUT /api/worlddocuments/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id: documentId } = params;
+    const { id: documentId } = await params;
     const body = await request.json();
 
     await requireWorldDocumentOwnership(documentId, session.user.id);
@@ -35,11 +35,11 @@ export async function PUT(
 // DELETE /api/worlddocuments/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id: documentId } = params;
+    const { id: documentId } = await params;
 
     await requireWorldDocumentOwnership(documentId, session.user.id);
 

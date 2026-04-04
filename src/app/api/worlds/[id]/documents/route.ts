@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // GET /api/worlds/[id]/documents
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id: worldId } = params;
+    const { id: worldId } = await params;
 
     await requireWorldOwnership(worldId, session.user.id);
 
@@ -27,11 +27,11 @@ export async function GET(
 // POST /api/worlds/[id]/documents
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id: worldId } = params;
+    const { id: worldId } = await params;
     const body = await request.json();
 
     if (!body.title || !body.content || !body.docType) {

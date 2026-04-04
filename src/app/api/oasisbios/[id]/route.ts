@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // GET /api/oasisbios/[id] - Get specific OasisBio
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
 
     await requireOasisBioOwnership(id, session.user.id);
 
@@ -38,11 +38,11 @@ export async function GET(
 // PUT /api/oasisbios/[id] - Update OasisBio
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     await requireOasisBioOwnership(id, session.user.id);
@@ -77,11 +77,11 @@ export async function PUT(
 // DELETE /api/oasisbios/[id] - Delete OasisBio
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
 
     await requireOasisBioOwnership(id, session.user.id);
 

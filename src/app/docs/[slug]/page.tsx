@@ -7,9 +7,9 @@ import ReactMarkdown from 'react-markdown';
 const docsDirectory = path.join(process.cwd(), 'docs');
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 async function getDocContent(slug: string) {
@@ -59,7 +59,8 @@ export async function generateStaticParams() {
 }
 
 export default async function DocPage({ params }: PageProps) {
-  const doc = await getDocContent(params.slug);
+  const { slug } = await params;
+  const doc = await getDocContent(slug);
 
   if (!doc) {
     notFound();
