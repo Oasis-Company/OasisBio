@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // PUT /api/abilities/[id] - Update ability
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Verify ownership
@@ -38,11 +38,11 @@ export async function PUT(
 // DELETE /api/abilities/[id] - Delete ability
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
 
     // Verify ownership
     await requireAbilityOwnership(id, session.user.id);

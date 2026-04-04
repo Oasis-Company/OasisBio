@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // PUT /api/dcos/[id] - Update DCOS file
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Verify ownership
@@ -36,11 +36,11 @@ export async function PUT(
 // DELETE /api/dcos/[id] - Delete DCOS file
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
 
     // Verify ownership
     await requireDcosFileOwnership(id, session.user.id);

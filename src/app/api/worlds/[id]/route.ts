@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // PUT /api/worlds/[id] - Update world
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Verify ownership
@@ -37,11 +37,11 @@ export async function PUT(
 // DELETE /api/worlds/[id] - Delete world
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id } = params;
+    const { id } = await params;
 
     // Verify ownership
     await requireWorldOwnership(id, session.user.id);
