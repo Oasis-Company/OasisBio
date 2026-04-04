@@ -5,11 +5,11 @@ import { prisma } from '@/lib/prisma';
 // GET /api/oasisbios/[id]/eras
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await requireAuth();
-    const { id: oasisBioId } = params;
+    const { id: oasisBioId } = await params;
 
     await requireOasisBioOwnership(oasisBioId, session.user.id);
 
