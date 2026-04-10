@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from './Button';
 import { storage, validateStorageFile, STORAGE_LIMITS } from '@/lib/storage';
-import { storagePath, uploadFile, validateFile, STORAGE_BUCKETS } from '@/lib/supabase';
+import { storagePath, uploadFile, validateFile, STORAGE_BUCKETS } from '@/lib/supabase/storage';
 
 interface FileUploadProps {
   bucket: keyof typeof STORAGE_BUCKETS;

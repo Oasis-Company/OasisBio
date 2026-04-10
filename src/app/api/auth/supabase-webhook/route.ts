@@ -1,90 +1,81 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { syncUserToPrisma } from '@/lib/user-sync';
 import crypto from 'crypto';
 
-const WEBHOOK_SECRET = process.env.SUPABASE_WEBHOOK_SECRET!;
+const WEBHOOK_SECRET = process.env.SUPABASE_WEBHOOK_SECRET;
 
 function verifyWebhookSignature(payload: string, signature: string): boolean {
+  if (!WEBHOOK_SECRET) {
+    console.warn('[webhook] SUPABASE_WEBHOOK_SECRET not set — skipping signature verification');
+    return true;
+  }
   const hmac = crypto.createHmac('sha256', WEBHOOK_SECRET);
   const digest = hmac.update(payload).digest('base64');
-  return signature === digest;
-}
-
-async function generateUniqueUsername(baseName: string): Promise<string> {
-  const cleanName = baseName.toLowerCase().replace(/[^a-z0-9]/g, '');
-  if (cleanName.length === 0) {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    return `user_${randomString}`;
-  }
-
-  let username = cleanName;
-  let counter = 1;
-
-  while (true) {
-    const existingProfile = await prisma.profile.findUnique({
-      where: { username },
-    });
-
-    if (!existingProfile) {
-      return username;
-    }
-
-    username = `${cleanName}${counter}`;
-    counter++;
-  }
+  return crypto.timingSafeEqual(
+    Buffer.from(signature) as unknown as Uint8Array,
+    Buffer.from(digest) as unknown as Uint8Array
+  );
 }
 
 export async function POST(request: NextRequest) {
+  const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID();
+
   try {
     const body = await request.text();
     const signature = request.headers.get('x-webhook-signature');
 
     if (!signature || !verifyWebhookSignature(body, signature)) {
-      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
+      console.error('[webhook] Invalid signature', { requestId });
+      return NextResponse.json(
+        { error: { code: 'INVALID_SIGNATURE', message: 'Invalid webhook signature' } },
+        { status: 401 }
+      );
     }
 
     const event = JSON.parse(body);
     const { type, data } = event;
 
+    console.info('[webhook] Received event', { requestId, type, userId: data?.id });
+
     switch (type) {
       case 'user.created':
       case 'user.updated': {
-        const { id, email, user_metadata } = data;
-        const name = user_metadata.name || email?.split('@')[0] || 'User';
+        // Build a minimal SupabaseUser-compatible object from webhook payload
+        const supabaseUser = {
+          id: data.id,
+          email: data.email,
+          user_metadata: data.user_metadata ?? {},
+          app_metadata: data.app_metadata ?? {},
+          aud: 'authenticated',
+          created_at: data.created_at ?? new Date().toISOString(),
+        } as Parameters<typeof syncUserToPrisma>[0];
 
-        await prisma.user.upsert({
-          where: { id },
-          update: {
-            email,
-            name,
-          },
-          create: {
-            id,
-            email,
-            name,
-            profiles: {
-              create: {
-                username: await generateUniqueUsername(name),
-                displayName: name,
-              },
-            },
-          },
-        });
+        await syncUserToPrisma(supabaseUser);
+        console.info('[webhook] User synced', { requestId, userId: data.id });
         break;
       }
 
       case 'user.deleted': {
         const { id } = data;
-        await prisma.user.delete({
-          where: { id },
+        await prisma.user.delete({ where: { id } }).catch((err) => {
+          // User may not exist in Prisma if sync never ran — not an error
+          if (err?.code !== 'P2025') throw err;
         });
+        console.info('[webhook] User deleted', { requestId, userId: id });
         break;
       }
+
+      default:
+        console.info('[webhook] Unhandled event type', { requestId, type });
     }
 
-    return NextResponse.json({ received: true });
+    return NextResponse.json({ received: true, requestId });
   } catch (error) {
-    console.error('Webhook error:', error);
-    return NextResponse.json({ error: 'Webhook error' }, { status: 500 });
+    console.error('[webhook] Error processing event', { requestId, error });
+    return NextResponse.json(
+      { error: { code: 'WEBHOOK_ERROR', message: 'Failed to process webhook' } },
+      { status: 500 }
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { uploadFile as uploadToSupabase, deleteFile as deleteFromSupabase, STORAGE_BUCKETS } from './supabase';
+import { uploadFile as uploadToSupabase, deleteStorageFile as deleteFromSupabase, STORAGE_BUCKETS } from './supabase/storage';
 import { uploadToR2, deleteFromR2, r2Path } from './cloudflare-r2';
 
 // Storage types

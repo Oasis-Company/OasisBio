@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { AuthButton } from './AuthButton';
-import supabase from '@/lib/supabase';
+import { createClient } from '@/lib/supabase/client';
 
 export function OAuthButtons() {
   const handleOAuthSignIn = (provider: string) => {
+    const supabase = createClient();
     supabase.auth.signInWithOAuth({
       provider: provider as any,
       options: {
