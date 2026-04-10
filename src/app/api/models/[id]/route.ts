@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
     const model = await prisma.modelItem.findUnique({
@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: 'Model not found' }, { status: 404 });
     }
 
-    if (model.oasisBio.userId !== session.user.id) {
+    if (model.oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -34,7 +34,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
     const body = await request.json();
 
@@ -47,7 +47,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Model not found' }, { status: 404 });
     }
 
-    if (model.oasisBio.userId !== session.user.id) {
+    if (model.oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -77,7 +77,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
     const model = await prisma.modelItem.findUnique({
@@ -89,7 +89,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Model not found' }, { status: 404 });
     }
 
-    if (model.oasisBio.userId !== session.user.id) {
+    if (model.oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

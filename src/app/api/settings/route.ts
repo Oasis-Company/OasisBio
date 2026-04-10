@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
       include: {
         profiles: true,
         oasisBios: {
@@ -19,21 +19,21 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    if (!user) {
+    if (!dbUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const profile = user.profiles[0];
-    const publicOasisBiosCount = user.oasisBios.filter(
+    const profile = dbUser.profiles[0];
+    const publicOasisBiosCount = dbUser.oasisBios.filter(
       (oasisBio) => oasisBio.status === 'published'
     ).length;
 
     return NextResponse.json({
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: user.createdAt,
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        createdAt: dbUser.createdAt,
       },
       profile: profile
         ? {
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
           }
         : null,
       stats: {
-        totalOasisBios: user.oasisBios.length,
+        totalOasisBios: dbUser.oasisBios.length,
         publicOasisBios: publicOasisBiosCount,
       },
       plan: {
@@ -64,25 +64,25 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const body = await request.json();
     const { section, data } = body;
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
       include: {
         profiles: true,
       },
     });
 
-    if (!user) {
+    if (!dbUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     let updatedProfile = null;
 
     if (section === 'account' || section === 'profile') {
-      const profile = user.profiles[0];
+      const profile = dbUser.profiles[0];
       if (!profile) {
         return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
       }

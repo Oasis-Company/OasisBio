@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth-utils';
+import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { importService } from '@/services/importService';
 
 // POST /api/import
 export async function POST(request: NextRequest) {
   try {
-    // Get user session
-    const session = await requireAuth();
-    const userId = session.user.id;
+    const user = await requireAuth();
 
-    // Check if request has form data
     const formData = await request.formData();
     const file = formData.get('file') as File;
 
@@ -21,15 +18,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File must be a ZIP file' }, { status: 400 });
     }
 
-    // Perform import
+    // importService scopes all created records to userId — no cross-user data risk
     const result = await importService.importCharacters({
-      userId,
+      userId: user.id,
       file,
     });
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
-    console.error('Import error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error);
   }
 }

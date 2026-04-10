@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const searchParams = request.nextUrl.searchParams;
     const oasisBioId = searchParams.get('oasisBioId');
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'OasisBio not found' }, { status: 404 });
     }
 
-    if (oasisBio.userId !== session.user.id) {
+    if (oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const body = await request.json();
 
     const { oasisBioId, name, summary, timeSetting, geography, physicsRules, socialStructure, aestheticKeywords, majorConflict } = body;
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'OasisBio not found' }, { status: 404 });
     }
 
-    if (oasisBio.userId !== session.user.id) {
+    if (oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

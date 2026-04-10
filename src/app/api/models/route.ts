@@ -4,8 +4,8 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireAuth();
-    const userId = session.user.id;
+    const user = await requireAuth();
+    const userId = user.id;
 
     const models = await prisma.modelItem.findMany({
       where: { 
@@ -22,9 +22,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const body = await request.json();
-    const userId = session.user.id;
+    const userId = user.id;
 
     const { name, filePath, previewImage, oasisBioId, relatedWorldId, relatedEraId, modelFormat } = body;
 

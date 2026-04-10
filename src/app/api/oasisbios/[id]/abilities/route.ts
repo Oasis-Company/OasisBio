@@ -8,10 +8,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: oasisBioId } = await params;
 
-    await requireOasisBioOwnership(oasisBioId, session.user.id);
+    await requireOasisBioOwnership(oasisBioId, user.id);
 
     const abilities = await prisma.ability.findMany({
       where: { oasisBioId },
@@ -30,7 +30,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: oasisBioId } = await params;
     const body = await request.json();
 
@@ -38,7 +38,7 @@ export async function POST(
       return NextResponse.json({ error: 'Name and category are required' }, { status: 400 });
     }
 
-    await requireOasisBioOwnership(oasisBioId, session.user.id);
+    await requireOasisBioOwnership(oasisBioId, user.id);
 
     const ability = await prisma.ability.create({
       data: {

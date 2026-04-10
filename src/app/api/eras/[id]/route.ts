@@ -8,7 +8,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
     const body = await request.json();
 
@@ -22,7 +22,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Era not found' }, { status: 404 });
     }
 
-    if (era.oasisBio.userId !== session.user.id) {
+    if (era.oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -52,7 +52,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
     // Verify ownership
@@ -65,7 +65,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Era not found' }, { status: 404 });
     }
 
-    if (era.oasisBio.userId !== session.user.id) {
+    if (era.oasisBio.userId !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

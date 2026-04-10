@@ -4,8 +4,8 @@ import { requireAuth, handleApiError } from '@/lib/auth-utils';
 
 export async function GET() {
   try {
-    const session = await requireAuth();
-    const userId = session.user.id;
+    const user = await requireAuth();
+    const userId = user.id;
 
     const [
       oasisBiosCount,

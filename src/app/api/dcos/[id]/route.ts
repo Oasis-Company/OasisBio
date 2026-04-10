@@ -8,12 +8,12 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
     const body = await request.json();
 
     // Verify ownership
-    await requireDcosFileOwnership(id, session.user.id);
+    await requireDcosFileOwnership(id, user.id);
 
     const { name, content, type } = body;
 
@@ -39,11 +39,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
     // Verify ownership
-    await requireDcosFileOwnership(id, session.user.id);
+    await requireDcosFileOwnership(id, user.id);
 
     await prisma.dcosFile.delete({
       where: { id },

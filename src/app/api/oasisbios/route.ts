@@ -5,8 +5,8 @@ import { prisma } from '@/lib/prisma';
 // GET /api/oasisbios - Get user's OasisBios
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireAuth();
-    const userId = session.user.id;
+    const user = await requireAuth();
+    const userId = user.id;
 
     const oasisBios = await prisma.oasisBio.findMany({
       where: { userId },
@@ -22,9 +22,9 @@ export async function GET(request: NextRequest) {
 // POST /api/oasisbios - Create new OasisBio
 export async function POST(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const body = await request.json();
-    const userId = session.user.id;
+    const userId = user.id;
 
     const { title, tagline, identityMode, birthDate, gender, pronouns, placeOfOrigin, currentEra, species, status, description } = body;
 

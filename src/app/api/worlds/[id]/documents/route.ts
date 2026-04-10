@@ -8,10 +8,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: worldId } = await params;
 
-    await requireWorldOwnership(worldId, session.user.id);
+    await requireWorldOwnership(worldId, user.id);
 
     const documents = await prisma.worldDocument.findMany({
       where: { worldId },
@@ -30,7 +30,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: worldId } = await params;
     const body = await request.json();
 
@@ -38,7 +38,7 @@ export async function POST(
       return NextResponse.json({ error: 'Title, content, and document type are required' }, { status: 400 });
     }
 
-    await requireWorldOwnership(worldId, session.user.id);
+    await requireWorldOwnership(worldId, user.id);
 
     const document = await prisma.worldDocument.create({
       data: {

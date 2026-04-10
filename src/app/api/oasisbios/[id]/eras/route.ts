@@ -8,10 +8,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: oasisBioId } = await params;
 
-    await requireOasisBioOwnership(oasisBioId, session.user.id);
+    await requireOasisBioOwnership(oasisBioId, user.id);
 
     const eras = await prisma.eraIdentity.findMany({
       where: { oasisBioId },

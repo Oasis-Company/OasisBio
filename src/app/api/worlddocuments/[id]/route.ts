@@ -8,11 +8,11 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: documentId } = await params;
     const body = await request.json();
 
-    await requireWorldDocumentOwnership(documentId, session.user.id);
+    await requireWorldDocumentOwnership(documentId, user.id);
 
     const updatedDocument = await prisma.worldDocument.update({
       where: { id: documentId },
@@ -38,10 +38,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id: documentId } = await params;
 
-    await requireWorldDocumentOwnership(documentId, session.user.id);
+    await requireWorldDocumentOwnership(documentId, user.id);
 
     await prisma.worldDocument.delete({
       where: { id: documentId },

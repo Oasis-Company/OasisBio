@@ -4,26 +4,26 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
       include: {
         profiles: true,
       },
     });
 
-    if (!user) {
+    if (!dbUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const profile = user.profiles[0];
+    const profile = dbUser.profiles[0];
 
     return NextResponse.json({
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
       },
       profile: profile
         ? {
@@ -45,22 +45,22 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const body = await request.json();
     const { username, displayName, avatarUrl, bio, website, locale, defaultLanguage } = body;
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
       include: {
         profiles: true,
       },
     });
 
-    if (!user) {
+    if (!dbUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    let profile = user.profiles[0];
+    let profile = dbUser.profiles[0];
 
     if (!profile) {
       return NextResponse.json({ error: 'Profile not found' }, { status: 404 });

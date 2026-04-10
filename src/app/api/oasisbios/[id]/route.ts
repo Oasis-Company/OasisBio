@@ -8,10 +8,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
-    await requireOasisBioOwnership(id, session.user.id);
+    await requireOasisBioOwnership(id, user.id);
 
     const oasisBio = await prisma.oasisBio.findUnique({
       where: { id },
@@ -41,11 +41,11 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
     const body = await request.json();
 
-    await requireOasisBioOwnership(id, session.user.id);
+    await requireOasisBioOwnership(id, user.id);
 
     const { title, tagline, identityMode, birthDate, gender, pronouns, placeOfOrigin, currentEra, species, status, description, visibility } = body;
 
@@ -80,10 +80,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
-    await requireOasisBioOwnership(id, session.user.id);
+    await requireOasisBioOwnership(id, user.id);
 
     await prisma.oasisBio.delete({
       where: { id },

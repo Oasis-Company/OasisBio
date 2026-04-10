@@ -8,12 +8,12 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
     const body = await request.json();
 
     // Verify ownership
-    await requireReferenceOwnership(id, session.user.id);
+    await requireReferenceOwnership(id, user.id);
 
     const { title, url, description, type } = body;
 
@@ -40,11 +40,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth();
+    const user = await requireAuth();
     const { id } = await params;
 
     // Verify ownership
-    await requireReferenceOwnership(id, session.user.id);
+    await requireReferenceOwnership(id, user.id);
 
     await prisma.referenceItem.delete({
       where: { id },
