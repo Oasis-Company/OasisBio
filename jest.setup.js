@@ -12,14 +12,16 @@ jest.mock('next/router', () => ({
   }),
 }));
 
-// Mock NextAuth
-jest.mock('next-auth/react', () => ({
-  useSession: () => ({
-    data: { user: { id: '1', name: 'Test User', email: 'test@example.com' } },
-    status: 'authenticated',
-  }),
-  signIn: jest.fn(),
-  signOut: jest.fn(),
+// Mock Supabase auth client
+jest.mock('@/lib/supabase/client', () => ({
+  createClient: jest.fn(() => ({
+    auth: {
+      getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      getUser: jest.fn().mockResolvedValue({ data: { user: null }, error: null }),
+      onAuthStateChange: jest.fn(() => ({ data: { subscription: { unsubscribe: jest.fn() } } })),
+      signOut: jest.fn().mockResolvedValue({ error: null }),
+    },
+  })),
 }));
 
 // Mock Prisma client

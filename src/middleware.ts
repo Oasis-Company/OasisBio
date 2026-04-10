@@ -1,49 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { updateSession } from '@/lib/supabase/middleware';
 
-const protectedRoutes = [
-  '/dashboard',
-  '/api/auth/protected',
-];
+/**
+ * Routes that require authentication.
+ * Unauthenticated requests are redirected to /auth/login?callbackUrl=<original>
+ */
+const PROTECTED_PREFIXES = ['/dashboard', '/api/oasisbios', '/api/worlds'];
 
-function getSupabaseCookieName(): string {
-  const cookieName = process.env.NEXT_PUBLIC_SUPABASE_COOKIE_NAME;
-  if (cookieName) {
-    return cookieName;
-  }
-  
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (supabaseUrl) {
-    const match = supabaseUrl.match(/https:\/\/([a-z0-9-]+)\.supabase\.co/);
-    if (match && match[1]) {
-      return `sb-${match[1]}-auth-token`;
-    }
-  }
-  
-  return 'sb-auth-token';
-}
+/**
+ * Auth routes that authenticated users should not access.
+ * Authenticated requests are redirected to /dashboard.
+ */
+const AUTH_PREFIXES = ['/auth/login', '/auth/register'];
 
-export function middleware(request: NextRequest) {
-  const isProtectedRoute = protectedRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
-  );
-  
-  if (isProtectedRoute) {
-    const cookieName = getSupabaseCookieName();
-    const supabaseSession = request.cookies.get(cookieName);
-    
-    if (!supabaseSession) {
-      const loginUrl = new URL('/auth/login', request.url);
-      loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+export async function middleware(request: NextRequest) {
+  const { supabaseResponse, user } = await updateSession(request);
+  const { pathname } = request.nextUrl;
+
+  const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  const isAuthRoute = AUTH_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+
+  // Redirect unauthenticated users away from protected routes
+  if (isProtected && !user) {
+    const loginUrl = new URL('/auth/login', request.url);
+    loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(loginUrl);
   }
-  
-  return NextResponse.next();
+
+  // Redirect authenticated users away from auth pages
+  if (isAuthRoute && user) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  // Return the supabaseResponse as-is — it carries refreshed session cookies.
+  // IMPORTANT: Never create a new NextResponse here without copying cookies from supabaseResponse.
+  return supabaseResponse;
 }
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/api/auth/protected',
+    /*
+     * Match all request paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization)
+     * - favicon.ico
+     * - public folder assets
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
