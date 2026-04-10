@@ -1,126 +1,100 @@
-// Client-side authentication utilities using Supabase
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import supabase from './supabase-client';
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import type { User, Session, SupabaseClient } from '@supabase/supabase-js';
 
-// Create auth context
-interface AuthContextType {
-  user: any;
-  session: any;
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface AuthContextValue {
+  user: User | null;
+  session: Session | null;
   isLoading: boolean;
-  signInWithEmail: (email: string) => Promise<{ error: any }>;
-  verifyOtp: (email: string, token: string) => Promise<{ error: any }>;
-  signOut: () => Promise<{ error: any }>;
+  supabase: SupabaseClient;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// ---------------------------------------------------------------------------
+// Context
+// ---------------------------------------------------------------------------
 
-// Auth provider component
-export const SessionProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
-  const [session, setSession] = useState<any>(null);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+// ---------------------------------------------------------------------------
+// Provider
+// ---------------------------------------------------------------------------
+
+export function SessionProvider({ children }: { children: React.ReactNode }) {
+  // Create a stable browser client instance
+  const supabase = useMemo(() => createClient(), []);
+
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data } = await supabase.auth.getSession();
+    // Hydrate initial session from cookies
+    supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
-      setUser(data.session?.user || null);
+      setUser(data.session?.user ?? null);
       setIsLoading(false);
-    };
+    });
 
-    getInitialSession();
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user || null);
+    // Keep context in sync with auth state changes (sign-in, sign-out, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+      setUser(newSession?.user ?? null);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [supabase]);
 
-  // Sign in with email (send OTP)
-  const signInWithEmail = async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: window.location.origin
-      }
-    });
-    return { error };
-  };
+  const value = useMemo<AuthContextValue>(
+    () => ({ user, session, isLoading, supabase }),
+    [user, session, isLoading, supabase]
+  );
 
-  // Verify OTP
-  const verifyOtp = async (email: string, token: string) => {
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token,
-      type: 'email'
-    });
-    return { error };
-  };
+  return React.createElement(AuthContext.Provider, { value }, children);
+}
 
-  // Sign out
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
-  };
+// ---------------------------------------------------------------------------
+// Hooks
+// ---------------------------------------------------------------------------
 
-  const value = {
-    user,
-    session,
-    isLoading,
-    signInWithEmail,
-    verifyOtp,
-    signOut
-  };
+/**
+ * Returns the current auth context.
+ * Must be used inside <SessionProvider>.
+ */
+export function useAuth(): AuthContextValue {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within a SessionProvider');
+  return ctx;
+}
 
-  // Use React.createElement instead of JSX
-  return React.createElement(AuthContext.Provider, { value: value }, children);
-};
-
-// Custom hook to use auth
-export const useSession = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useSession must be used within a SessionProvider');
-  }
+/**
+ * Compatibility shim — mirrors the shape used by existing pages.
+ */
+export function useSession() {
+  const { user, session, isLoading } = useAuth();
   return {
-    data: context.session ? { user: context.user, session: context.session } : null,
-    status: context.isLoading ? 'loading' : context.session ? 'authenticated' : 'unauthenticated'
+    data: session ? { user, session } : null,
+    status: isLoading ? 'loading' : session ? 'authenticated' : 'unauthenticated',
   };
-};
+}
 
-// Export signIn function
-export const signIn = (provider: string, options?: { callbackUrl?: string }) => {
-  if (provider === 'credentials') {
-    // For email/password (not used in our implementation)
-    return Promise.resolve({ error: null });
-  } else {
-    // For social providers
-    return supabase.auth.signInWithOAuth({
-      provider: provider as any,
-      options: {
-        redirectTo: options?.callbackUrl || window.location.origin
-      }
-    });
-  }
-};
+// ---------------------------------------------------------------------------
+// Standalone helpers (usable outside the provider)
+// ---------------------------------------------------------------------------
 
-// Mock authOptions for compatibility
-export const authOptions = {
-  adapter: null,
-  providers: [],
-  session: {
-    strategy: 'jwt'
-  },
-  secret: 'mock-secret'
-};
+export function signOut() {
+  return createClient().auth.signOut();
+}
 
-// Export signOut function
-export const signOut = async () => {
-  const { error } = await supabase.auth.signOut();
-  return { error };
-};
+export function signIn(provider: string, options?: { callbackUrl?: string }) {
+  if (provider === 'credentials') return Promise.resolve({ error: null, data: null });
+  return createClient().auth.signInWithOAuth({
+    provider: provider as Parameters<SupabaseClient['auth']['signInWithOAuth']>[0]['provider'],
+    options: { redirectTo: options?.callbackUrl ?? window.location.origin },
+  });
+}

@@ -1,35 +1,31 @@
 import 'server-only';
 
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { getServerSession, getUserFromSession } from '@/lib/auth';
+import { getServerUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
+/**
+ * Asserts that the current request is authenticated.
+ * Throws AuthError(401) if not.
+ */
 export async function requireAuth() {
-  const cookieStore = cookies();
-  const cookieString = cookieStore.toString();
-  const session = await getServerSession(cookieString);
-  
-  if (!session || !session.user?.id) {
+  const user = await getServerUser();
+
+  if (!user) {
     throw new AuthError('Unauthorized', 401);
   }
-  
-  return session;
+
+  return user;
 }
 
 export async function requireOasisBioOwnership(oasisBioId: string, userId: string) {
   const oasisBio = await prisma.oasisBio.findUnique({
     where: { id: oasisBioId },
-    include: { user: true },
+    select: { id: true, userId: true },
   });
 
-  if (!oasisBio) {
-    throw new AuthError('OasisBio not found', 404);
-  }
-
-  if (oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!oasisBio) throw new AuthError('OasisBio not found', 404);
+  if (oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return oasisBio;
 }
@@ -37,16 +33,11 @@ export async function requireOasisBioOwnership(oasisBioId: string, userId: strin
 export async function requireDcosFileOwnership(dcosFileId: string, userId: string) {
   const dcosFile = await prisma.dcosFile.findUnique({
     where: { id: dcosFileId },
-    include: { oasisBio: { include: { user: true } } },
+    include: { oasisBio: { select: { userId: true } } },
   });
 
-  if (!dcosFile) {
-    throw new AuthError('DCOS file not found', 404);
-  }
-
-  if (dcosFile.oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!dcosFile) throw new AuthError('DCOS file not found', 404);
+  if (dcosFile.oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return dcosFile;
 }
@@ -54,16 +45,11 @@ export async function requireDcosFileOwnership(dcosFileId: string, userId: strin
 export async function requireAbilityOwnership(abilityId: string, userId: string) {
   const ability = await prisma.ability.findUnique({
     where: { id: abilityId },
-    include: { oasisBio: { include: { user: true } } },
+    include: { oasisBio: { select: { userId: true } } },
   });
 
-  if (!ability) {
-    throw new AuthError('Ability not found', 404);
-  }
-
-  if (ability.oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!ability) throw new AuthError('Ability not found', 404);
+  if (ability.oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return ability;
 }
@@ -71,16 +57,11 @@ export async function requireAbilityOwnership(abilityId: string, userId: string)
 export async function requireWorldOwnership(worldId: string, userId: string) {
   const world = await prisma.worldItem.findUnique({
     where: { id: worldId },
-    include: { oasisBio: { include: { user: true } } },
+    include: { oasisBio: { select: { userId: true } } },
   });
 
-  if (!world) {
-    throw new AuthError('World not found', 404);
-  }
-
-  if (world.oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!world) throw new AuthError('World not found', 404);
+  if (world.oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return world;
 }
@@ -88,16 +69,11 @@ export async function requireWorldOwnership(worldId: string, userId: string) {
 export async function requireReferenceOwnership(referenceId: string, userId: string) {
   const reference = await prisma.referenceItem.findUnique({
     where: { id: referenceId },
-    include: { oasisBio: { include: { user: true } } },
+    include: { oasisBio: { select: { userId: true } } },
   });
 
-  if (!reference) {
-    throw new AuthError('Reference item not found', 404);
-  }
-
-  if (reference.oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!reference) throw new AuthError('Reference item not found', 404);
+  if (reference.oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return reference;
 }
@@ -105,40 +81,41 @@ export async function requireReferenceOwnership(referenceId: string, userId: str
 export async function requireWorldDocumentOwnership(documentId: string, userId: string) {
   const document = await prisma.worldDocument.findUnique({
     where: { id: documentId },
-    include: { world: { include: { oasisBio: { include: { user: true } } } } },
+    include: { world: { include: { oasisBio: { select: { userId: true } } } } },
   });
 
-  if (!document) {
-    throw new AuthError('World document not found', 404);
-  }
-
-  if (document.world.oasisBio.userId !== userId) {
-    throw new AuthError('Unauthorized', 401);
-  }
+  if (!document) throw new AuthError('World document not found', 404);
+  if (document.world.oasisBio.userId !== userId) throw new AuthError('Forbidden', 403);
 
   return document;
 }
 
 export function handleApiError(error: unknown): NextResponse {
-  console.error('API Error:', error);
+  console.error('[api] Error:', error);
 
   if (error instanceof AuthError) {
-    return NextResponse.json({ error: error.message }, { status: error.statusCode });
+    return NextResponse.json(
+      { error: { code: error.code, message: error.message } },
+      { status: error.statusCode }
+    );
   }
 
-  if (error instanceof Error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-
-  return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  return NextResponse.json(
+    { error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+    { status: 500 }
+  );
 }
 
-class AuthError extends Error {
+export class AuthError extends Error {
+  public readonly code: string;
+
   constructor(
     message: string,
-    public statusCode: number
+    public readonly statusCode: number,
+    code?: string
   ) {
     super(message);
     this.name = 'AuthError';
+    this.code = code ?? (statusCode === 401 ? 'UNAUTHORIZED' : statusCode === 403 ? 'FORBIDDEN' : 'NOT_FOUND');
   }
 }
