@@ -1,0 +1,23 @@
+-- ============================================================
+-- OasisBio Database: Service Role Bypass Policy
+-- 
+-- 执行方式: Supabase 控制台 → SQL Editor → 粘贴执行
+-- 
+-- 说明:
+--   我们的 Next.js API 路由使用 Prisma + service role 连接数据库。
+--   Prisma 连接使用的是 DATABASE_URL（pooler），它绕过 RLS。
+--   但为了安全起见，如果将来有直接使用 supabaseAdmin 查询的场景，
+--   需要确保 service role 可以绕过 RLS。
+--
+--   Supabase 的 service_role 默认已经绕过 RLS，无需额外配置。
+--   这个文件仅作为文档记录，不需要执行任何 SQL。
+--
+-- 重要提示:
+--   - Prisma 通过 DATABASE_URL (pgbouncer) 连接，使用 postgres 超级用户
+--   - 这个连接天然绕过 RLS
+--   - RLS 策略主要保护直接通过 Supabase JS client 访问的场景
+--   - 确保 SUPABASE_SERVICE_ROLE_KEY 不要暴露在客户端代码中
+-- ============================================================
+
+-- 无需执行任何 SQL，此文件仅作说明文档
+SELECT 'Service role bypass is handled automatically by Supabase' AS note;
