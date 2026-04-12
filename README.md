@@ -1,117 +1,71 @@
 # OasisBio
 
-OasisBio is a comprehensive identity management system that allows users to create, manage, and showcase digital identities across multiple time periods and dimensions. It provides a rich set of features for character creation, ability management, worldbuilding, and 3D model integration.
+OasisBio is a digital identity builder and character creator platform for building expandable fictional character identities across eras. Users can create rich character profiles with ability pools, worldbuilding, DCOS documents, references, and 3D model support.
 
-## Features
+## Tech Stack
 
-### 1. Character Creation Flow
-- **Six-step process**: Identity, Era, Abilities, Repositories, Model, Publish
-- **Comprehensive form fields** for all character attributes
-- **Real-time validation** and error handling
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript 5.4
+- **Styling**: Tailwind CSS 3.4
+- **Database**: PostgreSQL via Supabase (Prisma 6 ORM)
+- **Auth**: Supabase Auth (OTP / passwordless)
+- **Storage**: Supabase Storage (images) + Cloudflare R2 (3D models, exports)
+- **Deployment**: Cloudflare Pages
 
-### 2. Character Public Page
-- **Scroll-based design** with multiple sections
-- **Hero section** with system tags
-- **Identity Panel** with basic information
-- **Ability Matrix** with categorized abilities
-- **DCOS Archive** for character documents
-- **World Gallery** for associated worlds
-- **References Library** for external resources
-- **3D Presence** with interactive 3D model viewer
-- **Era Timeline** with visual time-based progression
-
-### 3. Dashboard Management
-- **Left navigation bar** with sections: Overview, Identity, Eras, Abilities, DCOS, References, Worlds, Models, Publish
-- **Stats overview** with key metrics
-- **OasisBios status** with drafts and published bios
-- **Recent updates** activity feed
-- **Quick actions** for common tasks
-- **Account and system status** information
-
-### 4. 3D Model Support
-- **Interactive 3D viewer** using Three.js with GLTFLoader
-- **Orbit controls** for rotating and zooming
-- **Real-time rendering** with lighting effects
-- **GLB format support** for efficient loading
-- **Model preview generation** for quick visualization
-- **Cloudflare R2 integration** for secure model storage
-
-### 5. Era System
-- **Visual timeline** with interactive elements
-- **Year-based organization** of character development
-- **Ability progression** across different eras
-- **Detailed era descriptions** and context
-
-### 6. Ability Pool System
-- **Categorized abilities** (Technology, Languages, Arts, Worldbuilding)
-- **Level-based proficiency** (1-5)
-- **Featured abilities** showcase
-- **Custom ability creation**
-
-### 7. Repository System
-- **DCOS (Digital Character Operating System)** for character documents
-- **References** for external resources
-- **Worlds** for fictional settings
-- **3D Models** for visual representation
-
-## Technology Stack
-
-- **Frontend**: Next.js 14.1.4, React 18, TypeScript 5.4.3, Tailwind CSS 3.4.3
-- **Backend**: Node.js, Next.js API routes
-- **Database**: PostgreSQL (Supabase)
-- **ORM**: Prisma 6.19.1
-- **3D Rendering**: Three.js
-- **Authentication**: Supabase Auth with OTP
-- **Object Storage**: Cloudflare R2
-
-## Getting Started
+## Quick Start
 
 ### Prerequisites
-- Node.js 18.0.0 or later
-- npm 9.0.0 or later
-- PostgreSQL database (Supabase recommended)
 
-### Installation
+- Node.js 18+
+- A [Supabase](https://supabase.com) project
+- A [Cloudflare](https://cloudflare.com) account with R2 enabled
 
-1. Clone the repository
+### Setup
+
 ```bash
+# 1. Clone and install
 git clone https://github.com/yourusername/oasisbio.git
 cd oasisbio
-```
-
-2. Install dependencies
-```bash
 npm install
-```
 
-3. Set up environment variables
-```bash
-# Create .env.local file
-cp .env.example .env.local
-# Edit .env.local with your database credentials and other settings
-```
+# 2. Configure environment
+cp .env.example .env
+# Fill in all values in .env (see Environment Variables section below)
 
-4. Initialize database
-```bash
+# 3. Push database schema
 npx prisma db push
 npx prisma generate
-```
 
-5. Start development server
-```bash
+# 4. Run database setup scripts (in Supabase SQL Editor)
+# Execute in order:
+#   scripts/db/01_enable_rls.sql
+#   scripts/db/02_add_indexes.sql
+#   scripts/db/04_storage_policies.sql
+#   scripts/db/05_domain_events_audit_logs.sql
+#   scripts/db/06_publish_bio_rpc.sql
+
+# 5. Start dev server
 npm run dev
 ```
 
-### Deployment
+### Environment Variables
 
-1. Build for production
-```bash
-npm run build
-```
+```env
+# Database (Supabase)
+DATABASE_URL="postgresql://postgres.[ref]:[password]@aws-[region].pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[ref]:[password]@aws-[region].supabase.com:5432/postgres"
 
-2. Start production server
-```bash
-npm start
+# Supabase API
+NEXT_PUBLIC_SUPABASE_URL="https://[ref].supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJ..."
+SUPABASE_SERVICE_ROLE_KEY="eyJ..."
+
+# Cloudflare R2
+CLOUDFLARE_R2_ACCESS_KEY_ID="..."
+CLOUDFLARE_R2_SECRET_ACCESS_KEY="..."
+CLOUDFLARE_R2_ENDPOINT="https://[account-id].r2.cloudflarestorage.com"
+CLOUDFLARE_R2_BUCKET_NAME="..."
+CLOUDFLARE_R2_ACCOUNT_ID="..."
 ```
 
 ## Project Structure
@@ -120,96 +74,58 @@ npm start
 oasisbio/
 ├── src/
 │   ├── app/
-│   │   ├── dashboard/          # Dashboard pages
-│   │   │   ├── oasisbios/       # Character management
-│   │   │   ├── worlds/          # World management
-│   │   │   ├── models/          # Model management
-│   │   │   ├── profile/         # Profile management
-│   │   │   ├── settings/        # Settings page
-│   │   │   └── page.tsx         # Dashboard overview
-│   │   ├── bio/                 # Public character pages
-│   │   │   └── [slug]/          # Dynamic character pages
-│   │   ├── auth/                # Authentication pages
-│   │   ├── create/              # Character creation page
-│   │   ├── explore/             # Explore page
-│   │   ├── about/               # About page
-│   │   ├── manifesto/           # Manifesto page
-│   │   ├── templates/           # Templates page
-│   │   └── api/                 # API routes
-│   ├── components/              # Reusable components
-│   │   ├── auth/                # Authentication components
-│   │   ├── navigation/          # Navigation components
-│   │   ├── mascot/              # Mascot components
-│   │   ├── Button.tsx           # Button component
-│   │   ├── Card.tsx             # Card component
-│   │   ├── Input.tsx            # Input component
-│   │   ├── ModelViewer.tsx      # 3D model viewer
-│   │   └── ...                  # Other components
-│   ├── lib/                     # Utility functions
-│   │   ├── auth.ts              # Authentication utilities
-│   │   ├── supabase.ts          # Supabase client
-│   │   ├── cloudflare-r2.ts     # Cloudflare R2 client
-│   │   ├── prisma.ts            # Prisma client
-│   │   ├── validation.ts        # Validation utilities
-│   │   └── storage.ts           # Storage utilities
-│   ├── services/                # Business logic services
-│   │   ├── exportService.ts     # Export service
-│   │   └── importService.ts     # Import service
-│   ├── generated/               # Generated Prisma client
-│   └── middleware.ts            # Next.js middleware
-├── prisma/                      # Database schema
-│   ├── schema.prisma            # Prisma schema definition
-│   ├── seed.ts                  # Database seed script
-│   └── migrations/              # Database migrations
-├── public/                      # Static assets
-│   └── assets/                  # Public assets
-├── docs/                        # Project documentation
-├── scripts/                     # Utility scripts
-├── .env.example                 # Environment variable example
-├── next.config.js               # Next.js configuration
-├── package.json                 # Package configuration
-└── README.md                    # Project documentation
+│   │   ├── api/                  # API routes
+│   │   ├── auth/                 # Login / register pages
+│   │   ├── dashboard/            # Authenticated dashboard
+│   │   └── bio/[slug]/           # Public character pages
+│   ├── components/
+│   │   ├── auth/                 # Auth UI components
+│   │   └── world/                # World builder components
+│   ├── lib/
+│   │   ├── supabase/             # SSR/browser/middleware clients
+│   │   ├── auth.ts               # Server auth utilities
+│   │   ├── auth-utils.ts         # requireAuth, ownership checks
+│   │   ├── user-sync.ts          # Supabase → Prisma sync
+│   │   ├── world-utils.ts        # World completion score, validation
+│   │   └── storage.ts            # Storage abstraction layer
+│   ├── types/
+│   │   └── world.ts              # World form types and step config
+│   └── middleware.ts             # Route protection
+├── prisma/
+│   └── schema.prisma             # Database schema
+├── scripts/
+│   └── db/                       # SQL setup scripts
+└── docs/                         # Documentation
 ```
 
-## Usage
+## Key Features
 
-### Creating a New Character
-1. Navigate to the dashboard
-2. Click "Create New OasisBio"
-3. Follow the six-step process:
-   - **Identity**: Enter basic character information
-   - **Era**: Define time periods and context
-   - **Abilities**: Add and categorize abilities
-   - **Repositories**: Upload documents and references
-   - **Model**: Upload or select 3D model
-   - **Publish**: Review and publish
+- **OasisBio Builder** — step-by-step character creation with era system
+- **World Builder** — 6-module guided worldbuilding wizard
+- **Ability Pool** — categorized skills with era/world binding
+- **DCOS Repository** — character narrative documents
+- **References Library** — external links and resources
+- **3D Model Viewer** — GLB format with Three.js
+- **Import/Export** — ZIP-based character data portability
+- **Publish System** — atomic publish/unpublish via database RPC
 
-### Managing Existing Characters
-1. Navigate to the dashboard
-2. Click "Manage OasisBios"
-3. Select a character to edit or view
+## Scripts
 
-### Viewing Public Character Pages
-1. Navigate to `/bio/[slug]` where [slug] is the character's unique identifier
-2. Explore the scroll-based interface
-3. Interact with the 3D model viewer
-4. Browse through the character's eras, abilities, and repositories
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm run lint         # ESLint
+npm test             # Jest unit + property tests
+```
 
-## Contributing
+## Documentation
 
-Contributions are welcome! Please follow these steps:
+See [`docs/`](docs/) for detailed documentation:
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
+- [`docs/technical.md`](docs/technical.md) — Architecture, API reference, database schema
+- [`docs/design.md`](docs/design.md) — Design system and UI guidelines
+- [`scripts/db/`](scripts/db/) — Database setup SQL scripts
 
 ## License
 
-This project is licensed under the MIT License.
-
-## Contact
-
-For questions or support, please contact:
-- Email: oasisbiosupport@oermos.com
-- GitHub: https://github.com/zbbsdsb/oasisbio
+MIT — see [LICENSE](LICENSE)

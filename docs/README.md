@@ -1,126 +1,68 @@
 # OasisBio Documentation
 
-Welcome to the OasisBio documentation repository. This documentation provides comprehensive information about the OasisBio project, including technical details, design guidelines, and implementation instructions.
+## Documents
 
-## Table of Contents
+| Document | Description |
+|----------|-------------|
+| [technical.md](technical.md) | Full technical reference — architecture, auth, database schema, API, world builder, testing, deployment |
+| [design.md](design.md) | Design system — color palette, typography, components, layout |
+| [world-design-spec.md](world-design-spec.md) | Worldbuilding standard — 6-module structure, field definitions |
 
-- [Project Overview](#project-overview)
-- [Documentation Structure](#documentation-structure)
-- [Technical Documentation](#technical-documentation)
-- [Design Documentation](#design-documentation)
-- [Feature Documentation](#feature-documentation)
-- [Getting Started](#getting-started)
-- [Contributing](#contributing)
-- [License](#license)
+## Database Setup Scripts
 
-## Project Overview
+Run in Supabase SQL Editor **in this order** after `npx prisma db push`:
 
-OasisBio is a cross-era identity system that allows users to create and manage multiple identity versions across different time periods and fictional worlds. It provides a comprehensive platform for building, storing, and displaying digital identities with rich features including ability pools, repositories, 3D model support, and worldbuilding capabilities.
+| # | Script | What it does |
+|---|--------|-------------|
+| 1 | `scripts/db/01_enable_rls.sql` | Enables Row Level Security on all 16 tables + creates access policies |
+| 2 | `scripts/db/02_add_indexes.sql` | Adds 5 performance indexes for common query patterns |
+| 3 | `scripts/db/03_service_role_bypass.sql` | Documentation only — no SQL to run |
+| 4 | `scripts/db/04_storage_policies.sql` | Storage bucket write policies (run after creating buckets) |
+| 5 | `scripts/db/05_domain_events_audit_logs.sql` | Creates `domain_events` and `audit_logs` tables |
+| 6 | `scripts/db/06_publish_bio_rpc.sql` | Creates `publish_bio`, `unpublish_bio`, `validate_publishable_bio` RPCs |
 
-## Documentation Structure
+## Quick Reference
+
+### Auth pattern in API routes
+
+```typescript
+// ✅ Correct — requireAuth() returns User directly
+const user = await requireAuth();
+const userId = user.id;
+
+// ❌ Wrong — old pattern, will crash
+const session = await requireAuth();
+const userId = session.user.id;
+```
+
+### Error response format
+
+```json
+{ "error": { "code": "FORBIDDEN", "message": "You do not own this bio" } }
+```
+
+### World completion score
+
+```typescript
+// 10 tracked fields: name, summary, timeSetting, timeline, physicsRules,
+// rules, socialStructure, factions, geography, majorConflict
+calculateCompletionScore(world) // → 0–100
+```
+
+### Publish a character
 
 ```
-docs/
-├── README.md              # This document
-├── technical.md           # Technical implementation details
-├── design.md              # Design guidelines and principles
-└── features/              # Feature-specific documentation
-    ├── oasisbio.md        # OasisBio identity container
-    ├── abilities.md       # Ability pool system
-    ├── repositories.md    # Repository system (DCOS, References, Worlds)
-    ├── models.md          # 3D character model system
-    └── worlds.md          # Worldbuilding system
+POST /api/oasisbios/{id}/publish
+Body: { "visibility": "public" }
+
+DELETE /api/oasisbios/{id}/publish  (unpublish)
 ```
 
-## Technical Documentation
+### Supabase client selection
 
-The [technical documentation](technical.md) provides detailed information about the project's technical implementation, including:
-
-- Technology stack
-- Project structure
-- Database models
-- API endpoints
-- Deployment instructions
-- Security considerations
-- Performance optimization
-
-## Design Documentation
-
-The [design documentation](design.md) outlines the project's design principles and guidelines, including:
-
-- Design philosophy
-- Color palette
-- Typography
-- Layout structure
-- Component design
-- Responsive design
-- Animations
-- Accessibility
-
-## Feature Documentation
-
-### OasisBio Identity Container
-
-The [OasisBio identity container](features/oasisbio.md) documentation covers:
-
-- Identity modes (real, fictional, hybrid, future, alternate)
-- Basic profile information
-- Identity management
-- Era-specific identities
-
-### Ability Pool System
-
-The [ability pool system](features/abilities.md) documentation includes:
-
-- Ability categories
-- Custom vs official abilities
-- Skill levels
-- Era and world binding
-- Ability management
-
-### Repository System
-
-The [repository system](features/repositories.md) documentation covers:
-
-- DCOS (Dynamic Core Operating Script)
-- References library
-- Worldbuilding repository
-- File structure and organization
-
-### 3D Character Model
-
-The [3D character model](features/models.md) documentation includes:
-
-- GLB file support
-- Model preview
-- Era-specific models
-- World-bound visuals
-
-### Worldbuilding System
-
-The [worldbuilding system](features/worlds.md) documentation covers:
-
-- World creation and management
-- Timeline and rules
-- Factions and geography
-- Character-world binding
-
-## Getting Started
-
-To get started with OasisBio:
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Configure environment variables
-4. Run database migrations: `npx prisma migrate dev`
-5. Start development server: `npm run dev`
-
-For more detailed instructions, refer to the [technical documentation](technical.md).
-
-## Contributing
-
-We welcome contributions to the OasisBio project. Please refer to the contributing guidelines for more information.
-
-## License
-
-OasisBio is licensed under the MIT License. See the [LICENSE](../LICENSE) file for more information.
+| Context | Import |
+|---------|--------|
+| Client Component | `import { createClient } from '@/lib/supabase/client'` |
+| Server Component / API Route | `import { createClient } from '@/lib/supabase/server'` |
+| Middleware | `import { updateSession } from '@/lib/supabase/middleware'` |
+| Storage operations | `import { uploadFile, storagePath } from '@/lib/supabase/storage'` |
