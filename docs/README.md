@@ -5,6 +5,7 @@
 | Document | Description |
 |----------|-------------|
 | [technical.md](technical.md) | Full technical reference — architecture, auth, database schema, API, world builder, testing, deployment |
+| [edge-functions.md](edge-functions.md) | Edge Functions spec, current Next.js API routes, and migration guide to Supabase Edge Functions |
 | [design.md](design.md) | Design system — color palette, typography, components, layout |
 | [world-design-spec.md](world-design-spec.md) | Worldbuilding standard — 6-module structure, field definitions |
 
