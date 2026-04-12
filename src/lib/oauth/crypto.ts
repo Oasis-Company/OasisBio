@@ -1,0 +1,129 @@
+import 'server-only';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.OAUTH_JWT_SECRET ?? 'dev-oauth-secret-change-in-production';
+const JWT_ISSUER = 'https://oasisbio.com';
+
+// ─────────────────────────────────────────────
+// Random secret generation
+// ─────────────────────────────────────────────
+
+/**
+ * Generates a cryptographically random hex string.
+ * Default: 32 bytes = 64 hex chars (suitable for client_secret, refresh_token)
+ */
+export function generateSecret(bytes = 32): string {
+  return crypto.randomBytes(bytes).toString('hex');
+}
+
+/**
+ * Generates a UUID v4 (suitable for client_id, jti)
+ */
+export function generateUUID(): string {
+  return crypto.randomUUID();
+}
+
+// ─────────────────────────────────────────────
+// Client secret hashing
+// ─────────────────────────────────────────────
+
+/** Hash a client_secret for storage. Never store plaintext. */
+export async function hashClientSecret(secret: string): Promise<string> {
+  return bcrypt.hash(secret, 12);
+}
+
+/** Verify a client_secret against its stored hash. */
+export async function verifyClientSecret(secret: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(secret, hash);
+}
+
+// ─────────────────────────────────────────────
+// PKCE (RFC 7636)
+// ─────────────────────────────────────────────
+
+/**
+ * Verifies a PKCE code_verifier against a stored code_challenge.
+ * Uses S256 method: challenge = BASE64URL(SHA256(verifier))
+ *
+ * Feature: oauth-provider, Property 3: PKCE verification correctness
+ */
+export function verifyPKCE(codeVerifier: string, codeChallenge: string): boolean {
+  if (!codeVerifier || !codeChallenge) return false;
+  const computed = crypto
+    .createHash('sha256')
+    .update(codeVerifier)
+    .digest('base64url');
+  // Constant-time comparison to prevent timing attacks
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(computed) as unknown as Uint8Array,
+      Buffer.from(codeChallenge) as unknown as Uint8Array
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Generates a PKCE code_challenge from a code_verifier (for testing).
+ */
+export function generateCodeChallenge(codeVerifier: string): string {
+  return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
+}
+
+// ─────────────────────────────────────────────
+// JWT Access Tokens
+// ─────────────────────────────────────────────
+
+export interface AccessTokenPayload {
+  sub: string;        // user_id
+  client_id: string;
+  scope: string;      // space-separated
+  jti: string;        // JWT ID (for revocation lookup)
+  iat: number;
+  exp: number;
+  iss: string;
+}
+
+/**
+ * Signs a new access token JWT.
+ * Expires in 1 hour.
+ *
+ * Feature: oauth-provider, Property 4: Access token contains correct claims
+ */
+export function signAccessToken(payload: {
+  sub: string;
+  clientId: string;
+  scope: string;
+  jti: string;
+}): string {
+  return jwt.sign(
+    {
+      sub: payload.sub,
+      client_id: payload.clientId,
+      scope: payload.scope,
+      jti: payload.jti,
+      iss: JWT_ISSUER,
+    },
+    JWT_SECRET,
+    { expiresIn: '1h', algorithm: 'HS256' }
+  );
+}
+
+/**
+ * Verifies and decodes an access token JWT.
+ * Returns null if invalid or expired.
+ */
+export function verifyAccessToken(token: string): AccessTokenPayload | null {
+  try {
+    const payload = jwt.verify(token, JWT_SECRET, {
+      issuer: JWT_ISSUER,
+      algorithms: ['HS256'],
+    }) as AccessTokenPayload;
+    return payload;
+  } catch {
+    return null;
+  }
+}
