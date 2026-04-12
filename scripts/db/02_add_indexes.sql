@@ -14,7 +14,7 @@ CREATE INDEX IF NOT EXISTS idx_world_items_updated_at
 
 -- oasis_bios: 公开探索页面的复合索引
 CREATE INDEX IF NOT EXISTS idx_oasis_bios_public_explore
-  ON public.oasis_bios (visibility, status, updated_at DESC)
+  ON public.oasis_bios (visibility, status, "updatedAt" DESC)
   WHERE visibility = 'public';
 
 -- profiles: 用户名搜索（已有 unique index，补充 lower() 索引支持大小写不敏感搜索）
