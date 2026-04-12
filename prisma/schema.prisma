@@ -241,6 +241,8 @@ model WorldItem {
   timeline          String?
   rules             String?
   factions          String?
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
   oasisBio          OasisBio        @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   documents         WorldDocument[]
   abilities         Ability[]
@@ -248,6 +250,7 @@ model WorldItem {
 
   @@index([oasisBioId])
   @@index([visibility])
+  @@index([updatedAt])
   @@map("world_items")
 }
 

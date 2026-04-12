@@ -260,7 +260,9 @@ export const WorldItemScalarFieldEnum = {
   visibility: 'visibility',
   timeline: 'timeline',
   rules: 'rules',
-  factions: 'factions'
+  factions: 'factions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorldItemScalarFieldEnum = (typeof WorldItemScalarFieldEnum)[keyof typeof WorldItemScalarFieldEnum]

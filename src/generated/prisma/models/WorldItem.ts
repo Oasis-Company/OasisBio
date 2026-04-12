@@ -39,6 +39,8 @@ export type WorldItemMinAggregateOutputType = {
   timeline: string | null
   rules: string | null
   factions: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WorldItemMaxAggregateOutputType = {
@@ -56,6 +58,8 @@ export type WorldItemMaxAggregateOutputType = {
   timeline: string | null
   rules: string | null
   factions: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WorldItemCountAggregateOutputType = {
@@ -73,6 +77,8 @@ export type WorldItemCountAggregateOutputType = {
   timeline: number
   rules: number
   factions: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -92,6 +98,8 @@ export type WorldItemMinAggregateInputType = {
   timeline?: true
   rules?: true
   factions?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WorldItemMaxAggregateInputType = {
@@ -109,6 +117,8 @@ export type WorldItemMaxAggregateInputType = {
   timeline?: true
   rules?: true
   factions?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WorldItemCountAggregateInputType = {
@@ -126,6 +136,8 @@ export type WorldItemCountAggregateInputType = {
   timeline?: true
   rules?: true
   factions?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -216,6 +228,8 @@ export type WorldItemGroupByOutputType = {
   timeline: string | null
   rules: string | null
   factions: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: WorldItemCountAggregateOutputType | null
   _min: WorldItemMinAggregateOutputType | null
   _max: WorldItemMaxAggregateOutputType | null
@@ -254,6 +268,8 @@ export type WorldItemWhereInput = {
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
   documents?: Prisma.WorldDocumentListRelationFilter
   abilities?: Prisma.AbilityListRelationFilter
@@ -275,6 +291,8 @@ export type WorldItemOrderByWithRelationInput = {
   timeline?: Prisma.SortOrderInput | Prisma.SortOrder
   rules?: Prisma.SortOrderInput | Prisma.SortOrder
   factions?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   oasisBio?: Prisma.OasisBioOrderByWithRelationInput
   documents?: Prisma.WorldDocumentOrderByRelationAggregateInput
   abilities?: Prisma.AbilityOrderByRelationAggregateInput
@@ -299,6 +317,8 @@ export type WorldItemWhereUniqueInput = Prisma.AtLeast<{
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
   oasisBio?: Prisma.XOR<Prisma.OasisBioScalarRelationFilter, Prisma.OasisBioWhereInput>
   documents?: Prisma.WorldDocumentListRelationFilter
   abilities?: Prisma.AbilityListRelationFilter
@@ -320,6 +340,8 @@ export type WorldItemOrderByWithAggregationInput = {
   timeline?: Prisma.SortOrderInput | Prisma.SortOrder
   rules?: Prisma.SortOrderInput | Prisma.SortOrder
   factions?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.WorldItemCountOrderByAggregateInput
   _max?: Prisma.WorldItemMaxOrderByAggregateInput
   _min?: Prisma.WorldItemMinOrderByAggregateInput
@@ -343,6 +365,8 @@ export type WorldItemScalarWhereWithAggregatesInput = {
   timeline?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableWithAggregatesFilter<"WorldItem"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorldItem"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorldItem"> | Date | string
 }
 
 export type WorldItemCreateInput = {
@@ -359,6 +383,8 @@ export type WorldItemCreateInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
   documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
@@ -380,6 +406,8 @@ export type WorldItemUncheckedCreateInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutWorldInput
@@ -399,6 +427,8 @@ export type WorldItemUpdateInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
   documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
@@ -420,6 +450,8 @@ export type WorldItemUncheckedUpdateInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutWorldNestedInput
@@ -440,6 +472,8 @@ export type WorldItemCreateManyInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WorldItemUpdateManyMutationInput = {
@@ -456,6 +490,8 @@ export type WorldItemUpdateManyMutationInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorldItemUncheckedUpdateManyInput = {
@@ -473,6 +509,8 @@ export type WorldItemUncheckedUpdateManyInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorldItemListRelationFilter = {
@@ -505,6 +543,8 @@ export type WorldItemCountOrderByAggregateInput = {
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorldItemMaxOrderByAggregateInput = {
@@ -522,6 +562,8 @@ export type WorldItemMaxOrderByAggregateInput = {
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorldItemMinOrderByAggregateInput = {
@@ -539,6 +581,8 @@ export type WorldItemMinOrderByAggregateInput = {
   timeline?: Prisma.SortOrder
   rules?: Prisma.SortOrder
   factions?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorldItemScalarRelationFilter = {
@@ -648,6 +692,8 @@ export type WorldItemCreateWithoutOasisBioInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
   references?: Prisma.ReferenceItemCreateNestedManyWithoutWorldInput
@@ -667,6 +713,8 @@ export type WorldItemUncheckedCreateWithoutOasisBioInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutWorldInput
@@ -716,6 +764,8 @@ export type WorldItemScalarWhereInput = {
   timeline?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   rules?: Prisma.StringNullableFilter<"WorldItem"> | string | null
   factions?: Prisma.StringNullableFilter<"WorldItem"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorldItem"> | Date | string
 }
 
 export type WorldItemCreateWithoutAbilitiesInput = {
@@ -732,6 +782,8 @@ export type WorldItemCreateWithoutAbilitiesInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
   documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
   references?: Prisma.ReferenceItemCreateNestedManyWithoutWorldInput
@@ -752,6 +804,8 @@ export type WorldItemUncheckedCreateWithoutAbilitiesInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutWorldInput
 }
@@ -786,6 +840,8 @@ export type WorldItemUpdateWithoutAbilitiesInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
   documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
   references?: Prisma.ReferenceItemUpdateManyWithoutWorldNestedInput
@@ -806,6 +862,8 @@ export type WorldItemUncheckedUpdateWithoutAbilitiesInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutWorldNestedInput
 }
@@ -824,6 +882,8 @@ export type WorldItemCreateWithoutReferencesInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
   documents?: Prisma.WorldDocumentCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
@@ -844,6 +904,8 @@ export type WorldItemUncheckedCreateWithoutReferencesInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   documents?: Prisma.WorldDocumentUncheckedCreateNestedManyWithoutWorldInput
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
 }
@@ -878,6 +940,8 @@ export type WorldItemUpdateWithoutReferencesInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
   documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
@@ -898,6 +962,8 @@ export type WorldItemUncheckedUpdateWithoutReferencesInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
 }
@@ -916,6 +982,8 @@ export type WorldItemCreateWithoutDocumentsInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   oasisBio: Prisma.OasisBioCreateNestedOneWithoutWorldsInput
   abilities?: Prisma.AbilityCreateNestedManyWithoutRelatedWorldInput
   references?: Prisma.ReferenceItemCreateNestedManyWithoutWorldInput
@@ -936,6 +1004,8 @@ export type WorldItemUncheckedCreateWithoutDocumentsInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutRelatedWorldInput
   references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutWorldInput
 }
@@ -970,6 +1040,8 @@ export type WorldItemUpdateWithoutDocumentsInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oasisBio?: Prisma.OasisBioUpdateOneRequiredWithoutWorldsNestedInput
   abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
   references?: Prisma.ReferenceItemUpdateManyWithoutWorldNestedInput
@@ -990,6 +1062,8 @@ export type WorldItemUncheckedUpdateWithoutDocumentsInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutWorldNestedInput
 }
@@ -1008,6 +1082,8 @@ export type WorldItemCreateManyOasisBioInput = {
   timeline?: string | null
   rules?: string | null
   factions?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WorldItemUpdateWithoutOasisBioInput = {
@@ -1024,6 +1100,8 @@ export type WorldItemUpdateWithoutOasisBioInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.WorldDocumentUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUpdateManyWithoutRelatedWorldNestedInput
   references?: Prisma.ReferenceItemUpdateManyWithoutWorldNestedInput
@@ -1043,6 +1121,8 @@ export type WorldItemUncheckedUpdateWithoutOasisBioInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.WorldDocumentUncheckedUpdateManyWithoutWorldNestedInput
   abilities?: Prisma.AbilityUncheckedUpdateManyWithoutRelatedWorldNestedInput
   references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutWorldNestedInput
@@ -1062,6 +1142,8 @@ export type WorldItemUncheckedUpdateManyWithoutOasisBioInput = {
   timeline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rules?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   factions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1128,6 +1210,8 @@ export type WorldItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   timeline?: boolean
   rules?: boolean
   factions?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.WorldItem$documentsArgs<ExtArgs>
   abilities?: boolean | Prisma.WorldItem$abilitiesArgs<ExtArgs>
@@ -1150,6 +1234,8 @@ export type WorldItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   timeline?: boolean
   rules?: boolean
   factions?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["worldItem"]>
 
@@ -1168,6 +1254,8 @@ export type WorldItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   timeline?: boolean
   rules?: boolean
   factions?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["worldItem"]>
 
@@ -1186,9 +1274,11 @@ export type WorldItemSelectScalar = {
   timeline?: boolean
   rules?: boolean
   factions?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type WorldItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "summary" | "timeSetting" | "geography" | "physicsRules" | "socialStructure" | "aestheticKeywords" | "majorConflict" | "visibility" | "timeline" | "rules" | "factions", ExtArgs["result"]["worldItem"]>
+export type WorldItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "oasisBioId" | "name" | "summary" | "timeSetting" | "geography" | "physicsRules" | "socialStructure" | "aestheticKeywords" | "majorConflict" | "visibility" | "timeline" | "rules" | "factions" | "createdAt" | "updatedAt", ExtArgs["result"]["worldItem"]>
 export type WorldItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oasisBio?: boolean | Prisma.OasisBioDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.WorldItem$documentsArgs<ExtArgs>
@@ -1226,6 +1316,8 @@ export type $WorldItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     timeline: string | null
     rules: string | null
     factions: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["worldItem"]>
   composites: {}
 }
@@ -1667,6 +1759,8 @@ export interface WorldItemFieldRefs {
   readonly timeline: Prisma.FieldRef<"WorldItem", 'String'>
   readonly rules: Prisma.FieldRef<"WorldItem", 'String'>
   readonly factions: Prisma.FieldRef<"WorldItem", 'String'>
+  readonly createdAt: Prisma.FieldRef<"WorldItem", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"WorldItem", 'DateTime'>
 }
     
 

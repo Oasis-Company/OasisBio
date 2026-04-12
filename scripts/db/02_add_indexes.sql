@@ -8,7 +8,7 @@
 --   高频查询场景需要的复合索引和缺失索引。
 -- ============================================================
 
--- world_items: 缺少 updatedAt 索引（用于排序）
+-- world_items: updatedAt 索引（用于排序）
 CREATE INDEX IF NOT EXISTS idx_world_items_updated_at
   ON public.world_items (oasis_bio_id, updated_at DESC);
 
