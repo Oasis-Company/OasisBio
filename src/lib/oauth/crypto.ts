@@ -26,6 +26,20 @@ export function generateUUID(): string {
 }
 
 // ─────────────────────────────────────────────
+// Refresh token hashing
+// ─────────────────────────────────────────────
+
+/**
+ * Hash a refresh token for storage using SHA-256.
+ * Refresh tokens are high-entropy random values (64 hex chars),
+ * so SHA-256 is sufficient — bcrypt is unnecessary and slow here.
+ * This allows O(1) database lookup by hash.
+ */
+export function hashRefreshToken(token: string): string {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
+// ─────────────────────────────────────────────
 // Client secret hashing
 // ─────────────────────────────────────────────
 

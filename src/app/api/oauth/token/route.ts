@@ -6,9 +6,9 @@ import {
   signAccessToken,
   generateSecret,
   generateUUID,
+  hashRefreshToken,
 } from '@/lib/oauth/crypto';
 import { validateTokenParams } from '@/lib/oauth/validate';
-import bcrypt from 'bcryptjs';
 
 function oauthError(error: string, description: string, status = 400) {
   return NextResponse.json(
@@ -74,26 +74,16 @@ export async function POST(request: NextRequest) {
 
   // ─── refresh_token grant ─────────────────────────────────────────────────
   if (params.grant_type === 'refresh_token') {
-    // Find token by hashing the provided refresh_token and comparing
-    // We need to find the token record — iterate recent tokens for this client
-    // (In production, use a lookup table or store token hash directly)
-    const candidateTokens = await prisma.oauthToken.findMany({
-      where: {
-        clientId: params.client_id,
-        revokedAt: null,
-        expiresAt: { gt: new Date() },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 100,
+    // O(1) lookup: hash the provided token and query directly by hash
+    const tokenHash = hashRefreshToken(params.refresh_token);
+    const matchedToken = await prisma.oauthToken.findUnique({
+      where: { refreshTokenHash: tokenHash },
     });
 
-    let matchedToken = null;
-    for (const token of candidateTokens) {
-      const matches = await bcrypt.compare(params.refresh_token, token.refreshTokenHash);
-      if (matches) { matchedToken = token; break; }
-    }
-
     if (!matchedToken) return oauthError('invalid_grant', 'Invalid or expired refresh_token');
+    if (matchedToken.revokedAt) return oauthError('invalid_grant', 'Refresh token has been revoked');
+    if (matchedToken.expiresAt < new Date()) return oauthError('invalid_grant', 'Refresh token has expired');
+    if (matchedToken.clientId !== params.client_id) return oauthError('invalid_grant', 'client_id mismatch');
 
     // Revoke old refresh token (rotation)
     await prisma.oauthToken.update({
@@ -110,7 +100,7 @@ export async function POST(request: NextRequest) {
 async function issueTokens(clientId: string, userId: string, scope: string) {
   const jti = generateUUID();
   const refreshToken = generateSecret(32);
-  const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
+  const refreshTokenHash = hashRefreshToken(refreshToken);
   const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
 
   await prisma.oauthToken.create({

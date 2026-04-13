@@ -114,6 +114,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // SSRF protection: block private/internal network addresses
+    const hostname = parsedUrl.hostname.toLowerCase();
+    const BLOCKED_PATTERNS = [
+      /^localhost$/,
+      /^127\./,
+      /^10\./,
+      /^172\.(1[6-9]|2\d|3[01])\./,
+      /^192\.168\./,
+      /^169\.254\./,       // link-local
+      /^::1$/,             // IPv6 loopback
+      /^fc00:/,            // IPv6 unique local
+      /^fe80:/,            // IPv6 link-local
+      /^0\./,              // 0.0.0.0/8
+      /^100\.6[4-9]\./,    // CGNAT
+      /^100\.[7-9]\d\./,
+      /^100\.1[01]\d\./,
+      /^100\.12[0-7]\./,
+      /\.internal$/,
+      /\.local$/,
+    ];
+
+    if (BLOCKED_PATTERNS.some(p => p.test(hostname))) {
+      return NextResponse.json(
+        { error: { code: 'VALIDATION_ERROR', message: 'URL points to a restricted address' } },
+        { status: 400 }
+      );
+    }
+
     const { provider, sourceType } = detectProvider(url);
 
     // Fetch the page HTML with a 5-second timeout

@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken } from './crypto';
 import { hasScope, type ScopeName } from './scopes';
 import { prisma } from '@/lib/prisma';
-import type { AccessTokenPayload } from './crypto';
 
 export interface OAuthContext {
   userId: string;

@@ -11,8 +11,7 @@ export async function GET(
     const user = await requireAuth();
     const { id } = await params;
 
-    await requireOasisBioOwnership(id, user.id);
-
+    // Single query: fetch with all relations and verify ownership in one shot
     const oasisBio = await prisma.oasisBio.findUnique({
       where: { id },
       include: {
@@ -26,7 +25,16 @@ export async function GET(
     });
 
     if (!oasisBio) {
-      return NextResponse.json({ error: 'OasisBio not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: { code: 'NOT_FOUND', message: 'OasisBio not found' } },
+        { status: 404 }
+      );
+    }
+    if (oasisBio.userId !== user.id) {
+      return NextResponse.json(
+        { error: { code: 'FORBIDDEN', message: 'You do not own this OasisBio' } },
+        { status: 403 }
+      );
     }
 
     return NextResponse.json(oasisBio);
@@ -45,23 +53,24 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
+    // requireOasisBioOwnership already confirms existence + ownership
     await requireOasisBioOwnership(id, user.id);
 
     const { title, tagline, identityMode, birthDate, gender, pronouns, placeOfOrigin, currentEra, species, status, description, visibility } = body;
 
-    const updates: any = {};
-    if (title) updates.title = title;
-    if (tagline) updates.tagline = tagline;
-    if (identityMode) updates.identityMode = identityMode;
-    if (birthDate) updates.birthDate = new Date(birthDate);
-    if (gender) updates.gender = gender;
-    if (pronouns) updates.pronouns = pronouns;
-    if (placeOfOrigin) updates.placeOfOrigin = placeOfOrigin;
-    if (currentEra) updates.currentEra = currentEra;
-    if (species) updates.species = species;
-    if (status) updates.status = status;
-    if (description) updates.description = description;
-    if (visibility) updates.visibility = visibility;
+    const updates: Record<string, unknown> = {};
+    if (title !== undefined) updates.title = title;
+    if (tagline !== undefined) updates.tagline = tagline;
+    if (identityMode !== undefined) updates.identityMode = identityMode;
+    if (birthDate !== undefined) updates.birthDate = new Date(birthDate);
+    if (gender !== undefined) updates.gender = gender;
+    if (pronouns !== undefined) updates.pronouns = pronouns;
+    if (placeOfOrigin !== undefined) updates.placeOfOrigin = placeOfOrigin;
+    if (currentEra !== undefined) updates.currentEra = currentEra;
+    if (species !== undefined) updates.species = species;
+    if (status !== undefined) updates.status = status;
+    if (description !== undefined) updates.description = description;
+    if (visibility !== undefined) updates.visibility = visibility;
 
     const oasisBio = await prisma.oasisBio.update({
       where: { id },
@@ -85,9 +94,7 @@ export async function DELETE(
 
     await requireOasisBioOwnership(id, user.id);
 
-    await prisma.oasisBio.delete({
-      where: { id },
-    });
+    await prisma.oasisBio.delete({ where: { id } });
 
     return NextResponse.json({ message: 'OasisBio deleted successfully' });
   } catch (error) {

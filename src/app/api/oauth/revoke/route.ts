@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyAccessToken } from '@/lib/oauth/crypto';
-import bcrypt from 'bcryptjs';
+import { verifyAccessToken, hashRefreshToken } from '@/lib/oauth/crypto';
 
 // POST /api/oauth/revoke — revoke an access_token or refresh_token
 export async function POST(request: NextRequest) {
@@ -36,24 +35,13 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Try to revoke as refresh_token
+  // Try to revoke as refresh_token — O(1) lookup via SHA-256 hash
   if (!token_type_hint || token_type_hint === 'refresh_token') {
-    const candidates = await prisma.oauthToken.findMany({
-      where: { revokedAt: null },
-      orderBy: { createdAt: 'desc' },
-      take: 200,
+    const tokenHash = hashRefreshToken(token);
+    await prisma.oauthToken.updateMany({
+      where: { refreshTokenHash: tokenHash, revokedAt: null },
+      data: { revokedAt: new Date() },
     });
-
-    for (const candidate of candidates) {
-      const matches = await bcrypt.compare(token, candidate.refreshTokenHash);
-      if (matches) {
-        await prisma.oauthToken.update({
-          where: { id: candidate.id },
-          data: { revokedAt: new Date() },
-        });
-        break;
-      }
-    }
   }
 
   // RFC 7009: always return 200 regardless of whether token was found

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useSession } from '@/lib/auth.client';
 import { CopyButton } from '@/components/CopyButton';
@@ -238,18 +238,14 @@ export default function DeveloperLandingPage() {
         </div>
       </section>
 
-      {/* Code Snippets */}
+      {/* Code Snippets — tabbed */}
       <section id="snippets" className="py-20 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">Code Snippets</h2>
             <p className="text-gray-500">Pick your stack and copy.</p>
           </div>
-          <div className="space-y-6">
-            <CodeBlock label="React / Next.js" code={REACT_SNIPPET} />
-            <CodeBlock label="JavaScript (Full PKCE)" code={JS_SNIPPET} />
-            <CodeBlock label="HTML (Static)" code={HTML_SNIPPET} />
-          </div>
+          <CodeSnippetTabs />
         </div>
       </section>
 
@@ -302,6 +298,59 @@ function OasisIcon() {
       <circle cx="12" cy="12" r="10" fill="white" fillOpacity="0.15" />
       <circle cx="12" cy="12" r="4" fill="white" />
     </svg>
+  );
+}
+
+const TABS = [
+  { id: 'react', label: 'React / Next.js', lang: 'tsx', code: REACT_SNIPPET },
+  { id: 'js', label: 'JavaScript', lang: 'js', code: JS_SNIPPET },
+  { id: 'html', label: 'HTML', lang: 'html', code: HTML_SNIPPET },
+] as const;
+
+type TabId = typeof TABS[number]['id'];
+
+function CodeSnippetTabs() {
+  const [active, setActive] = useState<TabId>('react');
+  const tab = TABS.find(t => t.id === active)!;
+
+  return (
+    <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+      {/* Tab bar */}
+      <div className="flex items-center border-b border-gray-100 px-2 pt-2 gap-1">
+        {TABS.map(t => (
+          <button
+            key={t.id}
+            onClick={() => setActive(t.id)}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+              active === t.id
+                ? 'bg-gray-950 text-white'
+                : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+        <div className="flex-1" />
+        <div className="pb-2 pr-1">
+          <CopyButton value={tab.code} successMessage="Copied!" />
+        </div>
+      </div>
+
+      {/* Code panel */}
+      <pre className="bg-gray-950 text-green-400 p-6 text-xs overflow-x-auto leading-relaxed min-h-[280px]">
+        {tab.code}
+      </pre>
+
+      {/* Footer hint */}
+      <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+        <span className="text-xs text-gray-400">
+          {active === 'react' && 'Requires PKCE helper functions — see JavaScript tab for implementation.'}
+          {active === 'js' && 'Full PKCE implementation. Works in any modern browser.'}
+          {active === 'html' && 'Static link — generate code_challenge server-side or use the JS snippet.'}
+        </span>
+        <span className="text-xs text-gray-300 font-mono">.{tab.lang}</span>
+      </div>
+    </div>
   );
 }
 
