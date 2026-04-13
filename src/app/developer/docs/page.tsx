@@ -7,11 +7,11 @@ export default function DeveloperDocsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-6 py-10">
-        <Link href="/developer/apps" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-700 mb-6 transition-colors">
+        <Link href="/developer" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-700 mb-6 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to Apps
+          Back to Developer Portal
         </Link>
 
         <h1 className="text-3xl font-bold text-gray-900 mb-2">OAuth Integration Guide</h1>

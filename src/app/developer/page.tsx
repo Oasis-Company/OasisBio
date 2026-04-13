@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useSession } from '@/lib/auth.client';
 import { CopyButton } from '@/components/CopyButton';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.com';
@@ -86,13 +89,16 @@ async function loginWithOasis(clientId, redirectUri) {
 }`;
 
 export default function DeveloperLandingPage() {
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-black text-white py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs text-white/70 mb-6">
-            OAuth 2.0 + PKCE · OpenID Connect
+            OAuth 2.0 + PKCE · OpenID Connect · RFC 7636
           </div>
           <h1 className="text-5xl font-bold tracking-tight mb-5 leading-tight">
             Let your users sign in<br />with their Oasis identity
@@ -101,19 +107,51 @@ export default function DeveloperLandingPage() {
             One button. Full access to character profiles, worlds, and DCOS documents — with user consent.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link
-              href="/developer/apps/new"
-              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              Get Started
-            </Link>
-            <Link
-              href="/developer/docs"
-              className="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
-            >
-              Read the Docs
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/developer/apps/new"
+                  className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  Create an App
+                </Link>
+                <Link
+                  href="/developer/apps"
+                  className="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  My Apps
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login?callbackUrl=/developer/apps/new"
+                  className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  href="/developer/docs"
+                  className="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  Read the Docs
+                </Link>
+              </>
+            )}
           </div>
+
+          {/* Return path for existing developers */}
+          {!isLoggedIn && (
+            <p className="mt-6 text-sm text-white/40">
+              Already have an app?{' '}
+              <Link
+                href="/auth/login?callbackUrl=/developer/apps"
+                className="text-white/70 hover:text-white underline underline-offset-2 transition-colors"
+              >
+                Sign in to manage it
+              </Link>
+            </p>
+          )}
         </div>
       </section>
 
@@ -169,7 +207,7 @@ export default function DeveloperLandingPage() {
                 step: '01',
                 title: 'Register your app',
                 desc: 'Create an OAuth app in the developer portal. Get your client_id instantly.',
-                href: '/developer/apps/new',
+                href: isLoggedIn ? '/developer/apps/new' : '/auth/login?callbackUrl=/developer/apps/new',
                 cta: 'Create App →',
               },
               {
@@ -239,11 +277,19 @@ export default function DeveloperLandingPage() {
           <h2 className="text-3xl font-bold mb-4">Ready to build?</h2>
           <p className="text-white/60 mb-8">Register your app and start integrating Oasis identity in minutes.</p>
           <Link
-            href="/developer/apps/new"
+            href={isLoggedIn ? '/developer/apps/new' : '/auth/login?callbackUrl=/developer/apps/new'}
             className="inline-block px-8 py-3.5 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors"
           >
             Start Building
           </Link>
+          {isLoggedIn && (
+            <p className="mt-4 text-sm text-white/40">
+              or{' '}
+              <Link href="/developer/apps" className="text-white/60 hover:text-white underline underline-offset-2 transition-colors">
+                view your existing apps
+              </Link>
+            </p>
+          )}
         </div>
       </section>
     </div>

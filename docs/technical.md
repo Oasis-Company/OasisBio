@@ -16,6 +16,7 @@
 12. [Deployment](#12-deployment)
 13. [Environment Variables](#13-environment-variables)
 14. [Planned: Edge Functions](#14-planned-edge-functions)
+15. [OAuth Provider](#15-oauth-provider)
 
 ---
 
