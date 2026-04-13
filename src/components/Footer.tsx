@@ -15,6 +15,7 @@ const LINKS = {
     { label: 'My Apps', href: '/developer/apps' },
     { label: 'API Docs', href: '/developer/docs' },
     { label: 'OAuth Integration', href: '/developer/docs#oauth' },
+    { label: 'Data Processing Agreement', href: '/dpa' },
     { label: 'GitHub', href: 'https://github.com/Oasis-Company', external: true },
   ],
   Company: [

@@ -208,9 +208,31 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">13. Governing Law</h2>
             <p className="text-sm">
               These Terms are governed by and construed in accordance with applicable international
-              law. For users in the European Union, nothing in these Terms limits your rights under
-              applicable EU consumer protection laws.
+              law. The following jurisdiction-specific provisions apply:
             </p>
+            <ul className="list-disc pl-5 space-y-2 text-sm mt-3">
+              <li>
+                <strong>European Union / EEA users:</strong> Nothing in these Terms limits your
+                rights under applicable EU consumer protection laws, including the EU Consumer
+                Rights Directive and GDPR. Disputes may be submitted to your local courts or
+                the EU Online Dispute Resolution platform at{' '}
+                <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-black underline">ec.europa.eu/consumers/odr</a>.
+              </li>
+              <li>
+                <strong>California (USA) users:</strong> Nothing in these Terms waives your
+                rights under the California Consumer Privacy Act (CCPA/CPRA) or other
+                California consumer protection laws.
+              </li>
+              <li>
+                <strong>Brazil users:</strong> Nothing in these Terms limits your rights under
+                the Lei Geral de Proteção de Dados (LGPD) or the Brazilian Consumer Defense Code (CDC).
+              </li>
+              <li>
+                <strong>All other users:</strong> These Terms are governed by general principles
+                of international commercial law. We will make reasonable efforts to resolve
+                disputes amicably.
+              </li>
+            </ul>
           </section>
 
           <section>
