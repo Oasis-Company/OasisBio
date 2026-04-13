@@ -49,25 +49,25 @@
   - 在 `docs/technical.md` 更新环境变量表
   - _Requirements: 5.4_
 
-- [-] 4. 开发者门户 API
-  - [-] 4.1 创建 `src/app/api/developer/apps/route.ts`
+- [x] 4. 开发者门户 API
+  - [x] 4.1 创建 `src/app/api/developer/apps/route.ts`
     - GET: 列出当前用户的所有 OAuth apps
     - POST: 创建新 app（生成 client_id + client_secret，存哈希）
     - 限制每用户最多 10 个 app
     - _Requirements: 1.2, 1.3, 1.7_
 
-  - [ ] 4.2 创建 `src/app/api/developer/apps/[id]/route.ts`
+  - [x] 4.2 创建 `src/app/api/developer/apps/[id]/route.ts`
     - GET: 获取单个 app（不返回 client_secret）
     - PUT: 更新 app（name, description, homepage_url, redirect_uris, logo_url）
     - DELETE: 删除 app + 撤销所有 token
     - _Requirements: 1.4, 1.5, 1.6_
 
-  - [ ] 4.3 创建 `src/app/api/developer/apps/[id]/secret/route.ts`
+  - [x] 4.3 创建 `src/app/api/developer/apps/[id]/secret/route.ts`
     - POST: 轮换 client_secret（生成新的，返回明文一次，存哈希）
     - _Requirements: 1.2_
 
-- [ ] 5. OAuth 核心端点
-  - [ ] 5.1 创建 `src/app/oauth/authorize/page.tsx`
+- [-] 5. OAuth 核心端点
+  - [-] 5.1 创建 `src/app/oauth/authorize/page.tsx`
     - GET: 验证参数，显示 Consent Screen
     - POST: 处理用户授权决定（Authorize / Deny）
     - 生成 Authorization Code，重定向到 redirect_uri

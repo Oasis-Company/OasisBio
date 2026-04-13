@@ -29,6 +29,7 @@ model User {
   oasisBios     OasisBio[]
   profiles      Profile[]
   exportHistory ExportHistory[]
+  oauthApps     OauthApp[]
 
   @@index([createdAt])
   @@index([email])
@@ -384,4 +385,61 @@ model ExportHistory {
   @@index([userId])
   @@index([createdAt])
   @@map("export_history")
+}
+
+model OauthApp {
+  id               String   @id @default(cuid())
+  ownerUserId      String   @map("owner_user_id")
+  name             String
+  description      String?
+  homepageUrl      String   @map("homepage_url")
+  logoUrl          String?  @map("logo_url")
+  redirectUris     String[] @map("redirect_uris")
+  clientId         String   @unique @map("client_id")
+  clientSecretHash String   @map("client_secret_hash")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  owner            User     @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  authCodes        OauthAuthorizationCode[]
+  tokens           OauthToken[]
+
+  @@index([ownerUserId])
+  @@index([clientId])
+  @@map("oauth_apps")
+}
+
+model OauthAuthorizationCode {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  clientId      String    @map("client_id")
+  userId        String    @map("user_id")
+  redirectUri   String    @map("redirect_uri")
+  scope         String
+  codeChallenge String    @map("code_challenge")
+  usedAt        DateTime? @map("used_at")
+  expiresAt     DateTime  @map("expires_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  app           OauthApp  @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+
+  @@index([code])
+  @@index([expiresAt])
+  @@map("oauth_authorization_codes")
+}
+
+model OauthToken {
+  id                String    @id @default(cuid())
+  clientId          String    @map("client_id")
+  userId            String    @map("user_id")
+  scope             String
+  jti               String    @unique
+  refreshTokenHash  String    @unique @map("refresh_token_hash")
+  revokedAt         DateTime? @map("revoked_at")
+  expiresAt         DateTime  @map("expires_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  app               OauthApp  @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+
+  @@index([clientId, userId])
+  @@index([jti])
+  @@map("oauth_tokens")
 }

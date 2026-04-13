@@ -144,3 +144,18 @@ export type CharacterRelationship = Prisma.CharacterRelationshipModel
  * 
  */
 export type ExportHistory = Prisma.ExportHistoryModel
+/**
+ * Model OauthApp
+ * 
+ */
+export type OauthApp = Prisma.OauthAppModel
+/**
+ * Model OauthAuthorizationCode
+ * 
+ */
+export type OauthAuthorizationCode = Prisma.OauthAuthorizationCodeModel
+/**
+ * Model OauthToken
+ * 
+ */
+export type OauthToken = Prisma.OauthTokenModel

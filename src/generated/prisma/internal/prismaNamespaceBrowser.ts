@@ -68,7 +68,10 @@ export const ModelName = {
   Tag: 'Tag',
   EntityTag: 'EntityTag',
   CharacterRelationship: 'CharacterRelationship',
-  ExportHistory: 'ExportHistory'
+  ExportHistory: 'ExportHistory',
+  OauthApp: 'OauthApp',
+  OauthAuthorizationCode: 'OauthAuthorizationCode',
+  OauthToken: 'OauthToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -386,6 +389,55 @@ export const ExportHistoryScalarFieldEnum = {
 } as const
 
 export type ExportHistoryScalarFieldEnum = (typeof ExportHistoryScalarFieldEnum)[keyof typeof ExportHistoryScalarFieldEnum]
+
+
+export const OauthAppScalarFieldEnum = {
+  id: 'id',
+  ownerUserId: 'ownerUserId',
+  name: 'name',
+  description: 'description',
+  homepageUrl: 'homepageUrl',
+  logoUrl: 'logoUrl',
+  redirectUris: 'redirectUris',
+  clientId: 'clientId',
+  clientSecretHash: 'clientSecretHash',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OauthAppScalarFieldEnum = (typeof OauthAppScalarFieldEnum)[keyof typeof OauthAppScalarFieldEnum]
+
+
+export const OauthAuthorizationCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  clientId: 'clientId',
+  userId: 'userId',
+  redirectUri: 'redirectUri',
+  scope: 'scope',
+  codeChallenge: 'codeChallenge',
+  usedAt: 'usedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OauthAuthorizationCodeScalarFieldEnum = (typeof OauthAuthorizationCodeScalarFieldEnum)[keyof typeof OauthAuthorizationCodeScalarFieldEnum]
+
+
+export const OauthTokenScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  userId: 'userId',
+  scope: 'scope',
+  jti: 'jti',
+  refreshTokenHash: 'refreshTokenHash',
+  revokedAt: 'revokedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OauthTokenScalarFieldEnum = (typeof OauthTokenScalarFieldEnum)[keyof typeof OauthTokenScalarFieldEnum]
 
 
 export const SortOrder = {
