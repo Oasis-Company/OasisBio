@@ -14,10 +14,17 @@ export async function POST(
 
     const app = await prisma.oauthApp.findUnique({
       where: { id },
-      select: { id: true, ownerUserId: true },
+      select: { id: true, ownerUserId: true, clientId: true },
     });
+
     if (!app) throw new AuthError('App not found', 404);
     if (app.ownerUserId !== user.id) throw new AuthError('Forbidden', 403);
+
+    // Revoke all existing tokens for this app
+    await prisma.oauthToken.updateMany({
+      where: { clientId: app.clientId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    });
 
     // Generate new secret
     const newSecret = generateSecret(32);
@@ -28,19 +35,8 @@ export async function POST(
       data: { clientSecretHash: newHash },
     });
 
-    // Revoke all existing tokens (secret rotation invalidates old sessions)
-    const appRecord = await prisma.oauthApp.findUnique({ where: { id }, select: { clientId: true } });
-    if (appRecord) {
-      await prisma.oauthToken.updateMany({
-        where: { clientId: appRecord.clientId, revokedAt: null },
-        data: { revokedAt: new Date() },
-      });
-    }
-
-    return NextResponse.json({
-      clientSecret: newSecret,
-      message: 'Secret rotated. All existing tokens have been revoked. Store this secret securely — it will not be shown again.',
-    });
+    // Return plaintext once — never stored
+    return NextResponse.json({ clientSecret: newSecret });
   } catch (error) {
     return handleApiError(error);
   }

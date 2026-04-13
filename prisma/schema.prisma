@@ -33,6 +33,7 @@ model User {
 
   @@index([createdAt])
   @@index([email])
+  @@map("User")
 }
 
 model Profile {

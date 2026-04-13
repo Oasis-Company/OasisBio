@@ -67,13 +67,13 @@
     - _Requirements: 1.2_
 
 - [-] 5. OAuth 核心端点
-  - [-] 5.1 创建 `src/app/oauth/authorize/page.tsx`
+  - [x] 5.1 创建 `src/app/oauth/authorize/page.tsx`
     - GET: 验证参数，显示 Consent Screen
     - POST: 处理用户授权决定（Authorize / Deny）
     - 生成 Authorization Code，重定向到 redirect_uri
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-  - [ ] 5.2 创建 `src/app/api/oauth/token/route.ts`
+  - [x] 5.2 创建 `src/app/api/oauth/token/route.ts`
     - POST: 处理 authorization_code 和 refresh_token 两种 grant type
     - 验证 PKCE code_verifier
     - 签发 JWT access_token + 随机 refresh_token
@@ -85,32 +85,32 @@
     - **Property 7: Authorization code is single-use**
     - **Validates: Requirements 3.4, 5.7, 2.4**
 
-  - [ ] 5.4 创建 `src/app/api/oauth/revoke/route.ts`
+  - [x] 5.4 创建 `src/app/api/oauth/revoke/route.ts`
     - POST: 撤销 access_token 或 refresh_token
     - _Requirements: 3.6_
 
-  - [ ] 5.5 创建 `src/app/api/oauth/.well-known/openid-configuration/route.ts`
+  - [x] 5.5 创建 `src/app/api/oauth/.well-known/openid-configuration/route.ts`
     - GET: 返回 OIDC discovery document
     - _Requirements: 4.8_
 
-- [ ] 6. 资源 API
-  - [ ] 6.1 创建 `src/lib/oauth/middleware.ts`
+- [-] 6. 资源 API
+  - [x] 6.1 创建 `src/lib/oauth/middleware.ts`
     - `requireOAuthToken(scope)` — 验证 Bearer token，检查 scope，返回 user_id
     - _Requirements: 4.6, 4.7_
 
-  - [ ] 6.2 创建 `src/app/api/oauth/userinfo/route.ts`
+  - [x] 6.2 创建 `src/app/api/oauth/userinfo/route.ts`
     - GET: 返回 profile + email（根据 scope）
     - _Requirements: 4.1, 4.2_
 
-  - [ ] 6.3 创建 `src/app/api/oauth/resources/oasisbios/route.ts`
+  - [x] 6.3 创建 `src/app/api/oauth/resources/oasisbios/route.ts`
     - GET: 返回用户角色列表（`oasisbios:read` scope）
     - _Requirements: 4.3_
 
-  - [ ] 6.4 创建 `src/app/api/oauth/resources/oasisbios/[id]/route.ts`
+  - [x] 6.4 创建 `src/app/api/oauth/resources/oasisbios/[id]/route.ts`
     - GET: 返回角色完整数据（`oasisbios:full` scope）
     - _Requirements: 4.4_
 
-  - [ ] 6.5 创建 `src/app/api/oauth/resources/oasisbios/[id]/dcos/route.ts`
+  - [x] 6.5 创建 `src/app/api/oauth/resources/oasisbios/[id]/dcos/route.ts`
     - GET: 返回 DCOS 文档列表和内容（`dcos:read` scope）
     - _Requirements: 4.5_
 
@@ -118,11 +118,11 @@
     - **Property 5: Scope enforcement — insufficient scope returns 403**
     - **Validates: Requirements 4.6**
 
-- [ ] 7. 开发者门户页面
-  - [ ] 7.1 创建 `src/app/developer/apps/page.tsx` — 应用列表页
-  - [ ] 7.2 创建 `src/app/developer/apps/new/page.tsx` — 创建应用表单
-  - [ ] 7.3 创建 `src/app/developer/apps/[id]/page.tsx` — 应用详情/编辑页
-  - [ ] 7.4 创建 `src/app/developer/docs/page.tsx` — 集成文档页（含代码示例）
+- [-] 7. 开发者门户页面
+  - [x] 7.1 创建 `src/app/developer/apps/page.tsx` — 应用列表页
+  - [x] 7.2 创建 `src/app/developer/apps/new/page.tsx` — 创建应用表单
+  - [x] 7.3 创建 `src/app/developer/apps/[id]/page.tsx` — 应用详情/编辑页
+  - [x] 7.4 创建 `src/app/developer/docs/page.tsx` — 集成文档页（含代码示例）
   - _Requirements: 1.1, 6.1, 6.2, 6.3_
 
 - [ ] 8. 数据库脚本执行

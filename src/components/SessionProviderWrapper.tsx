@@ -2,6 +2,7 @@
 
 import React, { ReactNode } from 'react';
 import { SessionProvider } from '@/lib/auth.client';
+import { ToastProvider } from '@/components/Toast';
 
 export interface SessionProviderWrapperProps {
   children: ReactNode;
@@ -10,7 +11,9 @@ export interface SessionProviderWrapperProps {
 export function SessionProviderWrapper({ children }: SessionProviderWrapperProps) {
   return (
     <SessionProvider>
-      {children}
+      <ToastProvider>
+        {children}
+      </ToastProvider>
     </SessionProvider>
   );
 }

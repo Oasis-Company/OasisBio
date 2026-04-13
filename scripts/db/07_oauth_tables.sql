@@ -10,7 +10,7 @@
 
 CREATE TABLE IF NOT EXISTS public.oauth_apps (
   id               uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  owner_user_id    text        NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  owner_user_id    text        NOT NULL REFERENCES public."User"(id) ON DELETE CASCADE,
   name             text        NOT NULL,
   description      text,
   homepage_url     text        NOT NULL,
