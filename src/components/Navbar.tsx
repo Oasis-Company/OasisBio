@@ -30,6 +30,9 @@ export function Navbar() {
           <Link href="/manifesto" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide">
             Manifesto
           </Link>
+          <Link href="/developer" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide">
+            Developers
+          </Link>
           {session ? (
             <div className="flex items-center space-x-4">
               <Link href="/dashboard" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide">
@@ -72,6 +75,9 @@ export function Navbar() {
             </Link>
             <Link href="/manifesto" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide py-2">
               Manifesto
+            </Link>
+            <Link href="/developer" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide py-2">
+              Developers
             </Link>
             {session ? (
               <div className="flex flex-col space-y-2">

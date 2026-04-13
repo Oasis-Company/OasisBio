@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 import { SessionProviderWrapper } from '@/components/SessionProviderWrapper';
 import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google';
 
@@ -64,9 +65,7 @@ export default function RootLayout({
           <main className="pt-20">
             {children}
           </main>
-          <footer className="py-10 bg-black text-white text-center">
-            <p>Oasis Company，2026</p>
-          </footer>
+          <Footer />
         </SessionProviderWrapper>
       </body>
     </html>
