@@ -59,6 +59,7 @@ DIRECT_URL="postgresql://postgres.[ref]:[password]@aws-[region].supabase.com:543
 NEXT_PUBLIC_SUPABASE_URL="https://[ref].supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJ..."
 SUPABASE_SERVICE_ROLE_KEY="eyJ..."
+OAUTH_JWT_SECRET="your-random-secret-min-32-chars"
 
 # Cloudflare R2
 CLOUDFLARE_R2_ACCESS_KEY_ID="..."
@@ -108,6 +109,9 @@ oasisbio/
 - **3D Model Viewer** — GLB format with Three.js
 - **Import/Export** — ZIP-based character data portability
 - **Publish System** — atomic publish/unpublish via database RPC
+- **OAuth Provider** — "Continue with Oasis" for third-party apps
+- **Toast notifications** — global feedback system (`useToast`)
+- **Copy button** — one-click clipboard copy (`CopyButton`)
 
 ## Scripts
 
