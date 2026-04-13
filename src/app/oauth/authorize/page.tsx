@@ -155,6 +155,9 @@ export default async function AuthorizePage({
 
         <p className="text-xs text-gray-400 text-center mt-4">
           By authorizing, you agree to share the listed data with {app.name}.
+          OasisBio&apos;s{' '}
+          <a href="/privacy" className="underline hover:text-gray-600 transition-colors">Privacy Policy</a>
+          {' '}applies to how we handle your data.
         </p>
       </div>
     </div>
