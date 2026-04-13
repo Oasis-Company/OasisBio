@@ -8,6 +8,12 @@
 | [edge-functions.md](edge-functions.md) | Edge Functions spec, current Next.js API routes, and migration guide to Supabase Edge Functions |
 | [design.md](design.md) | Design system — color palette, typography, components, layout |
 | [world-design-spec.md](world-design-spec.md) | Worldbuilding standard — 6-module structure, field definitions |
+| [features/oauth.md](features/oauth.md) | OAuth Provider — "Continue with Oasis" integration guide for third-party developers |
+| [features/oasisbio.md](features/oasisbio.md) | OasisBio identity container — modes, eras, structure |
+| [features/worlds.md](features/worlds.md) | Worldbuilding system — creation, components, world-identity binding |
+| [features/abilities.md](features/abilities.md) | Ability Pool system — categories, levels, era/world binding |
+| [features/repositories.md](features/repositories.md) | Repositories — DCOS, References |
+| [features/models.md](features/models.md) | 3D Model system |
 
 ## Database Setup Scripts
 
@@ -49,7 +55,7 @@ const userId = session.user.id;
 { "error": "invalid_grant", "error_description": "Authorization code already used" }
 ```
 
-### Toast notifications
+### Environment variables checklist
 
 ```typescript
 // In any Client Component wrapped by ToastProvider
@@ -112,7 +118,21 @@ export async function GET(request: NextRequest) {
 }
 ```
 
-### Environment variables checklist
+### OAuth scopes
+
+| Scope | Data |
+|-------|------|
+| `profile` | username, display name, avatar URL |
+| `email` | email address |
+| `oasisbios:read` | character list (title, slug, cover image) |
+| `oasisbios:full` | full character data (abilities, worlds, eras, references) |
+| `dcos:read` | DCOS document content |
+
+### OAuth error format (RFC 6749)
+
+```json
+{ "error": "invalid_grant", "error_description": "Authorization code already used" }
+```
 
 | Variable | Required | Notes |
 |----------|---------|-------|

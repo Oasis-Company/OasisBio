@@ -1869,3 +1869,402 @@ import { CopyButton } from '@/components/CopyButton';
 - Uses `navigator.clipboard.writeText` with textarea fallback for older browsers
 - Icon changes to checkmark for 2 seconds after copy
 - Optionally triggers a toast notification via `useToast`
+
+---
+
+## 15. OAuth Provider
+
+OasisBio implements a full OAuth 2.0 Authorization Server with PKCE support and OpenID Connect discovery. Third-party applications can use "Continue with Oasis" to authenticate users and access their character data with explicit consent.
+
+### Overview
+
+```
+Third-party App                OasisBio                    User
+      │                            │                          │
+      │── GET /oauth/authorize ──► │                          │
+      │                            │── Show consent page ──► │
+      │                            │ ◄── User approves ───── │
+      │ ◄── redirect + code ────── │                          │
+      │── POST /api/oauth/token ─► │                          │
+      │ ◄── access_token ───────── │                          │
+      │── GET /api/oauth/userinfo ►│                          │
+      │ ◄── user profile ───────── │                          │
+```
+
+**Standards implemented:**
+- OAuth 2.0 Authorization Code flow (RFC 6749)
+- PKCE — Proof Key for Code Exchange (RFC 7636) — **required**
+- OpenID Connect Core 1.0 (discovery endpoint)
+- Token revocation (RFC 7009)
+
+### Developer Portal
+
+| Route | Description |
+|-------|-------------|
+| `/developer` | Landing page — overview, button preview, code snippets |
+| `/developer/apps` | List of registered OAuth apps (requires login) |
+| `/developer/apps/new` | Register a new app (requires login) |
+| `/developer/apps/[id]` | Manage app — view credentials, rotate secret |
+| `/developer/docs` | Integration guide |
+
+### Database Tables
+
+Defined in `scripts/db/07_oauth_tables.sql`.
+
+#### `oauth_apps`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | String (cuid) | |
+| `user_id` | String | FK → users (app owner) |
+| `name` | String | App display name |
+| `description` | String? | |
+| `homepage_url` | String | |
+| `redirect_uris` | String | JSON array of allowed redirect URIs |
+| `client_id` | String (unique) | Public identifier, auto-generated |
+| `client_secret_hash` | String | bcrypt hash of the secret |
+| `is_active` | Boolean | Default: true |
+| `created_at` | DateTime | |
+| `updated_at` | DateTime | |
+
+#### `oauth_authorization_codes`
+
+Short-lived codes (10 minutes) exchanged for tokens.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | String (cuid) | |
+| `code` | String (unique) | Random 32-byte hex |
+| `client_id` | String | FK → oauth_apps.client_id |
+| `user_id` | String | FK → users |
+| `redirect_uri` | String | Must match the one used in authorization |
+| `scope` | String | Space-separated scope string |
+| `code_challenge` | String | PKCE S256 challenge |
+| `code_challenge_method` | String | Always `S256` |
+| `expires_at` | DateTime | 10 minutes from creation |
+| `used` | Boolean | Default: false — codes are single-use |
+| `created_at` | DateTime | |
+
+#### `oauth_tokens`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | String (cuid) | |
+| `access_token` | String (unique) | JWT signed with `OAUTH_JWT_SECRET` |
+| `refresh_token` | String (unique) | Random 32-byte hex |
+| `client_id` | String | FK → oauth_apps.client_id |
+| `user_id` | String | FK → users |
+| `scope` | String | Granted scope string |
+| `access_token_expires_at` | DateTime | 1 hour from creation |
+| `refresh_token_expires_at` | DateTime | 30 days from creation |
+| `revoked` | Boolean | Default: false |
+| `created_at` | DateTime | |
+
+### Scopes
+
+Defined in `src/lib/oauth/scopes.ts`.
+
+| Scope | Data Accessible |
+|-------|----------------|
+| `profile` | username, display name, avatar URL |
+| `email` | email address |
+| `oasisbios:read` | character list (title, slug, cover image) |
+| `oasisbios:full` | full character data (abilities, worlds, eras, references) |
+| `dcos:read` | DCOS document content |
+
+### OAuth API Endpoints
+
+All OAuth endpoints follow RFC 6749 error format:
+```json
+{ "error": "invalid_grant", "error_description": "Authorization code already used" }
+```
+
+#### `GET /oauth/authorize`
+
+Displays the consent page. Validates all parameters before showing UI.
+
+**Required query params:**
+- `client_id` — registered app client ID
+- `redirect_uri` — must match a registered redirect URI
+- `response_type` — must be `code`
+- `scope` — space-separated list of requested scopes
+- `state` — CSRF protection token (recommended)
+- `code_challenge` — PKCE S256 challenge
+- `code_challenge_method` — must be `S256`
+
+**Validation errors** redirect back to `redirect_uri` with `error=invalid_request`.
+
+**On approval:** redirects to `redirect_uri?code=<code>&state=<state>`
+
+**On denial:** redirects to `redirect_uri?error=access_denied`
+
+#### `POST /api/oauth/authorize`
+
+Handles the consent form submission (approve/deny).
+
+**Body:** `{ clientId, redirectUri, scope, state, codeChallenge, codeChallengeMethod, action: 'approve' | 'deny' }`
+
+Requires the user to be authenticated (Supabase session cookie).
+
+#### `POST /api/oauth/token`
+
+Exchanges an authorization code for tokens, or refreshes an access token.
+
+**Grant type: `authorization_code`**
+
+```
+POST /api/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&client_id=YOUR_CLIENT_ID
+&client_secret=YOUR_CLIENT_SECRET
+&code=CODE_FROM_REDIRECT
+&redirect_uri=YOUR_REDIRECT_URI
+&code_verifier=STORED_CODE_VERIFIER
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJ...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "abc123...",
+  "scope": "profile email"
+}
+```
+
+**Grant type: `refresh_token`**
+
+```
+POST /api/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token
+&client_id=YOUR_CLIENT_ID
+&client_secret=YOUR_CLIENT_SECRET
+&refresh_token=STORED_REFRESH_TOKEN
+```
+
+Returns a new `access_token` and `refresh_token`. The old refresh token is immediately invalidated.
+
+**Error responses:**
+
+| Error | Cause |
+|-------|-------|
+| `invalid_client` | Unknown client_id or wrong client_secret |
+| `invalid_grant` | Code expired, already used, or verifier mismatch |
+| `invalid_request` | Missing required parameters |
+| `unsupported_grant_type` | Grant type not `authorization_code` or `refresh_token` |
+
+#### `GET /api/oauth/userinfo`
+
+Returns the authenticated user's profile. Requires `profile` scope.
+
+**Request:**
+```
+GET /api/oauth/userinfo
+Authorization: Bearer <access_token>
+```
+
+**Response:**
+```json
+{
+  "sub": "user_uuid",
+  "username": "johndoe",
+  "display_name": "John Doe",
+  "avatar_url": "https://...",
+  "email": "john@example.com"
+}
+```
+
+Note: `email` is only included if the token has `email` scope.
+
+#### `GET /api/oauth/resources/oasisbios`
+
+Returns the user's character list. Requires `oasisbios:read` scope.
+
+**Response:**
+```json
+[
+  {
+    "id": "bio_xxx",
+    "title": "Elara Stormrider",
+    "slug": "elara-stormrider",
+    "tagline": "Intergalactic Explorer",
+    "cover_image_url": "https://...",
+    "identity_mode": "fictional",
+    "visibility": "public"
+  }
+]
+```
+
+#### `GET /api/oauth/resources/oasisbios/[id]`
+
+Returns full character data. Requires `oasisbios:full` scope.
+
+**Response:** Full OasisBio object including abilities, eras, worlds, and references.
+
+#### `GET /api/oauth/resources/oasisbios/[id]/dcos`
+
+Returns DCOS documents for a character. Requires `dcos:read` scope.
+
+**Response:** Array of `{ id, title, slug, content, folderPath, status, eraId }`
+
+#### `POST /api/oauth/revoke`
+
+Revokes an access or refresh token (RFC 7009).
+
+**Body:** `{ token, token_type_hint?: 'access_token' | 'refresh_token' }`
+
+Always returns `200 OK` regardless of whether the token existed.
+
+#### `GET /api/oauth/.well-known/openid-configuration`
+
+OIDC discovery document. No authentication required.
+
+**Response:**
+```json
+{
+  "issuer": "https://oasisbio.com",
+  "authorization_endpoint": "https://oasisbio.com/oauth/authorize",
+  "token_endpoint": "https://oasisbio.com/api/oauth/token",
+  "userinfo_endpoint": "https://oasisbio.com/api/oauth/userinfo",
+  "revocation_endpoint": "https://oasisbio.com/api/oauth/revoke",
+  "scopes_supported": ["profile", "email", "oasisbios:read", "oasisbios:full", "dcos:read"],
+  "response_types_supported": ["code"],
+  "grant_types_supported": ["authorization_code", "refresh_token"],
+  "code_challenge_methods_supported": ["S256"],
+  "token_endpoint_auth_methods_supported": ["client_secret_post"]
+}
+```
+
+### Developer API Endpoints
+
+These endpoints manage OAuth apps and require the user to be authenticated via Supabase session (not OAuth token).
+
+#### `GET /api/developer/apps`
+Returns all OAuth apps owned by the authenticated user.
+
+#### `POST /api/developer/apps`
+Creates a new OAuth app.
+
+**Required body:** `{ name, homepageUrl, redirectUris: string[] }`
+**Optional:** `description`
+
+**Response:** App object including `clientId` and `clientSecret` (secret shown only once).
+
+#### `GET /api/developer/apps/[id]`
+Returns app details. `clientSecret` is never returned after creation.
+
+#### `PUT /api/developer/apps/[id]`
+Updates app metadata (`name`, `description`, `homepageUrl`, `redirectUris`, `isActive`).
+
+#### `DELETE /api/developer/apps/[id]`
+Deletes the app and revokes all associated tokens.
+
+#### `POST /api/developer/apps/[id]/secret`
+Rotates the client secret. Returns the new secret (shown only once). Invalidates all existing tokens for this app.
+
+### OAuth Middleware
+
+`src/lib/oauth/middleware.ts` — use in any API route that requires an OAuth token:
+
+```typescript
+import { requireOAuthToken } from '@/lib/oauth/middleware';
+
+export async function GET(request: NextRequest) {
+  const result = await requireOAuthToken(request, 'oasisbios:read');
+  if ('error' in result) return result.error;  // 401 with RFC 6749 error body
+
+  const { userId, scope, clientId } = result.context;
+  // proceed with authorized request
+}
+```
+
+`requireOAuthToken(request, requiredScope)` validates:
+1. `Authorization: Bearer <token>` header is present
+2. JWT signature is valid (`OAUTH_JWT_SECRET`)
+3. Token is not expired
+4. Token is not revoked
+5. Token scope includes `requiredScope`
+
+Returns `{ context: { userId, scope, clientId } }` on success, or `{ error: NextResponse }` on failure.
+
+### Crypto Utilities
+
+`src/lib/oauth/crypto.ts`
+
+```typescript
+// Generate a cryptographically random hex string
+generateSecureToken(bytes?: number): string  // default: 32 bytes
+
+// Hash a client secret for storage
+hashClientSecret(secret: string): Promise<string>
+
+// Verify a client secret against its hash
+verifyClientSecret(secret: string, hash: string): Promise<boolean>
+
+// Sign an access token JWT
+signAccessToken(payload: { sub, clientId, scope, jti }): string
+
+// Verify and decode an access token JWT
+verifyAccessToken(token: string): { sub, clientId, scope, jti, iat, exp } | null
+```
+
+### PKCE Flow (Client Implementation)
+
+```javascript
+// 1. Generate code verifier (store in sessionStorage)
+const verifier = generateRandomString(64);
+sessionStorage.setItem('pkce_verifier', verifier);
+
+// 2. Compute code challenge
+async function sha256(plain) {
+  const data = new TextEncoder().encode(plain);
+  return crypto.subtle.digest('SHA-256', data);
+}
+function base64url(buffer) {
+  return btoa(String.fromCharCode(...new Uint8Array(buffer)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+const challenge = base64url(await sha256(verifier));
+
+// 3. Redirect to authorization endpoint
+const url = new URL('https://oasisbio.com/oauth/authorize');
+url.searchParams.set('client_id', YOUR_CLIENT_ID);
+url.searchParams.set('redirect_uri', YOUR_REDIRECT_URI);
+url.searchParams.set('response_type', 'code');
+url.searchParams.set('scope', 'profile email oasisbios:read');
+url.searchParams.set('state', generateRandomString(16));
+url.searchParams.set('code_challenge', challenge);
+url.searchParams.set('code_challenge_method', 'S256');
+window.location.href = url.toString();
+
+// 4. On callback, exchange code for tokens
+const verifier = sessionStorage.getItem('pkce_verifier');
+const res = await fetch('https://oasisbio.com/api/oauth/token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams({
+    grant_type: 'authorization_code',
+    client_id: YOUR_CLIENT_ID,
+    client_secret: YOUR_CLIENT_SECRET,
+    code: CODE_FROM_URL,
+    redirect_uri: YOUR_REDIRECT_URI,
+    code_verifier: verifier,
+  }),
+});
+const { access_token, refresh_token } = await res.json();
+```
+
+### Security Notes
+
+- **PKCE is mandatory.** Authorization requests without `code_challenge` are rejected.
+- **`OAUTH_JWT_SECRET`** must be at least 32 characters. Never change it after tokens have been issued — all existing tokens will become invalid.
+- **Client secrets** are stored as bcrypt hashes. The plaintext secret is shown only once at creation and once after rotation.
+- **Authorization codes** are single-use and expire after 10 minutes.
+- **Access tokens** expire after 1 hour. **Refresh tokens** expire after 30 days.
+- **Token revocation** is immediate — revoked tokens are rejected on the next API call.
+- The `/developer/apps` routes are protected by Supabase session middleware. The `/developer` landing page is public (no login required).
