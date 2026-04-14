@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from '@/lib/auth.client';
 import { CopyButton } from '@/components/CopyButton';
 
@@ -15,16 +16,14 @@ const SCOPES = [
   { name: 'dcos:read', desc: 'DCOS document content' },
 ];
 
-const HTML_SNIPPET = `<a href="${BASE_URL}/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=profile+email&state=RANDOM_STATE&code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256"
+const HTML_SNIPPET = `<!-- Download the Oasis logo: ${BASE_URL}/assets/oasis_logo.svg -->
+<a href="${BASE_URL}/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=profile+email&state=RANDOM_STATE&code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256"
    style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;background:#000;color:#fff;border-radius:8px;text-decoration:none;font-family:sans-serif;font-size:15px;font-weight:500;">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" fill="white" fill-opacity="0.15"/>
-    <circle cx="12" cy="12" r="4" fill="white"/>
-  </svg>
+  <img src="${BASE_URL}/assets/oasis_logo.svg" width="20" height="17" alt="Oasis" />
   Continue with Oasis
 </a>`;
 
-const REACT_SNIPPET = `import { useRouter } from 'next/navigation';
+const REACT_SNIPPET = `import Image from 'next/image';
 
 function ContinueWithOasis({ clientId, redirectUri }: { clientId: string; redirectUri: string }) {
   const handleClick = async () => {
@@ -47,7 +46,7 @@ function ContinueWithOasis({ clientId, redirectUri }: { clientId: string; redire
     <button onClick={handleClick} style={{ display:'inline-flex', alignItems:'center', gap:10,
       padding:'10px 20px', background:'#000', color:'#fff', borderRadius:8,
       border:'none', cursor:'pointer', fontSize:15, fontWeight:500 }}>
-      <OasisIcon />
+      <Image src="${BASE_URL}/assets/oasis_logo.svg" width={20} height={17} alt="Oasis" />
       Continue with Oasis
     </button>
   );
@@ -169,26 +168,39 @@ export default function DeveloperLandingPage() {
                 className="inline-flex items-center gap-3 px-5 py-3 bg-black border border-white/20 text-white rounded-lg font-medium text-sm hover:bg-gray-900 transition-colors"
                 disabled
               >
-                <OasisIcon />
+                <Image src="/assets/oasis_logo.svg" width={20} height={17} alt="Oasis" />
                 Continue with Oasis
               </button>
               <p className="text-xs text-gray-600">Preview only</p>
             </div>
-            {/* Code snippet */}
-            <div className="relative">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500 font-mono">HTML</span>
-                <CopyButton value={HTML_SNIPPET} successMessage="Copied!" />
+            {/* Logo download + code snippet */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between bg-gray-800 rounded-xl px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <Image src="/assets/oasis_logo.svg" width={24} height={20} alt="Oasis logo" />
+                  <div>
+                    <p className="text-xs font-medium text-white">oasis_logo.svg</p>
+                    <p className="text-xs text-gray-500">Official OAuth logo · SVG</p>
+                  </div>
+                </div>
+                <a
+                  href="/assets/oasis_logo.svg"
+                  download="oasis_logo.svg"
+                  className="px-3 py-1.5 text-xs font-medium bg-white text-black rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  Download
+                </a>
               </div>
-              <pre className="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto leading-relaxed">
-                {`<a href="${BASE_URL}/oauth/authorize?..."
-   style="display:inline-flex;align-items:center;
-          gap:10px;padding:10px 20px;background:#000;
-          color:#fff;border-radius:8px;...">
-  <svg .../>
-  Continue with Oasis
-</a>`}
-              </pre>
+              <div className="relative">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-gray-500 font-mono">HTML</span>
+                  <CopyButton value={HTML_SNIPPET} successMessage="Copied!" />
+                </div>
+                <pre className="bg-gray-900 text-green-400 rounded-xl p-4 text-xs overflow-x-auto leading-relaxed">
+                  {`<img src="${BASE_URL}/assets/oasis_logo.svg" ... />
+Continue with Oasis`}
+                </pre>
+              </div>
             </div>
           </div>
         </div>
@@ -289,15 +301,6 @@ export default function DeveloperLandingPage() {
         </div>
       </section>
     </div>
-  );
-}
-
-function OasisIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" fill="white" fillOpacity="0.15" />
-      <circle cx="12" cy="12" r="4" fill="white" />
-    </svg>
   );
 }
 

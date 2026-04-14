@@ -8,6 +8,44 @@ OasisBio is an OAuth 2.0 Authorization Server. Third-party applications can inte
 
 ---
 
+## Brand Assets
+
+### Oasis OAuth Logo
+
+The official logo for the "Continue with Oasis" button is available at:
+
+```
+https://oasisbio.com/assets/oasis_logo.svg
+```
+
+Direct download: [`/assets/oasis_logo.svg`](/assets/oasis_logo.svg)
+
+**Specifications:** SVG · 61×51px native size · works at any scale
+
+### Button Guidelines
+
+- Use the exact text **"Continue with Oasis"** — do not alter the wording
+- Always place the Oasis logo to the left of the button text
+- Minimum button height: 40px · Minimum logo display size: 16×14px
+- Recommended style: black background `#000`, white text `#fff`, 8px border radius
+- Do not recolor, distort, rotate, or modify the logo in any way
+- Do not use the logo in a way that implies endorsement beyond OAuth authentication
+
+### Button HTML
+
+```html
+<!-- Logo: https://oasisbio.com/assets/oasis_logo.svg -->
+<a href="https://oasisbio.com/oauth/authorize?..."
+   style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
+          background:#000;color:#fff;border-radius:8px;text-decoration:none;
+          font-family:sans-serif;font-size:15px;font-weight:500;">
+  <img src="https://oasisbio.com/assets/oasis_logo.svg" width="20" height="17" alt="Oasis" />
+  Continue with Oasis
+</a>
+```
+
+---
+
 ## Quick Start
 
 ### 1. Register your app
