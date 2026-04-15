@@ -92,7 +92,8 @@ oasisbio/
 │       ├── 03_service_role_bypass.sql # Documentation only
 │       ├── 04_storage_policies.sql    # Storage bucket policies
 │       ├── 05_domain_events_audit_logs.sql  # Event/audit tables
-│       └── 06_publish_bio_rpc.sql     # Publish RPC functions
+│       ├── 06_publish_bio_rpc.sql     # Publish RPC functions
+│       └── 07_oauth_tables.sql        # OAuth apps, codes, tokens + RLS
 │
 ├── src/
 │   ├── app/
@@ -105,12 +106,29 @@ oasisbio/
 │   │   │   ├── dashboard/route.ts
 │   │   │   ├── dcos/[id]/route.ts
 │   │   │   ├── dcos/route.ts
+│   │   │   ├── developer/
+│   │   │   │   └── apps/
+│   │   │   │       ├── [id]/
+│   │   │   │       │   ├── route.ts       # GET/PUT/DELETE app
+│   │   │   │       │   └── secret/route.ts # POST rotate secret
+│   │   │   │       └── route.ts           # GET list / POST create
 │   │   │   ├── eras/[id]/route.ts
 │   │   │   ├── eras/route.ts
 │   │   │   ├── export/route.ts
 │   │   │   ├── import/route.ts
 │   │   │   ├── models/[id]/route.ts
 │   │   │   ├── models/route.ts
+│   │   │   ├── oauth/
+│   │   │   │   ├── .well-known/openid-configuration/route.ts  # OIDC discovery
+│   │   │   │   ├── resources/
+│   │   │   │   │   └── oasisbios/
+│   │   │   │   │       ├── [id]/
+│   │   │   │   │       │   ├── dcos/route.ts   # dcos:read scope
+│   │   │   │   │       │   └── route.ts        # oasisbios:full scope
+│   │   │   │   │       └── route.ts            # oasisbios:read scope
+│   │   │   │   ├── revoke/route.ts             # POST revoke token
+│   │   │   │   ├── token/route.ts              # POST exchange code / refresh
+│   │   │   │   └── userinfo/route.ts           # GET profile + email
 │   │   │   ├── oasisbios/
 │   │   │   │   ├── [id]/
 │   │   │   │   │   ├── abilities/route.ts
@@ -164,9 +182,14 @@ oasisbio/
 │   │   │   ├── middleware.ts  # updateSession proxy (Middleware)
 │   │   │   ├── server.ts      # createServerClient (Server/API)
 │   │   │   └── storage.ts     # Upload/delete/URL helpers
+│   │   ├── oauth/
+│   │   │   ├── crypto.ts      # generateSecret, hashClientSecret, verifyPKCE, signAccessToken
+│   │   │   ├── middleware.ts  # requireOAuthToken (Bearer token validation)
+│   │   │   ├── scopes.ts      # SCOPES constant, parseScopes, hasScope
+│   │   │   └── validate.ts    # validateRedirectUri, validateAuthorizationParams
 │   │   ├── auth.ts            # getServerUser, getServerUserWithProfile
 │   │   ├── auth-utils.ts      # requireAuth, ownership checks, handleApiError
-│   │   ├── auth.client.ts     # SessionProvider, useAuth, useSession
+│   │   ├── auth.client.ts     # SessionProvider, useAuth, useSession (compat shim)
 │   │   ├── prisma.ts          # Prisma client singleton
 │   │   ├── storage.ts         # Storage abstraction (Supabase + R2)
 │   │   ├── user-sync.ts       # syncUserToPrisma, generateUniqueUsername
@@ -339,19 +362,37 @@ generateUniqueUsername(base: string): Promise<string>
 ### Client-Side Auth Context — `src/lib/auth.client.ts`
 
 ```typescript
-// Provider — wrap app root
+// Provider — wrap app root (already in SessionProviderWrapper)
 <SessionProvider>
 
-// Hooks
-useAuth(): { user, session, isLoading, supabase }
+// Primary hook — use this in all new code
+useAuth(): { user: User | null, session: Session | null, isLoading: boolean, supabase: SupabaseClient }
+
+// Compatibility shim — mirrors NextAuth shape, kept for gradual migration
 useSession(): { data: { user, session } | null, status: 'loading' | 'authenticated' | 'unauthenticated' }
 
-// Standalone helpers
+// Standalone sign-out helper
 signOut(): Promise<{ error }>
-signIn(provider, options?): Promise<...>
+```
+
+**Usage pattern in Client Components:**
+
+```typescript
+import { useAuth } from '@/lib/auth.client';
+
+const { user, isLoading, supabase } = useAuth();
+
+// Route protection
+if (isLoading) return <Spinner />;
+if (!user) return null; // middleware handles redirect
+
+// Sign out
+await supabase.auth.signOut();
 ```
 
 `SessionProvider` uses `supabase.auth.onAuthStateChange` to keep context in sync with all auth events (sign-in, sign-out, token refresh).
+
+> **Note:** `useSession` is a compatibility shim. All pages have been migrated to `useAuth`. New code should always use `useAuth`.
 
 ### Middleware — `src/middleware.ts`
 
@@ -1551,324 +1592,6 @@ All Edge Functions share:
 3. All errors return `{ error: { code, message } }`
 4. No Prisma-heavy logic in Edge Functions
 5. Logs include: `request_id`, `user_id`, `function`, `resource_id`, `duration_ms`
-
----
-
-## 15. OAuth Provider
-
-OasisBio implements a standard OAuth 2.0 Authorization Code Flow with PKCE, allowing third-party applications to use "Continue with Oasis" and access user data with explicit consent.
-
-### Overview
-
-```
-Third-party App
-  └── Redirect to /oauth/authorize?client_id=...&code_challenge=...
-        └── User sees Consent Screen
-              └── User clicks Authorize
-                    └── Redirect to redirect_uri?code=...&state=...
-                          └── App POSTs to /api/oauth/token
-                                └── Receives access_token + refresh_token
-                                      └── App calls /api/oauth/userinfo or /api/oauth/resources/*
-```
-
-### Database Tables
-
-Three new tables (created by `scripts/db/07_oauth_tables.sql`):
-
-#### `oauth_apps`
-Registered third-party applications.
-
-| Column | Type | Notes |
-|--------|------|-------|
-| `id` | uuid | |
-| `owner_user_id` | text | FK → `"User"(id)` |
-| `name` | text | App display name |
-| `description` | text? | |
-| `homepage_url` | text | Required |
-| `logo_url` | text? | |
-| `redirect_uris` | text[] | Validated HTTPS or localhost |
-| `client_id` | text (unique) | UUID, public identifier |
-| `client_secret_hash` | text | bcrypt hash — never stored plaintext |
-| `is_active` | boolean | Default: true |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | Auto-updated via trigger |
-
-#### `oauth_authorization_codes`
-Short-lived, single-use authorization codes.
-
-| Column | Type | Notes |
-|--------|------|-------|
-| `code` | text (unique) | 64-char hex, expires in 10 minutes |
-| `client_id` | text | |
-| `user_id` | text | |
-| `redirect_uri` | text | Must match exactly on exchange |
-| `scope` | text | Space-separated |
-| `code_challenge` | text | S256 PKCE challenge |
-| `used_at` | timestamptz? | null = unused; set on exchange |
-| `expires_at` | timestamptz | now() + 10 minutes |
-
-#### `oauth_tokens`
-Refresh token records. Access tokens are JWTs — not stored.
-
-| Column | Type | Notes |
-|--------|------|-------|
-| `jti` | text (unique) | JWT ID for access token revocation lookup |
-| `client_id` | text | |
-| `user_id` | text | |
-| `scope` | text | |
-| `refresh_token_hash` | text (unique) | bcrypt hash of refresh token |
-| `revoked_at` | timestamptz? | null = active |
-| `expires_at` | timestamptz | Refresh token expiry (30 days) |
-
-### Core Library: `src/lib/oauth/`
-
-#### `crypto.ts`
-
-```typescript
-generateSecret(bytes?: number): string          // Random hex string (default 64 chars)
-generateUUID(): string                          // UUID v4 for client_id, jti
-hashClientSecret(secret: string): Promise<string>
-verifyClientSecret(secret: string, hash: string): Promise<boolean>
-verifyPKCE(codeVerifier: string, codeChallenge: string): boolean  // S256
-generateCodeChallenge(codeVerifier: string): string               // For testing
-signAccessToken(payload: { sub, clientId, scope, jti }): string   // JWT, 1h expiry
-verifyAccessToken(token: string): AccessTokenPayload | null
-```
-
-**Access Token JWT payload:**
-```typescript
-{
-  sub: string;        // user_id
-  client_id: string;
-  scope: string;      // space-separated
-  jti: string;        // for revocation
-  iat: number;
-  exp: number;        // iat + 3600
-  iss: string;        // 'https://oasisbio.com'
-}
-```
-
-#### `scopes.ts`
-
-```typescript
-const SCOPES = {
-  'profile':          'Access your basic profile (username, display name, avatar)',
-  'email':            'Access your email address',
-  'oasisbios:read':   'View your character list',
-  'oasisbios:full':   'View your characters\' full details',
-  'dcos:read':        'Read your DCOS documents',
-}
-
-parseScopes(scopeString: string): ScopeName[]
-validateScopes(scopeString: string): string[]   // returns invalid scope names
-hasScope(tokenScope: string, required: ScopeName): boolean
-formatScopesForConsent(scopeString: string): string[]
-```
-
-#### `validate.ts`
-
-```typescript
-validateRedirectUri(uri: string): boolean
-// Accepts: https://* and http://localhost:* and http://127.0.0.1:*
-// Rejects: http non-localhost, fragments (#), invalid format
-
-validateAuthorizationParams(params): { valid, error?, errorDescription? }
-validateTokenParams(params): { valid, error?, errorDescription? }
-```
-
-#### `middleware.ts` (OAuth resource protection)
-
-```typescript
-requireOAuthToken(request, requiredScope): Promise<
-  | { context: { userId, clientId, scope, jti } }
-  | { error: NextResponse }
->
-```
-
-Checks: Bearer token present → JWT valid → not revoked in DB → has required scope.
-
-### API Endpoints
-
-#### Developer Portal
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| `GET` | `/api/developer/apps` | Session | List user's OAuth apps |
-| `POST` | `/api/developer/apps` | Session | Create app (returns `clientSecret` once) |
-| `GET` | `/api/developer/apps/[id]` | Session | Get app (no secret) |
-| `PUT` | `/api/developer/apps/[id]` | Session | Update app |
-| `DELETE` | `/api/developer/apps/[id]` | Session | Delete app + revoke all tokens |
-| `POST` | `/api/developer/apps/[id]/secret` | Session | Rotate client_secret |
-
-**Create app response** (client_secret shown once only):
-```json
-{
-  "id": "...",
-  "clientId": "uuid",
-  "clientSecret": "64-char-hex",
-  "name": "My App",
-  "redirectUris": ["https://myapp.com/callback"]
-}
-```
-
-#### OAuth Flow
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/oauth/authorize` | Show consent screen (page) |
-| `POST` | `/api/oauth/authorize` | Process authorization decision |
-| `POST` | `/api/oauth/token` | Exchange code / refresh token |
-| `POST` | `/api/oauth/revoke` | Revoke access or refresh token |
-| `GET` | `/api/oauth/.well-known/openid-configuration` | OIDC discovery |
-
-**`POST /api/oauth/token` — authorization_code grant:**
-```
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=authorization_code
-&client_id=...
-&client_secret=...
-&code=...
-&redirect_uri=...
-&code_verifier=...
-```
-
-**`POST /api/oauth/token` — refresh_token grant:**
-```
-grant_type=refresh_token
-&client_id=...
-&client_secret=...
-&refresh_token=...
-```
-
-**Token response:**
-```json
-{
-  "access_token": "eyJ...",
-  "token_type": "Bearer",
-  "expires_in": 3600,
-  "refresh_token": "64-char-hex",
-  "scope": "profile email"
-}
-```
-
-#### Resource API
-
-All resource endpoints require `Authorization: Bearer <access_token>`.
-
-| Method | Path | Required Scope | Returns |
-|--------|------|---------------|---------|
-| `GET` | `/api/oauth/userinfo` | `profile` | `{ sub, username, display_name, avatar_url, email? }` |
-| `GET` | `/api/oauth/resources/oasisbios` | `oasisbios:read` | `{ data: [...], count }` |
-| `GET` | `/api/oauth/resources/oasisbios/[id]` | `oasisbios:full` | Full character with abilities, eras, worlds, references |
-| `GET` | `/api/oauth/resources/oasisbios/[id]/dcos` | `dcos:read` | `{ data: [...], count }` |
-
-### Pages
-
-| Route | Description |
-|-------|-------------|
-| `/developer/apps` | List and manage OAuth apps |
-| `/developer/apps/new` | Create new app (shows credentials once) |
-| `/developer/apps/[id]` | Edit app, rotate secret |
-| `/developer/docs` | Integration guide with code examples |
-| `/oauth/authorize` | Consent screen shown to users |
-
-### Security Details
-
-- **PKCE required** — `code_challenge_method=S256` enforced on all authorization requests
-- **state required** — prevents CSRF attacks
-- **client_secret** — bcrypt hashed (cost 12), never stored plaintext, shown once on creation
-- **Authorization codes** — single-use (marked `used_at` on exchange), 10-minute expiry
-- **Refresh token rotation** — each use issues a new token and revokes the old one
-- **Access token revocation** — stored `jti` in `oauth_tokens` table; checked on every resource request
-- **Redirect URI validation** — must exactly match a registered URI; fragments (`#`) rejected
-- **Max 10 apps per user**
-
-### Error Codes (RFC 6749)
-
-| Code | HTTP | Scenario |
-|------|------|---------|
-| `invalid_request` | 400 | Missing or malformed parameters |
-| `invalid_client` | 400 | Unknown `client_id` or wrong `client_secret` |
-| `invalid_grant` | 400 | Expired/used code or refresh token |
-| `access_denied` | — | User denied on consent screen |
-| `unsupported_grant_type` | 400 | Grant type not supported |
-| `invalid_scope` | 400 | Unknown scope requested |
-| `insufficient_scope` | 403 | Token lacks required scope |
-| `invalid_token` | 401 | Expired or revoked access token |
-
-### Environment Variables
-
-| Variable | Required | Notes |
-|----------|---------|-------|
-| `OAUTH_JWT_SECRET` | ✅ | Signs access token JWTs. Min 32 chars. **Never change after setting** — all existing tokens become invalid. Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-
----
-
-## 16. UI Components
-
-### Toast Notification System
-
-**File:** `src/components/Toast.tsx`
-
-Global toast notifications. Wrap the app with `ToastProvider` (already done in `SessionProviderWrapper`).
-
-```typescript
-// Hook
-import { useToast } from '@/components/Toast';
-
-const { toast, success, error, info } = useToast();
-
-success('Saved successfully');           // Black background, checkmark
-error('Something went wrong');           // Red background, X icon
-info('Processing your request...');      // Dark gray background, info icon
-toast('Custom message', 'success');      // Explicit type
-```
-
-**Behavior:**
-- Appears bottom-right, stacks vertically
-- Auto-dismisses after 3.5 seconds
-- Manual dismiss via × button
-- Slide-up entrance animation
-- Multiple toasts stack without overlap
-
-### Copy Button
-
-**File:** `src/components/CopyButton.tsx`
-
-Copies text to clipboard with visual feedback.
-
-```tsx
-import { CopyButton } from '@/components/CopyButton';
-
-// Icon-only (for inline use next to monospace text)
-<CopyButton
-  value="text-to-copy"
-  iconOnly
-  successMessage="Copied to clipboard!"
-/>
-
-// With label (standalone button)
-<CopyButton
-  value="text-to-copy"
-  label="Copy ID"
-  successMessage="Client ID copied!"
-/>
-```
-
-**Props:**
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | string | required | Text to copy |
-| `label` | string | `'Copy'` | Button label (non-iconOnly mode) |
-| `successMessage` | string? | — | Toast message shown after copy |
-| `iconOnly` | boolean | `false` | Render as icon button only |
-| `className` | string? | — | Additional CSS classes |
-
-**Behavior:**
-- Uses `navigator.clipboard.writeText` with textarea fallback for older browsers
-- Icon changes to checkmark for 2 seconds after copy
-- Optionally triggers a toast notification via `useToast`
 
 ---
 

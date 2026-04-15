@@ -31,6 +31,22 @@ Run in Supabase SQL Editor **in this order** after `npx prisma db push`:
 
 ## Quick Reference
 
+### Auth pattern in Client Components
+
+```typescript
+// ✅ Correct — useAuth() is the primary hook
+import { useAuth } from '@/lib/auth.client';
+
+const { user, isLoading, supabase } = useAuth();
+
+// Sign out
+await supabase.auth.signOut();
+
+// Check auth state
+if (isLoading) return <Spinner />;
+if (!user) return null; // middleware handles redirect
+```
+
 ### Auth pattern in API routes
 
 ```typescript
@@ -56,6 +72,19 @@ const userId = session.user.id;
 ```
 
 ### Environment variables checklist
+
+| Variable | Required | Notes |
+|----------|---------|-------|
+| `DATABASE_URL` | ✅ | Pooler connection (port 6543) |
+| `DIRECT_URL` | ✅ | Direct connection (port 5432, migrations only) |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Must be `eyJ...` JWT format |
+| `OAUTH_JWT_SECRET` | ✅ | Min 32 chars, never change after setting |
+| `CLOUDFLARE_R2_*` | ⚠️ | Required for 3D models and exports |
+| `SUPABASE_WEBHOOK_SECRET` | ⚠️ | Optional, skips signature check if missing |
+
+### Toast notifications
 
 ```typescript
 // In any Client Component wrapped by ToastProvider
@@ -127,20 +156,3 @@ export async function GET(request: NextRequest) {
 | `oasisbios:read` | character list (title, slug, cover image) |
 | `oasisbios:full` | full character data (abilities, worlds, eras, references) |
 | `dcos:read` | DCOS document content |
-
-### OAuth error format (RFC 6749)
-
-```json
-{ "error": "invalid_grant", "error_description": "Authorization code already used" }
-```
-
-| Variable | Required | Notes |
-|----------|---------|-------|
-| `DATABASE_URL` | ✅ | Pooler connection (port 6543) |
-| `DIRECT_URL` | ✅ | Direct connection (port 5432, migrations only) |
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Must be `eyJ...` JWT format |
-| `OAUTH_JWT_SECRET` | ✅ | Min 32 chars, never change after setting |
-| `CLOUDFLARE_R2_*` | ⚠️ | Required for 3D models and exports |
-| `SUPABASE_WEBHOOK_SECRET` | ⚠️ | Optional, skips signature check if missing |

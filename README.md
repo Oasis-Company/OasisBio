@@ -43,6 +43,7 @@ npx prisma generate
 #   scripts/db/04_storage_policies.sql
 #   scripts/db/05_domain_events_audit_logs.sql
 #   scripts/db/06_publish_bio_rpc.sql
+#   scripts/db/07_oauth_tables.sql
 
 # 5. Start dev server
 npm run dev
@@ -109,7 +110,7 @@ oasisbio/
 - **3D Model Viewer** — GLB format with Three.js
 - **Import/Export** — ZIP-based character data portability
 - **Publish System** — atomic publish/unpublish via database RPC
-- **OAuth Provider** — "Continue with Oasis" for third-party apps
+- **OAuth Provider** — "Continue with Oasis" for third-party apps (Authorization Code + PKCE)
 - **Toast notifications** — global feedback system (`useToast`)
 - **Copy button** — one-click clipboard copy (`CopyButton`)
 
