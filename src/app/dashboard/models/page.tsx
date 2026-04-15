@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { Input } from '@/components/Input';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { useRouter } from 'next/navigation';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { ModelUpload, ModelPreviewUpload } from '@/components/FileUpload';
@@ -20,11 +20,11 @@ interface Model {
 }
 
 export default function ModelsPage() {
-  const { data: session } = useSession();
+  const { user, supabase } = useAuth();
   const router = useRouter();
   
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
 
@@ -41,7 +41,7 @@ export default function ModelsPage() {
   });
 
   useEffect(() => {
-    if (!session) {
+    if (!user) {
       router.push('/auth/login');
       return;
     }
@@ -64,9 +64,9 @@ export default function ModelsPage() {
     };
 
     fetchModels();
-  }, [session, router]);
+  }, [user, router]);
 
-  if (!session) {
+  if (!user) {
     return null;
   }
 
@@ -137,7 +137,7 @@ export default function ModelsPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
@@ -152,7 +152,7 @@ export default function ModelsPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="text-center py-16">
               <p className="text-red-600 mb-4">{error}</p>
@@ -167,7 +167,7 @@ export default function ModelsPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
-        <NavigationBar user={session?.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-6xl mx-auto">
@@ -199,7 +199,7 @@ export default function ModelsPage() {
                   <div>
                     <label className="block text-sm font-medium mb-1">3D Model (GLB)</label>
                     <ModelUpload 
-                        userId={session.user.id}
+                        userId={user.id}
                         characterId="models"
                         onSuccess={handleModelUpload}
                         onError={(error) => console.error('Model upload error:', error)}
@@ -208,7 +208,7 @@ export default function ModelsPage() {
                   <div>
                     <label className="block text-sm font-medium mb-1">Model Preview (Image)</label>
                     <ModelPreviewUpload 
-                      userId={session.user.id}
+                      userId={user.id}
                       characterId="models"
                       onSuccess={handlePreviewUpload}
                       onError={(error) => console.error('Preview upload error:', error)}

@@ -110,20 +110,18 @@ describe('Input', () => {
     jest.useFakeTimers();
     
     const validate = jest.fn((value: string) => value.length < 3 ? 'Value must be at least 3 characters' : null);
-    render(<Input {...defaultProps} value="ab" validate={validate} debounce={100} />);
+    // The Input component debounces on value prop changes, so we rerender with new value
+    const { rerender } = render(<Input {...defaultProps} value="a" validate={validate} debounce={100} />);
+    rerender(<Input {...defaultProps} value="ab" validate={validate} debounce={100} />);
+    rerender(<Input {...defaultProps} value="abc" validate={validate} debounce={100} />);
     
-    // Fast typing should trigger debounced validation
-    const input = screen.getByPlaceholderText('Enter text');
-    fireEvent.change(input, { target: { value: 'a' } });
-    fireEvent.change(input, { target: { value: 'ab' } });
-    fireEvent.change(input, { target: { value: 'abc' } });
-    
-    // Fast-forward time to trigger debounce
+    // Fast-forward time to trigger debounce — only the last value should be validated
     act(() => {
       jest.advanceTimersByTime(100);
     });
     
     expect(validate).toHaveBeenCalledWith('abc');
+    expect(validate).toHaveBeenCalledTimes(1);
     
     jest.useRealTimers();
   });

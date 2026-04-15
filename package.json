@@ -58,6 +58,7 @@
     "eslint": "^10.1.0",
     "eslint-config-next": "16.2.2",
     "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "jest-environment-node": "^30.3.0",
     "null-loader": "^4.0.1",
     "postcss": "8.4.38",
