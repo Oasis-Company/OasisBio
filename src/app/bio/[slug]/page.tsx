@@ -1,28 +1,48 @@
 import React from 'react';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import ModelViewerWrapper from '@/components/ModelViewerWrapper';
+import type { Metadata } from 'next';
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const bio = await prisma.oasisBio.findUnique({
+    where: { slug, visibility: 'public' },
+    select: { title: true, tagline: true, coverImageUrl: true },
+  });
+  if (!bio) return { title: 'Not Found' };
+  return {
+    title: `${bio.title} — OasisBio`,
+    description: bio.tagline ?? undefined,
+    openGraph: {
+      title: bio.title,
+      description: bio.tagline ?? undefined,
+      images: bio.coverImageUrl ? [bio.coverImageUrl] : [],
+    },
+  };
+}
 
 async function getOasisBio(slug: string) {
   const oasisBio = await prisma.oasisBio.findUnique({
-    where: { slug },
+    where: { slug, visibility: 'public' },
     include: {
       abilities: true,
-      dcosFiles: true,
+      dcosFiles: { where: { status: 'published' } },
       references: true,
-      worlds: true,
+      worlds: { where: { visibility: 'public' } },
       models: true,
       eras: {
         orderBy: { sortOrder: 'asc' }
       },
       relationshipsA: {
-        include: { characterB: true }
+        include: { characterB: { select: { title: true, slug: true, visibility: true } } }
       },
       relationshipsB: {
-        include: { characterA: true }
+        include: { characterA: { select: { title: true, slug: true, visibility: true } } }
       },
     },
   });
@@ -37,29 +57,34 @@ async function getOasisBio(slug: string) {
 export default async function PublicOasisBioPage({ 
   params 
 }: { 
-  params: { slug: string } 
+  params: Promise<{ slug: string }> 
 }) {
-  const oasisBio = await getOasisBio(params.slug);
+  const { slug } = await params;
+  const oasisBio = await getOasisBio(slug);
 
   if (!oasisBio) {
     notFound();
   }
 
   const relationships = [
-    ...oasisBio.relationshipsA.map(r => ({
-      id: r.id,
-      name: r.characterB.title,
-      slug: r.characterB.slug,
-      relationType: r.relationType,
-      description: r.description || '',
-    })),
-    ...oasisBio.relationshipsB.map(r => ({
-      id: r.id,
-      name: r.characterA.title,
-      slug: r.characterA.slug,
-      relationType: r.relationType,
-      description: r.description || '',
-    })),
+    ...oasisBio.relationshipsA
+      .filter(r => r.characterB.visibility === 'public')
+      .map(r => ({
+        id: r.id,
+        name: r.characterB.title,
+        slug: r.characterB.slug,
+        relationType: r.relationType,
+        description: r.description || '',
+      })),
+    ...oasisBio.relationshipsB
+      .filter(r => r.characterA.visibility === 'public')
+      .map(r => ({
+        id: r.id,
+        name: r.characterA.title,
+        slug: r.characterA.slug,
+        relationType: r.relationType,
+        description: r.description || '',
+      })),
   ];
 
   return (

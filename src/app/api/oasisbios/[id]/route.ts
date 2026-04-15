@@ -56,20 +56,21 @@ export async function PUT(
     // requireOasisBioOwnership already confirms existence + ownership
     await requireOasisBioOwnership(id, user.id);
 
-    const { title, tagline, identityMode, birthDate, gender, pronouns, placeOfOrigin, currentEra, species, status, description, visibility } = body;
+    const { title, tagline, summary, identityMode, birthDate, gender, pronouns, placeOfOrigin, currentEra, species, status, description, visibility } = body;
 
     const updates: Record<string, unknown> = {};
     if (title !== undefined) updates.title = title;
-    if (tagline !== undefined) updates.tagline = tagline;
+    if (tagline !== undefined) updates.tagline = tagline || null;
+    if (summary !== undefined) updates.summary = summary || null;
     if (identityMode !== undefined) updates.identityMode = identityMode;
-    if (birthDate !== undefined) updates.birthDate = new Date(birthDate);
-    if (gender !== undefined) updates.gender = gender;
-    if (pronouns !== undefined) updates.pronouns = pronouns;
-    if (placeOfOrigin !== undefined) updates.placeOfOrigin = placeOfOrigin;
-    if (currentEra !== undefined) updates.currentEra = currentEra;
-    if (species !== undefined) updates.species = species;
+    if (birthDate !== undefined) updates.birthDate = birthDate ? new Date(birthDate) : null;
+    if (gender !== undefined) updates.gender = gender || null;
+    if (pronouns !== undefined) updates.pronouns = pronouns || null;
+    if (placeOfOrigin !== undefined) updates.placeOfOrigin = placeOfOrigin || null;
+    if (currentEra !== undefined) updates.currentEra = currentEra || null;
+    if (species !== undefined) updates.species = species || null;
     if (status !== undefined) updates.status = status;
-    if (description !== undefined) updates.description = description;
+    if (description !== undefined) updates.description = description || null;
     if (visibility !== undefined) updates.visibility = visibility;
 
     const oasisBio = await prisma.oasisBio.update({
