@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth, useSession } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
 
 type Step = 'form' | 'otp';
 
 export default function RegisterPage() {
-  const { supabase } = useAuth();
-  const { data: session } = useSession();
+  const { supabase, user } = useAuth();
   const router = useRouter();
 
   const [step, setStep] = useState<Step>('form');
@@ -23,8 +22,8 @@ export default function RegisterPage() {
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (session) router.replace('/dashboard');
-  }, [session, router]);
+    if (user) router.replace('/dashboard');
+  }, [user, router]);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();

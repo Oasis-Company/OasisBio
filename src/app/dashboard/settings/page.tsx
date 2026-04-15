@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
@@ -49,11 +49,11 @@ const navItems = [
 ];
 
 export default function SettingsPage() {
-  const { data: session, status } = useSession();
+  const { user, isLoading, supabase } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
   const [loading, setLoading] = useState(true);
@@ -77,15 +77,13 @@ export default function SettingsPage() {
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (isLoading) return;
+    if (!user) {
       router.push('/auth/login');
       return;
     }
-
-    if (status === 'authenticated') {
-      fetchSettings();
-    }
-  }, [status, router]);
+    fetchSettings();
+  }, [isLoading, user, router]);
 
   const fetchSettings = async () => {
     try {
@@ -234,7 +232,7 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
         {/* Left Navigation Bar */}
-        <NavigationBar user={session?.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-4xl mx-auto">

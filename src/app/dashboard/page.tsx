@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { useRouter } from 'next/navigation';
@@ -41,19 +41,19 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
+  const { user, supabase } = useAuth();
   const router = useRouter();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
 
   useEffect(() => {
-    if (!session) {
+    if (user === null) {
       router.push('/auth/login');
       return;
     }
@@ -77,10 +77,10 @@ export default function DashboardPage() {
     };
 
     fetchDashboardData();
-  }, [session, router]);
+  }, [user, router]);
 
   // Show loading while checking session
-  if (!session) {
+  if (!user) {
     return null;
   }
 
@@ -88,7 +88,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
               <div>
@@ -200,7 +200,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="max-w-3xl mx-auto">
               <div className="p-4 bg-red-50 text-red-600 rounded-md mb-6">
@@ -218,14 +218,14 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
         {/* Left Navigation Bar */}
-        <NavigationBar user={session.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         {/* Main Content */}
         <div className="flex-1 p-6 md:p-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
               <h1 className="text-3xl md:text-4xl font-display font-bold mb-2">Dashboard</h1>
-              <p className="text-muted-foreground">Welcome back, {dashboardData?.user?.name || session.user?.name || 'User'}</p>
+              <p className="text-muted-foreground">Welcome back, {dashboardData?.user?.name || user?.email || 'User'}</p>
             </div>
             <Button asChild size="lg">
               <a href="/dashboard/oasisbios/new">Create New OasisBio</a>

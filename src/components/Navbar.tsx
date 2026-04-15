@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from './Button';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 
 export function Navbar() {
-  const { data: session } = useSession();
+  const { user, supabase } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -33,12 +33,12 @@ export function Navbar() {
           <Link href="/developer" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide">
             Developers
           </Link>
-          {session ? (
+          {user ? (
             <div className="flex items-center space-x-4">
               <Link href="/dashboard" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide">
                 Dashboard
               </Link>
-              <Button variant="outline" size="sm" onClick={() => signOut()}>Sign Out</Button>
+              <Button variant="outline" size="sm" onClick={() => supabase.auth.signOut()}>Sign Out</Button>
             </div>
           ) : (
             <div className="flex items-center space-x-2">
@@ -79,12 +79,12 @@ export function Navbar() {
             <Link href="/developer" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide py-2">
               Developers
             </Link>
-            {session ? (
+            {user ? (
               <div className="flex flex-col space-y-2">
                 <Link href="/dashboard" className="text-foreground hover:opacity-80 transition-colors text-sm font-medium tracking-wide py-2">
                   Dashboard
                 </Link>
-                <Button variant="outline" size="sm" onClick={() => signOut()}>Sign Out</Button>
+                <Button variant="outline" size="sm" onClick={() => supabase.auth.signOut()}>Sign Out</Button>
               </div>
             ) : (
               <div className="flex flex-col space-y-2">

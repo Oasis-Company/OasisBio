@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
@@ -21,11 +21,11 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const { data: session, status } = useSession();
+  const { user, isLoading, supabase } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
   const [loading, setLoading] = useState(true);
@@ -44,15 +44,13 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (isLoading) return;
+    if (!user) {
       router.push('/auth/login');
       return;
     }
-
-    if (status === 'authenticated') {
-      fetchProfile();
-    }
-  }, [status, router]);
+    fetchProfile();
+  }, [isLoading, user, router]);
 
   const fetchProfile = async () => {
     try {
@@ -134,7 +132,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
         {/* Left Navigation Bar */}
-        <NavigationBar user={session?.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-3xl mx-auto">

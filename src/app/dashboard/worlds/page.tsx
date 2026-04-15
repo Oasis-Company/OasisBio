@@ -1,22 +1,22 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useSession } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useRouter } from 'next/navigation';
 
 export default function WorldsPage() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
+    if (user === null) {
       router.push('/auth/login');
     }
-  }, [session, router]);
+  }, [user, router]);
 
-  if (!session) {
+  if (!user) {
     return null;
   }
 

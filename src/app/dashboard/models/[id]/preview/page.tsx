@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { useRouter, useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import NavigationBar from '@/components/navigation/NavigationBar';
@@ -21,13 +21,13 @@ interface Model {
 }
 
 export default function ModelPreviewPage() {
-  const { data: session } = useSession();
+  const { user, supabase } = useAuth();
   const router = useRouter();
   const params = useParams();
   const modelId = params.id as string;
   
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
 
@@ -36,7 +36,7 @@ export default function ModelPreviewPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!session) {
+    if (user === null) {
       router.push('/auth/login');
       return;
     }
@@ -64,9 +64,9 @@ export default function ModelPreviewPage() {
     };
 
     fetchModel();
-  }, [session, router, modelId]);
+  }, [user, router, modelId]);
 
-  if (!session) {
+  if (!user) {
     return null;
   }
 
@@ -74,7 +74,7 @@ export default function ModelPreviewPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
@@ -89,7 +89,7 @@ export default function ModelPreviewPage() {
     return (
       <div className="min-h-screen bg-background">
         <div className="flex flex-col lg:flex-row">
-          <NavigationBar user={session.user} onLogout={handleLogout} />
+          <NavigationBar user={user} onLogout={handleLogout} />
           <div className="flex-1 p-6 md:p-8">
             <div className="text-center py-16">
               <p className="text-red-600 mb-4">{error || 'Model not found'}</p>
@@ -106,7 +106,7 @@ export default function ModelPreviewPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
-        <NavigationBar user={session?.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-6xl mx-auto">

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSession } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { CopyButton } from '@/components/CopyButton';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.com';
@@ -88,8 +88,8 @@ async function loginWithOasis(clientId, redirectUri) {
 }`;
 
 export default function DeveloperLandingPage() {
-  const { data: session } = useSession();
-  const isLoggedIn = !!session;
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
 
   return (
     <div className="min-h-screen bg-white">

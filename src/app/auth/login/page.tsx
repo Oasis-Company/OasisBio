@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth, useSession } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
 
 type Step = 'email' | 'otp';
 
 export default function LoginPage() {
-  const { supabase } = useAuth();
-  const { data: session } = useSession();
+  const { supabase, user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
@@ -25,8 +24,8 @@ export default function LoginPage() {
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (session) router.replace(callbackUrl);
-  }, [session, router, callbackUrl]);
+    if (user) router.replace(callbackUrl);
+  }, [user, router, callbackUrl]);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();

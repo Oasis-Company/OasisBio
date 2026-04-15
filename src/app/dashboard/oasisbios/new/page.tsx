@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSession, signOut } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
@@ -11,12 +11,12 @@ import NavigationBar from '@/components/navigation/NavigationBar';
 type Step = 1 | 2 | 3 | 4 | 5 | 6;
 
 export default function CreateOasisBioPage() {
-  const { data: session } = useSession();
+  const { user, supabase } = useAuth();
   const router = useRouter();
   const [step, setStep] = useState<Step>(1);
   
   const handleLogout = async () => {
-    await signOut();
+    await supabase.auth.signOut();
     router.push('/auth/login');
   };
 
@@ -35,12 +35,12 @@ export default function CreateOasisBioPage() {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    if (!session) {
+    if (user === null) {
       router.push('/auth/login');
     }
-  }, [session, router]);
+  }, [user, router]);
 
-  if (!session) {
+  if (!user) {
     return null;
   }
 
@@ -102,7 +102,7 @@ export default function CreateOasisBioPage() {
     <div className="min-h-screen bg-background">
       <div className="flex flex-col lg:flex-row">
         {/* Left Navigation Bar */}
-        <NavigationBar user={session?.user} onLogout={handleLogout} />
+        <NavigationBar user={user} onLogout={handleLogout} />
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-3xl mx-auto">

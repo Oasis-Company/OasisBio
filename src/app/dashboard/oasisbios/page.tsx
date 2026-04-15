@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useSession } from '@/lib/auth.client';
+import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { ExportModal } from '@/components/ExportModal';
@@ -9,7 +9,7 @@ import { ImportModal } from '@/components/ImportModal';
 import { useRouter } from 'next/navigation';
 
 export default function OasisBiosPage() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const router = useRouter();
   const [oasisBios, setOasisBios] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ export default function OasisBiosPage() {
   const [importError, setImportError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!session) {
+    if (user === null) {
       router.push('/auth/login');
       return;
     }
@@ -47,7 +47,7 @@ export default function OasisBiosPage() {
     };
 
     fetchOasisBios();
-  }, [session, router]);
+  }, [user, router]);
 
   const handleSelect = (id: string) => {
     setSelectedIds(prev => {
@@ -138,7 +138,7 @@ export default function OasisBiosPage() {
   };
 
   // Show loading while checking session
-  if (!session) {
+  if (!user) {
     return null;
   }
 
