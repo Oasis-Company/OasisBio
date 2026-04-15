@@ -35,7 +35,10 @@ export async function POST(
     const body = await request.json();
 
     if (!body.name || !body.category) {
-      return NextResponse.json({ error: 'Name and category are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: { code: 'VALIDATION_ERROR', message: 'Name and category are required' } },
+        { status: 400 }
+      );
     }
 
     await requireOasisBioOwnership(oasisBioId, user.id);
@@ -45,9 +48,9 @@ export async function POST(
         name: body.name,
         category: body.category,
         level: body.level || 1,
-        description: body.description || '',
-        relatedWorldId: body.relatedWorldId,
-        relatedEraId: body.relatedEraId,
+        description: body.description || null,
+        relatedWorldId: body.relatedWorldId || null,
+        relatedEraId: body.relatedEraId || null,
         oasisBioId,
       },
     });

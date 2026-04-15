@@ -28,12 +28,12 @@ export async function PUT(
 
     const { name, eraType, description, startYear, endYear } = body;
 
-    const updates: any = {};
-    if (name) updates.name = name;
-    if (eraType) updates.eraType = eraType;
-    if (description) updates.description = description;
-    if (startYear !== undefined) updates.startYear = startYear;
-    if (endYear !== undefined) updates.endYear = endYear;
+    const updates: Record<string, unknown> = {};
+    if (name !== undefined) updates.name = name;
+    if (eraType !== undefined) updates.eraType = eraType;
+    if (description !== undefined) updates.description = description || null;
+    if (startYear !== undefined) updates.startYear = startYear ? Number(startYear) : null;
+    if (endYear !== undefined) updates.endYear = endYear ? Number(endYear) : null;
 
     const updatedEra = await prisma.eraIdentity.update({
       where: { id },

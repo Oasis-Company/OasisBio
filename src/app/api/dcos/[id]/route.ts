@@ -15,12 +15,14 @@ export async function PUT(
     // Verify ownership
     await requireDcosFileOwnership(id, user.id);
 
-    const { name, content, type } = body;
+    const { title, content, status, folderPath, eraId } = body;
 
-    const updates: any = {};
-    if (name) updates.name = name;
-    if (content) updates.content = content;
-    if (type) updates.type = type;
+    const updates: Record<string, unknown> = {};
+    if (title !== undefined) updates.title = title;
+    if (content !== undefined) updates.content = content;
+    if (status !== undefined) updates.status = status;
+    if (folderPath !== undefined) updates.folderPath = folderPath;
+    if (eraId !== undefined) updates.eraId = eraId || null;
 
     const dcosFile = await prisma.dcosFile.update({
       where: { id },
