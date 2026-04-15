@@ -125,6 +125,15 @@ Body: { "visibility": "public" }
 DELETE /api/oasisbios/{id}/publish  (unpublish)
 ```
 
+### Era management
+
+```
+GET    /api/oasisbios/{id}/eras          # list, ordered by sortOrder
+POST   /api/oasisbios/{id}/eras          # create (sortOrder auto-assigned)
+PUT    /api/eras/{eraId}                 # update
+DELETE /api/eras/{eraId}                 # delete (unlinks abilities + DCOS)
+```
+
 ### Supabase client selection
 
 | Context | Import |

@@ -103,6 +103,7 @@ oasisbio/
 ## Key Features
 
 - **OasisBio Builder** — step-by-step character creation with era system
+- **Era Timeline** — manage past/present/future/alternate/worldbound eras per character
 - **World Builder** — 6-module guided worldbuilding wizard
 - **Ability Pool** — categorized skills with era/world binding
 - **DCOS Repository** — character narrative documents

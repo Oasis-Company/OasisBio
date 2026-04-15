@@ -112,8 +112,7 @@ oasisbio/
 │   │   │   │       │   ├── route.ts       # GET/PUT/DELETE app
 │   │   │   │       │   └── secret/route.ts # POST rotate secret
 │   │   │   │       └── route.ts           # GET list / POST create
-│   │   │   ├── eras/[id]/route.ts
-│   │   │   ├── eras/route.ts
+│   │   │   ├── eras/[id]/route.ts         # PUT/DELETE era by id
 │   │   │   ├── export/route.ts
 │   │   │   ├── import/route.ts
 │   │   │   ├── models/[id]/route.ts
@@ -131,15 +130,15 @@ oasisbio/
 │   │   │   │   └── userinfo/route.ts           # GET profile + email
 │   │   │   ├── oasisbios/
 │   │   │   │   ├── [id]/
-│   │   │   │   │   ├── abilities/route.ts
-│   │   │   │   │   ├── dcos/route.ts
-│   │   │   │   │   ├── eras/route.ts
-│   │   │   │   │   ├── publish/route.ts   # POST=publish, DELETE=unpublish
-│   │   │   │   │   ├── references/route.ts
-│   │   │   │   │   ├── route.ts           # GET/PUT/DELETE
+│   │   │   │   │   ├── abilities/route.ts  # GET list / POST create
+│   │   │   │   │   ├── dcos/route.ts       # GET list / POST create
+│   │   │   │   │   ├── eras/route.ts       # GET list / POST create (auto sortOrder)
+│   │   │   │   │   ├── publish/route.ts    # POST=publish, DELETE=unpublish
+│   │   │   │   │   ├── references/route.ts # GET list / POST create
+│   │   │   │   │   ├── route.ts            # GET/PUT/DELETE (summary field included)
 │   │   │   │   │   └── worlds/route.ts
 │   │   │   │   ├── public/route.ts
-│   │   │   │   └── route.ts               # GET/POST
+│   │   │   │   └── route.ts               # GET list / POST create (slug auto-dedup)
 │   │   │   ├── profile/route.ts
 │   │   │   ├── references/[id]/route.ts
 │   │   │   ├── references/route.ts
@@ -153,12 +152,19 @@ oasisbio/
 │   │   ├── auth/
 │   │   │   ├── login/page.tsx             # OTP login
 │   │   │   └── register/page.tsx          # OTP register + displayName
+│   │   ├── bio/
+│   │   │   └── [slug]/page.tsx            # Public character page (visibility=public only, SEO metadata)
 │   │   ├── dashboard/
 │   │   │   └── oasisbios/[id]/
-│   │   │       └── worlds/
-│   │   │           ├── page.tsx           # World list (card grid)
-│   │   │           ├── new/page.tsx       # Step wizard
-│   │   │           └── [wid]/page.tsx     # World detail editor
+│   │   │       ├── page.tsx               # Identity editor + publish/unpublish
+│   │   │       ├── eras/page.tsx          # Era timeline management
+│   │   │       ├── abilities/page.tsx     # Ability pool management
+│   │   │       ├── worlds/
+│   │   │       │   ├── page.tsx           # World list (card grid)
+│   │   │       │   ├── new/page.tsx       # Step wizard
+│   │   │       │   └── [wid]/page.tsx     # World detail editor
+│   │   │       ├── dcos/page.tsx          # DCOS file management
+│   │   │       └── references/page.tsx    # References library
 │   │   └── layout.tsx
 │   │
 │   ├── components/
@@ -955,7 +961,7 @@ Creates a new OasisBio.
 
 **Optional:** `tagline`, `identityMode`, `birthDate`, `gender`, `pronouns`, `placeOfOrigin`, `currentEra`, `species`, `status`, `description`
 
-**Auto-generated:** `slug` (from title, lowercase + hyphens), `visibility: 'private'`
+**Auto-generated:** `slug` (from title, lowercase + hyphens, auto-deduped with numeric suffix on collision), `visibility: 'private'`
 
 #### `GET /api/oasisbios/[id]`
 Returns OasisBio with all relations: `abilities`, `eras`, `dcosFiles`, `references`, `worlds`, `models`.
@@ -963,7 +969,9 @@ Returns OasisBio with all relations: `abilities`, `eras`, `dcosFiles`, `referenc
 #### `PUT /api/oasisbios/[id]`
 Updates OasisBio. Only provided fields are updated.
 
-**Updatable:** `title`, `tagline`, `identityMode`, `birthDate`, `gender`, `pronouns`, `placeOfOrigin`, `currentEra`, `species`, `status`, `description`, `visibility`
+**Updatable:** `title`, `tagline`, `summary`, `identityMode`, `birthDate`, `gender`, `pronouns`, `placeOfOrigin`, `currentEra`, `species`, `status`, `description`, `visibility`
+
+Empty strings are coerced to `null` for optional fields.
 
 #### `DELETE /api/oasisbios/[id]`
 Deletes OasisBio and all cascaded data (abilities, eras, dcos, references, worlds, models, publication).
@@ -1044,19 +1052,21 @@ Deletes a reference.
 ### Era Endpoints
 
 #### `GET /api/oasisbios/[id]/eras`
-Returns all eras, ordered by `sortOrder ASC`.
+Returns all eras for an OasisBio, ordered by `sortOrder ASC`.
 
-#### `POST /api/eras`
-Creates an era.
+#### `POST /api/oasisbios/[id]/eras`
+Creates an era. `sortOrder` is auto-assigned (current max + 1).
 
-**Required:** `oasisBioId`, `name`, `eraType`, `startYear`
-**Optional:** `description`, `endYear`
+**Required:** `name`, `eraType` (`past` | `present` | `future` | `alternate` | `worldbound`)
+**Optional:** `description`, `startYear`, `endYear`
 
 #### `PUT /api/eras/[id]`
-Updates an era. Inline ownership check (no helper function).
+Updates an era. Inline ownership check via `oasisBio.userId`.
+
+**Optional fields:** `name`, `eraType`, `description`, `startYear`, `endYear`
 
 #### `DELETE /api/eras/[id]`
-Deletes an era.
+Deletes an era. Cascades: unlinks abilities and DCOS files that referenced this era.
 
 ### World Endpoints
 
