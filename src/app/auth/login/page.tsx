@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
 
 type Step = 'email' | 'otp';
 
-export default function LoginPage() {
+function LoginContent() {
   const { supabase, user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -150,5 +150,13 @@ export default function LoginPage() {
         </p>
       </div>
     </AuthForm>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
   );
 }
