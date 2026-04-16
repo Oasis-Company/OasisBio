@@ -38,3 +38,5 @@ prisma/migrations/
 prepare/
 .trae/
 home prepare/
+# OpenNext
+.open-next
