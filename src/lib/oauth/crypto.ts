@@ -4,7 +4,14 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.OAUTH_JWT_SECRET ?? 'dev-oauth-secret-change-in-production';
-const JWT_ISSUER = 'https://oasisbio.com';
+
+export function getJwtIssuer(): string {
+  const host = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;
+  if (host) {
+    return host.startsWith('http') ? host : `https://${host}`;
+  }
+  return 'https://oasisbio.com';
+}
 
 // ─────────────────────────────────────────────
 // Random secret generation
@@ -113,13 +120,14 @@ export function signAccessToken(payload: {
   scope: string;
   jti: string;
 }): string {
+  const issuer = getJwtIssuer();
   return jwt.sign(
     {
       sub: payload.sub,
       client_id: payload.clientId,
       scope: payload.scope,
       jti: payload.jti,
-      iss: JWT_ISSUER,
+      iss: issuer,
     },
     JWT_SECRET,
     { expiresIn: '1h', algorithm: 'HS256' }
@@ -132,8 +140,9 @@ export function signAccessToken(payload: {
  */
 export function verifyAccessToken(token: string): AccessTokenPayload | null {
   try {
+    const issuer = getJwtIssuer();
     const payload = jwt.verify(token, JWT_SECRET, {
-      issuer: JWT_ISSUER,
+      issuer: issuer,
       algorithms: ['HS256'],
     }) as AccessTokenPayload;
     return payload;

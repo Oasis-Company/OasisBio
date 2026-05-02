@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { getServerUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { validateAuthorizationParams } from '@/lib/oauth/validate';
@@ -22,6 +23,10 @@ export default async function AuthorizePage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+  const headerList = headers();
+  const host = headerList.get('host') || 'localhost:3000';
+  const protocol = host.includes('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
 
   // Validate parameters
   const validation = validateAuthorizationParams(params);
@@ -76,7 +81,7 @@ export default async function AuthorizePage({
   // Require user to be logged in
   const user = await getServerUser();
   if (!user) {
-    const loginUrl = new URL('/auth/login', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'https://oasisbio.com' : 'http://localhost:3000');
+    const loginUrl = new URL('/auth/login', baseUrl);
     loginUrl.searchParams.set('callbackUrl', `/oauth/authorize?${new URLSearchParams(params as Record<string, string>).toString()}`);
     redirect(loginUrl.pathname + '?callbackUrl=' + encodeURIComponent('/oauth/authorize?' + new URLSearchParams(params as Record<string, string>).toString()));
   }

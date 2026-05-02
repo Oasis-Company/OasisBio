@@ -1,9 +1,24 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
-const ExploreContent = dynamic(() => import('@/components/ExploreContent'), { ssr: false });
+import { useState } from 'react';
+import ExploreContent from '@/components/ExploreContent';
+import ExploreFilters from '@/components/ExploreFilters';
 
 export default function ExploreContentWrapper() {
-  return <ExploreContent />;
+  const [filters, setFilters] = useState({
+    searchTerm: '',
+    selectedEra: 'All',
+    selectedType: 'All',
+  });
+
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters);
+  };
+
+  return (
+    <div>
+      <ExploreFilters onFilterChange={handleFilterChange} />
+      <ExploreContent filters={filters} />
+    </div>
+  );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -78,12 +79,16 @@ export default function Home() {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6">
-              <Button size="lg" className="px-8 py-6 text-lg bg-white text-black hover:bg-gray-100">
-                Create Your OasisBio
-              </Button>
-              <Button size="lg" variant="secondary" className="px-8 py-6 text-lg border border-white/30 text-white hover:bg-white/10">
-                Explore Identities
-              </Button>
+              <Link href="/auth/login" className="no-underline">
+                <Button size="lg" className="px-8 py-6 text-lg bg-white text-black hover:bg-gray-100">
+                  Create Your OasisBio
+                </Button>
+              </Link>
+              <Link href="/explore" className="no-underline">
+                <Button size="lg" variant="secondary" className="px-8 py-6 text-lg border border-white/30 text-white hover:bg-white/10">
+                  Explore Identities
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -538,9 +543,11 @@ export default function Home() {
             
             {/* CTA Button */}
             <div className="inline-block">
-              <Button size="lg" className="px-10 py-8 text-lg bg-white text-black hover:bg-gray-100">
-                Create Your OasisBio
-              </Button>
+              <Link href="/auth/login" className="no-underline">
+                <Button size="lg" className="px-10 py-8 text-lg bg-white text-black hover:bg-gray-100">
+                  Create Your OasisBio
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
