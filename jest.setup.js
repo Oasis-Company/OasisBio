@@ -1,6 +1,9 @@
 // jest.setup.js
 import '@testing-library/jest-dom';
 
+// Mock server-only to allow testing server-only modules
+jest.mock('server-only', () => ({}));
+
 // Mock Next.js router
 jest.mock('next/router', () => ({
   useRouter: () => ({
