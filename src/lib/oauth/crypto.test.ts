@@ -10,6 +10,9 @@ import {
   verifyAccessToken,
 } from './crypto';
 
+// Mock required environment variable for tests
+process.env.OAUTH_JWT_SECRET = 'test-jwt-secret-for-unit-tests-only';
+
 // ---------------------------------------------------------------------------
 // Property 3: PKCE verification correctness
 // Feature: oauth-provider, Property 3

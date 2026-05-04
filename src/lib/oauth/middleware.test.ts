@@ -2,6 +2,9 @@ import * as fc from 'fast-check';
 import { hasScope, parseScopes, ALL_SCOPES, type ScopeName } from './scopes';
 import { signAccessToken, verifyAccessToken, generateUUID } from './crypto';
 
+// Mock required environment variable for tests
+process.env.OAUTH_JWT_SECRET = 'test-jwt-secret-for-unit-tests-only';
+
 describe('Scope enforcement — Property 5: Scope enforcement', () => {
   it('hasScope returns true when token has required scope', () => {
     fc.assert(

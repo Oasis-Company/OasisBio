@@ -1,6 +1,13 @@
 // jest.setup.js
 import '@testing-library/jest-dom';
 
+// Set required environment variables for tests
+process.env.OAUTH_JWT_SECRET = 'test-jwt-secret-for-unit-tests-only';
+process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test_db';
+process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
+process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key';
+
 // Mock server-only to allow testing server-only modules
 jest.mock('server-only', () => ({}));
 

@@ -6,6 +6,9 @@ import {
   generateCodeChallenge,
 } from '@/lib/oauth/crypto';
 
+// Mock required environment variable for tests
+process.env.OAUTH_JWT_SECRET = 'test-jwt-secret-for-unit-tests-only';
+
 describe('Token endpoint — Property 6: Refresh token rotation', () => {
   it('new refresh token is generated on each refresh', () => {
     fc.assert(
