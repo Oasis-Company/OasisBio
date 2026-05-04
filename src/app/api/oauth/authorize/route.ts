@@ -1,12 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateSecret } from '@/lib/oauth/crypto';
-import crypto from 'crypto';
+import { createClient } from '@/lib/supabase/server';
 
 // POST /api/oauth/authorize — process user's authorization decision
 export async function POST(request: NextRequest) {
+  // Verify user session from server-side — do NOT trust client-provided userId
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return NextResponse.json(
+      { error: 'unauthenticated', error_description: 'User must be logged in to authorize applications' },
+      { status: 401 }
+    );
+  }
+
   const body = await request.json();
-  const { clientId, redirectUri, scope, state, codeChallenge, codeChallengeMethod, decision, userId } = body;
+  const { clientId, redirectUri, scope, state, codeChallenge, codeChallengeMethod, decision } = body;
+  const userId = user.id; // Server-side userId — prevents authorization code forgery
 
   if (decision !== 'allow') {
     const url = new URL(redirectUri);

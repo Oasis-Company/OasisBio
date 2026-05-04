@@ -9,6 +9,7 @@ import {
   hashRefreshToken,
 } from '@/lib/oauth/crypto';
 import { validateTokenParams } from '@/lib/oauth/validate';
+import { withRateLimit, getClientIP } from '@/lib/rate-limit';
 
 function oauthError(error: string, description: string, status = 400) {
   return NextResponse.json(
@@ -19,6 +20,10 @@ function oauthError(error: string, description: string, status = 400) {
 
 // POST /api/oauth/token
 export async function POST(request: NextRequest) {
+  // Rate limit: 30 requests per minute per IP (prevents client_secret brute force)
+  const rateLimitResponse = withRateLimit(request, 60_000, 30, getClientIP(request));
+  if (rateLimitResponse) return rateLimitResponse;
+
   // Parse body — supports both JSON and application/x-www-form-urlencoded
   let params: Record<string, string> = {};
   const contentType = request.headers.get('content-type') ?? '';

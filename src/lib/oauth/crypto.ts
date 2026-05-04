@@ -2,8 +2,9 @@ import 'server-only';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { oauthConfig } from '@/lib/config';
 
-const JWT_SECRET = process.env.OAUTH_JWT_SECRET ?? 'dev-oauth-secret-change-in-production';
+const JWT_SECRET = oauthConfig.jwtSecret;
 
 export function getJwtIssuer(): string {
   const host = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;

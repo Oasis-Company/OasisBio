@@ -2,23 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { syncUserToPrisma } from '@/lib/user-sync';
 import crypto from 'crypto';
+import { withRateLimit, getClientIP } from '@/lib/rate-limit';
 
 const WEBHOOK_SECRET = process.env.SUPABASE_WEBHOOK_SECRET;
 
 function verifyWebhookSignature(payload: string, signature: string): boolean {
   if (!WEBHOOK_SECRET) {
-    console.warn('[webhook] SUPABASE_WEBHOOK_SECRET not set — skipping signature verification');
-    return true;
+    console.error('[webhook] FATAL: SUPABASE_WEBHOOK_SECRET not set — rejecting all webhook requests');
+    return false;
   }
   const hmac = crypto.createHmac('sha256', WEBHOOK_SECRET);
   const digest = hmac.update(payload).digest('base64');
   return crypto.timingSafeEqual(
-    Buffer.from(signature) as unknown as Uint8Array,
-    Buffer.from(digest) as unknown as Uint8Array
+    Buffer.from(signature),
+    Buffer.from(digest)
   );
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP (prevents webhook abuse)
+  const rateLimitResponse = withRateLimit(request, 60_000, 60, getClientIP(request));
+  if (rateLimitResponse) return rateLimitResponse;
+
   const requestId = request.headers.get('x-request-id') ?? crypto.randomUUID();
 
   try {
