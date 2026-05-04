@@ -15,7 +15,8 @@ import { prisma } from '@/lib/prisma';
 import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import crypto from 'crypto';
-import { s3Client, R2_BUCKETS } from '@/lib/cloudflare-r2';
+import s3Client from '@/lib/cloudflare-r2';
+import { R2_BUCKETS } from '@/lib/cloudflare-r2';
 
 // ─────────────────────────────────────────────
 // Config
@@ -168,15 +169,15 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // R2 - use imported s3Client singleton
-      const key = `models/${user.id}/${resourceId}/model.glb`;
+      const key = `${R2_BUCKETS.MODELS}/${user.id}/${resourceId}/model.glb`;
 
       if (action === 'upload') {
         const command = new PutObjectCommand({
-          Bucket: bucket,
+          Bucket: R2_BUCKETS.MODELS,
           Key: key,
           ContentType: contentType ?? 'model/gltf-binary',
         });
-        const signedUrl = await getSignedUrl(r2, command, { expiresIn: 300 });
+        const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 });
 
         return NextResponse.json({
           provider: 'r2',
@@ -187,8 +188,8 @@ export async function POST(request: NextRequest) {
           requestId,
         });
       } else {
-        const command = new GetObjectCommand({ Bucket: bucket, Key: key });
-        const signedUrl = await getSignedUrl(r2, command, { expiresIn: 3600 });
+        const command = new GetObjectCommand({ Bucket: R2_BUCKETS.MODELS, Key: key });
+        const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
         return NextResponse.json({
           provider: 'r2',

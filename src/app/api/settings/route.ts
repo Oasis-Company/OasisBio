@@ -6,27 +6,23 @@ export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth();
 
-    const dbUser = await prisma.user.findUnique({
-      where: { id: user.id },
-      include: {
-        profiles: true,
-        oasisBios: {
-          select: {
-            id: true,
-            status: true,
-          },
+    // Use parallel queries instead of full include for better performance
+    const [dbUser, totalOasisBios, publicOasisBiosCount] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: user.id },
+        include: {
+          profiles: true,
         },
-      },
-    });
+      }),
+      prisma.oasisBio.count({ where: { userId: user.id } }),
+      prisma.oasisBio.count({ where: { userId: user.id, status: 'published' } }),
+    ]);
 
     if (!dbUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const profile = dbUser.profiles[0];
-    const publicOasisBiosCount = dbUser.oasisBios.filter(
-      (oasisBio) => oasisBio.status === 'published'
-    ).length;
 
     return NextResponse.json({
       user: {
@@ -48,7 +44,7 @@ export async function GET(request: NextRequest) {
           }
         : null,
       stats: {
-        totalOasisBios: dbUser.oasisBios.length,
+        totalOasisBios,
         publicOasisBios: publicOasisBiosCount,
       },
       plan: {
@@ -87,7 +83,7 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
       }
 
-      const updateData: any = {};
+      const updateData: Record<string, unknown> = {};
       if (data.username !== undefined) updateData.username = data.username;
       if (data.displayName !== undefined) updateData.displayName = data.displayName;
       if (data.avatarUrl !== undefined) updateData.avatarUrl = data.avatarUrl;

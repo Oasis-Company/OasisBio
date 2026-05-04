@@ -19,7 +19,7 @@ export * as $Enums from './enums'
 export * from './enums';
 /**
  * Model User
- * @ts-nocheck
+ * 
  */
 export type User = Prisma.UserModel
 /**

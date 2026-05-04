@@ -80,8 +80,8 @@ export function verifyPKCE(codeVerifier: string, codeChallenge: string): boolean
   // Constant-time comparison to prevent timing attacks
   try {
     return crypto.timingSafeEqual(
-      Buffer.from(computed) as unknown as Uint8Array,
-      Buffer.from(codeChallenge) as unknown as Uint8Array
+      Buffer.from(computed, 'base64url'),
+      Buffer.from(codeChallenge, 'base64url')
     );
   } catch {
     return false;

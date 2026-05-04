@@ -9,7 +9,7 @@ export interface ValidationResult {
 }
 
 export class Validator {
-  static required(value: any, field: string): ValidationError | null {
+  static required(value: unknown, field: string): ValidationError | null {
     if (value === undefined || value === null || value === '') {
       return { field, message: `${field} is required` };
     }
@@ -81,7 +81,7 @@ export class Validator {
     }
   }
 
-  static validate(data: any, rules: { [key: string]: ((value: any, field: string) => ValidationError | null)[] }): ValidationResult {
+  static validate(data: Record<string, unknown>, rules: { [key: string]: ((value: unknown, field: string) => ValidationError | null)[] }): ValidationResult {
     const errors: ValidationError[] = [];
 
     Object.entries(rules).forEach(([field, fieldRules]) => {
@@ -119,7 +119,7 @@ export const validateRegisterForm = (data: { name: string; email: string; passwo
   });
 };
 
-export const validateSettingsForm = (data: any, section: string): ValidationResult => {
+export const validateSettingsForm = (data: Record<string, unknown>, section: string): ValidationResult => {
   if (section === 'account' || section === 'profile') {
     return Validator.validate(data, {
       username: [

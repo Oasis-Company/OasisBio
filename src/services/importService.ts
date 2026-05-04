@@ -1,4 +1,4 @@
-import { createReadStream } from 'fs';
+import { createReadStream, readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync, lstatSync, unlinkSync, rmdirSync } from 'fs';
 import { join, basename } from 'path';
 import { tmpdir } from 'os';
 import unzipper from 'unzipper';
@@ -42,19 +42,18 @@ class ImportService {
 
       // Create temporary file
       const tempFile = join(tempDir, `import-${Date.now()}.zip`);
-      const fs = require('fs');
-      fs.writeFileSync(tempFile, buffer);
+      writeFileSync(tempFile, buffer);
 
       // Extract ZIP file
       await this.extractZip(tempFile, importDir);
 
       // Read extracted files
-      const extractedFiles = fs.readdirSync(importDir);
+      const extractedFiles = readdirSync(importDir);
 
       // Process each character directory
       for (const item of extractedFiles) {
         const itemPath = join(importDir, item);
-        const stats = fs.statSync(itemPath);
+        const stats = statSync(itemPath);
 
         if (stats.isDirectory()) {
           // This is a character directory (batch export)
@@ -86,7 +85,7 @@ class ImportService {
       }
 
       // Clean up temporary files
-      fs.unlinkSync(tempFile);
+      unlinkSync(tempFile);
       this.removeDir(importDir);
 
       return {
@@ -108,13 +107,12 @@ class ImportService {
 
   // Extract ZIP file
   private async extractZip(zipPath: string, targetDir: string): Promise<void> {
-    const fs = require('fs');
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
+    if (!existsSync(targetDir)) {
+      mkdirSync(targetDir, { recursive: true });
     }
 
     return new Promise<void>((resolve, reject) => {
-      fs.createReadStream(zipPath)
+      createReadStream(zipPath)
         .pipe(unzipper.Extract({ path: targetDir }))
         .on('close', resolve)
         .on('error', reject);
@@ -123,15 +121,14 @@ class ImportService {
 
   // Process character directory (batch export)
   private async processCharacterDirectory(userId: string, directoryPath: string): Promise<ProcessResult> {
-    const fs = require('fs');
     const characterJsonPath = join(directoryPath, 'character.json');
 
-    if (!fs.existsSync(characterJsonPath)) {
+    if (!existsSync(characterJsonPath)) {
       return { success: false, error: 'character.json not found' };
     }
 
     try {
-      const characterData = JSON.parse(fs.readFileSync(characterJsonPath, 'utf8'));
+      const characterData = JSON.parse(readFileSync(characterJsonPath, 'utf8'));
       return await this.createOrUpdateCharacter(userId, characterData, directoryPath);
     } catch (error) {
       return { success: false, error: `Failed to read character.json: ${error instanceof Error ? error.message : 'Unknown error'}` };
@@ -140,15 +137,14 @@ class ImportService {
 
   // Process single character export
   private async processSingleCharacter(userId: string, directoryPath: string): Promise<ProcessResult> {
-    const fs = require('fs');
     const characterJsonPath = join(directoryPath, 'character.json');
 
-    if (!fs.existsSync(characterJsonPath)) {
+    if (!existsSync(characterJsonPath)) {
       return { success: false, error: 'character.json not found' };
     }
 
     try {
-      const characterData = JSON.parse(fs.readFileSync(characterJsonPath, 'utf8'));
+      const characterData = JSON.parse(readFileSync(characterJsonPath, 'utf8'));
       return await this.createOrUpdateCharacter(userId, characterData, directoryPath);
     } catch (error) {
       return { success: false, error: `Failed to read character.json: ${error instanceof Error ? error.message : 'Unknown error'}` };
@@ -156,7 +152,11 @@ class ImportService {
   }
 
   // Create or update character
-  private async createOrUpdateCharacter(userId: string, characterData: any, directoryPath: string) {
+  private async createOrUpdateCharacter(userId: string, characterData: {
+    name: string;
+    birthday?: string;
+    gender?: string;
+  }, directoryPath: string) {
     try {
       // Check if character already exists
       const existingCharacter = await prisma.oasisBio.findFirst({
@@ -215,12 +215,11 @@ class ImportService {
 
   // Process DCOS files
   private async processDcosFiles(userId: string, characterId: string, directoryPath: string) {
-    const fs = require('fs');
     const dcosPath = join(directoryPath, 'dcos.md');
 
-    if (fs.existsSync(dcosPath)) {
+    if (existsSync(dcosPath)) {
       try {
-        const content = fs.readFileSync(dcosPath, 'utf8');
+        const content = readFileSync(dcosPath, 'utf8');
         const title = content.match(/^# DCOS: (.*)$/m)?.[1] || 'DCOS';
 
         // Check if DCOS already exists
@@ -260,12 +259,11 @@ class ImportService {
 
   // Process references
   private async processReferences(userId: string, characterId: string, directoryPath: string) {
-    const fs = require('fs');
     const referencesPath = join(directoryPath, 'references.csv');
 
-    if (fs.existsSync(referencesPath)) {
+    if (existsSync(referencesPath)) {
       try {
-        const content = fs.readFileSync(referencesPath, 'utf8');
+        const content = readFileSync(referencesPath, 'utf8');
         const lines = content.split('\n').slice(1); // Skip header
 
         for (const line of lines) {
@@ -311,12 +309,11 @@ class ImportService {
 
   // Process world data
   private async processWorldData(userId: string, characterId: string, directoryPath: string) {
-    const fs = require('fs');
     const worldPath = join(directoryPath, 'world.json');
 
-    if (fs.existsSync(worldPath)) {
+    if (existsSync(worldPath)) {
       try {
-        const worldData = JSON.parse(fs.readFileSync(worldPath, 'utf8'));
+        const worldData = JSON.parse(readFileSync(worldPath, 'utf8'));
 
         // Check if world already exists
         const existingWorld = await prisma.worldItem.findFirst({
@@ -361,12 +358,11 @@ class ImportService {
 
   // Process 3D model
   private async processModel(userId: string, characterId: string, directoryPath: string) {
-    const fs = require('fs');
     const modelPath = join(directoryPath, 'model.glb');
 
-    if (fs.existsSync(modelPath)) {
+    if (existsSync(modelPath)) {
       try {
-        const modelFile = fs.readFileSync(modelPath);
+        const modelFile = readFileSync(modelPath);
         const modelBlob = new Blob([modelFile], { type: 'model/gltf-binary' });
 
         // Upload model to R2
@@ -414,13 +410,11 @@ class ImportService {
 
   // Process cover and preview images
   private async processImages(userId: string, characterId: string, directoryPath: string) {
-    const fs = require('fs');
-
     // Process cover image
     const coverPath = join(directoryPath, 'cover.webp');
-    if (fs.existsSync(coverPath)) {
+    if (existsSync(coverPath)) {
       try {
-        const coverFile = fs.readFileSync(coverPath);
+        const coverFile = readFileSync(coverPath);
         const coverBlob = new Blob([coverFile], { type: 'image/webp' });
 
         // Upload cover to Supabase
@@ -436,9 +430,9 @@ class ImportService {
 
     // Process preview image
     const previewPath = join(directoryPath, 'preview.webp');
-    if (fs.existsSync(previewPath)) {
+    if (existsSync(previewPath)) {
       try {
-        const previewFile = fs.readFileSync(previewPath);
+        const previewFile = readFileSync(previewPath);
         const previewBlob = new Blob([previewFile], { type: 'image/webp' });
 
         // Upload preview to Supabase
@@ -463,18 +457,17 @@ class ImportService {
 
   // Remove directory recursively
   private removeDir(path: string) {
-    const fs = require('fs');
-    if (fs.existsSync(path)) {
-      const files = fs.readdirSync(path);
+    if (existsSync(path)) {
+      const files = readdirSync(path);
       for (const file of files) {
         const curPath = join(path, file);
-        if (fs.lstatSync(curPath).isDirectory()) {
+        if (lstatSync(curPath).isDirectory()) {
           this.removeDir(curPath);
         } else {
-          fs.unlinkSync(curPath);
+          unlinkSync(curPath);
         }
       }
-      fs.rmdirSync(path);
+      rmdirSync(path);
     }
   }
 }

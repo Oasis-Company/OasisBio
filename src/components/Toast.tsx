@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import crypto from 'crypto';
 
 // ─────────────────────────────────────────────
 // Types
@@ -39,7 +40,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toast = useCallback((message: string, type: ToastType = 'info') => {
-    const id = Math.random().toString(36).slice(2);
+    const id = crypto.randomUUID().slice(0, 8);
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => dismiss(id), 3500);
   }, [dismiss]);

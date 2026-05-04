@@ -82,7 +82,8 @@ export function QuoteDisplay() {
 
   useEffect(() => {
     // 随机选择一条名言
-    const randomIndex = Math.floor(Math.random() * quotes.length);
+    // Use crypto for consistent randomness
+    const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % quotes.length;
     setSelectedQuote(quotes[randomIndex]);
   }, []);
 

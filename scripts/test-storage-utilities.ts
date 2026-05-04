@@ -1,4 +1,7 @@
-import { storagePath, uploadFile, validateFile, STORAGE_BUCKETS } from '../src/lib/supabase';
+import { storagePath, uploadFile as uploadToSupabase, validateFile, STORAGE_BUCKETS } from '../src/lib/supabase/storage';
+
+// Alias for backward compatibility
+const uploadFile = uploadToSupabase;
 
 async function testStorageUtilities() {
   console.log('🧪 Testing storage path utilities...\n');
