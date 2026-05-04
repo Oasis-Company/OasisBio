@@ -5,7 +5,7 @@
  * and public URL generation for all storage buckets.
  */
 
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/browser';
 
 // ---------------------------------------------------------------------------
 // Bucket names

@@ -12,9 +12,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { createClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import crypto from 'crypto';
+import { s3Client, R2_BUCKETS } from '@/lib/cloudflare-r2';
 
 // ─────────────────────────────────────────────
 // Config
@@ -64,21 +65,6 @@ async function verifyOwnership(resourceType: ResourceType, resourceId: string, u
     select: { userId: true },
   });
   return bio?.userId === userId;
-}
-
-// ─────────────────────────────────────────────
-// R2 client (lazy init)
-// ─────────────────────────────────────────────
-
-function getR2Client() {
-  return new S3Client({
-    region: 'auto',
-    credentials: {
-      accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY!,
-    },
-    endpoint: process.env.CLOUDFLARE_R2_ENDPOINT!,
-  });
 }
 
 // ─────────────────────────────────────────────
@@ -181,9 +167,7 @@ export async function POST(request: NextRequest) {
         });
       }
     } else {
-      // R2
-      const r2 = getR2Client();
-      const bucket = process.env.CLOUDFLARE_R2_BUCKET_NAME!;
+      // R2 - use imported s3Client singleton
       const key = `models/${user.id}/${resourceId}/model.glb`;
 
       if (action === 'upload') {
