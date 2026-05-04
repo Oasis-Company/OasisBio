@@ -1,6 +1,7 @@
 import 'server-only';
 import { prisma } from '@/lib/prisma';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 export interface SyncResult {
   userId: string;
@@ -16,20 +17,27 @@ export interface SyncResult {
  * - Lowercased, only alphanumeric characters kept
  * - Falls back to "user_<random>" if base is empty after cleaning
  * - Appends incrementing numeric suffix on collision (e.g. john, john1, john2)
+ *
+ * Uses crypto.randomBytes for secure random fallback values.
+ * Includes a maximum attempt limit to prevent infinite loops.
  */
 export async function generateUniqueUsername(base: string): Promise<string> {
   const clean = base.toLowerCase().replace(/[^a-z0-9]/g, '');
-  const stem = clean.length > 0 ? clean : `user_${Math.random().toString(36).slice(2, 8)}`;
+  const stem = clean.length > 0 ? clean : `user_${crypto.randomBytes(3).toString('hex')}`;
 
   let candidate = stem;
-  let counter = 1;
+  let counter = 0;
+  const maxAttempts = 100;
 
-  while (true) {
+  while (counter < maxAttempts) {
     const existing = await prisma.profile.findUnique({ where: { username: candidate } });
     if (!existing) return candidate;
-    candidate = `${stem}${counter}`;
+
     counter++;
+    candidate = `${stem}${counter}`;
   }
+
+  throw new Error(`Failed to generate unique username for base "${base}" after ${maxAttempts} attempts`);
 }
 
 /**
@@ -91,16 +99,37 @@ export async function syncUserToPrisma(supabaseUser: SupabaseUser): Promise<Sync
     };
   }
 
-  // Create new Profile
-  const username = await generateUniqueUsername(displayName);
-  const profile = await prisma.profile.create({
-    data: {
-      userId: id,
-      username,
-      displayName,
-      avatarUrl: user_metadata?.avatar_url ?? null,
-    },
-  });
+  // Create new Profile with retry on P2002 (unique constraint violation)
+  let profile;
+  let username = await generateUniqueUsername(displayName);
+  let retries = 0;
+  const maxRetries = 3;
+
+  while (retries < maxRetries) {
+    try {
+      profile = await prisma.profile.create({
+        data: {
+          userId: id,
+          username,
+          displayName,
+          avatarUrl: user_metadata?.avatar_url ?? null,
+        },
+      });
+      break; // Success
+    } catch (err: any) {
+      if (err?.code === 'P2002' && err?.meta?.target?.includes('username')) {
+        // Username conflict — regenerate with extra randomness
+        retries++;
+        if (retries >= maxRetries) throw err;
+        username = await generateUniqueUsername(
+          displayName + '_' + crypto.randomBytes(2).toString('hex')
+        );
+        continue;
+      }
+      throw err;
+    }
+  }
+
 
   return {
     userId: user.id,

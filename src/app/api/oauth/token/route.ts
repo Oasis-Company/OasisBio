@@ -86,7 +86,21 @@ export async function POST(request: NextRequest) {
     });
 
     if (!matchedToken) return oauthError('invalid_grant', 'Invalid or expired refresh_token');
-    if (matchedToken.revokedAt) return oauthError('invalid_grant', 'Refresh token has been revoked');
+
+    // Reuse detection (RFC 6819): If a revoked token is presented again,
+    // it indicates possible token theft — revoke ALL active tokens for this user+client.
+    if (matchedToken.revokedAt) {
+      await prisma.oauthToken.updateMany({
+        where: {
+          clientId: matchedToken.clientId,
+          userId: matchedToken.userId,
+          revokedAt: null,
+        },
+        data: { revokedAt: new Date() },
+      });
+      return oauthError('invalid_grant', 'Token reuse detected — all sessions revoked');
+    }
+
     if (matchedToken.expiresAt < new Date()) return oauthError('invalid_grant', 'Refresh token has expired');
     if (matchedToken.clientId !== params.client_id) return oauthError('invalid_grant', 'client_id mismatch');
 

@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateSecret } from '@/lib/oauth/crypto';
 import { createClient } from '@/lib/supabase/server';
+import { withCSRF } from '@/lib/csrf';
 
 // POST /api/oauth/authorize — process user's authorization decision
 export async function POST(request: NextRequest) {
+  // CSRF protection for state-changing requests (Double Submit Cookie)
+  const csrfCheck = withCSRF(request);
+  if (csrfCheck) return csrfCheck;
+
   // Verify user session from server-side — do NOT trust client-provided userId
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
