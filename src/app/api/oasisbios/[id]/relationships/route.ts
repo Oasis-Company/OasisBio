@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAuth, requireOasisBioOwnership, handleApiError } from '@/lib/auth-utils';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await requireAuth();
-    const { id: oasisBioId } = params;
+    const { id: oasisBioId } = await params;
 
     await requireOasisBioOwnership(oasisBioId, user.id);
 
@@ -54,10 +54,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await requireAuth();
-    const { id: oasisBioId } = params;
+    const { id: oasisBioId } = await params;
     const body = await request.json();
 
     await requireOasisBioOwnership(oasisBioId, user.id);
@@ -135,10 +135,10 @@ export async function POST(request: Request, { params }: { params: { id: string 
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await requireAuth();
-    const { id: oasisBioId } = params;
+    const { id: oasisBioId } = await params;
     const { searchParams } = new URL(request.url);
     const relationshipId = searchParams.get('relationshipId');
 
