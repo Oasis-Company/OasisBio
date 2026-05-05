@@ -2,9 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
 // ─────────────────────────────────────────────
-// In-memory rate limit store
-// WARNING: Not suitable for multi-instance deployments (e.g., Cloudflare Workers).
-// For multi-instance, migrate to Cloudflare KV or Redis.
+// In-memory rate limit store.
+//
+// NOTE: This is a single-process in-memory store. It works correctly for:
+//   - Local development (single instance)
+//   - Single-instance Vercel/Node.js deployment
+//
+// For multi-instance or serverless (Cloudflare Workers) deployments,
+// replace with an external store:
+//   - Vercel Edge → use @upstash/redis or KV namespace
+//   - Cloudflare Workers → use Durable Objects or KV binding
+//   - Self-hosted multi-node → use Redis (ioredis)
+//
+// The interface (rateLimit / withRateLimit) stays the same — only the
+// store implementation needs swapping.
 // ─────────────────────────────────────────────
 
 interface RateLimitEntry {

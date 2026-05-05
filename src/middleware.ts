@@ -5,7 +5,22 @@ import { updateSession } from '@/lib/supabase/middleware';
  * Routes that require authentication.
  * Unauthenticated requests are redirected to /auth/login?callbackUrl=<original>
  */
-const PROTECTED_PREFIXES = ['/dashboard', '/api/oasisbios', '/api/worlds', '/developer/apps', '/api/developer'];
+const PROTECTED_PREFIXES = [
+  '/dashboard',
+  '/api/oasisbios',
+  '/api/worlds',
+  '/api/abilities',
+  '/api/dcos',
+  '/api/eras',
+  '/api/references',
+  '/api/models',
+  '/api/profile',
+  '/api/settings',
+  '/api/export',
+  '/api/import',
+  '/developer/apps',
+  '/api/developer',
+];
 
 /**
  * Auth routes that authenticated users should not access.
