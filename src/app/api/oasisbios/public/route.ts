@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { handleApiError } from '@/lib/auth-utils';
 
 export async function GET(request: Request) {
   try {
@@ -12,7 +13,7 @@ export async function GET(request: Request) {
 
     const skip = (page - 1) * limit;
 
-    const where: any = {
+    const where: Prisma.OasisBioWhereInput = {
       visibility: 'public',
       status: 'active',
     };
@@ -73,10 +74,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    console.error('Error fetching public OasisBios:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch public OasisBios' },
-      { status: 500 }
-    );
+    return handleApiError(error);
   }
 }

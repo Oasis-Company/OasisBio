@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, requireReferenceOwnership, handleApiError } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
+type ReferenceUpdateInput = {
+  title?: string;
+  url?: string;
+  description?: string;
+  type?: string;
+};
+
 // PUT /api/references/[id] - Update reference
 export async function PUT(
   request: NextRequest,
@@ -17,11 +24,11 @@ export async function PUT(
 
     const { title, url, description, type } = body;
 
-    const updates: any = {};
-    if (title) updates.title = title;
-    if (url) updates.url = url;
-    if (description) updates.description = description;
-    if (type) updates.type = type;
+    const updates: ReferenceUpdateInput = {};
+    if (title !== undefined) updates.title = title;
+    if (url !== undefined) updates.url = url;
+    if (description !== undefined) updates.description = description;
+    if (type !== undefined) updates.type = type;
 
     const reference = await prisma.referenceItem.update({
       where: { id },
