@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const abilities = await prisma.ability.findMany({
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const ability = await prisma.ability.create({

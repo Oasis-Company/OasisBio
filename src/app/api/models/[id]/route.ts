@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
+type ModelUpdateInput = {
+  name?: string;
+  filePath?: string;
+  previewImage?: string | null;
+  relatedWorldId?: string | null;
+  relatedEraId?: string | null;
+  modelFormat?: string;
+};
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -20,7 +29,7 @@ export async function GET(
     }
 
     if (model.oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
     return NextResponse.json(model);
@@ -48,18 +57,18 @@ export async function PUT(
     }
 
     if (model.oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const { name, filePath, previewImage, relatedWorldId, relatedEraId, modelFormat } = body;
 
-    const updates: any = {};
-    if (name) updates.name = name;
-    if (filePath) updates.filePath = filePath;
+    const updates: ModelUpdateInput = {};
+    if (name !== undefined) updates.name = name;
+    if (filePath !== undefined) updates.filePath = filePath;
     if (previewImage !== undefined) updates.previewImage = previewImage;
     if (relatedWorldId !== undefined) updates.relatedWorldId = relatedWorldId;
     if (relatedEraId !== undefined) updates.relatedEraId = relatedEraId;
-    if (modelFormat) updates.modelFormat = modelFormat;
+    if (modelFormat !== undefined) updates.modelFormat = modelFormat;
 
     const updatedModel = await prisma.modelItem.update({
       where: { id },
@@ -90,7 +99,7 @@ export async function DELETE(
     }
 
     if (model.oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     await prisma.modelItem.delete({

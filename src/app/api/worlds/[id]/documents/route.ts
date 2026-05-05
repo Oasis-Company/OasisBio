@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, requireWorldOwnership, handleApiError } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
-// GET /api/worlds/[id]/documents
+// GET /api/worlds/[id]/documents — list documents for a world
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -24,7 +24,7 @@ export async function GET(
   }
 }
 
-// POST /api/worlds/[id]/documents
+// POST /api/worlds/[id]/documents — create a new document
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -46,8 +46,8 @@ export async function POST(
         docType: body.docType,
         slug: body.slug || body.title.toLowerCase().replace(/\s+/g, '-'),
         content: body.content,
-        folderPath: body.folderPath || '/',
-        sortOrder: body.sortOrder || 0,
+        folderPath: body.folderPath ?? '/',
+        sortOrder: body.sortOrder ?? 0,
         worldId,
       },
     });
