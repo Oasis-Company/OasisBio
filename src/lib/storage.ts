@@ -186,11 +186,19 @@ export const storage = {
           throw new Error('Invalid storage type');
       }
     } else {
-      // Get URL from Supabase
-      // This would require importing the storagePath utilities from supabase.ts
-      // For simplicity, we'll return a placeholder URL
-      // In a real implementation, you would use the existing storagePath utilities
-      return `https://example.com/${options.type}/${options.userId}${options.characterId ? `/${options.characterId}` : ''}`;
+      // Get URL from Supabase storage using existing path helpers
+      switch (options.type) {
+        case 'avatar':
+          return await (await import('@/lib/supabase/storage')).storagePath.avatar.getUrl(options.userId, 'webp');
+        case 'character-cover':
+          if (!options.characterId) throw new Error('Character ID is required for cover URL');
+          return await (await import('@/lib/supabase/storage')).storagePath.characterCover.getUrl(options.userId, options.characterId, 'webp');
+        case 'model-preview':
+          if (!options.characterId) throw new Error('Character ID is required for preview URL');
+          return await (await import('@/lib/supabase/storage')).storagePath.modelPreview.getUrl(options.userId, options.characterId, 'webp');
+        default:
+          throw new Error('Invalid storage type');
+      }
     }
   },
 };
