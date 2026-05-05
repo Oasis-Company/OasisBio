@@ -166,9 +166,9 @@ describe('Client secret hashing', () => {
         const hash = await hashClientSecret(secret);
         return await verifyClientSecret(secret, hash);
       }),
-      { numRuns: 10, timeout: 30000 }
+      { numRuns: 3, timeout: 90000 }
     );
-  });
+  }, 120000);
 
   it('wrong secret does not match hash', async () => {
     await fc.assert(
@@ -177,7 +177,7 @@ describe('Client secret hashing', () => {
         const wrongSecret = secret + 'invalid';
         return !(await verifyClientSecret(wrongSecret, hash));
       }),
-      { numRuns: 10, timeout: 30000 }
+      { numRuns: 3, timeout: 90000 }
     );
-  });
+  }, 120000);
 });

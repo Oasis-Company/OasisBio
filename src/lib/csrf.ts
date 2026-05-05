@@ -1,6 +1,7 @@
 import 'server-only';
 import crypto from 'crypto';
-import type { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 const CSRF_COOKIE_NAME = 'csrf-token';
 const CSRF_HEADER_NAME = 'X-CSRF-Token';

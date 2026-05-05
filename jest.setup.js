@@ -7,6 +7,7 @@ process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test_db';
 process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
 process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key';
+process.env.SUPABASE_WEBHOOK_SECRET = 'test-webhook-secret-32chars-minimum';
 
 // Mock server-only to allow testing server-only modules
 jest.mock('server-only', () => ({}));
@@ -22,8 +23,8 @@ jest.mock('next/router', () => ({
   }),
 }));
 
-// Mock Supabase auth client
-jest.mock('@/lib/supabase/client', () => ({
+// Mock Supabase auth client (browser-side)
+jest.mock('@/lib/supabase/browser', () => ({
   createClient: jest.fn(() => ({
     auth: {
       getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
