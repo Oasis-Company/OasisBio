@@ -1865,6 +1865,7 @@ OIDC discovery document. No authentication required.
   "token_endpoint": "https://oasisbio.com/api/oauth/token",
   "userinfo_endpoint": "https://oasisbio.com/api/oauth/userinfo",
   "revocation_endpoint": "https://oasisbio.com/api/oauth/revoke",
+  "jwks_uri": "https://oasisbio.com/api/oauth/.well-known/jwks.json",
   "scopes_supported": ["profile", "email", "oasisbios:read", "oasisbios:full", "dcos:read"],
   "response_types_supported": ["code"],
   "grant_types_supported": ["authorization_code", "refresh_token"],
@@ -1872,6 +1873,33 @@ OIDC discovery document. No authentication required.
   "token_endpoint_auth_methods_supported": ["client_secret_post"]
 }
 ```
+
+#### `GET /api/oauth/.well-known/jwks.json`
+
+JWKS (JSON Web Key Set) endpoint. Returns the public key(s) used to verify OAuth access token signatures.
+
+**Implementation notes:**
+- Uses **HS256** (HMAC-SHA256) symmetric signing with `OAUTH_JWT_SECRET`
+- Returns `kty: "oct"` (octet sequence) — the shared secret is stored server-side
+- Clients should use the `kid` from the JWT header to select the correct key
+- The `use: "sig"` field indicates this key is for signing purposes
+
+**Response:**
+```json
+{
+  "keys": [
+    {
+      "kty": "oct",
+      "use": "sig",
+      "kid": "oasisbio-oauth-1",
+      "alg": "HS256",
+      "k": "<base64url-encoded-secret>"
+    }
+  ]
+}
+```
+
+**Important:** Because HS256 is a symmetric algorithm, the JWKS endpoint returns the key material. In production, consider rotating the `OAUTH_JWT_SECRET` periodically and maintaining multiple active keys during transition.
 
 ### Developer API Endpoints
 

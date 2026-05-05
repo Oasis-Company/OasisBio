@@ -9,6 +9,7 @@
 | [design.md](design.md) | Design system — color palette, typography, components, layout |
 | [world-design-spec.md](world-design-spec.md) | Worldbuilding standard — 6-module structure, field definitions |
 | [features/oauth.md](features/oauth.md) | OAuth Provider — "Continue with Oasis" integration guide for third-party developers |
+| [OAuth API Reference](../docs/technical.md#15-oauth-provider) | Complete OAuth API docs — authorize, token, userinfo, JWKS, OIDC discovery |
 | [features/oasisbio.md](features/oasisbio.md) | OasisBio identity container — modes, eras, structure |
 | [features/worlds.md](features/worlds.md) | Worldbuilding system — creation, components, world-identity binding |
 | [features/abilities.md](features/abilities.md) | Ability Pool system — categories, levels, era/world binding |
