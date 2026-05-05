@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const worlds = await prisma.worldItem.findMany({
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (oasisBio.userId !== user.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const world = await prisma.worldItem.create({

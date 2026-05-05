@@ -50,6 +50,8 @@ export async function GET(request: NextRequest) {
       plan: {
         name: 'Free',
         storageLimit: 128,
+        // TODO: Calculate real storage usage from R2 + Supabase buckets
+        // For now, return a placeholder; replace with actual aggregation
         storageUsed: 0,
       },
     });

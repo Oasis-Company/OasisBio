@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import fsp from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 
@@ -18,21 +18,21 @@ function getCategoryFromPath(filePath: string): string {
   return 'specs';
 }
 
-function getAllDocs(): DocMeta[] {
+async function getAllDocs(): Promise<DocMeta[]> {
   const docs: DocMeta[] = [];
 
-  function walkDirectory(dir: string, baseSlug: string = '') {
-    const files = fs.readdirSync(dir);
+  async function walkDirectory(dir: string, baseSlug: string = '') {
+    const files = await fsp.readdir(dir);
 
-    files.forEach((file) => {
+    for (const file of files) {
       const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
+      const stat = await fsp.stat(filePath);
 
       if (stat.isDirectory()) {
         const newBaseSlug = baseSlug ? `${baseSlug}/${file}` : file;
-        walkDirectory(filePath, newBaseSlug);
+        await walkDirectory(filePath, newBaseSlug);
       } else if (file.endsWith('.md')) {
-        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const fileContents = await fsp.readFile(filePath, 'utf8');
         const { data } = matter(fileContents);
         const slug = baseSlug ? `${baseSlug}/${file.replace('.md', '')}` : file.replace('.md', '');
 
@@ -43,16 +43,16 @@ function getAllDocs(): DocMeta[] {
           category: getCategoryFromPath(filePath),
         });
       }
-    });
+    }
   }
 
-  walkDirectory(docsDirectory);
+  await walkDirectory(docsDirectory);
   return docs;
 }
 
 export async function GET() {
   try {
-    const docs = getAllDocs();
+    const docs = await getAllDocs();
     return NextResponse.json(docs);
   } catch (error) {
     console.error('Error reading docs:', error);
