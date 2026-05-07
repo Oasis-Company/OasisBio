@@ -22,7 +22,7 @@
 
 ## 1. Architecture Overview
 
-OasisBio is a Next.js 16 full-stack application deployed on Cloudflare Pages. All data lives in Supabase (PostgreSQL). Authentication is fully passwordless via Supabase OTP. Large binary files (3D models, export ZIPs) are stored in Cloudflare R2.
+OasisBio is a Next.js 16 full-stack application deployed on **Vercel**. It features **23 Prisma models**, **53 API endpoints**, and ~71K lines of TypeScript/TSX source code. All data lives in Supabase (PostgreSQL). Authentication is fully passwordless via Supabase OTP. Large binary files (3D models, export ZIPs) are stored in Cloudflare R2.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -31,14 +31,14 @@ OasisBio is a Next.js 16 full-stack application deployed on Cloudflare Pages. Al
 └────────────────────────┬────────────────────────────────┘
                          │ HTTPS
 ┌────────────────────────▼────────────────────────────────┐
-│              Cloudflare Pages (Edge)                     │
+│                    Vercel (Edge + Node)                   │
 │  Next.js Middleware — session refresh via updateSession  │
-│  Next.js App Router — SSR + API Routes (Node runtime)   │
-└──────┬──────────────────────────────────────┬───────────┘
-       │ Prisma (pooler:6543)                  │ @supabase/ssr (server)
+│  Next.js App Router — SSR + 53 API Routes (Node runtime) │
+└──────┬──────────────────────────────┬───────────┘
+       │ Prisma (pooler:6543)         │ @supabase/ssr (server)
 ┌──────▼──────────┐                  ┌─────────▼──────────┐
 │  PostgreSQL      │                  │  Supabase Auth     │
-│  (Supabase)      │                  │  (JWT + cookies)   │
+│  (Supabase)      │  23 models       │  (JWT + cookies)   │
 │  RLS enabled     │                  └────────────────────┘
 └─────────────────┘
        │
@@ -65,7 +65,7 @@ OasisBio is a Next.js 16 full-stack application deployed on Cloudflare Pages. Al
 | Language | TypeScript | 5.4.3 | Strict mode |
 | Styling | Tailwind CSS | 3.4.3 | Utility-first |
 | Database | PostgreSQL | — | Hosted on Supabase |
-| ORM | Prisma | 6.19.1 | Custom output path `src/generated/prisma` |
+| ORM | Prisma | 6.19 | Custom output path `src/generated/prisma`, 23 models |
 | Auth | Supabase Auth | — | OTP (passwordless) |
 | Auth SSR | @supabase/ssr | latest | Cookie-based sessions |
 | Storage (images) | Supabase Storage | — | Public buckets |
@@ -73,7 +73,8 @@ OasisBio is a Next.js 16 full-stack application deployed on Cloudflare Pages. Al
 | 3D Rendering | Three.js | 0.183.2 | GLB via GLTFLoader |
 | Property Testing | fast-check | latest | 200 iterations/property |
 | Test Runner | Jest | latest | jsdom + node environments |
-| Deployment | Cloudflare Pages | — | Build: `npm run build` |
+| Deployment | **Vercel** (previously Cloudflare Pages) | Build: `npm run build` (prisma generate + next build) |
+| Source Code | TypeScript/TSX | ~71K lines, 222 files |
 
 ---
 
@@ -1471,12 +1472,12 @@ Note: Tests that use Node.js APIs (no DOM) should pass `--testEnvironment node` 
 
 ## 12. Deployment
 
-### Cloudflare Pages
+### Vercel Deployment
 
-1. Connect GitHub repository to Cloudflare Pages
+1. Connect GitHub repository to [Vercel](https://vercel.com)
 2. **Build command:** `npm run build` (runs `prisma generate` then `next build`)
 3. **Output directory:** `.next`
-4. Add all environment variables in Cloudflare dashboard → Settings → Environment variables
+4. Add all environment variables in Vercel dashboard → Settings → Environment Variables
 5. Both `NEXT_PUBLIC_*` and private variables must be added
 
 ### Database Setup (one-time, run in Supabase SQL Editor)

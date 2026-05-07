@@ -1,34 +1,55 @@
-OasisBio 战略计划
-核心使命再确认
-OasisBio 不是角色创作工具，是数字永生的身份基础设施。用户在这里记录自己，未来接入元宇宙。这决定了所有优先级。
+# OasisBio Strategic Plan
 
-阶段一：让产品真正可用（当前 → 2周内）
-目标：一个真实用户能完整走完"注册 → 创建身份 → 发布 → 分享链接"的流程。
+## Core Mission Reaffirmation
 
-配置 R2 存储凭证（解锁 3D 模型上传）
-Explore 页面加搜索和分页（当前全量加载，用户多了会崩）
-角色关系 UI（数据模型和 API 都有，只差前端）
-首页 CTA 链接验证（确保"开始创建"按钮真的能走通）
-阶段二：身份的深度（2-4周）
-目标：让用户真正感受到"这是我的数字身份"，而不只是填表单。
+OasisBio is **not** a character creation tool. It is a **digital immortality identity infrastructure**. Users record themselves here, and in the future, connect to the metaverse. This determines all priorities.
 
-世界观叙事升级 — 向导文案从"角色背景"升级到"你在构建一个平行宇宙"，每个字段都要有存在感
-公开页面视觉升级 — 当前公开页面已经有好的骨架，但需要更强的视觉冲击力，让用户愿意分享这个链接
-用户主页 /u/[username] — 展示一个用户的所有公开身份，这是社交传播的入口
-导出功能完善 — 用户的数据要能完整带走（ZIP 格式），这是对 Manifesto 承诺的兑现
-阶段三：成为身份基础设施（1-2个月）
-目标：让 OasisBio 成为其他产品可以接入的身份层。
+---
 
-OAuth 生态启动 — 主动找 1-2 个合作方接入"Continue with Oasis"，哪怕是自己的另一个产品
-API 公开文档 — 把 /developer/docs 做成真正可用的开发者文档，有 playground
-Webhook 系统 — 让第三方应用能订阅用户身份变更事件（角色发布、更新等）
-阶段四：数字永生的基础设施（长期）
-目标：为未来的元宇宙接入做好数据结构准备。
+## Phase 1: Make the Product Truly Usable (Current → 2 weeks)
 
-版本化身份 — 每次重大更新创建快照，身份有历史记录
-跨平台身份验证 — 用户可以证明某个角色是自己创建的（类似 DID）
-数据可移植性标准 — 定义 OasisBio 的数据格式规范，让其他平台可以导入
-不做的事
-不做 AI 生成（会稀释"这是我真实记录的身份"的价值）
-不做社交 feed（不是社交平台，是身份档案馆）
-不做付费墙（早期阶段，先把身份数据积累起来）
+**Goal:** A real user can complete the full flow: **Register → Create Identity → Publish → Share Link.**
+
+### Checklist
+- [x] Configure R2 storage credentials (unlocks 3D model upload)
+- [ ] Add search and pagination to Explore page (currently loads everything — will break at scale)
+- [ ] Character relationship UI (data model and APIs exist; only frontend missing)
+- [ ] Verify homepage CTA links (ensure "Start Creating" button actually works end-to-end)
+- [ ] Fix homepage clone URL (`yourusername/oasisbio` → real GitHub org)
+
+## Phase 2: Identity Depth (2–4 weeks)
+
+**Goal:** Make users feel *"this is MY digital identity"* rather than just filling out forms.
+
+| Initiative | Why it Matters |
+|-----------|--------------|
+| **World narrative upgrade** | World builder copy should feel like "you're building a parallel universe," not just "character background" |
+| **Public profile visual upgrade** | The public page has good bones but needs stronger visual impact — users should want to share this link |
+| **User profile `/u/[username]`** | Shows all public identities for one user — this is the social spread entry point |
+| **Export perfection** | User data must be fully portable (ZIP format) — this fulfills the Manifesto promise |
+
+## Phase 3: Become Identity Infrastructure (1–2 months)
+
+**Goal:** Make OasisBio the identity layer that other products can plug into.
+
+| Initiative | Description |
+|-----------|-------------|
+| **OAuth ecosystem launch** | Proactively find 1-2 partners to integrate "Continue with Oasis" — even your own product |
+| **Public API documentation** | Make `/developer/docs` truly usable with playground |
+| **Webhook system** | Let third-party apps subscribe to identity change events (publish, update, etc.) |
+
+## Phase 4: Digital Immortality Infrastructure (Long-term)
+
+**Goal:** Prepare data structures for future metaverse integration.
+
+| Initiative | Rationale |
+|-----------|---------|
+| **Versioned identities** | Each major update creates a snapshot — identities have history |
+| **Cross-platform verification** | Users can prove they created a certain character (DID-like) |
+| **Data portability standard** | Define OasisBio data format spec so other platforms can import |
+
+## What We Won't Do
+
+- ❌ **No AI generation** (dilutes the value of *"this is my authentic recorded identity"* — Nuwa provides *suggestions*, not auto-generation)
+- ❌ **No social feed** (not a social platform — it's an **identity archive**)
+- ❌ **No paywall** (early stage — accumulate identity data first)
