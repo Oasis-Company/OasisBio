@@ -231,19 +231,26 @@ export default function OasisBioEditPage() {
                 { label: 'Worlds', href: `/dashboard/oasisbios/${bioId}/worlds` },
                 { label: 'DCOS', href: `/dashboard/oasisbios/${bioId}/dcos` },
                 { label: 'References', href: `/dashboard/oasisbios/${bioId}/references` },
-              ].map(({ label, href }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className={`px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
-                    href === `/dashboard/oasisbios/${bioId}`
-                      ? 'bg-black text-white'
-                      : 'text-muted-foreground hover:bg-muted'
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
+                { label: 'Nuwa', href: `/dashboard/oasisbios/${bioId}/nuwa` },
+              ].map(({ label, href }) => {
+                const isActive = href === `/dashboard/oasisbios/${bioId}`;
+                const isNuwa = label === 'Nuwa';
+                return (
+                  <Link
+                    key={label}
+                    href={href}
+                    className={`px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
+                      isActive
+                        ? 'bg-black text-white'
+                        : isNuwa
+                          ? 'text-purple-600 font-semibold hover:bg-purple-50'
+                          : 'text-muted-foreground hover:bg-muted'
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Form */}
