@@ -126,6 +126,7 @@ model OasisBio {
   publication     OasisBioPublication?
   relationshipsA  CharacterRelationship[] @relation("CharacterARelationship")
   relationshipsB  CharacterRelationship[] @relation("CharacterBRelationship")
+  nuwaRuns       NuwaRun[]
 
   @@index([userId])
   @@index([slug])
@@ -442,4 +443,58 @@ model OauthToken {
   @@index([clientId, userId])
   @@index([jti])
   @@map("oauth_tokens")
+}
+
+model NuwaRun {
+  id             String   @id @default(cuid())
+  oasisBioId     String   @map("oasis_bio_id")
+  userId         String   @map("user_id")
+  status         String   @default("queued") // queued|processing|completed|failed|canceled
+  mode           String   @default("quick") // quick|deep
+  sourcePolicy   String   @map("source_policy") @default("local_only") // local_only|local_plus_web
+  scopes         String[]
+  snapshotHash   String?  @map("snapshot_hash")
+  promptVersion  String?  @map("prompt_version")
+  provider       String?
+  model          String?
+  summary        Json?
+  distilled      Json?
+  error          Json?
+  startedAt      DateTime? @map("started_at")
+  completedAt    DateTime? @map("completed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  oasisBio OasisBio        @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  items    NuwaSuggestion[]
+
+  @@index([oasisBioId, createdAt])
+  @@index([userId, status])
+  @@index([snapshotHash])
+  @@map("nuwa_runs")
+}
+
+model NuwaSuggestion {
+  id                String   @id @default(cuid())
+  runId             String   @map("run_id")
+  scope             String   // description|ability|world|reference|era|dcos
+  operation         String   // append|create|update|replace
+  targetId          String?  @map("target_id")
+  title             String?
+  payload           Json
+  rationale         String?
+  confidence        Float?
+  evidence          Json?
+  baseFingerprint   String?  @map("base_fingerprint")
+  decision          String   @default("pending") // pending|accepted|rejected|applied
+  createdEntityId   String?  @map("created_entity_id")
+  appliedAt         DateTime? @map("applied_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  run NuwaRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+
+  @@index([runId, scope])
+  @@index([decision])
+  @@map("nuwa_suggestions")
 }
