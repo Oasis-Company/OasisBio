@@ -1,7 +1,8 @@
 # OasisBio 下一步计划
 
-> 文档更新时间：2026-05-05
-> 状态：功能闭环验证完成，P0/P1 问题已修复
+> 文档更新时间：2026-05-06
+> 状态：OAuth Provider 功能闭环已完成，下一步聚焦女娲 Skill 集成
+> 部署平台：**Vercel**（非 Cloudflare Pages）
 
 ---
 
@@ -11,137 +12,88 @@
 - [x] 全部 9 个模块闭环验证（OasisBio、World、Ability、DCOS、Reference、Model、Era、OAuth、Publish）
 - [x] 问题分级：P0（0个）、P1（0个）、P2（0个）— 全部清零
 
-### P0 修复
-- [x] `storage.getUrl()` 占位符替换为真实实现
-- [x] OAuth 端点添加 try-catch + handleApiError
-- [x] `/api/oauth/authorize` 输入验证（clientId/redirectUri/scope/PKCE）
-- [x] OIDC JWKS 端点实现（`.well-known/jwks.json`）
+### OAuth Provider 完整实现
+- [x] 数据库 3 张表（oauth_apps, authorization_codes, tokens）+ RLS
+- [x] 核心库：crypto / scopes / validate / middleware
+- [x] 开发者门户 API（apps CRUD + secret 轮换）
+- [x] OAuth 端点：authorize、token（授权码 + refresh）、revoke、OIDC discovery + JWKS
+- [x] 资源 API：userinfo、oasisbios 列表/详情/DCOS 文档
+- [x] 开发者门户页面（列表/创建/详情/集成文档）
+- [x] 16 个测试文件覆盖
 
-### P1 修复
-- [x] API 路由 `any` 类型替换为具体类型
-- [x] 统一使用 `handleApiError` 处理错误
-- [x] WorldDocuments CRUD 闭环（PUT/DELETE 端点）
-- [x] 权限错误码统一：401 → 403（非所有权情况）
-
-### P2 优化
-- [x] `middleware.ts` PROTECTED_PREFIXES 补全（5项 → 15项）
-- [x] `rate-limit.ts` 添加多实例迁移注释
-- [x] `docs/route.ts` 同步 API 改为异步
-
-### Git 提交
-- [x] 6 个英文 commit 已提交（未 push）
-  - `50524b9` fix: replace storage.getUrl placeholder with real implementation
-  - `27f7acb` fix: add input validation and error handling to OAuth authorize endpoint
-  - `aa027a8` feat: implement OIDC JWKS endpoint for OAuth
-  - `aa29e1a` refactor: replace any types with explicit types in API routes
-  - `5fc6ef0` feat: complete WorldDocuments CRUD and fix permission codes
-  - `0e3f9df` docs: add multi-instance migration guide to rate-limiter
+### 女娲 Skill 初始化
+- [x] 安装 huashu-nuwa Skill 到用户级 `~/.workbuddy/skills/女娲`
+- [x] 安全审计通过（Agent Trust Hub ✓, Socket ✓, Snyk ⚠ 无严重风险）
+- [ ] 设计 OasisBio × 女娲 数据流与 API 集成方案
+- [ ] 实现女娲增强 API 端点
+- [ ] 前端集成（角色编辑页添加「深化」入口）
 
 ---
 
-## 🔜 下一步（按优先级排序）
+## 🔜 下一步（当前焦点）
 
-### 高优先级 — 上线前必须
+### 🎯 P0 — 女娲 Skill 集成
 
-#### 1. 环境变量配置（Cloudflare Pages）
-- [ ] 添加 `OAUTH_JWT_SECRET`（生成：`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`）
-- [ ] 修正 `SUPABASE_SERVICE_ROLE_KEY`（必须为 `eyJ...` JWT 格式）
-- [ ] 填写 Cloudflare R2 凭证（5个变量）
-  - `CLOUDFLARE_R2_BUCKET_NAME`
-  - `CLOUDFLARE_R2_ACCOUNT_ID`
-  - `CLOUDFLARE_R2_ACCESS_KEY_ID`
-  - `CLOUDFLARE_R2_SECRET_ACCESS_KEY`
-  - `CLOUDFLARE_R2_ENDPOINT`
-- [ ] 在 Cloudflare Pages 控制台确认所有环境变量已填写
+**目标**：让女娲帮助用户深度完善 OasisBio 角色资料库。
 
-#### 2. Git Push
-- [ ] `git push origin main`（推送 7 个本地 commit）
+#### 集成架构
 
-#### 3. Supabase 数据库脚本执行（仅需执行一次）
-按顺序在 Supabase SQL Editor 执行：
-- [ ] `scripts/db/01_enable_rls.sql`
-- [ ] `scripts/db/02_add_indexes.sql`
-- [ ] `scripts/db/04_storage_policies.sql`
-- [ ] `scripts/db/05_domain_events_audit_logs.sql`
-- [ ] `scripts/db/06_publish_bio_rpc.sql`
-- [ ] `scripts/db/07_oauth_tables.sql`
+```
+用户编辑角色 → 点击「女娲深化」→ API 调用女娲思维框架 → 结构化输出 → 自动填充字段
+```
 
-#### 4. Supabase Storage Buckets 创建
-- [ ] `avatars`（Public）
-- [ ] `character-covers`（Public）
-- [ ] `model-previews`（Public）
+| OasisBio 字段 | 女娲输出 | 说明 |
+|---------------|---------|------|
+| `description` | 心智模型 (3-7个) | 角色的核心认知框架 |
+| `description` | 决策启发式 (5-10条) | 角色的直觉判断规则 |
+| `abilities` | 表达DNA分析 | 从行为反推能力树 |
+| `worlds` | 世界深层矛盾 | 推演世界观下的典型逻辑 |
+| `references` | 参考素材推荐 | 相关书籍/论文/作品 |
+| `eras` | 时间线关键节点 | 角色成长建议 |
 
-#### 5. Supabase Auth 配置
-- [ ] Site URL 设置为生产域名
-- [ ] Redirect URLs 添加生产回调地址
+#### 待完成任务
+- [ ] **设计 API 方案**
+  - 新建 `/api/nuwa/enhance` 端点
+  - 输入：角色现有数据（title, description, abilities, world 等）
+  - 输出：结构化的增强数据（心智模型、决策启发、表达DNA等）
+  - 支持增量合并（用户可逐条采纳/拒绝）
+  
+- [ ] **前端交互设计**
+  - 角色编辑页 `/bio/[id]/edit` 添加「🧬 深化资料」按钮
+  - 弹出侧边面板展示女娲生成的增强建议
+  - 用户一键采纳或手动调整后保存
 
----
-
-### 中优先级 — 功能完善
-
-#### 6. 前端表单字段补全
-- [ ] References 表单：添加 `eraId`、`worldId`、`tags` 字段
-- [ ] Abilities 表单：添加 `relatedWorldId`、`relatedEraId` 字段
-- [ ] 确保前端字段与 API 支持字段一致
-
-#### 7. storageUsed 真实计算
-- [ ] 实现 R2 用量统计（list objects → sum size）
-- [ ] 实现 Supabase Storage 用量统计
-- [ ] 更新 `/api/settings` 返回真实用量
-
-#### 8. 路由去重
-- [ ] 评估扁平路由 vs 嵌套路由（OAuth resources）
-- [ ] 决定保留哪套路由，删除另一套
+- [ ] **女娲适配改造**
+  - 将女娲的「人物蒸馏」流程改为「角色资料增强」模式
+  - 输入从「人名搜索」变为「已有角色数据」
+  - Phase 1 的 6 Agent 改为基于角色数据的单次推理
 
 ---
 
-### 低优先级 — 未来规划
+### 🟡 上线前运维
 
-#### 9. Supabase Edge Functions（见 `prepare_home/supabase edge function规划.md`）
-- [ ] `asset-token` — 签名上传/下载 URL
-- [ ] `auth-profile-sync` — Edge 端用户同步
-- [ ] `publish-bio` — 发布命令入口
-- [ ] `reference-enrich` — URL 元数据抓取
+#### Vercel 部署配置
+- [ ] 配置 Vercel 项目环境变量（Supabase、R2 等）
+- [ ] Git push 本地 commit（7 个待推送）
+- [ ] Supabase 数据库脚本执行（6 个 SQL，按顺序）
+- [ ] Supabase Storage Buckets 创建（avatars / character-covers / model-previews）
+- [ ] Supabase Auth Site URL + Redirect URLs 配置
 
-#### 10. Domain Events 消费者
-- [ ] OG 图片生成（bio.published 事件）
-- [ ] 搜索索引更新
-- [ ] 页面重新验证（revalidate）
-
-#### 11. 测试覆盖率提升
-- [ ] World Builder 组件测试
-- [ ] OAuth 流程端到端测试
-- [ ] API 集成测试
+> ⚠️ 注意：代码中的 `next.config.js` 和 `open-next.config.ts` 当前仍为 Cloudflare Pages 配置。
+> 若已迁移至 Vercel，需清理 open-next/wrangler 依赖并更新部署配置。待确认。
 
 ---
 
-## 📋 换设备迁移清单
+### 🟢 未来规划（暂缓）
 
-如果从新设备继续工作，按顺序执行：
+以下项目优先级低于女娲集成，等主线完成后再推进：
 
-1. **克隆仓库**
-   ```bash
-   git clone <repo-url> OasisBio
-   cd OasisBio
-   npm install
-   ```
-
-2. **环境变量**（从旧设备或密码管理器获取 `.env` 文件）
-   - 必须：`DATABASE_URL`、`DIRECT_URL`、`NEXT_PUBLIC_SUPABASE_URL`、`NEXT_PUBLIC_SUPABASE_ANON_KEY`、`SUPABASE_SERVICE_ROLE_KEY`
-   - OAuth：`OAUTH_JWT_SECRET`
-   - R2：`CLOUDFLARE_R2_*` 全部 5 个变量
-
-3. **Prisma 生成**
-   ```bash
-   npx prisma generate
-   ```
-
-4. **本地开发**
-   ```bash
-   npm run dev
-   ```
-
-5. **如需本地数据库**，执行 Supabase SQL 脚本（见上方"高优先级"第3条）
+- Supabase Edge Functions（4 个：asset-token, auth-profile-sync, publish-bio, reference-enrich）
+- Domain Events 消费者（OG 图片、搜索索引、revalidate）
+- 测试覆盖率提升（World Builder 组件测试、OAuth E2E）
+- storageUsed 真实计算（R2 + Supabase 用量统计）
+- 前端表单字段补全（References eraId/worldId/tags）
+- 路由去重评估
 
 ---
 
@@ -150,12 +102,9 @@
 | 文档 | 路径 | 用途 |
 |------|------|------|
 | 技术文档 | `docs/technical.md` | 完整技术参考 |
-| OAuth 集成 | `docs/features/oauth.md` | 第三方开发者指南 |
-| 功能规格 | `docs/features/*.md` | 各模块详细规格 |
-| 战略计划 | `docs/OasisBio Strategic Plan.md` | 长期规划 |
-| Edge Functions 规划 | `prepare_home/supabase edge function规划.md` | Edge Functions 设计 |
-| 待完成任务 | `prepare_home/待完成任务.md` | 环境配置待办 |
+| OAuth 规格 | `.kiro/specs/oauth-provider/tasks.md` | OAuth 实现任务清单 |
 | **下一步计划** | **`planning/next-steps.md`** | **本文档** |
+| 女娲 Skill | `~/.workbuddy/skills/女娲/SKILL.md` | 女娲造人完整 SOP |
 
 ---
 
@@ -164,7 +113,7 @@
 ### 常用命令
 ```bash
 npm run dev          # 本地开发
-npm run build        # 构建（Cloudflare Pages 使用）
+npm run build        # 构建
 npm test            # 运行测试
 npx prisma generate # 生成 Prisma Client
 npx prisma db push  # 推送 schema 到数据库
@@ -174,9 +123,3 @@ npx prisma db push  # 推送 schema 到数据库
 - 本地开发：`localhost:3000`
 - Supabase Pooler：`port 6543`（Prisma 运行时）
 - Supabase Direct：`port 5432`（迁移专用）
-
-### 关键注意事项
-- **`OAUTH_JWT_SECRET` 设置后不可更改**，否则所有已颁发 token 失效
-- **`SUPABASE_SERVICE_ROLE_KEY` 必须 `eyJ...` 开头**，不是 `sb_secret_...`
-- **Git commit 已就绪**，只需 `git push`
-- **Cloudflare R2 bucket 已创建**，只需填写凭证

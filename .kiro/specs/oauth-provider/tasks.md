@@ -125,11 +125,11 @@
   - [x] 7.4 创建 `src/app/developer/docs/page.tsx` — 集成文档页（含代码示例）
   - _Requirements: 1.1, 6.1, 6.2, 6.3_
 
-- [ ] 8. 数据库脚本执行
+- [x] 8. 数据库脚本执行
   - 在 Supabase SQL Editor 执行 `scripts/db/07_oauth_tables.sql`
   - 更新 `docs/README.md` 添加新脚本说明
 
-- [ ] 9. Checkpoint — 确保所有测试通过
+- [x] 9. Checkpoint — 确保所有测试通过
   - 运行所有测试，确保 Property 1-7 全部通过
   - 验证完整 OAuth 流程：注册 app → 授权 → 换 token → 访问资源
 
