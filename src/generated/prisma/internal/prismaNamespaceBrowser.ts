@@ -71,7 +71,9 @@ export const ModelName = {
   ExportHistory: 'ExportHistory',
   OauthApp: 'OauthApp',
   OauthAuthorizationCode: 'OauthAuthorizationCode',
-  OauthToken: 'OauthToken'
+  OauthToken: 'OauthToken',
+  NuwaRun: 'NuwaRun',
+  NuwaSuggestion: 'NuwaSuggestion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -440,12 +442,73 @@ export const OauthTokenScalarFieldEnum = {
 export type OauthTokenScalarFieldEnum = (typeof OauthTokenScalarFieldEnum)[keyof typeof OauthTokenScalarFieldEnum]
 
 
+export const NuwaRunScalarFieldEnum = {
+  id: 'id',
+  oasisBioId: 'oasisBioId',
+  userId: 'userId',
+  status: 'status',
+  mode: 'mode',
+  sourcePolicy: 'sourcePolicy',
+  scopes: 'scopes',
+  snapshotHash: 'snapshotHash',
+  promptVersion: 'promptVersion',
+  provider: 'provider',
+  model: 'model',
+  summary: 'summary',
+  distilled: 'distilled',
+  error: 'error',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NuwaRunScalarFieldEnum = (typeof NuwaRunScalarFieldEnum)[keyof typeof NuwaRunScalarFieldEnum]
+
+
+export const NuwaSuggestionScalarFieldEnum = {
+  id: 'id',
+  runId: 'runId',
+  scope: 'scope',
+  operation: 'operation',
+  targetId: 'targetId',
+  title: 'title',
+  payload: 'payload',
+  rationale: 'rationale',
+  confidence: 'confidence',
+  evidence: 'evidence',
+  baseFingerprint: 'baseFingerprint',
+  decision: 'decision',
+  createdEntityId: 'createdEntityId',
+  appliedAt: 'appliedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NuwaSuggestionScalarFieldEnum = (typeof NuwaSuggestionScalarFieldEnum)[keyof typeof NuwaSuggestionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -462,4 +525,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

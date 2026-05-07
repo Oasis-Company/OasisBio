@@ -159,3 +159,13 @@ export type OauthAuthorizationCode = Prisma.OauthAuthorizationCodeModel
  * 
  */
 export type OauthToken = Prisma.OauthTokenModel
+/**
+ * Model NuwaRun
+ * 
+ */
+export type NuwaRun = Prisma.NuwaRunModel
+/**
+ * Model NuwaSuggestion
+ * 
+ */
+export type NuwaSuggestion = Prisma.NuwaSuggestionModel

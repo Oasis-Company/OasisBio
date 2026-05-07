@@ -328,6 +328,7 @@ export type OasisBioWhereInput = {
   publication?: Prisma.XOR<Prisma.OasisBioPublicationNullableScalarRelationFilter, Prisma.OasisBioPublicationWhereInput> | null
   relationshipsA?: Prisma.CharacterRelationshipListRelationFilter
   relationshipsB?: Prisma.CharacterRelationshipListRelationFilter
+  nuwaRuns?: Prisma.NuwaRunListRelationFilter
 }
 
 export type OasisBioOrderByWithRelationInput = {
@@ -363,6 +364,7 @@ export type OasisBioOrderByWithRelationInput = {
   publication?: Prisma.OasisBioPublicationOrderByWithRelationInput
   relationshipsA?: Prisma.CharacterRelationshipOrderByRelationAggregateInput
   relationshipsB?: Prisma.CharacterRelationshipOrderByRelationAggregateInput
+  nuwaRuns?: Prisma.NuwaRunOrderByRelationAggregateInput
 }
 
 export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
@@ -401,6 +403,7 @@ export type OasisBioWhereUniqueInput = Prisma.AtLeast<{
   publication?: Prisma.XOR<Prisma.OasisBioPublicationNullableScalarRelationFilter, Prisma.OasisBioPublicationWhereInput> | null
   relationshipsA?: Prisma.CharacterRelationshipListRelationFilter
   relationshipsB?: Prisma.CharacterRelationshipListRelationFilter
+  nuwaRuns?: Prisma.NuwaRunListRelationFilter
 }, "id" | "slug">
 
 export type OasisBioOrderByWithAggregationInput = {
@@ -491,6 +494,7 @@ export type OasisBioCreateInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateInput = {
@@ -525,6 +529,7 @@ export type OasisBioUncheckedCreateInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUpdateInput = {
@@ -559,6 +564,7 @@ export type OasisBioUpdateInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateInput = {
@@ -593,6 +599,7 @@ export type OasisBioUncheckedUpdateInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateManyInput = {
@@ -931,6 +938,20 @@ export type OasisBioUpdateOneRequiredWithoutRelationshipsBNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutRelationshipsBInput, Prisma.OasisBioUpdateWithoutRelationshipsBInput>, Prisma.OasisBioUncheckedUpdateWithoutRelationshipsBInput>
 }
 
+export type OasisBioCreateNestedOneWithoutNuwaRunsInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedCreateWithoutNuwaRunsInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutNuwaRunsInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+}
+
+export type OasisBioUpdateOneRequiredWithoutNuwaRunsNestedInput = {
+  create?: Prisma.XOR<Prisma.OasisBioCreateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedCreateWithoutNuwaRunsInput>
+  connectOrCreate?: Prisma.OasisBioCreateOrConnectWithoutNuwaRunsInput
+  upsert?: Prisma.OasisBioUpsertWithoutNuwaRunsInput
+  connect?: Prisma.OasisBioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OasisBioUpdateToOneWithWhereWithoutNuwaRunsInput, Prisma.OasisBioUpdateWithoutNuwaRunsInput>, Prisma.OasisBioUncheckedUpdateWithoutNuwaRunsInput>
+}
+
 export type OasisBioCreateWithoutUserInput = {
   id?: string
   title: string
@@ -962,6 +983,7 @@ export type OasisBioCreateWithoutUserInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutUserInput = {
@@ -995,6 +1017,7 @@ export type OasisBioUncheckedCreateWithoutUserInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutUserInput = {
@@ -1082,6 +1105,7 @@ export type OasisBioCreateWithoutErasInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutErasInput = {
@@ -1115,6 +1139,7 @@ export type OasisBioUncheckedCreateWithoutErasInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutErasInput = {
@@ -1164,6 +1189,7 @@ export type OasisBioUpdateWithoutErasInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutErasInput = {
@@ -1197,6 +1223,7 @@ export type OasisBioUncheckedUpdateWithoutErasInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutAbilitiesInput = {
@@ -1230,6 +1257,7 @@ export type OasisBioCreateWithoutAbilitiesInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
@@ -1263,6 +1291,7 @@ export type OasisBioUncheckedCreateWithoutAbilitiesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutAbilitiesInput = {
@@ -1312,6 +1341,7 @@ export type OasisBioUpdateWithoutAbilitiesInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
@@ -1345,6 +1375,7 @@ export type OasisBioUncheckedUpdateWithoutAbilitiesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutDcosFilesInput = {
@@ -1378,6 +1409,7 @@ export type OasisBioCreateWithoutDcosFilesInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
@@ -1411,6 +1443,7 @@ export type OasisBioUncheckedCreateWithoutDcosFilesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutDcosFilesInput = {
@@ -1460,6 +1493,7 @@ export type OasisBioUpdateWithoutDcosFilesInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
@@ -1493,6 +1527,7 @@ export type OasisBioUncheckedUpdateWithoutDcosFilesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutReferencesInput = {
@@ -1526,6 +1561,7 @@ export type OasisBioCreateWithoutReferencesInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutReferencesInput = {
@@ -1559,6 +1595,7 @@ export type OasisBioUncheckedCreateWithoutReferencesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutReferencesInput = {
@@ -1608,6 +1645,7 @@ export type OasisBioUpdateWithoutReferencesInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutReferencesInput = {
@@ -1641,6 +1679,7 @@ export type OasisBioUncheckedUpdateWithoutReferencesInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutWorldsInput = {
@@ -1674,6 +1713,7 @@ export type OasisBioCreateWithoutWorldsInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutWorldsInput = {
@@ -1707,6 +1747,7 @@ export type OasisBioUncheckedCreateWithoutWorldsInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutWorldsInput = {
@@ -1756,6 +1797,7 @@ export type OasisBioUpdateWithoutWorldsInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutWorldsInput = {
@@ -1789,6 +1831,7 @@ export type OasisBioUncheckedUpdateWithoutWorldsInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutModelsInput = {
@@ -1822,6 +1865,7 @@ export type OasisBioCreateWithoutModelsInput = {
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutModelsInput = {
@@ -1855,6 +1899,7 @@ export type OasisBioUncheckedCreateWithoutModelsInput = {
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutModelsInput = {
@@ -1904,6 +1949,7 @@ export type OasisBioUpdateWithoutModelsInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutModelsInput = {
@@ -1937,6 +1983,7 @@ export type OasisBioUncheckedUpdateWithoutModelsInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutPublicationInput = {
@@ -1970,6 +2017,7 @@ export type OasisBioCreateWithoutPublicationInput = {
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutPublicationInput = {
@@ -2003,6 +2051,7 @@ export type OasisBioUncheckedCreateWithoutPublicationInput = {
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutPublicationInput = {
@@ -2052,6 +2101,7 @@ export type OasisBioUpdateWithoutPublicationInput = {
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutPublicationInput = {
@@ -2085,6 +2135,7 @@ export type OasisBioUncheckedUpdateWithoutPublicationInput = {
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioCreateWithoutRelationshipsAInput = {
@@ -2118,6 +2169,7 @@ export type OasisBioCreateWithoutRelationshipsAInput = {
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutRelationshipsAInput = {
@@ -2151,6 +2203,7 @@ export type OasisBioUncheckedCreateWithoutRelationshipsAInput = {
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutRelationshipsAInput = {
@@ -2189,6 +2242,7 @@ export type OasisBioCreateWithoutRelationshipsBInput = {
   eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
   publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  nuwaRuns?: Prisma.NuwaRunCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioUncheckedCreateWithoutRelationshipsBInput = {
@@ -2222,6 +2276,7 @@ export type OasisBioUncheckedCreateWithoutRelationshipsBInput = {
   eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
   publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedCreateNestedManyWithoutOasisBioInput
 }
 
 export type OasisBioCreateOrConnectWithoutRelationshipsBInput = {
@@ -2271,6 +2326,7 @@ export type OasisBioUpdateWithoutRelationshipsAInput = {
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutRelationshipsAInput = {
@@ -2304,6 +2360,7 @@ export type OasisBioUncheckedUpdateWithoutRelationshipsAInput = {
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUpsertWithoutRelationshipsBInput = {
@@ -2348,6 +2405,7 @@ export type OasisBioUpdateWithoutRelationshipsBInput = {
   eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutRelationshipsBInput = {
@@ -2381,6 +2439,159 @@ export type OasisBioUncheckedUpdateWithoutRelationshipsBInput = {
   eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
+}
+
+export type OasisBioCreateWithoutNuwaRunsInput = {
+  id?: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOasisBiosInput
+  abilities?: Prisma.AbilityCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioUncheckedCreateWithoutNuwaRunsInput = {
+  id?: string
+  userId: string
+  title: string
+  slug: string
+  tagline?: string | null
+  summary?: string | null
+  identityMode?: string
+  birthDate?: Date | string | null
+  gender?: string | null
+  pronouns?: string | null
+  placeOfOrigin?: string | null
+  currentEra?: string | null
+  species?: string | null
+  status?: string
+  description?: string | null
+  coverImageUrl?: string | null
+  defaultLanguage?: string
+  visibility?: string
+  featured?: boolean
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  abilities?: Prisma.AbilityUncheckedCreateNestedManyWithoutOasisBioInput
+  dcosFiles?: Prisma.DcosFileUncheckedCreateNestedManyWithoutOasisBioInput
+  references?: Prisma.ReferenceItemUncheckedCreateNestedManyWithoutOasisBioInput
+  worlds?: Prisma.WorldItemUncheckedCreateNestedManyWithoutOasisBioInput
+  models?: Prisma.ModelItemUncheckedCreateNestedManyWithoutOasisBioInput
+  eras?: Prisma.EraIdentityUncheckedCreateNestedManyWithoutOasisBioInput
+  publication?: Prisma.OasisBioPublicationUncheckedCreateNestedOneWithoutOasisBioInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterAInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedCreateNestedManyWithoutCharacterBInput
+}
+
+export type OasisBioCreateOrConnectWithoutNuwaRunsInput = {
+  where: Prisma.OasisBioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedCreateWithoutNuwaRunsInput>
+}
+
+export type OasisBioUpsertWithoutNuwaRunsInput = {
+  update: Prisma.XOR<Prisma.OasisBioUpdateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedUpdateWithoutNuwaRunsInput>
+  create: Prisma.XOR<Prisma.OasisBioCreateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedCreateWithoutNuwaRunsInput>
+  where?: Prisma.OasisBioWhereInput
+}
+
+export type OasisBioUpdateToOneWithWhereWithoutNuwaRunsInput = {
+  where?: Prisma.OasisBioWhereInput
+  data: Prisma.XOR<Prisma.OasisBioUpdateWithoutNuwaRunsInput, Prisma.OasisBioUncheckedUpdateWithoutNuwaRunsInput>
+}
+
+export type OasisBioUpdateWithoutNuwaRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOasisBiosNestedInput
+  abilities?: Prisma.AbilityUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+}
+
+export type OasisBioUncheckedUpdateWithoutNuwaRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityMode?: Prisma.StringFieldUpdateOperationsInput | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pronouns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeOfOrigin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentEra?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  species?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  defaultLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.StringFieldUpdateOperationsInput | string
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  abilities?: Prisma.AbilityUncheckedUpdateManyWithoutOasisBioNestedInput
+  dcosFiles?: Prisma.DcosFileUncheckedUpdateManyWithoutOasisBioNestedInput
+  references?: Prisma.ReferenceItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  worlds?: Prisma.WorldItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  models?: Prisma.ModelItemUncheckedUpdateManyWithoutOasisBioNestedInput
+  eras?: Prisma.EraIdentityUncheckedUpdateManyWithoutOasisBioNestedInput
+  publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
+  relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
+  relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
 }
 
 export type OasisBioCreateManyUserInput = {
@@ -2438,6 +2649,7 @@ export type OasisBioUpdateWithoutUserInput = {
   publication?: Prisma.OasisBioPublicationUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateWithoutUserInput = {
@@ -2471,6 +2683,7 @@ export type OasisBioUncheckedUpdateWithoutUserInput = {
   publication?: Prisma.OasisBioPublicationUncheckedUpdateOneWithoutOasisBioNestedInput
   relationshipsA?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterANestedInput
   relationshipsB?: Prisma.CharacterRelationshipUncheckedUpdateManyWithoutCharacterBNestedInput
+  nuwaRuns?: Prisma.NuwaRunUncheckedUpdateManyWithoutOasisBioNestedInput
 }
 
 export type OasisBioUncheckedUpdateManyWithoutUserInput = {
@@ -2511,6 +2724,7 @@ export type OasisBioCountOutputType = {
   eras: number
   relationshipsA: number
   relationshipsB: number
+  nuwaRuns: number
 }
 
 export type OasisBioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2522,6 +2736,7 @@ export type OasisBioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   eras?: boolean | OasisBioCountOutputTypeCountErasArgs
   relationshipsA?: boolean | OasisBioCountOutputTypeCountRelationshipsAArgs
   relationshipsB?: boolean | OasisBioCountOutputTypeCountRelationshipsBArgs
+  nuwaRuns?: boolean | OasisBioCountOutputTypeCountNuwaRunsArgs
 }
 
 /**
@@ -2590,6 +2805,13 @@ export type OasisBioCountOutputTypeCountRelationshipsBArgs<ExtArgs extends runti
   where?: Prisma.CharacterRelationshipWhereInput
 }
 
+/**
+ * OasisBioCountOutputType without action
+ */
+export type OasisBioCountOutputTypeCountNuwaRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NuwaRunWhereInput
+}
+
 
 export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2624,6 +2846,7 @@ export type OasisBioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   publication?: boolean | Prisma.OasisBio$publicationArgs<ExtArgs>
   relationshipsA?: boolean | Prisma.OasisBio$relationshipsAArgs<ExtArgs>
   relationshipsB?: boolean | Prisma.OasisBio$relationshipsBArgs<ExtArgs>
+  nuwaRuns?: boolean | Prisma.OasisBio$nuwaRunsArgs<ExtArgs>
   _count?: boolean | Prisma.OasisBioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oasisBio"]>
 
@@ -2716,6 +2939,7 @@ export type OasisBioInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   publication?: boolean | Prisma.OasisBio$publicationArgs<ExtArgs>
   relationshipsA?: boolean | Prisma.OasisBio$relationshipsAArgs<ExtArgs>
   relationshipsB?: boolean | Prisma.OasisBio$relationshipsBArgs<ExtArgs>
+  nuwaRuns?: boolean | Prisma.OasisBio$nuwaRunsArgs<ExtArgs>
   _count?: boolean | Prisma.OasisBioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OasisBioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2738,6 +2962,7 @@ export type $OasisBioPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     publication: Prisma.$OasisBioPublicationPayload<ExtArgs> | null
     relationshipsA: Prisma.$CharacterRelationshipPayload<ExtArgs>[]
     relationshipsB: Prisma.$CharacterRelationshipPayload<ExtArgs>[]
+    nuwaRuns: Prisma.$NuwaRunPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3166,6 +3391,7 @@ export interface Prisma__OasisBioClient<T, Null = never, ExtArgs extends runtime
   publication<T extends Prisma.OasisBio$publicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$publicationArgs<ExtArgs>>): Prisma.Prisma__OasisBioPublicationClient<runtime.Types.Result.GetResult<Prisma.$OasisBioPublicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   relationshipsA<T extends Prisma.OasisBio$relationshipsAArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$relationshipsAArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterRelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   relationshipsB<T extends Prisma.OasisBio$relationshipsBArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$relationshipsBArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterRelationshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  nuwaRuns<T extends Prisma.OasisBio$nuwaRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OasisBio$nuwaRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NuwaRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3821,6 +4047,30 @@ export type OasisBio$relationshipsBArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.CharacterRelationshipScalarFieldEnum | Prisma.CharacterRelationshipScalarFieldEnum[]
+}
+
+/**
+ * OasisBio.nuwaRuns
+ */
+export type OasisBio$nuwaRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NuwaRun
+   */
+  select?: Prisma.NuwaRunSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NuwaRun
+   */
+  omit?: Prisma.NuwaRunOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NuwaRunInclude<ExtArgs> | null
+  where?: Prisma.NuwaRunWhereInput
+  orderBy?: Prisma.NuwaRunOrderByWithRelationInput | Prisma.NuwaRunOrderByWithRelationInput[]
+  cursor?: Prisma.NuwaRunWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NuwaRunScalarFieldEnum | Prisma.NuwaRunScalarFieldEnum[]
 }
 
 /**

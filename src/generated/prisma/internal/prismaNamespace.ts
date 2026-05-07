@@ -412,7 +412,9 @@ export const ModelName = {
   ExportHistory: 'ExportHistory',
   OauthApp: 'OauthApp',
   OauthAuthorizationCode: 'OauthAuthorizationCode',
-  OauthToken: 'OauthToken'
+  OauthToken: 'OauthToken',
+  NuwaRun: 'NuwaRun',
+  NuwaSuggestion: 'NuwaSuggestion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -428,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "profile" | "account" | "session" | "verificationToken" | "oasisBio" | "eraIdentity" | "ability" | "dcosFile" | "referenceItem" | "worldItem" | "modelItem" | "abilityCategory" | "abilityPreset" | "worldDocument" | "oasisBioPublication" | "tag" | "entityTag" | "characterRelationship" | "exportHistory" | "oauthApp" | "oauthAuthorizationCode" | "oauthToken"
+    modelProps: "user" | "profile" | "account" | "session" | "verificationToken" | "oasisBio" | "eraIdentity" | "ability" | "dcosFile" | "referenceItem" | "worldItem" | "modelItem" | "abilityCategory" | "abilityPreset" | "worldDocument" | "oasisBioPublication" | "tag" | "entityTag" | "characterRelationship" | "exportHistory" | "oauthApp" | "oauthAuthorizationCode" | "oauthToken" | "nuwaRun" | "nuwaSuggestion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2134,6 +2136,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NuwaRun: {
+      payload: Prisma.$NuwaRunPayload<ExtArgs>
+      fields: Prisma.NuwaRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NuwaRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NuwaRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        findFirst: {
+          args: Prisma.NuwaRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NuwaRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        findMany: {
+          args: Prisma.NuwaRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>[]
+        }
+        create: {
+          args: Prisma.NuwaRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        createMany: {
+          args: Prisma.NuwaRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NuwaRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>[]
+        }
+        delete: {
+          args: Prisma.NuwaRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        update: {
+          args: Prisma.NuwaRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.NuwaRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NuwaRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NuwaRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.NuwaRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaRunPayload>
+        }
+        aggregate: {
+          args: Prisma.NuwaRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNuwaRun>
+        }
+        groupBy: {
+          args: Prisma.NuwaRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NuwaRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NuwaRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NuwaRunCountAggregateOutputType> | number
+        }
+      }
+    }
+    NuwaSuggestion: {
+      payload: Prisma.$NuwaSuggestionPayload<ExtArgs>
+      fields: Prisma.NuwaSuggestionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NuwaSuggestionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NuwaSuggestionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        findFirst: {
+          args: Prisma.NuwaSuggestionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NuwaSuggestionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        findMany: {
+          args: Prisma.NuwaSuggestionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>[]
+        }
+        create: {
+          args: Prisma.NuwaSuggestionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        createMany: {
+          args: Prisma.NuwaSuggestionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NuwaSuggestionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>[]
+        }
+        delete: {
+          args: Prisma.NuwaSuggestionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        update: {
+          args: Prisma.NuwaSuggestionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        deleteMany: {
+          args: Prisma.NuwaSuggestionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NuwaSuggestionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NuwaSuggestionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>[]
+        }
+        upsert: {
+          args: Prisma.NuwaSuggestionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NuwaSuggestionPayload>
+        }
+        aggregate: {
+          args: Prisma.NuwaSuggestionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNuwaSuggestion>
+        }
+        groupBy: {
+          args: Prisma.NuwaSuggestionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NuwaSuggestionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NuwaSuggestionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NuwaSuggestionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2523,12 +2673,73 @@ export const OauthTokenScalarFieldEnum = {
 export type OauthTokenScalarFieldEnum = (typeof OauthTokenScalarFieldEnum)[keyof typeof OauthTokenScalarFieldEnum]
 
 
+export const NuwaRunScalarFieldEnum = {
+  id: 'id',
+  oasisBioId: 'oasisBioId',
+  userId: 'userId',
+  status: 'status',
+  mode: 'mode',
+  sourcePolicy: 'sourcePolicy',
+  scopes: 'scopes',
+  snapshotHash: 'snapshotHash',
+  promptVersion: 'promptVersion',
+  provider: 'provider',
+  model: 'model',
+  summary: 'summary',
+  distilled: 'distilled',
+  error: 'error',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NuwaRunScalarFieldEnum = (typeof NuwaRunScalarFieldEnum)[keyof typeof NuwaRunScalarFieldEnum]
+
+
+export const NuwaSuggestionScalarFieldEnum = {
+  id: 'id',
+  runId: 'runId',
+  scope: 'scope',
+  operation: 'operation',
+  targetId: 'targetId',
+  title: 'title',
+  payload: 'payload',
+  rationale: 'rationale',
+  confidence: 'confidence',
+  evidence: 'evidence',
+  baseFingerprint: 'baseFingerprint',
+  decision: 'decision',
+  createdEntityId: 'createdEntityId',
+  appliedAt: 'appliedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NuwaSuggestionScalarFieldEnum = (typeof NuwaSuggestionScalarFieldEnum)[keyof typeof NuwaSuggestionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2545,6 +2756,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -2599,6 +2819,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -2725,6 +2959,8 @@ export type GlobalOmitConfig = {
   oauthApp?: Prisma.OauthAppOmit
   oauthAuthorizationCode?: Prisma.OauthAuthorizationCodeOmit
   oauthToken?: Prisma.OauthTokenOmit
+  nuwaRun?: Prisma.NuwaRunOmit
+  nuwaSuggestion?: Prisma.NuwaSuggestionOmit
 }
 
 /* Types for Logging */
