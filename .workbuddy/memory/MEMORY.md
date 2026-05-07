@@ -6,7 +6,7 @@
 - **数据库**：PostgreSQL via Supabase + Prisma 6 ORM
 - **认证**：Supabase Auth（OTP 无密码）
 - **存储**：Supabase Storage (图片) + Cloudflare R2 (3D模型/导出)
-- **部署目标**：**Vercel**（用户确认已迁移，但代码中 next.config.js 仍含 open-next/cloudflare 配置，待清理）
+- **部署目标**：**Vercel**
 
 ## 已完成的核心模块
 1. OasisBio Builder — 角色创建/编辑完整 CRUD
@@ -23,14 +23,16 @@
 12. CharacterRelationship — 双向角色关系
 
 ## 当前开发焦点（2026-05-07 起）
-- **女娲 Skill 集成 Phase 1 已完成**：
+- **女娲 Skill 集成 Phase 1+2 已完成并推送到 GitHub**：
   - Prisma 模型：NuwaRun + NuwaSuggestion（已同步到 DB）
-  - 核心库：types.ts（DistilledFramework 契约）+ source-snapshot.ts + orchestrator.ts（骨架）+ apply.ts
+  - 核心库：types.ts + source-snapshot.ts + orchestrator.ts + apply.ts + llm.ts（真实 LLM 调用）
   - API 路由：POST/GET runs、GET run detail、POST apply、POST reject
-  - 7 个英文 commit，待 push
-- Phase 2 待做：前端工作台 `/dashboard/oasisbios/[id]/nuwa` 页面 + 建议 UI
+  - 前端工作台：/dashboard/oasisbios/[id]/nuwa 页面（建议审阅 UI、轮询、批量操作）
+  - 技术债务清理：next.config.js open-next 残留已移除
+  - 英文技术文档：docs/nuwa-integration.md
+  - 共 15 个英文 commit，全部 pushed
 - Phase 3 待做：扩展 worlds + references scope
-- Phase 4 待做：异步 worker 化 + audit_logs + domain_events + LLM 真正调用
+- Phase 4 待做：异步 worker 化 + audit_logs + domain_events + LLM 真正调用优化
 
 ## 用户偏好
 - 中文母语，沟通风格直接简洁，要求可执行的结构化输出
@@ -40,7 +42,6 @@
 - 工作流：先厘清全局架构再局部执行
 
 ## 待注意的技术债务
-- `next.config.js` 中仍含 `@opennextjs/cloudflare` init 和 wrangler 相关配置（若 Vercel 部署则需清理）
 - OAuth 属性测试有 4 处缺口（crypto/validate/token/scope-enforcement 各缺 Property 测试）
-- prepare_home/ 下有 3 个过时规划文档（待完成任务.md、新规划(2026.4.9).md、supabase edge function规划.md）— 内容已被 planning/next-steps.md 覆盖
-- 7 个本地 git commit 未 push
+- prepare_home/ 下有 3 个过时规划文档（内容已被 planning/next-steps.md 覆盖）
+- @opennextjs/cloudflare 和 wrangler 包仍存在于 dependencies 中，可后续移除
