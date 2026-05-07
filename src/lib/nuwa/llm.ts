@@ -340,12 +340,12 @@ Mode: ${mode}. Analyze the above data and produce the DistilledFramework JSON.`;
 function formatBioCore(bio: NonNullable<NuwaSourceSnapshot['bioCore']>): string {
   return `## Character Core
 - **Title**: ${bio.title}
-- **Tagline**: bio.tagline ?? 'None'
-- **Summary**: bio.summary ?? 'None'
+- **Tagline**: ${bio.tagline ?? 'None'}
+- **Summary**: ${bio.summary ?? 'None'}
 - **Description**: ${bio.description?.slice(0, 2000) ?? 'None'}
-- **Identity Mode**: bio.identityMode
-- **Current Era**: bio.currentEra ?? 'Unknown'
-- **Species**: bio.species ?? 'Unspecified'`;
+- **Identity Mode**: ${bio.identityMode}
+- **Current Era**: ${bio.currentEra ?? 'Unknown'}
+- **Species**: ${bio.species ?? 'Unspecified'}`;
 }
 
 function formatEra(era: NuwaSourceSnapshot['eras'][number]): string {

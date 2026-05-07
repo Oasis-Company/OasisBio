@@ -277,6 +277,50 @@ function mapFrameworkToSuggestions(
     });
   }
 
+  // Map worlds
+  for (const world of framework.worlds) {
+    suggestions.push({
+      scope: 'world',
+      operation: 'create',
+      title: world.name,
+      payload: {
+        name: world.name,
+        summary: world.summary,
+        timeSetting: world.timeSetting,
+        socialStructure: world.socialStructure,
+        rules: world.rules,
+        timeline: world.timeline,
+        majorConflict: world.majorConflict,
+        genre: world.genre,
+        tone: world.tone,
+      },
+      rationale: world.evidence?.[0]?.snippet,
+      confidence: 0.6,
+      evidence: world.evidence,
+    });
+  }
+
+  // Map references
+  for (const ref of framework.references) {
+    suggestions.push({
+      scope: 'reference',
+      operation: 'create',
+      title: ref.title,
+      payload: {
+        url: ref.url,
+        title: ref.title,
+        description: ref.description,
+        sourceType: ref.sourceType,
+        provider: ref.provider,
+        tags: ref.tags,
+        whyRelevant: ref.whyRelevant,
+      },
+      rationale: ref.whyRelevant || ref.evidence?.[0]?.snippet,
+      confidence: 0.5,
+      evidence: ref.evidence,
+    });
+  }
+
   return suggestions;
 }
 
