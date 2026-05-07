@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { WorldStepConfig, WorldFormData, FieldConfig } from '@/types/world';
+import { FieldHint } from '@/components/Tooltip';
 
 interface WizardStepProps {
   config: WorldStepConfig;
@@ -58,8 +59,8 @@ function FieldInput({ field, value, error, onChange }: FieldInputProps) {
         {field.required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
-      {/* Hint */}
-      <p className="text-xs text-gray-400 mb-2">{field.hint}</p>
+      {/* Hint — interactive tooltip */}
+      <FieldHint hint={field.hint} mode="tooltip" variant="info" side="top" />
 
       {/* Input */}
       {field.type === 'select' ? (

@@ -186,6 +186,15 @@
   .animate-rotate-slow {
     animation: rotate 20s linear infinite;
   }
+
+  /* Tooltip system animations */
+  .tooltip-enter {
+    animation: tooltipEnter 0.15s ease-out forwards;
+  }
+
+  .tooltip-exit {
+    animation: tooltipExit 0.12s ease-in forwards;
+  }
 }
 
 /* 动画关键帧 */
@@ -233,5 +242,29 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Tooltip entrance — subtle scale + fade */
+@keyframes tooltipEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Tooltip exit — quick fade out */
+@keyframes tooltipExit {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98) translateY(1px);
   }
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader, OrbitControls, OBJLoader, FBXLoader, STLLoader } from 'three-stdlib';
+import { Tooltip } from '@/components/Tooltip';
 
 interface ModelViewerProps {
   modelPath: string;
@@ -311,28 +312,31 @@ export function ModelViewer({
         <button 
           onClick={() => setAutoRotate(!autoRotate)}
           className={`p-2 rounded-full ${autoRotate ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300 transition-colors`}
-          title={autoRotate ? 'Pause Auto Rotate' : 'Start Auto Rotate'}
         >
-          {autoRotate ? '⏸️' : '▶️'}
+          <Tooltip content={autoRotate ? 'Pause Auto Rotate' : 'Start Auto Rotate'} side="top" delay={100}>
+            {autoRotate ? '⏸️' : '▶️'}
+          </Tooltip>
         </button>
         <button 
           onClick={resetCamera}
           className="p-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
-          title="Reset Camera"
         >
-          🔄
+          <Tooltip content="Reset Camera" side="top" delay={100}>
+            🔄
+          </Tooltip>
         </button>
         <div className="flex-1">
-          <input
-            type="range"
-            min="0.1"
-            max="10"
-            step="0.1"
-            value={autoRotateSpeed}
-            onChange={(e) => setAutoRotateSpeed(parseFloat(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            title="Rotation Speed"
-          />
+          <Tooltip content="Rotation Speed — adjust how fast the model auto-rotates" side="top" delay={100}>
+            <input
+              type="range"
+              min="0.1"
+              max="10"
+              step="0.1"
+              value={autoRotateSpeed}
+              onChange={(e) => setAutoRotateSpeed(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+            />
+          </Tooltip>
         </div>
         <span className="text-sm text-gray-600 min-w-[40px]">{autoRotateSpeed.toFixed(1)}x</span>
       </div>
