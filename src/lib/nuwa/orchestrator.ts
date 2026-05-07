@@ -204,6 +204,14 @@ async function executeDistillation(
 
 /**
  * Map DistilledFramework to NuwaSuggestion records.
+ *
+ * Phase 3 extension: now maps ALL framework fields including:
+ * - Cognitive frameworks (mentalModels, decisionHeuristics)
+ * - Behavioral patterns (antiPatterns, tensions, honestLimits)
+ * - Expression profile (expressionDNA)
+ * - DCOS narrative insights
+ * - Entity suggestions (abilities, eras, worlds, references)
+ * - Description patch
  */
 function mapFrameworkToSuggestions(
   framework: DistilledFramework,
@@ -222,15 +230,14 @@ function mapFrameworkToSuggestions(
     scope: string;
     operation: string;
     targetId?: string;
-    title?: string;
     payload: Record<string, unknown>;
     rationale?: string;
     confidence?: number;
     evidence?: unknown[];
   }> = [];
 
-  // Map description patch
-  if (framework.descriptionPatch) {
+  // ── Description Patch ──
+  if (framework.descriptionPatch && framework.descriptionPatch.markdown) {
     suggestions.push({
       scope: 'description',
       operation: 'update',
@@ -240,7 +247,108 @@ function mapFrameworkToSuggestions(
     });
   }
 
-  // Map abilities
+  // ── Mental Models → dcos scope (cognitive framework insights) ──
+  for (const model of framework.mentalModels) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: `Mental Model: ${model.name}`,
+      payload: {
+        type: 'mental_model',
+        name: model.name,
+        oneLiner: model.oneLiner,
+        application: model.application,
+        limitation: model.limitation,
+      },
+      rationale: model.oneLiner,
+      confidence: 0.75,
+      evidence: model.evidence,
+    });
+  }
+
+  // ── Decision Heuristics → dcos scope ──
+  for (const heuristic of framework.decisionHeuristics) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: `Heuristic: ${heuristic.name}`,
+      payload: {
+        type: 'decision_heuristic',
+        name: heuristic.name,
+        rule: heuristic.rule,
+        scenario: heuristic.scenario,
+        example: heuristic.example,
+      },
+      rationale: heuristic.rule,
+      confidence: 0.72,
+      evidence: heuristic.evidence,
+    });
+  }
+
+  // ── Anti-Patterns → dcos scope ──
+  for (const antiPattern of framework.antiPatterns) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: `Anti-Pattern`,
+      payload: {
+        type: 'anti_pattern',
+        statement: antiPattern,
+      },
+      rationale: 'Behavioral boundary identified from source analysis',
+      confidence: 0.65,
+    });
+  }
+
+  // ── Tensions → dcos scope ──
+  for (const tension of framework.tensions) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: `Tension: ${tension.left} vs ${tension.right}`,
+      payload: {
+        type: 'tension',
+        left: tension.left,
+        right: tension.right,
+        explanation: tension.explanation,
+      },
+      rationale: tension.explanation,
+      confidence: 0.68,
+      evidence: tension.evidence,
+    });
+  }
+
+  // ── Honest Limits → dcos scope ──
+  for (const limit of framework.honestLimits) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: `Knowledge Boundary`,
+      payload: {
+        type: 'honest_limit',
+        statement: limit,
+      },
+      rationale: 'Limit of what can be inferred from available data',
+      confidence: 0.6,
+    });
+  }
+
+  // ── Expression DNA → dcos scope (communication profile) ──
+  if (framework.expressionDNA.sentenceStyle || framework.expressionDNA.vocabulary.length > 0) {
+    suggestions.push({
+      scope: 'dcos',
+      operation: 'append',
+      title: 'Expression DNA Profile',
+      payload: {
+        type: 'expression_dna',
+        ...framework.expressionDNA,
+      },
+      rationale: 'Communication style derived from character voice analysis',
+      confidence: 0.7,
+    });
+  }
+
+  // ── Abilities ──
   for (const ability of framework.abilities) {
     suggestions.push({
       scope: 'ability',
@@ -258,7 +366,7 @@ function mapFrameworkToSuggestions(
     });
   }
 
-  // Map eras
+  // ── Eras ──
   for (const era of framework.eras) {
     suggestions.push({
       scope: 'era',
@@ -277,7 +385,7 @@ function mapFrameworkToSuggestions(
     });
   }
 
-  // Map worlds
+  // ── Worlds ──
   for (const world of framework.worlds) {
     suggestions.push({
       scope: 'world',
@@ -300,7 +408,7 @@ function mapFrameworkToSuggestions(
     });
   }
 
-  // Map references
+  // ── References ──
   for (const ref of framework.references) {
     suggestions.push({
       scope: 'reference',
@@ -331,6 +439,10 @@ function buildSummary(framework: DistilledFramework): Record<string, number> {
   return {
     mentalModels: framework.mentalModels.length,
     decisionHeuristics: framework.decisionHeuristics.length,
+    antiPatterns: framework.antiPatterns.length,
+    tensions: framework.tensions.length,
+    honestLimits: framework.honestLimits.length,
+    expressionDNA: (framework.expressionDNA.sentenceStyle ? 1 : 0),
     abilities: framework.abilities.length,
     eras: framework.eras.length,
     worlds: framework.worlds.length,

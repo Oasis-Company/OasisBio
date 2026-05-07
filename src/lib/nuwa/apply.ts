@@ -72,6 +72,8 @@ async function applySingleSuggestion(
 
     if (scope === 'description') {
       result = await applyDescription(item.run.oasisBioId, payload, input);
+    } else if (scope === 'dcos' && (operation === 'append' || operation === 'create')) {
+      result = await applyDcosAppend(item.run.oasisBioId, payload);
     } else if (scope === 'ability' && operation === 'create') {
       result = await applyAbilityCreate(item.run.oasisBioId, payload);
     } else if (scope === 'era' && operation === 'create') {
@@ -134,6 +136,95 @@ async function applyDescription(
   return {
     itemId: '',
     entityType: 'oasisBio.description',
+    entityId: oasisBioId,
+  };
+}
+
+/**
+ * Apply dcos (cognitive framework) suggestion by appending structured analysis to description.
+ * Maps mental models, heuristics, anti-patterns, tensions, expression DNA into readable markdown.
+ */
+async function applyDcosAppend(
+  oasisBioId: string,
+  payload: Record<string, unknown>
+): Promise<ApplyResult> {
+  const type = (payload.type as string) ?? 'unknown';
+  let markdownSection = '';
+
+  switch (type) {
+    case 'mental_model':
+      markdownSection = `### 🧠 Mental Model: ${payload.name ?? 'Unnamed'}
+
+**One-Liner:** ${payload.oneLiner ?? ''}
+
+${payload.application ? `**Application:** ${payload.application}\n` : ''}${payload.limitation ? `**Limitation:** ${payload.limitation}` : ''}`;
+      break;
+    case 'decision_heuristic':
+      markdownSection = `### ⚡ Decision Heuristic: ${payload.name ?? 'Unnamed'}
+
+> **Rule:** ${payload.rule ?? ''}
+
+${payload.scenario ? `**Scenario:** ${payload.scenario}\n` : ''}${payload.example ? `**Example:** ${payload.example}` : ''}`;
+      break;
+    case 'anti_pattern':
+      markdownSection = `### 🚫 Anti-Pattern
+
+> **Would never:** ${payload.statement ?? '(unspecified)'}`;
+      break;
+    case 'tension':
+      markdownSection = `### ⚖️ Internal Tension
+
+| | |
+|---|---|
+| **Left** | ${payload.left ?? ''} |
+| **Right** | ${payload.right ?? ''} |
+
+${payload.explanation ? `${payload.explanation}` : ''}`;
+      break;
+    case 'honest_limit':
+      markdownSection = `### ❓ Knowledge Boundary
+
+*What we cannot know from available data:* ${payload.statement ?? '(unspecified)'}`;
+      break;
+    case 'expression_dna': {
+      const vocab = (payload.vocabulary as string[]) ?? [];
+      const vocabList = vocab.length > 0 ? `\n${vocab.map((v: string) => `- \`${v}\``).join('\n')}` : '';
+      markdownSection = `### 🎭 Expression DNA Profile
+
+| Dimension | Value |
+|-----------|-------|
+| Sentence Style | ${payload.sentenceStyle ?? '-'} |
+| Rhythm | ${payload.rhythm ?? '-'} |
+| Humor | ${payload.humor ?? '-'} |
+| Certainty Style | ${payload.certaintyStyle ?? '-'} |
+| Citation Habit | ${payload.citationHabit ?? '-'} |
+
+#### Vocabulary${vocabList}`;
+      break;
+    }
+    default:
+      // Fallback for unknown types — just serialize as JSON
+      markdownSection = `\n\n${'```'}json\n${JSON.stringify(payload, null, 2)}\n${'```'}\n`;
+  }
+
+  // Append to existing description
+  const current = await prisma.oasisBio.findUnique({
+    where: { id: oasisBioId },
+    select: { description: true },
+  });
+
+  const existing = current?.description || '';
+  const separator = existing && !existing.endsWith('\n') ? '\n\n' : '';
+  const newDescription = `${existing}${separator}${markdownSection}`;
+
+  await prisma.oasisBio.update({
+    where: { id: oasisBioId },
+    data: { description: newDescription },
+  });
+
+  return {
+    itemId: '',
+    entityType: 'dcos.description_append',
     entityId: oasisBioId,
   };
 }

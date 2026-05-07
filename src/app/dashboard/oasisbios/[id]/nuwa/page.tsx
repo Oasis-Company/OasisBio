@@ -70,6 +70,16 @@ const SCOPE_BADGE_COLORS: Record<string, string> = {
   dcos: 'bg-cyan-100 text-cyan-700',
 };
 
+// Dcos sub-type icons for cognitive framework suggestions
+const DCOS_TYPE_CONFIG: Record<string, { icon: string; label: string; color: string }> = {
+  mental_model: { icon: '🧠', label: 'Mental Model', color: 'text-violet-600' },
+  decision_heuristic: { icon: '⚡', label: 'Decision Heuristic', color: 'text-amber-600' },
+  anti_pattern: { icon: '🚫', label: 'Anti-Pattern', color: 'text-red-500' },
+  tension: { icon: '⚖️', label: 'Tension', color: 'text-blue-600' },
+  honest_limit: { icon: '❓', label: 'Knowledge Boundary', color: 'text-gray-500' },
+  expression_dna: { icon: '🎭', label: 'Expression DNA', color: 'text-fuchsia-600' },
+};
+
 // ==================== Sub Navigation ====================
 
 function SubNav({ bioId, active }: { bioId: string; active: boolean }) {
@@ -576,7 +586,161 @@ export default function NuwaWorkspacePage() {
   );
 }
 
-// ==================== Suggestion Card ====================
+// ==================== Dcos Sub-type Renderers ====================
+
+/** Collapsed preview for dcos suggestions — shows key info without JSON dump */
+function DcosPreview({ type, payload }: { type: string; payload: Record<string, unknown> }) {
+  switch (type) {
+    case 'mental_model':
+      return (
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium text-violet-600">{(payload.name as string) || 'Unnamed'}</span>
+          {' — '}{(payload.oneLiner as string) || ''}
+        </p>
+      );
+    case 'decision_heuristic':
+      return (
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium text-amber-600">{(payload.name as string) || 'Unnamed'}</span>
+          {' — '}{(payload.rule as string) || ''}
+        </p>
+      );
+    case 'anti_pattern':
+      return (
+        <p className="text-sm text-red-500">
+          Would never: {(payload.statement as string) || '(unspecified)'}
+        </p>
+      );
+    case 'tension':
+      return (
+        <p className="text-sm text-blue-600">
+          <span className="font-medium">{(payload.left as string) || ''}</span>
+          {' vs '}
+          <span className="font-medium">{(payload.right as string) || ''}</span>
+        </p>
+      );
+    case 'honest_limit':
+      return (
+        <p className="text-sm text-gray-500 italic">
+          Unknown: {(payload.statement as string) || '(unspecified boundary)'}
+        </p>
+      );
+    case 'expression_dna': {
+      const dna = payload as Record<string, unknown>;
+      const vocab = (dna.vocabulary as string[]) ?? [];
+      return (
+        <div className="flex flex-wrap gap-1.5 items-center">
+          {dna.sentenceStyle && (
+            <span className="text-xs bg-fuchsia-50 text-fuchsia-700 px-2 py-0.5 rounded-full">
+              Style: {(dna.sentenceStyle as string)}
+            </span>
+          )}
+          {vocab.slice(0, 5).map((v: string, i: number) => (
+            <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+              {v}
+            </span>
+          ))}
+          {vocab.length > 5 && (
+            <span className="text-xs text-muted-foreground">+{vocab.length - 5} more</span>
+          )}
+        </div>
+      );
+    }
+    default:
+      return null;
+  }
+}
+
+/** Expanded view for dcos suggestions — structured display instead of raw JSON */
+function DcosExpandedView({ type, payload }: { type: string; payload: Record<string, unknown> }) {
+  switch (type) {
+    case 'mental_model': {
+      const m = payload;
+      return (
+        <div className="space-y-2">
+          <div><span className="font-medium text-violet-600">One-Liner:</span> {(m.oneLiner as string)}</div>
+          {m.application && <div><span className="font-medium">Application:</span> {(m.application as string)}</div>}
+          {m.limitation && <div><span className="font-medium text-red-400">Limitation:</span> {(m.limitation as string)}</div>}
+        </div>
+      );
+    }
+    case 'decision_heuristic': {
+      const h = payload;
+      return (
+        <div className="space-y-2">
+          <div className="bg-amber-50 border border-amber-200 rounded p-2 font-medium text-amber-800">
+            Rule: {(h.rule as string)}
+          </div>
+          {h.scenario && <div><span className="font-medium">Scenario:</span> {(h.scenario as string)}</div>}
+          {h.example && <div><span className="font-medium">Example:</span> {(h.example as string)}</div>}
+        </div>
+      );
+    }
+    case 'anti_pattern':
+      return (
+        <div className="bg-red-50 border border-red-200 rounded p-3 text-red-700">
+          <span className="font-bold">Would NEVER:</span> {' '}{(payload.statement as string)}
+        </div>
+      );
+    case 'tension': {
+      const t = payload;
+      return (
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-blue-50 rounded p-2 text-center font-medium text-blue-700">{(t.left as string)}</div>
+            <div className="bg-indigo-50 rounded p-2 text-center font-medium text-indigo-700">{(t.right as string)}</div>
+          </div>
+          {t.explanation && <div><span className="font-medium">Why it creates depth:</span> {(t.explanation as string)}</div>}
+        </div>
+      );
+    }
+    case 'honest_limit':
+      return (
+        <div className="bg-gray-100 rounded p-3 text-gray-600 italic">
+          What we cannot know from available data: {(payload.statement as string)}
+        </div>
+      );
+    case 'expression_dna': {
+      const d = payload;
+      const vocab = (d.vocabulary as string[]) ?? [];
+      return (
+        <div className="space-y-1.5">
+          {d.sentenceStyle && (
+            <div className="flex justify-between"><span className="font-medium">Sentence Style</span><span>{d.sentenceStyle}</span></div>
+          )}
+          {d.rhythm && (
+            <div className="flex justify-between"><span className="font-medium">Rhythm</span><span>{d.rhythm}</span></div>
+          )}
+          {d.humor && (
+            <div className="flex justify-between"><span className="font-medium">Humor</span><span>{d.humor}</span></div>
+          )}
+          {d.certaintyStyle && (
+            <div className="flex justify-between"><span className="font-medium">Certainty</span><span>{d.certaintyStyle}</span></div>
+          )}
+          {d.citationHabit && (
+            <div className="flex justify-between"><span className="font-medium">Citation Habit</span><span>{d.citationHabit}</span></div>
+          )}
+          {vocab.length > 0 && (
+            <div>
+              <span className="font-medium">Vocabulary ({vocab.length}):</span>
+              <div className="flex flex-wrap gap-1 mt-1">
+                {vocab.map((v: string, i: number) => (
+                  <span key={i} className="bg-fuchsia-50 text-fuchsia-700 px-2 py-0.5 rounded text-xs">{v}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+    default:
+      return (
+        <pre className="whitespace-pre-wrap break-all text-muted-foreground">
+          {JSON.stringify(payload, null, 2)}
+        </pre>
+      );
+  }
+}
 
 function SuggestionCard({
   item,
@@ -593,6 +757,9 @@ function SuggestionCard({
   const isAccepted = item.decision === 'accepted' || item.decision === 'applied';
   const isRejected = item.decision === 'rejected';
   const isPending = item.decision === 'pending';
+  const isDcos = item.scope === 'dcos';
+  const dcosType = isDcos ? (item.payload?.type as string) ?? null : null;
+  const dcosConfig = dcosType ? DCOS_TYPE_CONFIG[dcosType] : null;
 
   return (
     <Card
@@ -607,6 +774,12 @@ function SuggestionCard({
               <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${SCOPE_BADGE_COLORS[item.scope] ?? 'bg-gray-100'}`}>
                 {item.scope}
               </span>
+              {/* Dcos sub-type badge */}
+              {dcosConfig && (
+                <span className={`text-xs px-2 py-0.5 rounded-full ${dcosConfig.color} bg-opacity-10 font-medium`}>
+                  {dcosConfig.icon} {dcosConfig.label}
+                </span>
+              )}
               <span className="text-xs text-muted-foreground font-mono">{item.operation}</span>
               {item.confidence && (
                 <span className="text-xs text-muted-foreground">
@@ -625,20 +798,31 @@ function SuggestionCard({
             {/* Title */}
             {item.title && <h4 className="font-medium text-sm mb-1">{item.title}</h4>}
 
-            {/* Rationale */}
-            {item.rationale && (
+            {/* Dcos-specific rich rendering */}
+            {isDcos && dcosType && !expanded && (
+              <DcosPreview type={dcosType} payload={item.payload} />
+            )}
+
+            {/* Rationale (for non-dcos or when collapsed) */}
+            {item.rationale && (!isDcos || !dcosConfig) && (
               <p className="text-sm text-muted-foreground line-clamp-2">{item.rationale}</p>
             )}
 
             {/* Expanded Payload */}
             {expanded && (
-              <div className="mt-3 p-3 bg-muted/50 rounded-md text-xs space-y-2 max-h-60 overflow-y-auto">
-                <div>
-                  <span className="font-medium text-foreground">Payload:</span>
-                  <pre className="mt-1 whitespace-pre-wrap break-all text-muted-foreground">
-                    {JSON.stringify(item.payload, null, 2)}
-                  </pre>
-                </div>
+              <div className="mt-3 p-3 bg-muted/50 rounded-md text-xs space-y-3 max-h-72 overflow-y-auto">
+                {isDcos && dcosType ? (
+                  <DcosExpandedView type={dcosType} payload={item.payload} />
+                ) : (
+                  <>
+                    <div>
+                      <span className="font-medium text-foreground">Payload:</span>
+                      <pre className="mt-1 whitespace-pre-wrap break-all text-muted-foreground">
+                        {JSON.stringify(item.payload, null, 2)}
+                      </pre>
+                    </div>
+                  </>
+                )}
                 {item.evidence && item.evidence.length > 0 && (
                   <div>
                     <span className="font-medium text-foreground">Evidence:</span>
