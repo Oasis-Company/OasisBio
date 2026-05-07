@@ -2,17 +2,26 @@
  * Nuwa Integration - Orchestrator
  *
  * Orchestrates the Nuwa distillation process based on the Nuwa methodology:
- * Phase 1: Multi-source research (6 parallel agents)
- * Phase 2: Framework synthesis (mental models, heuristics, expression DNA)
+ * Phase 1: Multi-source research (6 parallel agents) — source snapshot from DB
+ * Phase 2: Framework synthesis (mental models, heuristics, expression DNA) — LLM call
  * Phase 3: Map framework to OasisBio suggestions
  *
- * Note: This is a skeleton implementation. The actual LLM calls
- * and research agents will be implemented in a later iteration.
+ * The orchestrator coordinates the full distillation pipeline:
+ * 1. Builds a source snapshot from existing OasisBio data
+ * 2. Sends it to an LLM with Nuwa methodology prompts
+ * 3. Parses the structured response into a DistilledFramework
+ * 4. Maps framework fields to NuwaSuggestion records for user review
  */
 
 import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope } from './types';
 import { prisma } from '../prisma.client';
-import { computeSnapshotHash, buildNuwaSourceSnapshot } from './source-snapshot';
+import { computeSnapshotHash, buildNuwaSourceSnapshot, trimSnapshotForQuickMode } from './source-snapshot';
+import {
+  getDefaultLlmConfig,
+  callLlm,
+  buildDistillationSystemPrompt,
+  buildDistillationUserPrompt,
+} from './llm';
 
 export type RunMode = 'quick' | 'deep';
 export type SourcePolicy = 'local_only' | 'local_plus_web';
@@ -117,21 +126,56 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
 
 /**
  * Execute the actual distillation process.
- * TODO: Implement actual LLM calls and research agents.
+ *
+ * Pipeline:
+ * 1. Trim snapshot for quick mode (token budget management)
+ * 2. Build Nuwa methodology prompts (system + user)
+ * 3. Call LLM with structured output format
+ * 4. Parse and validate the DistilledFramework response
  */
 async function executeDistillation(
-  _options: OrchestratorOptions
+  options: OrchestratorOptions
 ): Promise<DistilledFramework> {
-  // Placeholder implementation
-  // In production, this will:
-  // 1. Run 6 parallel research agents (writings, conversations, expression, external, decisions, timeline)
-  // 2. Synthesize framework using Nuwa methodology
-  // 3. Return structured DistilledFramework
+  // Step 1: Prepare snapshot based on mode
+  let snapshot = options.snapshot;
+  if (options.mode === 'quick') {
+    snapshot = trimSnapshotForQuickMode(snapshot);
+  }
 
-  return {
-    mentalModels: [],
-    decisionHeuristics: [],
-    expressionDNA: {
+  // Step 2: Get LLM configuration
+  const config = getDefaultLlmConfig();
+
+  // Step 3: Build prompts
+  const systemPrompt = buildDistillationSystemPrompt(options.scopes, options.mode);
+  const userPrompt = buildDistillationUserPrompt(snapshot, options.mode);
+
+  console.log(`[Nuwa] Starting distillation: mode=${options.mode}, scopes=${options.scopes.join(',')}`);
+
+  // Step 4: Call LLM
+  const response = await callLlm<DistilledFramework>(
+    [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    config,
+    {
+      responseFormat: 'json',
+      maxRetries: 3,
+    }
+  );
+
+  // Step 5: Validate response
+  if (!response.parsed) {
+    throw new Error('Failed to parse LLM response as DistilledFramework JSON');
+  }
+
+  const framework = response.parsed;
+
+  // Ensure all required fields exist (defensive defaults for partial responses)
+  const validated: DistilledFramework = {
+    mentalModels: framework.mentalModels ?? [],
+    decisionHeuristics: framework.decisionHeuristics ?? [],
+    expressionDNA: framework.expressionDNA ?? {
       sentenceStyle: '',
       vocabulary: [],
       rhythm: '',
@@ -139,19 +183,23 @@ async function executeDistillation(
       certaintyStyle: '',
       citationHabit: '',
     },
-    antiPatterns: [],
-    tensions: [],
-    honestLimits: [],
-    abilities: [],
-    eras: [],
-    worlds: [],
-    references: [],
-    descriptionPatch: {
-      title: 'Placeholder',
-      markdown: 'Nuwa distillation not yet implemented.',
-      mode: 'replace',
+    antiPatterns: framework.antiPatterns ?? [],
+    tensions: framework.tensions ?? [],
+    honestLimits: framework.honestLimits ?? [],
+    abilities: framework.abilities ?? [],
+    eras: framework.eras ?? [],
+    worlds: framework.worlds ?? [],
+    references: framework.references ?? [],
+    descriptionPatch: framework.descriptionPatch ?? {
+      title: 'Distilled Description',
+      markdown: '',
+      mode: 'append',
     },
   };
+
+  console.log(`[Nuwa] Distillation complete: ${validated.mentalModels.length} mental models, ${validated.decisionHeuristics.length} heuristics`);
+
+  return validated;
 }
 
 /**

@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { requireAuth } from '@/lib/auth';
 import { handleApiError } from '@/lib/error-handler';
 import { computeSnapshotHash, buildNuwaSourceSnapshot } from '@/lib/nuwa/source-snapshot';
-import { findCachedRun } from '@/lib/nuwa/orchestrator';
+import { findCachedRun, runNuwaDistillation } from '@/lib/nuwa/orchestrator';
 import type { NuwaScope, NuwaRunMode, NuwaSourcePolicy } from '@/lib/nuwa/types';
 
 const CreateNuwaRunSchema = z.object({
@@ -126,8 +126,12 @@ export async function POST(
       },
     });
 
-    // TODO: Trigger async processing (Edge Function or background worker)
-    // For now, we'll just return the run ID
+    // Trigger async distillation (fire-and-forget in dev; use queue in production)
+    // In development, we run it synchronously to see errors immediately.
+    // In production with Vercel, this should be moved to a background job (e.g., Vercel Cron/Queues).
+    runNuwaDistillation(run.id).catch((error) => {
+      console.error(`[Nuwa] Background distillation failed for run ${run.id}:`, error);
+    });
 
     return NextResponse.json({
       runId: run.id,
