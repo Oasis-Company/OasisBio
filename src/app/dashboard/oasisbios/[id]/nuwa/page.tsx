@@ -246,7 +246,8 @@ export default function NuwaWorkspacePage() {
       if (!res.ok) throw new Error('Apply failed');
 
       const result = await res.json();
-      success(`${result.appliedCount} suggestion(s) applied`);
+      const appliedCount = result.applied?.length ?? 0;
+      success(`${appliedCount} suggestion(s) applied`);
 
       // Refresh the run detail
       await fetchRunDetail(activeRun!.runId);

@@ -89,7 +89,8 @@ oasisbio/
 │   │   ├── auth-utils.ts         # requireAuth, ownership checks
 │   │   ├── user-sync.ts          # Supabase → Prisma sync
 │   │   ├── world-utils.ts        # World completion score, validation
-│   │   └── storage.ts            # Storage abstraction layer
+│   │   ├── storage.ts            # Storage abstraction layer
+│   │   └── nuwa/                 # AI distillation pipeline (types, LLM, orchestrator, snapshot, apply)
 │   ├── types/
 │   │   └── world.ts              # World form types and step config
 │   └── middleware.ts             # Route protection
@@ -112,8 +113,10 @@ oasisbio/
 - **Import/Export** — ZIP-based character data portability
 - **Publish System** — atomic publish/unpublish via database RPC
 - **OAuth Provider** — "Continue with Oasis" for third-party apps (Authorization Code + PKCE)
+- **Nuwa Integration** — AI-powered cognitive framework distillation for character deepening (mental models, decision heuristics, expression DNA)
 - **Toast notifications** — global feedback system (`useToast`)
 - **Copy button** — one-click clipboard copy (`CopyButton`)
+- **Tooltip/Hint system** — interactive, accessible user guidance components
 
 ## Scripts
 
@@ -128,6 +131,7 @@ npm test             # Jest unit + property tests
 
 See [`docs/`](docs/) for detailed documentation:
 
+- [`docs/nuwa-integration.md`](docs/nuwa-integration.md) — Nuwa AI distillation pipeline: architecture, API reference, data models, methodology
 - [`docs/technical.md`](docs/technical.md) — Architecture, API reference, database schema
 - [`docs/design.md`](docs/design.md) — Design system and UI guidelines
 - [`scripts/db/`](scripts/db/) — Database setup SQL scripts
