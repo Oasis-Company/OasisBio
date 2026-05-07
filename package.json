@@ -11,9 +11,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "preview": "# Cloudflare preview (deprecated — now deploying to Vercel)",
+    "deploy": "# Cloudflare deploy (deprecated — now deploying to Vercel)",
+    "upload": "# Cloudflare upload (deprecated — now deploying to Vercel)",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {

@@ -54,6 +54,5 @@ const nextConfig = {
 
 module.exports = nextConfig;
 
-if (process.env.NODE_ENV === 'development') {
-  import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
-}
+// Note: Cloudflare/OpenNext initialization removed — deployment target is Vercel
+// The @opennextjs/cloudflare package can be uninstalled when ready to clean up dependencies
