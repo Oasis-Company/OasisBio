@@ -168,6 +168,16 @@ export default function ExploreContent({ filters }: ExploreContentProps) {
               <Button asChild size="sm" className="w-full">
                 <a href={`/bio/${oasisBio.slug}`}>View Profile</a>
               </Button>
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="w-full mt-2"
+              >
+                <a href={`/dashboard/oasisbios/new?from=${oasisBio.slug}`}>
+                  🍂 Use as Template
+                </a>
+              </Button>
             </CardContent>
           </Card>
         ))}

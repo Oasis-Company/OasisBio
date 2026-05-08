@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/lib/auth.client';
 import { useRouter, useParams } from 'next/navigation';
 import { Button } from '@/components/Button';
@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { useToast } from '@/components/Toast';
 import Link from 'next/link';
+
+type SlugStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid' | 'error';
 
 interface OasisBio {
   id: string;
@@ -43,6 +45,11 @@ export default function OasisBioEditPage() {
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [showPublishBanner, setShowPublishBanner] = useState(true);
+  const [showPublishSettings, setShowPublishSettings] = useState(false);
+  const [customSlug, setCustomSlug] = useState('');
+  const [slugStatus, setSlugStatus] = useState<SlugStatus>('idle');
+  const [slugMessage, setSlugMessage] = useState('');
+  const slugCheckTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     tagline: '',
@@ -80,6 +87,7 @@ export default function OasisBioEditPage() {
       }
       const data = await res.json();
       setBio(data);
+      setCustomSlug(data.slug ?? '');
       setFormData({
         title: data.title ?? '',
         tagline: data.tagline ?? '',
@@ -99,6 +107,61 @@ export default function OasisBioEditPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  /** Debounced slug availability check */
+  const checkSlugAvailability = useCallback(async (slug: string) => {
+    if (!slug || slug.length < 3) {
+      setSlugStatus(slug ? 'invalid' : 'idle');
+      setSlugMessage(slug && slug.length > 0 && slug.length < 3 ? 'At least 3 characters' : '');
+      return;
+    }
+
+    // Basic format check
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+      setSlugStatus('invalid');
+      setSlugMessage('Only lowercase letters, numbers, and hyphens');
+      return;
+    }
+
+    setSlugStatus('checking');
+    setSlugMessage('Checking...');
+
+    try {
+      const res = await fetch(`/api/oasisbios/check-slug?slug=${encodeURIComponent(slug)}&excludeId=${bioId}`);
+      const data = await res.json();
+
+      if (data.available) {
+        setSlugStatus('available');
+        setSlugMessage('/bio/' + slug + ' is available');
+      } else {
+        setSlugStatus(data.reason === 'taken' || data.reason === 'publication_taken' ? 'taken' : 'invalid');
+        setSlugMessage(data.reason === 'taken'
+          ? `Already used by "${data.conflictTitle ?? 'another character'}"`
+          : data.reason === 'publication_taken'
+            ? 'This URL is already taken'
+            : 'Invalid slug format');
+      }
+    } catch {
+      setSlugStatus('error');
+      setSlugMessage('Unable to verify slug');
+    }
+  }, [bioId]);
+
+  /** Handle slug input with debounce (400ms) */
+  const handleSlugChange = (value: string) => {
+    // Auto-sanitize: lowercase, replace invalid chars with hyphens
+    const sanitized = value
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    setCustomSlug(sanitized);
+
+    if (slugCheckTimer.current) clearTimeout(slugCheckTimer.current);
+    slugCheckTimer.current = setTimeout(() => {
+      checkSlugAvailability(sanitized);
+    }, 400);
   };
 
   const handleSave = async () => {
@@ -121,6 +184,14 @@ export default function OasisBioEditPage() {
   };
 
   const handlePublish = async () => {
+    // If slug settings are open, validate slug before publishing
+    if (showPublishSettings && customSlug) {
+      if (slugStatus === 'taken' || slugStatus === 'invalid') {
+        toastError('Please fix the URL slug before publishing');
+        return;
+      }
+    }
+
     setPublishing(true);
     try {
       const res = await fetch(`/api/oasisbios/${bioId}/publish`, {
@@ -223,6 +294,82 @@ export default function OasisBioEditPage() {
               </div>
             </div>
 
+            {/* Publish Settings Panel — slug editor with real-time validation */}
+            {!isPublished && (
+              <div className="mb-6 rounded-lg border border-border bg-card p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-semibold text-sm">🌐 Public URL Settings</h3>
+                  <button
+                    type="button"
+                    onClick={() => setShowPublishSettings(v => !v)}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPublishSettings ? 'Collapse' : 'Expand'}
+                  </button>
+                </div>
+
+                {showPublishSettings && (
+                  <div className="space-y-3">
+                    <p className="text-xs text-muted-foreground">
+                      Customize the URL for your public profile. You can change this before or after publishing.
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground flex-shrink-0">/bio/</span>
+                      <div className="flex-1 relative">
+                        <Input
+                          value={customSlug}
+                          onChange={e => handleSlugChange(e.target.value)}
+                          placeholder="your-character-slug"
+                          className={`pr-10 font-mono text-sm ${
+                            slugStatus === 'taken' || slugStatus === 'invalid'
+                              ? 'border-red-300 focus:ring-red-500'
+                              : slugStatus === 'available'
+                                ? 'border-green-300 focus:ring-green-500'
+                                : ''
+                          }`}
+                        />
+                        {slugStatus === 'checking' && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2">
+                            <svg className="animate-spin h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none">
+                              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25"/>
+                              <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" className="opacity-75"/>
+                            </svg>
+                          </span>
+                        )}
+                        {slugStatus === 'available' && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-600">✓</span>
+                        )}
+                        {slugStatus === 'taken' && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500">✕</span>
+                        )}
+                      </div>
+                    </div>
+                    {slugMessage && slugStatus !== 'idle' && (
+                      <p className={`text-xs ${
+                        slugStatus === 'available' ? 'text-green-600' :
+                        slugStatus === 'taken' || slugStatus === 'invalid' ? 'text-red-600' :
+                        'text-muted-foreground'
+                      }`}>
+                        {slugMessage}
+                      </p>
+                    )}
+                    {customSlug !== bio?.slug && slugStatus === 'available' && (
+                      <p className="text-xs text-amber-600">
+                        ⚠️ Slug change will apply on next save. The URL shown reflects the current draft.
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {!showPublishSettings && bio?.slug && (
+                  <p className="text-xs text-muted-foreground font-mono">
+                    /bio/{bio.slug}{' '}
+                    <span className="text-border">— click Expand to customize</span>
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Publish CTA Banner — shown after first save, before publish */}
             {!isPublished && showPublishBanner && (
               <div className="mb-6 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-5 dark:from-green-950/30 dark:to-emerald-950/20 dark:border-green-800">
@@ -244,6 +391,30 @@ export default function OasisBioEditPage() {
                     >
                       Dismiss
                     </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Nuwa CTA Banner — shown after save, before first Nuwa run */}
+            {bio && (
+              <div className="mb-6 rounded-lg border border-purple-200 bg-gradient-to-r from-purple-50 to-fuchsia-50 p-5 dark:from-purple-950/30 dark:to-fuchsia-950/20 dark:border-purple-800">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-sm">🧬 Deepen your character with AI</h3>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Use Nuwa's cognitive framework to generate mental models, decision heuristics, and more for &ldquo;{bio.title}&rdquo;.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      asChild
+                      className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                    >
+                      <a href={`/dashboard/oasisbios/${bioId}/nuwa`}>Open Nuwa</a>
+                    </Button>
                   </div>
                 </div>
               </div>

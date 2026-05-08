@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { useToast } from '@/components/Toast';
 import Link from 'next/link';
@@ -15,7 +15,12 @@ type Step = 1 | 2 | 3;
 export default function CreateOasisBioPage() {
   const { user, supabase } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { success, error: toastError } = useToast();
+
+  // Check for "from" parameter (template/fork source)
+  const fromSlug = searchParams.get('from') ?? null;
+  const [sourceTitle, setSourceTitle] = useState<string | null>(null);
 
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,8 +43,18 @@ export default function CreateOasisBioPage() {
   useEffect(() => {
     if (user === null) {
       router.push('/auth/login');
+      return;
     }
-  }, [user, router]);
+    // Fetch the source bio title if coming from a template link
+    if (fromSlug) {
+      fetch(`/api/oasisbios/public?search=${encodeURIComponent(fromSlug)}&limit=1`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.data?.[0]) setSourceTitle(data.data[0].title);
+        })
+        .catch(() => {});
+    }
+  }, [user, router, fromSlug]);
 
   if (!user) return null;
 
@@ -91,6 +106,12 @@ export default function CreateOasisBioPage() {
               <p className="text-muted-foreground mt-1">
                 Start with the essentials. You can add eras, abilities, and worlds after saving.
               </p>
+              {sourceTitle && (
+                <div className="mt-3 inline-flex items-center gap-2 px-3 py-2 bg-purple-50 border border-purple-200 rounded-lg text-sm dark:bg-purple-950/30 dark:border-purple-800">
+                  <span className="text-purple-600">🍂</span>
+                  <span>Inspired by <strong>{sourceTitle}</strong> — use it as a starting point</span>
+                </div>
+              )}
             </div>
 
             {/* Progress Bar */}
