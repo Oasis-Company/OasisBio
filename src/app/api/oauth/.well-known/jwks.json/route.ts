@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { oauthConfig } from '@/lib/oauth/config';
+import { oauthConfig } from '@/lib/config';
 import crypto from 'crypto';
 
 // GET /api/oauth/.well-known/jwks.json — JWKS key set for OIDC discovery
