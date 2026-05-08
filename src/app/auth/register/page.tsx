@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
+import { classifyOtpError } from '@/lib/auth/otp-errors';
 
 type Step = 'form' | 'otp';
 
@@ -19,6 +20,8 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [canResend, setCanResend] = useState(false);
+  const [suggestLogin, setSuggestLogin] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -29,6 +32,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setSuggestLogin(false);
     setIsSubmitting(true);
 
     const { error: sendError } = await supabase.auth.signInWithOtp({
@@ -43,25 +47,32 @@ export default function RegisterPage() {
     setIsSubmitting(false);
 
     if (sendError) {
-      // Supabase OTP doesn't distinguish "user exists" at send time —
-      // both new and existing users receive a code. Guide them to login if needed.
+      const classified = classifyOtpError(sendError, 'send');
+      // Override for "already registered" — classifyOtpError may not catch this
+      // since Supabase OTP doesn't always distinguish it at send time
+      const msgLower = sendError.message.toLowerCase();
       if (
-        sendError.message.toLowerCase().includes('already registered') ||
-        sendError.message.toLowerCase().includes('already exists')
+        msgLower.includes('already registered') ||
+        msgLower.includes('already exists')
       ) {
         setError('This email is already registered. Please sign in instead.');
+        setSuggestLogin(true);
       } else {
-        setError(sendError.message || 'Failed to send verification code');
+        setError(classified.message);
+        if (classified.canResend) setCanResend(true);
       }
     } else {
       setSuccess('Verification code sent — check your inbox');
       setStep('otp');
+      // Allow resend after 30 seconds
+      setTimeout(() => setCanResend(true), 30_000);
     }
   };
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuggestLogin(false);
     setIsVerifying(true);
 
     const { error: verifyError } = await supabase.auth.verifyOtp({
@@ -73,7 +84,9 @@ export default function RegisterPage() {
     setIsVerifying(false);
 
     if (verifyError) {
-      setError('Invalid or expired verification code');
+      const classified = classifyOtpError(verifyError, 'verify');
+      setError(classified.message);
+      if (classified.canResend) setCanResend(true);
     } else {
       router.replace('/dashboard');
     }
@@ -142,18 +155,36 @@ export default function RegisterPage() {
               Verify & Create Account
             </AuthButton>
           </div>
+          {canResend && (
+            <button
+              type="button"
+              className="text-sm text-primary hover:underline"
+              onClick={() => { setStep('form'); setError(''); setSuccess(''); }}
+            >
+              Resend verification code
+            </button>
+          )}
         </form>
       )}
 
       <OAuthButtons />
 
       <div className="mt-6 text-center">
-        <p className="text-sm text-muted-foreground">
-          Already have an account?{' '}
-          <a href="/auth/login" className="text-primary hover:underline">
-            Sign In
-          </a>
-        </p>
+        {suggestLogin ? (
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <a href="/auth/login" className="text-primary hover:underline font-medium">
+              Sign In
+            </a>
+          </p>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <a href="/auth/login" className="text-primary hover:underline">
+              Sign In
+            </a>
+          </p>
+        )}
       </div>
     </AuthForm>
   );

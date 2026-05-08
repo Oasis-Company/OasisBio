@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
+import { classifyOtpError } from '@/lib/auth/otp-errors';
 
 type Step = 'email' | 'otp';
 
@@ -21,6 +22,7 @@ function LoginContent() {
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [canResend, setCanResend] = useState(false);
+  const [suggestRegister, setSuggestRegister] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -31,6 +33,7 @@ function LoginContent() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setSuggestRegister(false);
     setIsSending(true);
     setCanResend(false);
 
@@ -42,7 +45,10 @@ function LoginContent() {
     setIsSending(false);
 
     if (sendError) {
-      setError(sendError.message || 'Failed to send verification code');
+      const classified = classifyOtpError(sendError, 'send');
+      setError(classified.message);
+      if (classified.canResend) setCanResend(true);
+      if (classified.category === 'not_found') setSuggestRegister(true);
     } else {
       setSuccess('Verification code sent — check your inbox');
       setStep('otp');
@@ -54,6 +60,7 @@ function LoginContent() {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuggestRegister(false);
     setIsVerifying(true);
 
     const { error: verifyError } = await supabase.auth.verifyOtp({
@@ -65,12 +72,9 @@ function LoginContent() {
     setIsVerifying(false);
 
     if (verifyError) {
-      const isExpired =
-        verifyError.message.toLowerCase().includes('expired') ||
-        verifyError.message.toLowerCase().includes('invalid');
-
-      setError('Invalid or expired verification code');
-      if (isExpired) setCanResend(true);
+      const classified = classifyOtpError(verifyError, 'verify');
+      setError(classified.message);
+      if (classified.canResend) setCanResend(true);
     } else {
       // onAuthStateChange in SessionProvider will update context;
       // router.replace triggers after session state updates via useEffect above
@@ -142,12 +146,21 @@ function LoginContent() {
       <OAuthButtons />
 
       <div className="mt-6 text-center">
-        <p className="text-sm text-muted-foreground">
-          Don&apos;t have an account?{' '}
-          <a href="/auth/register" className="text-primary hover:underline">
-            Sign Up
-          </a>
-        </p>
+        {suggestRegister ? (
+          <p className="text-sm text-muted-foreground">
+            Don&apos;t have an account?{' '}
+            <a href="/auth/register" className="text-primary hover:underline font-medium">
+              Create one — it&apos;s free
+            </a>
+          </p>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Don&apos;t have an account?{' '}
+            <a href="/auth/register" className="text-primary hover:underline">
+              Sign Up
+            </a>
+          </p>
+        )}
       </div>
     </AuthForm>
   );
