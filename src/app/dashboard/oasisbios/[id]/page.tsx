@@ -42,6 +42,7 @@ export default function OasisBioEditPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [showPublishBanner, setShowPublishBanner] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     tagline: '',
@@ -221,6 +222,32 @@ export default function OasisBioEditPage() {
                 </Button>
               </div>
             </div>
+
+            {/* Publish CTA Banner — shown after first save, before publish */}
+            {!isPublished && showPublishBanner && (
+              <div className="mb-6 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-5 dark:from-green-950/30 dark:to-emerald-950/20 dark:border-green-800">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-sm">🚀 Ready to share?</h3>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Publish &ldquo;{bio.title}&rdquo; to make it discoverable in Explore. You can keep editing after publishing.
+                  </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Button size="sm" onClick={handlePublish} disabled={publishing}>
+                      {publishing ? 'Publishing...' : 'Publish Now'}
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPublishBanner(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Sub-navigation */}
             <div className="flex gap-2 mb-8 border-b border-border pb-4 overflow-x-auto">
