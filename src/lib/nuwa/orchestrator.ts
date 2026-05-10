@@ -100,10 +100,10 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
             operation: item.operation,
             targetId: item.targetId,
             title: item.title,
-            payload: item.payload as unknown as Prisma.InputJsonValue,
+            payload: item.payload as any,
             rationale: item.rationale,
             confidence: item.confidence,
-            evidence: item.evidence as unknown as Prisma.InputJsonValue,
+            evidence: item.evidence as any,
             decision: 'pending',
           },
         })
@@ -117,7 +117,7 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
         error: {
           message: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
-        } as unknown as Prisma.InputJsonValue,
+        } as unknown as any,
         completedAt: new Date(),
       },
     });
