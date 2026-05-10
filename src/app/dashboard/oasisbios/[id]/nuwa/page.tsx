@@ -630,9 +630,9 @@ function DcosPreview({ type, payload }: { type: string; payload: Record<string, 
       const vocab = (dna.vocabulary as string[]) ?? [];
       return (
         <div className="flex flex-wrap gap-1.5 items-center">
-          {dna.sentenceStyle && (
+          {dna.sentenceStyle && typeof dna.sentenceStyle === 'string' && (
             <span className="text-xs bg-fuchsia-50 text-fuchsia-700 px-2 py-0.5 rounded-full">
-              Style: {(dna.sentenceStyle as string)}
+              Style: {dna.sentenceStyle}
             </span>
           )}
           {vocab.slice(0, 5).map((v: string, i: number) => (

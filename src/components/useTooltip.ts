@@ -39,8 +39,8 @@ export interface UseTooltipReturn {
  */
 export function useTooltip(delay = 200, autoHideMs = 0): UseTooltipReturn {
   const [visible, setVisible] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null) as React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null) as React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
 
   const clearAllTimers = useCallback(() => {
     if (timerRef.current !== null) {

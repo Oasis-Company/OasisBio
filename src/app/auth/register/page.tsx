@@ -57,9 +57,11 @@ export default function RegisterPage() {
       ) {
         setError('This email is already registered. Please sign in instead.');
         setSuggestLogin(true);
-      } else {
+      } else if (classified) {
         setError(classified.message);
         if (classified.canResend) setCanResend(true);
+      } else {
+        setError('An unknown error occurred');
       }
     } else {
       setSuccess('Verification code sent — check your inbox');
@@ -85,8 +87,12 @@ export default function RegisterPage() {
 
     if (verifyError) {
       const classified = classifyOtpError(verifyError, 'verify');
-      setError(classified.message);
-      if (classified.canResend) setCanResend(true);
+      if (classified) {
+        setError(classified.message);
+        if (classified.canResend) setCanResend(true);
+      } else {
+        setError('An unknown error occurred');
+      }
     } else {
       router.replace('/dashboard');
     }

@@ -104,7 +104,7 @@ export function Tooltip({
 }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const [entered, setEntered] = useState(false); // for animation state
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null) as React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
   const triggerRef = useRef<HTMLSpanElement>(null);
 
   // Clear any pending show timer
