@@ -67,7 +67,9 @@ export async function POST(request: NextRequest) {
       console.log(`[api/events] ${event}`, {
         properties,
         timestamp,
-        ip: request.ip ?? 'unknown',
+        ip: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+          ?? request.headers.get('x-real-ip')
+          ?? 'unknown',
         userAgent: request.headers.get('user-agent')?.slice(0, 120),
       });
     }

@@ -46,9 +46,13 @@ function LoginContent() {
 
     if (sendError) {
       const classified = classifyOtpError(sendError, 'send');
-      setError(classified.message);
-      if (classified.canResend) setCanResend(true);
-      if (classified.category === 'not_found') setSuggestRegister(true);
+      if (classified) {
+        setError(classified.message);
+        if (classified.canResend) setCanResend(true);
+        if (classified.category === 'not_found') setSuggestRegister(true);
+      } else {
+        setError('An unknown error occurred');
+      }
     } else {
       setSuccess('Verification code sent — check your inbox');
       setStep('otp');
@@ -73,8 +77,12 @@ function LoginContent() {
 
     if (verifyError) {
       const classified = classifyOtpError(verifyError, 'verify');
-      setError(classified.message);
-      if (classified.canResend) setCanResend(true);
+      if (classified) {
+        setError(classified.message);
+        if (classified.canResend) setCanResend(true);
+      } else {
+        setError('An unknown error occurred');
+      }
     } else {
       // onAuthStateChange in SessionProvider will update context;
       // router.replace triggers after session state updates via useEffect above

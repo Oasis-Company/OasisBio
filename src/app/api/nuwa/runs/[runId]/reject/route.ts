@@ -5,10 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma.client';
+import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { requireAuth } from '@/lib/auth';
-import { handleApiError } from '@/lib/error-handler';
+import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { rejectNuwaSuggestions } from '@/lib/nuwa/apply';
 
 const RejectSchema = z.object({

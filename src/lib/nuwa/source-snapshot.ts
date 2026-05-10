@@ -5,7 +5,7 @@
  * The snapshot is used as input for the Nuwa methodology's multi-source research phase.
  */
 
-import { prisma } from '../prisma.client';
+import { prisma } from '@/lib/prisma';
 import type {
   NuwaSourceSnapshot,
   IncludeOptions,
@@ -86,12 +86,12 @@ export async function buildNuwaSourceSnapshot(
     include.includeWorldDocuments ?? true ? MAX_DOC_LENGTH : 0
   ).map(
     (doc): DcosFileSnapshot => ({
-      id: doc.id,
-      title: doc.title,
-      content: doc.content,
-      folderPath: doc.folderPath,
-      status: doc.status,
-      eraId: doc.eraId ?? undefined,
+      id: doc.id as string,
+      title: doc.title as string,
+      content: doc.content as string,
+      folderPath: doc.folderPath as string,
+      status: doc.status as string,
+      eraId: doc.eraId as string | null | undefined,
     })
   );
 

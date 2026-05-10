@@ -3,13 +3,31 @@
   "sessions": {
     "7c4ba3a29e3044cc85b0544032354a07": [
       {
+        "expertId": "CodeReviewExpert",
+        "name": "火眼眼",
+        "profession": "代码审查专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/CodeReviewExpert/CodeReviewExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/CodeReviewExpert/CodeReviewExpert_zh.md",
+        "usedAt": 1778373218620,
+        "industryId": "02-Engineering"
+      },
+      {
         "expertId": "SeniorDeveloper",
         "name": "吴八哥",
         "profession": "高级开发工程师",
         "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/SeniorDeveloper/SeniorDeveloper.png",
         "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/SeniorDeveloper/SeniorDeveloper_zh.md",
-        "usedAt": 1777886358377,
+        "usedAt": 1777963131380,
         "industryId": "02-Engineering"
+      },
+      {
+        "expertId": "AgentIdentityTrustExpert",
+        "name": "信链链",
+        "profession": "智能体身份信任专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/11-ProfessionalServices/AgentIdentityTrustExpert/AgentIdentityTrustExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/11-ProfessionalServices/AgentIdentityTrustExpert/AgentIdentityTrustExpert_zh.md",
+        "usedAt": 1777963114302,
+        "industryId": "all"
       }
     ],
     "4eb8012cbb724904a9877f6a8d60b2f2": [
@@ -24,5 +42,5 @@
       }
     ]
   },
-  "lastUpdated": 1778128651376
+  "lastUpdated": 1778380030377
 }

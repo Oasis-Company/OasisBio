@@ -16,7 +16,10 @@ export class Validator {
     return null;
   }
 
-  static email(value: string, field: string): ValidationError | null {
+  static email(value: unknown, field: string): ValidationError | null {
+    if (typeof value !== 'string') {
+      return { field, message: `${field} must be a valid email address` };
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
       return { field, message: `${field} must be a valid email address` };
@@ -24,21 +27,24 @@ export class Validator {
     return null;
   }
 
-  static minLength(value: string, min: number, field: string): ValidationError | null {
-    if (value.length < min) {
+  static minLength(value: unknown, min: number, field: string): ValidationError | null {
+    if (typeof value !== 'string' || value.length < min) {
       return { field, message: `${field} must be at least ${min} characters long` };
     }
     return null;
   }
 
-  static maxLength(value: string, max: number, field: string): ValidationError | null {
-    if (value.length > max) {
+  static maxLength(value: unknown, max: number, field: string): ValidationError | null {
+    if (typeof value !== 'string' || value.length > max) {
       return { field, message: `${field} must not exceed ${max} characters` };
     }
     return null;
   }
 
-  static passwordStrength(value: string, field: string): ValidationError | null {
+  static passwordStrength(value: unknown, field: string): ValidationError | null {
+    if (typeof value !== 'string') {
+      return { field, message: `${field} must be at least 8 characters long` };
+    }
     if (value.length < 8) {
       return { field, message: `${field} must be at least 8 characters long` };
     }
@@ -54,14 +60,17 @@ export class Validator {
     return null;
   }
 
-  static matches(value: string, otherValue: string, field: string, otherField: string): ValidationError | null {
+  static matches(value: unknown, otherValue: unknown, field: string, otherField: string): ValidationError | null {
     if (value !== otherValue) {
       return { field, message: `${field} must match ${otherField}` };
     }
     return null;
   }
 
-  static username(value: string, field: string): ValidationError | null {
+  static username(value: unknown, field: string): ValidationError | null {
+    if (typeof value !== 'string') {
+      return { field, message: `${field} can only contain letters, numbers, and underscores` };
+    }
     const usernameRegex = /^[a-zA-Z0-9_]+$/;
     if (!usernameRegex.test(value)) {
       return { field, message: `${field} can only contain letters, numbers, and underscores` };
@@ -72,7 +81,10 @@ export class Validator {
     return null;
   }
 
-  static url(value: string, field: string): ValidationError | null {
+  static url(value: unknown, field: string): ValidationError | null {
+    if (typeof value !== 'string') {
+      return { field, message: `${field} must be a valid URL` };
+    }
     try {
       new URL(value);
       return null;

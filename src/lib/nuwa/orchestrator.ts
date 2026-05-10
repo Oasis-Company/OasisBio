@@ -13,7 +13,8 @@
  * 4. Maps framework fields to NuwaSuggestion records for user review
  */
 
-import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope } from './types';
+import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope, NuwaSuggestionItem } from './types';
+import type { Prisma } from '@prisma/client';
 import { prisma } from '../prisma.client';
 import { computeSnapshotHash, buildNuwaSourceSnapshot, trimSnapshotForQuickMode } from './source-snapshot';
 import {
@@ -86,8 +87,8 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
         where: { id: runId },
         data: {
           status: 'completed',
-          distilled: distilled as unknown as prisma.JsonValue,
-          summary: buildSummary(distilled) as unknown as prisma.JsonValue,
+          distilled: distilled as any,
+          summary: buildSummary(distilled) as any,
           completedAt: new Date(),
         },
       }),
@@ -99,10 +100,10 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
             operation: item.operation,
             targetId: item.targetId,
             title: item.title,
-            payload: item.payload as unknown as prisma.JsonValue,
+            payload: item.payload as any,
             rationale: item.rationale,
             confidence: item.confidence,
-            evidence: item.evidence as unknown as prisma.JsonValue,
+            evidence: item.evidence as any,
             decision: 'pending',
           },
         })
@@ -116,7 +117,7 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
         error: {
           message: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
-        } as unknown as prisma.JsonValue,
+        } as unknown as any,
         completedAt: new Date(),
       },
     });
@@ -226,22 +227,14 @@ function mapFrameworkToSuggestions(
   confidence?: number;
   evidence?: unknown[];
 }> {
-  const suggestions: Array<{
-    scope: string;
-    operation: string;
-    targetId?: string;
-    payload: Record<string, unknown>;
-    rationale?: string;
-    confidence?: number;
-    evidence?: unknown[];
-  }> = [];
+  const suggestions: NuwaSuggestionItem[] = [];
 
   // ── Description Patch ──
   if (framework.descriptionPatch && framework.descriptionPatch.markdown) {
     suggestions.push({
       scope: 'description',
       operation: 'update',
-      payload: framework.descriptionPatch,
+      payload: framework.descriptionPatch as unknown as Record<string, unknown>,
       rationale: 'Generated from mental models, decision heuristics, and expression DNA',
       confidence: 0.8,
     });

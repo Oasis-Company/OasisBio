@@ -3,7 +3,7 @@ export interface NavItemProps {
   label: string;
   icon: React.ReactNode;
   active?: boolean;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   category?: string;
 }
 

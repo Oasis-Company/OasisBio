@@ -147,12 +147,12 @@ describe('Validator', () => {
       const data = { name: 'John Doe', email: 'test@example.com' };
       const rules = {
         name: [
-          (value) => Validator.required(value, 'Name'),
-          (value) => Validator.minLength(value, 2, 'Name'),
+          (value: unknown) => Validator.required(value, 'Name'),
+          (value: unknown) => Validator.minLength(value, 2, 'Name'),
         ],
         email: [
-          (value) => Validator.required(value, 'Email'),
-          (value) => Validator.email(value, 'Email'),
+          (value: unknown) => Validator.required(value, 'Email'),
+          (value: unknown) => Validator.email(value, 'Email'),
         ],
       };
       const result = Validator.validate(data, rules);
@@ -164,10 +164,10 @@ describe('Validator', () => {
       const data = { name: '', email: 'invalid-email' };
       const rules = {
         name: [
-          (value) => Validator.required(value, 'Name'),
+          (value: unknown) => Validator.required(value, 'Name'),
         ],
         email: [
-          (value) => Validator.email(value, 'Email'),
+          (value: unknown) => Validator.email(value, 'Email'),
         ],
       };
       const result = Validator.validate(data, rules);

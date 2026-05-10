@@ -108,16 +108,20 @@ export async function POST(request: NextRequest) {
     const code = generateSecret(32); // 64-char hex
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+    const authorizationCodeData: any = {
+      code,
+      clientId,
+      userId,
+      redirectUri,
+      codeChallenge: normalizedCodeChallenge,
+      expiresAt,
+    };
+    if (validScopes.length > 0) {
+      authorizationCodeData.scope = validScopes.join(' ');
+    }
+
     await prisma.oauthAuthorizationCode.create({
-      data: {
-        code,
-        clientId,
-        userId,
-        redirectUri,
-        scope: validScopes.join(' ') || undefined,
-        codeChallenge: normalizedCodeChallenge,
-        expiresAt,
-      },
+      data: authorizationCodeData,
     });
 
     const url = new URL(redirectUri);

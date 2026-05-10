@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 import { handleApiError } from '@/lib/auth-utils';
 
 export async function GET(request: Request) {
@@ -13,7 +14,7 @@ export async function GET(request: Request) {
 
     const skip = (page - 1) * limit;
 
-    const where: Prisma.OasisBioWhereInput = {
+    const where: Record<string, unknown> = {
       visibility: 'public',
       status: 'active',
     };

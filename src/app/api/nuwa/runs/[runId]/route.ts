@@ -5,9 +5,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma.client';
-import { requireAuth } from '@/lib/auth';
-import { handleApiError } from '@/lib/error-handler';
+import { prisma } from '@/lib/prisma';
+import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import type { NuwaSuggestionScope, NuwaSuggestionDecision } from '@/lib/nuwa/types';
 
 /**

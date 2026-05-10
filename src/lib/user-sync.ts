@@ -130,11 +130,11 @@ export async function syncUserToPrisma(supabaseUser: SupabaseUser): Promise<Sync
     }
   }
 
-
+  // profile is guaranteed to be assigned here (either loop succeeds and breaks, or throws)
   return {
     userId: user.id,
-    profileId: profile.id,
-    username: profile.username,
+    profileId: profile!.id,
+    username: profile!.username,
     isNewUser: true,
   };
 }

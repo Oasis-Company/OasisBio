@@ -80,7 +80,7 @@ describe('Scope enforcement — Property 5: Scope enforcement', () => {
 
 describe('Scope parsing', () => {
   it('parseScopes correctly parses space-separated scope string', () => {
-    const arbScopesArray = fc.array(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 5, maxUnique: 5 });
+    const arbScopesArray = fc.uniqueArray(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 5 });
     
     fc.assert(
       fc.property(
@@ -116,7 +116,7 @@ describe('Scope parsing', () => {
 });
 
 describe('Access token scope validation', () => {
-  const arbScopesArray = fc.array(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 5, maxUnique: 5 });
+  const arbScopesArray = fc.uniqueArray(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 5 });
   
   it('access token contains granted scopes', () => {
     fc.assert(
@@ -155,7 +155,7 @@ describe('Authorization flow scope enforcement', () => {
     { name: 'dcos read', requiredScope: 'dcos:read' },
   ];
 
-  const arbScopesArray = fc.array(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 4, maxUnique: 4 });
+  const arbScopesArray = fc.uniqueArray(fc.oneof(...ALL_SCOPES.map(fc.constant)), { minLength: 1, maxLength: 4 });
 
   it('endpoint access is denied when scope is missing', () => {
     fc.assert(

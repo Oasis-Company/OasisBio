@@ -6,10 +6,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma.client';
+import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
-import { requireAuth } from '@/lib/auth';
-import { handleApiError } from '@/lib/error-handler';
+import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { computeSnapshotHash, buildNuwaSourceSnapshot } from '@/lib/nuwa/source-snapshot';
 import { findCachedRun, runNuwaDistillation } from '@/lib/nuwa/orchestrator';
 import type { NuwaScope, NuwaRunMode, NuwaSourcePolicy } from '@/lib/nuwa/types';
@@ -28,7 +28,15 @@ const CreateNuwaRunSchema = z.object({
     referenceIds: z.array(z.string()).default([]),
     worldIds: z.array(z.string()).default([]),
     includeWorldDocuments: z.boolean().default(true),
-  }).default({}),
+  }).default({
+    bioCore: true,
+    eraIds: [],
+    abilityIds: [],
+    dcosIds: [],
+    referenceIds: [],
+    worldIds: [],
+    includeWorldDocuments: true,
+  }),
   notes: z.string().max(2000).optional(),
   forceRefresh: z.boolean().default(false),
 });
@@ -120,7 +128,7 @@ export async function POST(
         userId: user.id,
         mode,
         sourcePolicy,
-        scopes: scopes as unknown as prisma.InputJsonValue,
+        scopes: scopes as any,
         snapshotHash,
         status: 'queued',
       },
