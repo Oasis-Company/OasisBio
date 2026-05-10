@@ -13,7 +13,8 @@
  * 4. Maps framework fields to NuwaSuggestion records for user review
  */
 
-import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope, NuwaSuggestionItem, Prisma } from './types';
+import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope, NuwaSuggestionItem } from './types';
+import type { Prisma } from '@prisma/client';
 import { prisma } from '../prisma.client';
 import { computeSnapshotHash, buildNuwaSourceSnapshot, trimSnapshotForQuickMode } from './source-snapshot';
 import {
