@@ -1,0 +1,32 @@
+﻿src/components/navigation/NavItem.test.tsx(37,39): error TS2322: Type 'Mock<any, [e: any], any>' is not assignable to type '() => void'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+src/lib/nuwa/orchestrator.ts(90,53): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'InputJsonValue'.
+src/lib/nuwa/orchestrator.ts(91,65): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'InputJsonValue'.
+src/lib/nuwa/orchestrator.ts(103,56): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'InputJsonValue'.
+src/lib/nuwa/orchestrator.ts(106,58): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'InputJsonValue'.
+src/lib/nuwa/orchestrator.ts(120,32): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'InputJsonValue'.
+src/lib/nuwa/source-snapshot.ts(89,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(90,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(92,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(93,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(94,7): error TS2322: Type '{} | undefined' is not assignable to type 'string | null | undefined'.
+  Type '{}' is not assignable to type 'string'.
+src/lib/user-sync.ts(136,16): error TS18048: 'profile' is possibly 'undefined'.
+src/lib/user-sync.ts(137,15): error TS18048: 'profile' is possibly 'undefined'.
+src/lib/validation.test.ts(150,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(151,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(154,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(155,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(167,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(170,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.ts(108,38): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(109,38): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(113,34): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(117,45): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(127,39): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(131,40): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(132,40): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(135,42): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(138,42): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(148,47): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(152,45): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
