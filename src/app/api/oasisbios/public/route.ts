@@ -14,9 +14,9 @@ export async function GET(request: Request) {
 
     const skip = (page - 1) * limit;
 
-    const where = {
-      visibility: 'public' as const,
-      status: 'active' as const,
+    const where: Prisma.OasisBioWhereInput = {
+      visibility: 'public',
+      status: 'active',
     };
 
     if (searchTerm) {

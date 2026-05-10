@@ -628,11 +628,12 @@ function DcosPreview({ type, payload }: { type: string; payload: Record<string, 
     case 'expression_dna': {
       const dna = payload as Record<string, unknown>;
       const vocab = (dna.vocabulary as string[]) ?? [];
+      const sentenceStyle = typeof dna.sentenceStyle === 'string' ? dna.sentenceStyle : undefined;
       return (
         <div className="flex flex-wrap gap-1.5 items-center">
-          {dna.sentenceStyle && typeof dna.sentenceStyle === 'string' && (
+          {sentenceStyle && (
             <span className="text-xs bg-fuchsia-50 text-fuchsia-700 px-2 py-0.5 rounded-full">
-              Style: {dna.sentenceStyle}
+              Style: {sentenceStyle}
             </span>
           )}
           {vocab.slice(0, 5).map((v: string, i: number) => (
@@ -656,23 +657,29 @@ function DcosExpandedView({ type, payload }: { type: string; payload: Record<str
   switch (type) {
     case 'mental_model': {
       const m = payload;
+      const oneLiner = typeof m.oneLiner === 'string' ? m.oneLiner : undefined;
+      const application = typeof m.application === 'string' ? m.application : undefined;
+      const limitation = typeof m.limitation === 'string' ? m.limitation : undefined;
       return (
         <div className="space-y-2">
-          <div><span className="font-medium text-violet-600">One-Liner:</span> {(m.oneLiner as string)}</div>
-          {m.application && <div><span className="font-medium">Application:</span> {(m.application as string)}</div>}
-          {m.limitation && <div><span className="font-medium text-red-400">Limitation:</span> {(m.limitation as string)}</div>}
+          <div><span className="font-medium text-violet-600">One-Liner:</span> {oneLiner}</div>
+          {application && <div><span className="font-medium">Application:</span> {application}</div>}
+          {limitation && <div><span className="font-medium text-red-400">Limitation:</span> {limitation}</div>}
         </div>
       );
     }
     case 'decision_heuristic': {
       const h = payload;
+      const rule = typeof h.rule === 'string' ? h.rule : undefined;
+      const scenario = typeof h.scenario === 'string' ? h.scenario : undefined;
+      const example = typeof h.example === 'string' ? h.example : undefined;
       return (
         <div className="space-y-2">
           <div className="bg-amber-50 border border-amber-200 rounded p-2 font-medium text-amber-800">
-            Rule: {(h.rule as string)}
+            Rule: {rule}
           </div>
-          {h.scenario && <div><span className="font-medium">Scenario:</span> {(h.scenario as string)}</div>}
-          {h.example && <div><span className="font-medium">Example:</span> {(h.example as string)}</div>}
+          {scenario && <div><span className="font-medium">Scenario:</span> {scenario}</div>}
+          {example && <div><span className="font-medium">Example:</span> {example}</div>}
         </div>
       );
     }
@@ -684,41 +691,50 @@ function DcosExpandedView({ type, payload }: { type: string; payload: Record<str
       );
     case 'tension': {
       const t = payload;
+      const left = typeof t.left === 'string' ? t.left : undefined;
+      const right = typeof t.right === 'string' ? t.right : undefined;
+      const explanation = typeof t.explanation === 'string' ? t.explanation : undefined;
       return (
         <div className="space-y-2">
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-blue-50 rounded p-2 text-center font-medium text-blue-700">{(t.left as string)}</div>
-            <div className="bg-indigo-50 rounded p-2 text-center font-medium text-indigo-700">{(t.right as string)}</div>
+            <div className="bg-blue-50 rounded p-2 text-center font-medium text-blue-700">{left}</div>
+            <div className="bg-indigo-50 rounded p-2 text-center font-medium text-indigo-700">{right}</div>
           </div>
-          {t.explanation && <div><span className="font-medium">Why it creates depth:</span> {(t.explanation as string)}</div>}
+          {explanation && <div><span className="font-medium">Why it creates depth:</span> {explanation}</div>}
         </div>
       );
     }
     case 'honest_limit':
+      const statement = typeof payload.statement === 'string' ? payload.statement : undefined;
       return (
         <div className="bg-gray-100 rounded p-3 text-gray-600 italic">
-          What we cannot know from available data: {(payload.statement as string)}
+          What we cannot know from available data: {statement}
         </div>
       );
     case 'expression_dna': {
       const d = payload;
       const vocab = (d.vocabulary as string[]) ?? [];
+      const sentenceStyle = typeof d.sentenceStyle === 'string' ? d.sentenceStyle : undefined;
+      const rhythm = typeof d.rhythm === 'string' ? d.rhythm : undefined;
+      const humor = typeof d.humor === 'string' ? d.humor : undefined;
+      const certaintyStyle = typeof d.certaintyStyle === 'string' ? d.certaintyStyle : undefined;
+      const citationHabit = typeof d.citationHabit === 'string' ? d.citationHabit : undefined;
       return (
         <div className="space-y-1.5">
-          {d.sentenceStyle && (
-            <div className="flex justify-between"><span className="font-medium">Sentence Style</span><span>{d.sentenceStyle}</span></div>
+          {sentenceStyle && (
+            <div className="flex justify-between"><span className="font-medium">Sentence Style</span><span>{sentenceStyle}</span></div>
           )}
-          {d.rhythm && (
-            <div className="flex justify-between"><span className="font-medium">Rhythm</span><span>{d.rhythm}</span></div>
+          {rhythm && (
+            <div className="flex justify-between"><span className="font-medium">Rhythm</span><span>{rhythm}</span></div>
           )}
-          {d.humor && (
-            <div className="flex justify-between"><span className="font-medium">Humor</span><span>{d.humor}</span></div>
+          {humor && (
+            <div className="flex justify-between"><span className="font-medium">Humor</span><span>{humor}</span></div>
           )}
-          {d.certaintyStyle && (
-            <div className="flex justify-between"><span className="font-medium">Certainty</span><span>{d.certaintyStyle}</span></div>
+          {certaintyStyle && (
+            <div className="flex justify-between"><span className="font-medium">Certainty</span><span>{certaintyStyle}</span></div>
           )}
-          {d.citationHabit && (
-            <div className="flex justify-between"><span className="font-medium">Citation Habit</span><span>{d.citationHabit}</span></div>
+          {citationHabit && (
+            <div className="flex justify-between"><span className="font-medium">Citation Habit</span><span>{citationHabit}</span></div>
           )}
           {vocab.length > 0 && (
             <div>

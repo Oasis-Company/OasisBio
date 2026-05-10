@@ -1,20 +1,4 @@
 ﻿src/app/api/oasisbios/public/route.ts(17,25): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'OasisBioWhereInput'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(633,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(662,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(663,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(674,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(675,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(693,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(708,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(709,108): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(711,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(712,100): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(714,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(715,99): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(717,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(718,103): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(720,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
-src/app/dashboard/oasisbios/[id]/nuwa/page.tsx(721,108): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
 src/components/navigation/NavItem.test.tsx(37,39): error TS2322: Type 'Mock<any, [e: any], any>' is not assignable to type '() => void'.
   Target signature provides too few arguments. Expected 1 or more, but got 0.
 src/lib/nuwa/orchestrator.ts(89,46): error TS2503: Cannot find namespace 'prisma'.

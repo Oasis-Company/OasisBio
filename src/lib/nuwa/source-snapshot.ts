@@ -5,7 +5,7 @@
  * The snapshot is used as input for the Nuwa methodology's multi-source research phase.
  */
 
-import { prisma } from '../prisma.client';
+import { prisma } from '@/lib/prisma';
 import type {
   NuwaSourceSnapshot,
   IncludeOptions,
