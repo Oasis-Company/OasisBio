@@ -1,0 +1,55 @@
+﻿src/app/api/oasisbios/public/route.ts(17,25): error TS2694: Namespace '"D:/github projects/OasisBio/node_modules/.prisma/client/default".Prisma' has no exported member 'OasisBioWhereInput'.
+src/components/navigation/NavItem.test.tsx(37,39): error TS2322: Type 'Mock<any, [e: any], any>' is not assignable to type '() => void'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+src/lib/nuwa/orchestrator.ts(89,46): error TS2503: Cannot find namespace 'prisma'.
+src/lib/nuwa/orchestrator.ts(90,58): error TS2503: Cannot find namespace 'prisma'.
+src/lib/nuwa/orchestrator.ts(102,49): error TS2503: Cannot find namespace 'prisma'.
+src/lib/nuwa/orchestrator.ts(105,51): error TS2503: Cannot find namespace 'prisma'.
+src/lib/nuwa/orchestrator.ts(119,25): error TS2503: Cannot find namespace 'prisma'.
+src/lib/nuwa/orchestrator.ts(236,7): error TS2322: Type 'DescriptionPatch' is not assignable to type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'DescriptionPatch'.
+src/lib/nuwa/orchestrator.ts(244,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; name: string; oneLiner: string; application: string; limitation: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; name: string; oneLiner: string; application: string; limitation: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(263,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; name: string; rule: string; scenario: string; example: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; name: string; rule: string; scenario: string; example: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(282,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; statement: string; }; rationale: string; confidence: number; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; statement: string; }; rationale: string; confidence: number; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(297,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; left: string; right: string; explanation: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; left: string; right: string; explanation: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(315,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; statement: string; }; rationale: string; confidence: number; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { type: string; statement: string; }; rationale: string; confidence: number; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(330,22): error TS2345: Argument of type '{ scope: "dcos"; operation: "append"; title: string; payload: { sentenceStyle: string; vocabulary: string[]; rhythm: string; humor: string; certaintyStyle: string; citationHabit: string; type: string; }; rationale: string; confidence: number; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "dcos"; operation: "append"; title: string; payload: { sentenceStyle: string; vocabulary: string[]; rhythm: string; humor: string; certaintyStyle: string; citationHabit: string; type: string; }; rationale: string; confidence: number; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(345,22): error TS2345: Argument of type '{ scope: "ability"; operation: "create"; title: string; payload: { name: string; category: AbilityCategory; level: 3 | 1 | 2 | 4 | 5; description: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "ability"; operation: "create"; title: string; payload: { name: string; category: AbilityCategory; level: 3 | 1 | 2 | 4 | 5; description: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(363,22): error TS2345: Argument of type '{ scope: "era"; operation: "create"; title: string; payload: { name: string; eraType: EraType; startYear: number | undefined; endYear: number | undefined; description: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "era"; operation: "create"; title: string; payload: { name: string; eraType: EraType; startYear: number | undefined; endYear: number | undefined; description: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(382,22): error TS2345: Argument of type '{ scope: "world"; operation: "create"; title: string; payload: { name: string; summary: string; timeSetting: string | undefined; socialStructure: string | undefined; rules: string | undefined; timeline: string | undefined; majorConflict: string | undefined; genre: string | undefined; tone: string | undefined; }; rat...' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "world"; operation: "create"; title: string; payload: { name: string; summary: string; timeSetting: string | undefined; socialStructure: string | undefined; rules: string | undefined; timeline: string | undefined; majorConflict: string | undefined; genre: string | undefined; tone: string | undefined; }; rat...' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/orchestrator.ts(405,22): error TS2345: Argument of type '{ scope: "reference"; operation: "create"; title: string; payload: { url: string; title: string; description: string | undefined; sourceType: string; provider: string | undefined; tags: string; whyRelevant: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is not assignable to parameter of type 'NuwaSuggestionItem'.
+  Type '{ scope: "reference"; operation: "create"; title: string; payload: { url: string; title: string; description: string | undefined; sourceType: string; provider: string | undefined; tags: string; whyRelevant: string; }; rationale: string; confidence: number; evidence: Evidence[]; }' is missing the following properties from type 'NuwaSuggestionItem': id, decision
+src/lib/nuwa/source-snapshot.ts(89,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(90,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(92,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(93,7): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/lib/nuwa/source-snapshot.ts(94,7): error TS2322: Type '{} | undefined' is not assignable to type 'string | null | undefined'.
+  Type '{}' is not assignable to type 'string'.
+src/lib/user-sync.ts(136,16): error TS18048: 'profile' is possibly 'undefined'.
+src/lib/user-sync.ts(137,15): error TS18048: 'profile' is possibly 'undefined'.
+src/lib/validation.test.ts(150,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(151,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(154,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(155,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(167,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.test.ts(170,12): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/lib/validation.ts(108,38): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(109,38): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(113,34): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(117,45): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(127,39): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(131,40): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(132,40): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(135,42): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(138,42): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(148,47): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/lib/validation.ts(152,45): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.

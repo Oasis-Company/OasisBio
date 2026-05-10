@@ -13,7 +13,7 @@
  * 4. Maps framework fields to NuwaSuggestion records for user review
  */
 
-import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope } from './types';
+import type { NuwaSourceSnapshot, DistilledFramework, NuwaScope, NuwaSuggestionItem } from './types';
 import { prisma } from '../prisma.client';
 import { computeSnapshotHash, buildNuwaSourceSnapshot, trimSnapshotForQuickMode } from './source-snapshot';
 import {
@@ -226,15 +226,7 @@ function mapFrameworkToSuggestions(
   confidence?: number;
   evidence?: unknown[];
 }> {
-  const suggestions: Array<{
-    scope: string;
-    operation: string;
-    targetId?: string;
-    payload: Record<string, unknown>;
-    rationale?: string;
-    confidence?: number;
-    evidence?: unknown[];
-  }> = [];
+  const suggestions: NuwaSuggestionItem[] = [];
 
   // ── Description Patch ──
   if (framework.descriptionPatch && framework.descriptionPatch.markdown) {

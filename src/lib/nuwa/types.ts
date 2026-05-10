@@ -287,7 +287,7 @@ export interface NuwaRunSummary {
 }
 
 export interface NuwaSuggestionItem {
-  id: string;
+  id?: string;
   scope: NuwaSuggestionScope;
   operation: NuwaSuggestionOperation;
   targetId?: string;
@@ -296,7 +296,7 @@ export interface NuwaSuggestionItem {
   rationale?: string;
   confidence?: number;
   evidence?: Evidence[];
-  decision: NuwaSuggestionDecision;
+  decision?: NuwaSuggestionDecision;
   createdEntityId?: string;
   appliedAt?: string;
 }
