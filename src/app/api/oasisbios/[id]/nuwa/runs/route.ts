@@ -6,10 +6,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma.client';
+import { prisma } from '@/lib/prisma';
+import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
-import { requireAuth } from '@/lib/auth';
-import { handleApiError } from '@/lib/error-handler';
+import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { computeSnapshotHash, buildNuwaSourceSnapshot } from '@/lib/nuwa/source-snapshot';
 import { findCachedRun, runNuwaDistillation } from '@/lib/nuwa/orchestrator';
 import type { NuwaScope, NuwaRunMode, NuwaSourcePolicy } from '@/lib/nuwa/types';

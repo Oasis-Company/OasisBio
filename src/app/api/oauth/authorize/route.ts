@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
         clientId,
         userId,
         redirectUri,
-        scope: validScopes.join(' ') || undefined,
+        scope: validScopes.length > 0 ? validScopes.join(' ') : null,
         codeChallenge: normalizedCodeChallenge,
         expiresAt,
       },

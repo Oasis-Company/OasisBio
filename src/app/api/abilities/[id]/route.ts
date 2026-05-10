@@ -2,14 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, requireAbilityOwnership, handleApiError } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
-type AbilityUpdateInput = {
-  name?: string;
-  description?: string;
-  category?: string;
-  level?: string;
-  isActive?: boolean;
-};
-
 // PUT /api/abilities/[id] - Update ability
 export async function PUT(
   request: NextRequest,
@@ -25,16 +17,16 @@ export async function PUT(
 
     const { name, description, category, level, isActive } = body;
 
-    const updates: AbilityUpdateInput = {};
+    const updates: Record<string, unknown> = {};
     if (name !== undefined) updates.name = name;
     if (description !== undefined) updates.description = description;
     if (category !== undefined) updates.category = category;
-    if (level !== undefined) updates.level = level;
+    if (level !== undefined) updates.level = Number(level);
     if (isActive !== undefined) updates.isActive = isActive;
 
     const ability = await prisma.ability.update({
       where: { id },
-      data: updates,
+      data: updates as any,
     });
 
     return NextResponse.json(ability);

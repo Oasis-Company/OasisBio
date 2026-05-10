@@ -23,7 +23,7 @@ export default async function AuthorizePage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const headerList = headers();
+  const headerList = await headers();
   const host = headerList.get('host') || 'localhost:3000';
   const protocol = host.includes('localhost') ? 'http' : 'https';
   const baseUrl = `${protocol}://${host}`;

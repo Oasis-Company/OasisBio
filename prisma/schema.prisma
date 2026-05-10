@@ -126,7 +126,7 @@ model OasisBio {
   publication     OasisBioPublication?
   relationshipsA  CharacterRelationship[] @relation("CharacterARelationship")
   relationshipsB  CharacterRelationship[] @relation("CharacterBRelationship")
-  nuwaRuns       NuwaRun[]
+  nuwaRuns        NuwaRun[]
 
   @@index([userId])
   @@index([slug])
@@ -139,15 +139,15 @@ model OasisBio {
 }
 
 model EraIdentity {
-  id          String    @id @default(cuid())
-  oasisBioId  String    @map("oasis_bio_id")
+  id          String          @id @default(cuid())
+  oasisBioId  String          @map("oasis_bio_id")
   name        String
   eraType     String
-  startYear   Int?      @map("start_year")
-  endYear     Int?      @map("end_year")
+  startYear   Int?            @map("start_year")
+  endYear     Int?            @map("end_year")
   description String?
-  sortOrder   Int       @default(0) @map("sort_order")
-  oasisBio    OasisBio  @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  sortOrder   Int             @default(0) @map("sort_order")
+  oasisBio    OasisBio        @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   abilities   Ability[]
   dcosFiles   DcosFile[]
   references  ReferenceItem[]
@@ -180,18 +180,18 @@ model Ability {
 }
 
 model DcosFile {
-  id         String   @id @default(cuid())
-  oasisBioId String   @map("oasis_bio_id")
+  id         String       @id @default(cuid())
+  oasisBioId String       @map("oasis_bio_id")
   title      String
-  slug       String   @unique
+  slug       String       @unique
   content    String
-  folderPath String   @map("folder_path")
-  status     String   @default("draft")
-  version    Int      @default(1)
-  eraId      String?  @map("era_id")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  oasisBio   OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  folderPath String       @map("folder_path")
+  status     String       @default("draft")
+  version    Int          @default(1)
+  eraId      String?      @map("era_id")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  oasisBio   OasisBio     @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   era        EraIdentity? @relation(fields: [eraId], references: [id], onDelete: SetNull)
 
   @@index([oasisBioId])
@@ -204,21 +204,21 @@ model DcosFile {
 }
 
 model ReferenceItem {
-  id          String   @id @default(cuid())
-  oasisBioId  String   @map("oasis_bio_id")
+  id          String       @id @default(cuid())
+  oasisBioId  String       @map("oasis_bio_id")
   url         String
   title       String
   description String?
-  sourceType  String   @map("source_type")
+  sourceType  String       @map("source_type")
   provider    String?
-  coverImage  String?  @map("cover_image")
+  coverImage  String?      @map("cover_image")
   metadata    String?
-  eraId       String?  @map("era_id")
-  worldId     String?  @map("world_id")
+  eraId       String?      @map("era_id")
+  worldId     String?      @map("world_id")
   tags        String
-  oasisBio    OasisBio @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  oasisBio    OasisBio     @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   era         EraIdentity? @relation(fields: [eraId], references: [id], onDelete: SetNull)
-  world       WorldItem? @relation(fields: [worldId], references: [id], onDelete: SetNull)
+  world       WorldItem?   @relation(fields: [worldId], references: [id], onDelete: SetNull)
 
   @@index([oasisBioId])
   @@index([sourceType])
@@ -389,19 +389,19 @@ model ExportHistory {
 }
 
 model OauthApp {
-  id               String   @id @default(cuid())
-  ownerUserId      String   @map("owner_user_id")
+  id               String                   @id @default(cuid())
+  ownerUserId      String                   @map("owner_user_id")
   name             String
   description      String?
-  homepageUrl      String   @map("homepage_url")
-  logoUrl          String?  @map("logo_url")
-  redirectUris     String[] @map("redirect_uris")
-  clientId         String   @unique @map("client_id")
-  clientSecretHash String   @map("client_secret_hash")
-  isActive         Boolean  @default(true) @map("is_active")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-  owner            User     @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  homepageUrl      String                   @map("homepage_url")
+  logoUrl          String?                  @map("logo_url")
+  redirectUris     String[]                 @map("redirect_uris")
+  clientId         String                   @unique @map("client_id")
+  clientSecretHash String                   @map("client_secret_hash")
+  isActive         Boolean                  @default(true) @map("is_active")
+  createdAt        DateTime                 @default(now()) @map("created_at")
+  updatedAt        DateTime                 @updatedAt @map("updated_at")
+  owner            User                     @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
   authCodes        OauthAuthorizationCode[]
   tokens           OauthToken[]
 
@@ -429,16 +429,16 @@ model OauthAuthorizationCode {
 }
 
 model OauthToken {
-  id                String    @id @default(cuid())
-  clientId          String    @map("client_id")
-  userId            String    @map("user_id")
-  scope             String
-  jti               String    @unique
-  refreshTokenHash  String    @unique @map("refresh_token_hash")
-  revokedAt         DateTime? @map("revoked_at")
-  expiresAt         DateTime  @map("expires_at")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  app               OauthApp  @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+  id               String    @id @default(cuid())
+  clientId         String    @map("client_id")
+  userId           String    @map("user_id")
+  scope            String
+  jti              String    @unique
+  refreshTokenHash String    @unique @map("refresh_token_hash")
+  revokedAt        DateTime? @map("revoked_at")
+  expiresAt        DateTime  @map("expires_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  app              OauthApp  @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
 
   @@index([clientId, userId])
   @@index([jti])
@@ -446,26 +446,26 @@ model OauthToken {
 }
 
 model NuwaRun {
-  id             String   @id @default(cuid())
-  oasisBioId     String   @map("oasis_bio_id")
-  userId         String   @map("user_id")
-  status         String   @default("queued") // queued|processing|completed|failed|canceled
-  mode           String   @default("quick") // quick|deep
-  sourcePolicy   String   @map("source_policy") @default("local_only") // local_only|local_plus_web
-  scopes         String[]
-  snapshotHash   String?  @map("snapshot_hash")
-  promptVersion  String?  @map("prompt_version")
-  provider       String?
-  model          String?
-  summary        Json?
-  distilled      Json?
-  error          Json?
-  startedAt      DateTime? @map("started_at")
-  completedAt    DateTime? @map("completed_at")
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
+  id            String    @id @default(cuid())
+  oasisBioId    String    @map("oasis_bio_id")
+  userId        String    @map("user_id")
+  status        String    @default("queued") // queued|processing|completed|failed|canceled
+  mode          String    @default("quick") // quick|deep
+  sourcePolicy  String    @default("local_only") @map("source_policy") // local_only|local_plus_web
+  scopes        String[]
+  snapshotHash  String?   @map("snapshot_hash")
+  promptVersion String?   @map("prompt_version")
+  provider      String?
+  model         String?
+  summary       Json?
+  distilled     Json?
+  error         Json?
+  startedAt     DateTime? @map("started_at")
+  completedAt   DateTime? @map("completed_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  oasisBio OasisBio        @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
+  oasisBio OasisBio         @relation(fields: [oasisBioId], references: [id], onDelete: Cascade)
   items    NuwaSuggestion[]
 
   @@index([oasisBioId, createdAt])
@@ -475,22 +475,22 @@ model NuwaRun {
 }
 
 model NuwaSuggestion {
-  id                String   @id @default(cuid())
-  runId             String   @map("run_id")
-  scope             String   // description|ability|world|reference|era|dcos
-  operation         String   // append|create|update|replace
-  targetId          String?  @map("target_id")
-  title             String?
-  payload           Json
-  rationale         String?
-  confidence        Float?
-  evidence          Json?
-  baseFingerprint   String?  @map("base_fingerprint")
-  decision          String   @default("pending") // pending|accepted|rejected|applied
-  createdEntityId   String?  @map("created_entity_id")
-  appliedAt         DateTime? @map("applied_at")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
+  id              String    @id @default(cuid())
+  runId           String    @map("run_id")
+  scope           String // description|ability|world|reference|era|dcos
+  operation       String // append|create|update|replace
+  targetId        String?   @map("target_id")
+  title           String?
+  payload         Json
+  rationale       String?
+  confidence      Float?
+  evidence        Json?
+  baseFingerprint String?   @map("base_fingerprint")
+  decision        String    @default("pending") // pending|accepted|rejected|applied
+  createdEntityId String?   @map("created_entity_id")
+  appliedAt       DateTime? @map("applied_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   run NuwaRun @relation(fields: [runId], references: [id], onDelete: Cascade)
 
