@@ -1,7 +1,7 @@
 # OasisBio 下一步计划
 
-> 文档更新时间：2026-05-06
-> 状态：OAuth Provider 功能闭环已完成，下一步聚焦女娲 Skill 集成
+> 文档更新时间：2026-05-09
+> 状态：四条并行主线——女娲 Skill 集成 / 上线前运维 / UX P0 改善 / 疯传增长
 > 部署平台：**Vercel**（非 Cloudflare Pages）
 
 ---
@@ -21,52 +21,22 @@
 - [x] 开发者门户页面（列表/创建/详情/集成文档）
 - [x] 16 个测试文件覆盖
 
-### 女娲 Skill 初始化
+### 女娲 Skill 集成（Phase 1+2+3 ✅ 已完成）
 - [x] 安装 huashu-nuwa Skill 到用户级 `~/.workbuddy/skills/女娲`
 - [x] 安全审计通过（Agent Trust Hub ✓, Socket ✓, Snyk ⚠ 无严重风险）
-- [ ] 设计 OasisBio × 女娲 数据流与 API 集成方案
-- [ ] 实现女娲增强 API 端点
-- [ ] 前端集成（角色编辑页添加「深化」入口）
+- [x] Prisma 模型：`NuwaRun` + `NuwaSuggestion`（已同步到 DB）
+- [x] 核心库：`types.ts` + `source-snapshot.ts` + `orchestrator.ts` + `apply.ts` + `llm.ts`
+- [x] API 路由：`POST/GET /api/nuwa/runs` + `GET /api/nuwa/runs/[runId]` + `POST /api/nuwa/runs/[runId]/apply` + `POST /api/nuwa/runs/[runId]/reject`
+- [x] 前端工作台：`/dashboard/oasisbios/[id]/nuwa` 页面（建议审阅 UI、轮询、批量操作）
+- [x] 认知框架输出全覆盖映射（Phase 3：mentalModels/heuristics/antiPatterns/tensions/honestLimits/expressionDNA → dcos scope）
+- [x] 英文技术文档：`docs/nuwa-integration.md`
+- [x] 16+ 个英文 commit，已全部 pushed 到 GitHub
 
----
-
-## 🔜 下一步（当前焦点）
-
-### 🎯 P0 — 女娲 Skill 集成
-
-**目标**：让女娲帮助用户深度完善 OasisBio 角色资料库。
-
-#### 集成架构
-
-```
-用户编辑角色 → 点击「女娲深化」→ API 调用女娲思维框架 → 结构化输出 → 自动填充字段
-```
-
-| OasisBio 字段 | 女娲输出 | 说明 |
-|---------------|---------|------|
-| `description` | 心智模型 (3-7个) | 角色的核心认知框架 |
-| `description` | 决策启发式 (5-10条) | 角色的直觉判断规则 |
-| `abilities` | 表达DNA分析 | 从行为反推能力树 |
-| `worlds` | 世界深层矛盾 | 推演世界观下的典型逻辑 |
-| `references` | 参考素材推荐 | 相关书籍/论文/作品 |
-| `eras` | 时间线关键节点 | 角色成长建议 |
-
-#### 待完成任务
-- [ ] **设计 API 方案**
-  - 新建 `/api/nuwa/enhance` 端点
-  - 输入：角色现有数据（title, description, abilities, world 等）
-  - 输出：结构化的增强数据（心智模型、决策启发、表达DNA等）
-  - 支持增量合并（用户可逐条采纳/拒绝）
-  
-- [ ] **前端交互设计**
-  - 角色编辑页 `/bio/[id]/edit` 添加「🧬 深化资料」按钮
-  - 弹出侧边面板展示女娲生成的增强建议
-  - 用户一键采纳或手动调整后保存
-
-- [ ] **女娲适配改造**
-  - 将女娲的「人物蒸馏」流程改为「角色资料增强」模式
-  - 输入从「人名搜索」变为「已有角色数据」
-  - Phase 1 的 6 Agent 改为基于角色数据的单次推理
+#### Phase 4 待做
+- [ ] 异步 worker 化（Nuwa 运行改为后台任务，不阻塞 UI）
+- [ ] `audit_logs` 表 + 写入逻辑
+- [ ] `domain_events` 消费者（OG 图生成、搜索索引、revalidate）
+- [ ] LLM 调用优化（真实 LLM 接入，当前为 mock）
 
 ---
 
@@ -74,13 +44,144 @@
 
 #### Vercel 部署配置
 - [ ] 配置 Vercel 项目环境变量（Supabase、R2 等）
-- [ ] Git push 本地 commit（7 个待推送）
 - [ ] Supabase 数据库脚本执行（6 个 SQL，按顺序）
 - [ ] Supabase Storage Buckets 创建（avatars / character-covers / model-previews）
 - [ ] Supabase Auth Site URL + Redirect URLs 配置
 
-> ⚠️ 注意：代码中的 `next.config.js` 和 `open-next.config.ts` 当前仍为 Cloudflare Pages 配置。
-> 若已迁移至 Vercel，需清理 open-next/wrangler 依赖并更新部署配置。待确认。
+> ⚠️ 待清理：`open-next.config.ts` 仍存在（Cloudflare 配置），`next.config.js` 的 webpack fallback 仍是 Cloudflare 版本。两者需清理或适配 Vercel。
+
+#### 技术债清理（已过时，来自 Cloudflare 迁移阶段）
+- [ ] 删除 `open-next.config.ts`
+- [ ] 清理 `next.config.js` 中的 Cloudflare webpack fallback 配置
+- [ ] 卸载 `@opennextjs/cloudflare` 和 `wrangler`（仍在 dependencies 中）
+
+---
+
+## 🟡 UX 改善（P0 优先级）
+
+> 详见 `planning/ux-strategy.md`（用户分层 / Explore 策略 / 漏斗基准 / 执行清单完整版）
+
+### 用户分层假设（工作假设）
+| 层级 | 占比 | 路径目标 |
+|------|------|---------|
+| 轻度用户 | 65% | 浏览 → 快速创建第一个角色骨架 |
+| 中度用户 | 25% | 完成 → 第一次发布 |
+| 重度用户 | 10% | 深度工具 → 版本历史 / OAuth / API |
+
+### 三大核心洞察
+1. **「完成感陷阱」**：6 步向导 Step 4-6 无 API，用户以为完成全部，实际只有 Step 1 被保存
+2. **「身份深度 vs 工具感」**：Nuwa 输出缺翻译层，用户无法理解 AI 思考过程的价值
+3. **「Explore 即门面」**：`/explore` 无搜索/分页，未登录用户无法预览内容，注册动机弱
+
+### P0 执行清单
+
+| # | 行动 | 成功指标 |
+|---|------|---------|
+| 1 | **Explore 搜索 + 分页** | Explore→注册转化 +15% |
+| 2 | **向导压缩到 3 步**（其余步骤降为「继续完善」Panel） | 创建→发布完成率 +30% |
+| 3 | **首次保存后 → Publish CTA**（不是继续填表） | 首次发布率 +10% |
+| 4 | **OTP 错误细化** | 认证错误率 -20% |
+| 5 | **Nuwa 改为「草稿后触发」**（不是空白页介入） | Nuwa 采用率提升 |
+| 6 | **Explore 精选卡 + Fork 入口** | Explore→Register 转化 +10% |
+| 7 | **埋点**：`first_bio_saved` / `first_bio_published` / `return_day_7` | 建立激活可观测性 |
+
+### 竞品参照
+- Character.AI：消费先行 + Quick/Advanced 双轨 → 顶部漏斗参考
+- WorldAnvil：用途分流 + 深度分层 → 中后段路径参考
+- Campfire：模块化分层 + 按需解锁 → 功能边界参考
+
+---
+
+## 🔴 安全 P0（疯传前置，必须先修）
+
+> 来源：`prepare_home/OasisBio 疯传潜力深度研究与增长策略报告.md`
+
+### 7 个必须修复的安全问题
+
+| # | 问题 | 严重程度 | 修复方向 |
+|---|------|---------|---------|
+| 1 | **OAuth HS256 对称签名，JWKS 直接暴露 `k` 值** | P0 生产漏洞 | 迁移到 EdDSA/RS256，只公开公钥；使用 `jose` 库 |
+| 2 | **Supabase webhook 缺少 `SUPABASE_WEBHOOK_SECRET` 时跳过签名校验** | P0 生产漏洞 | 缺失时直接 reject，不是 skip |
+| 3 | **`asset-token` Edge Function 未上线，存在绕过所有权检查的直接上传** | P0 生产漏洞 | 上线正式上传入口，关闭绕过路径 |
+| 4 | **模型删除只删 DB 记录，不删 R2 文件** | P1 成本/隐私 | 删除时同步清理 R2 对象 |
+| 5 | **部署文档在 Vercel 与 Cloudflare 之间漂移** | P1 可信度 | 统一 README/technical.md 部署说明 |
+| 6 | **`@supabase/auth-helpers-nextjs` 废弃包残留** | P1 技术债 | 清理依赖，统一到 `@supabase/ssr` |
+| 7 | **`next lint` 脚本而非 ESLint CLI（Next.js 16 升级要求）** | P1 技术债 | 迁移到 ESLint CLI 或 ESLint flat config |
+
+### 产品本体优化建议（来自 UX 研究）
+
+#### 信息架构 & 首页
+
+| 问题 | 建议 | 优先级 |
+|------|------|--------|
+| 官网导航 5 项对新用户信息过散 | 首屏改为「创建身份」+「探索模板」两个主入口，其余收进次级导航 | P1 |
+| 价值主张有但行动路径不明确 | 页面结构：一句话价值 → 15 秒 Demo → Use Cases → 模板墙 → 开发者入口 | P1 |
+| 全黑白设计，可传播模块淹没在灰度里 | 只对「分享/Remix/OAuth/Nuwa insight」4 类元素引入极少量强调色（建议：Graphite + Electric Violet + Pale Gold） | P2 |
+
+#### 关键路径文案 & 微交互
+
+| 场景 | 当前问题 | 建议改法 | 优先级 |
+|------|---------|---------|--------|
+| 空状态文案 | 像「你还没填表」 | 改成「你还没有过去或未来版本。先写一个 2035 的你。」→ 点击直接进 Era 向导 | P1 |
+| 发布后反馈 | 发布 Toast 消失就结束，无后续 | 改成「发布并生成分享卡」→ 发布成功后右下角出现分享预览抽屉（替代 Toast） | P0 |
+| Nuwa 结果展示 | 像后台 JSON 输出 | 卡片标题改成「Nuwa 看到的你：XXX」→ 每张卡片可一键保存为图片 | P1 |
+| Developer CTA | 纯文档页入口 | 改成「把 Oasis 接进你的产品」→ 点击进 Playground，而不是文档页 | P1 |
+
+#### 性能问题（传播放大后会爆）
+
+| 问题 | 严重性 | 修法 | 优先级 |
+|------|--------|------|--------|
+| Session 中间层 `matcher` 覆盖几乎所有非静态请求 | 公开流量一上来先被中间层放大延迟 | 缩窄 matcher 到 `/dashboard/*`、`/developer/*`、`/api/*` | P1 |
+| Three.js 不懒加载，3D 模型默认首屏加载 | 页面首屏重，传播不利 | 默认 poster 图 + 用户触发加载；控制模型体积 + R2 缓存 | P1 |
+
+---
+
+### 疯传产品化新增功能
+
+| 功能 | 说明 | 优先级 |
+|------|------|--------|
+| **身份分享卡** | 发布后自动生成可转发 OG 卡：身份名+时代轴+3能力+1 Nuwa insight+1世界标签 | P0 |
+| **Remix 模板市场** | 公开 OasisBio / World 可被 Fork/Remix，保留来源 | P0 |
+| **OAuth Playground** | `/developer/docs` 加在线试玩，走通 OAuth 流程并实时看 JSON | P1 |
+| **关系图谱 UI** | `CharacterRelationship` 可视化为 force-graph，支持截图传播 | P1 |
+| **过去/未来对照页** | 选两个 Era 生成 Before/After 对比视图 | P1 |
+| **Nuwa 认知雷达** | Nuwa 结果可视化成 ECharts 雷达图，可一键保存为图 | P1 |
+| **`/u/[username]` 公开用户页** | 战略文档定义的社会传播入口点 | P1 |
+
+### 30 天疯传冲刺（4 周）
+
+```
+Week 1（基础修复）：
+  Day1-2 → 统一部署文档 + 仓库卫生清理（.gitignore、dev.db 移出）
+  Day3-5 → OAuth 安全改造（HS256→EdDSA）、webhook 签名强制、asset-token 上线
+  Day6-7 → Explore 搜索+分页 + 修 CTA
+
+Week 2（分享资产）：
+  Day8-10 → OG 图/分享卡生成 + domain_events 消费者
+  Day11-14 → GitHub Topics/Preview/Releases + Discussions 开启
+
+Week 3（传播飞轮）：
+  Day15-17 → 时代对照 Demo + Nuwa 认知雷达 + Remix 模板
+  Day18-21 → 关系图谱最小版 + 内容矩阵第一篇
+
+Week 4（社区沉淀）：
+  Day22-24 → OAuth Playground + Ship Friday 发 Release
+  Day25-28 → 内容矩阵（3篇长文）+ 给自己写 README 挑战
+  Day29-30 → 复盘：Star/Fork/公开发布数/分享点击率/Remix 次数
+```
+
+### 核心传播口号
+
+> **把你的过去、现在与未来，编译成一个可分享的身份宇宙。**
+
+### 四层受众与渠道
+
+| 受众 | 渠道 | 核心钩子 |
+|------|------|---------|
+| 独立开发者 / AI 团队 | GitHub / HN / X | OAuth/OIDC Playground + Continue with Oasis |
+| 世界观创作者 / 游戏编剧 / OC 圈 | X / Reddit / B站 / 小红书 | 世界构建器 + Remix 模板 + 关系图谱 |
+| 个人品牌 / 知识工作者 | LinkedIn / 公众号 / 即刻 | 过去-现在-未来对照 + 能力树公开化 |
+| 研究 / 教育 / 数字人实验者 | 学术博客 / 播客 / LinkedIn | 数字身份结构化 + 叙事与世界建模 |
 
 ---
 
