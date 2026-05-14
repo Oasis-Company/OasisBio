@@ -2,16 +2,18 @@ import type { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
   const oasisBio = await prisma.oasisBio.findUnique({
-    where: { slug: params.slug },
+    where: { slug, visibility: 'public' },
     select: {
       title: true,
       tagline: true,
       description: true,
+      coverImageUrl: true,
     },
   });
 
@@ -24,6 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const fullDescription = oasisBio.tagline 
     ? `${oasisBio.tagline}${oasisBio.description ? ' - ' + oasisBio.description : ''}`
     : oasisBio.description || 'A digital identity on OasisBio';
+  
+  const url = `https://oasisbio.com/bio/${slug}`;
 
   return {
     title: `${oasisBio.title} – Character Profile | OasisBio`,
@@ -42,12 +46,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${oasisBio.title} – Character Profile | OasisBio`,
       description: fullDescription,
-      type: 'profile',
+      type: 'website',
+      url: url,
+      images: oasisBio.coverImageUrl ? [oasisBio.coverImageUrl] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${oasisBio.title} – Character Profile | OasisBio`,
       description: fullDescription,
+      images: oasisBio.coverImageUrl ? [oasisBio.coverImageUrl] : [],
     },
   };
 }

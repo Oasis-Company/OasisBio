@@ -4,27 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import ModelViewerWrapper from '@/components/ModelViewerWrapper';
-import type { Metadata } from 'next';
-
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
-  const { slug } = await params;
-  const bio = await prisma.oasisBio.findUnique({
-    where: { slug, visibility: 'public' },
-    select: { title: true, tagline: true, coverImageUrl: true },
-  });
-  if (!bio) return { title: 'Not Found' };
-  return {
-    title: `${bio.title} — OasisBio`,
-    description: bio.tagline ?? undefined,
-    openGraph: {
-      title: bio.title,
-      description: bio.tagline ?? undefined,
-      images: bio.coverImageUrl ? [bio.coverImageUrl] : [],
-    },
-  };
-}
 
 async function getOasisBio(slug: string) {
   const oasisBio = await prisma.oasisBio.findUnique({

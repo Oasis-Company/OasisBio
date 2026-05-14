@@ -6,6 +6,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
+import { HintIcon } from '@/components/Tooltip';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { useToast } from '@/components/Toast';
 import Link from 'next/link';
@@ -468,13 +469,20 @@ export default function OasisBioEditPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Identity Mode</label>
+                      <label className="block text-sm font-medium mb-1">
+                        Identity Mode
+                        <HintIcon
+                          hint={`Real: Your actual self in the real world\nFictional: Completely fictional characters\nHybrid: Mix of real and fictional elements\nFuture: Your future self\nAlternate: Parallel universe versions\nWorldbound: Characters bound to specific fictional worlds`}
+                          variant="info"
+                          side="top"
+                        />
+                      </label>
                       <select
                         value={formData.identityMode}
                         onChange={e => setFormData(p => ({ ...p, identityMode: e.target.value }))}
                         className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                       >
-                        {['real', 'fictional', 'hybrid', 'future', 'alternate'].map(m => (
+                        {['real', 'fictional', 'hybrid', 'future', 'alternate', 'worldbound'].map(m => (
                           <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>
                         ))}
                       </select>
