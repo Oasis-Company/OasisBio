@@ -136,18 +136,18 @@ export const validateSettingsForm = (data: Record<string, unknown>, section: str
     return Validator.validate(data, {
       username: [
         (value) => Validator.required(value, 'Username'),
-        (value) => Validator.username(value, 'Username')
+        (value) => Validator.username(String(value), 'Username')
       ],
       displayName: [
         (value) => Validator.required(value, 'Display Name'),
-        (value) => Validator.minLength(value, 2, 'Display Name'),
-        (value) => Validator.maxLength(value, 50, 'Display Name')
+        (value) => Validator.minLength(String(value), 2, 'Display Name'),
+        (value) => Validator.maxLength(String(value), 50, 'Display Name')
       ],
       website: [
-        (value) => value ? Validator.url(value, 'Website') : null
+        (value) => value ? Validator.url(String(value), 'Website') : null
       ],
       avatarUrl: [
-        (value) => value ? Validator.url(value, 'Avatar URL') : null
+        (value) => value ? Validator.url(String(value), 'Avatar URL') : null
       ]
     });
   } else if (section === 'security') {
@@ -157,11 +157,11 @@ export const validateSettingsForm = (data: Record<string, unknown>, section: str
       ],
       newPassword: [
         (value) => Validator.required(value, 'New Password'),
-        (value) => Validator.passwordStrength(value, 'New Password')
+        (value) => Validator.passwordStrength(String(value), 'New Password')
       ],
       confirmPassword: [
         (value) => Validator.required(value, 'Confirm Password'),
-        (value, field) => Validator.matches(value, data.newPassword, field, 'New Password')
+        (value, field) => Validator.matches(String(value), String(data.newPassword), field, 'New Password')
       ]
     });
   }

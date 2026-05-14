@@ -86,12 +86,12 @@ export async function buildNuwaSourceSnapshot(
     include.includeWorldDocuments ?? true ? MAX_DOC_LENGTH : 0
   ).map(
     (doc): DcosFileSnapshot => ({
-      id: doc.id as string,
-      title: doc.title as string,
-      content: doc.content as string,
-      folderPath: doc.folderPath as string,
-      status: doc.status as string,
-      eraId: doc.eraId as string | null | undefined,
+      id: String(doc.id),
+      title: String(doc.title ?? ''),
+      content: String(doc.content ?? ''),
+      folderPath: String(doc.folderPath ?? ''),
+      status: String(doc.status ?? 'draft'),
+      eraId: doc.eraId ? String(doc.eraId) : undefined,
     })
   );
 

@@ -87,8 +87,8 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
         where: { id: runId },
         data: {
           status: 'completed',
-          distilled: distilled as any,
-          summary: buildSummary(distilled) as any,
+          distilled: distilled as object,
+          summary: buildSummary(distilled) as object,
           completedAt: new Date(),
         },
       }),
@@ -100,10 +100,10 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
             operation: item.operation,
             targetId: item.targetId,
             title: item.title,
-            payload: item.payload as any,
+            payload: item.payload as object,
             rationale: item.rationale,
             confidence: item.confidence,
-            evidence: item.evidence as any,
+            evidence: item.evidence as object,
             decision: 'pending',
           },
         })
@@ -117,7 +117,7 @@ export async function runNuwaDistillation(runId: string): Promise<void> {
         error: {
           message: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
-        } as unknown as any,
+        } as unknown as object,
         completedAt: new Date(),
       },
     });
