@@ -53,6 +53,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
-// Note: Cloudflare/OpenNext initialization removed — deployment target is Vercel
-// The @opennextjs/cloudflare package can be uninstalled when ready to clean up dependencies
