@@ -1846,9 +1846,107 @@ Returns DCOS documents for a character. Requires `dcos:read` scope.
 
 **Response:** Array of `{ id, title, slug, content, folderPath, status, eraId }`
 
-#### `POST /api/oauth/revoke`
+### Identity Context API
 
-Revokes an access or refresh token (RFC 7009).
+#### `GET /api/context/[slug]`
+
+Returns a machine-readable identity context for a public character. No authentication required. Designed for AI agents and applications to parse identity information programmatically.
+
+**Response:**
+```json
+{
+  "$schema": "https://oasisbio.com/context/v1.json",
+  "id": "bio_xxx",
+  "slug": "elara-stormrider",
+  "title": "Elara Stormrider",
+  "tagline": "Intergalactic Explorer",
+  "summary": "...",
+  "identityMode": "fictional",
+  "currentEra": "2250",
+  "species": "Human",
+  "gender": "Female",
+  "pronouns": "she/her",
+  "placeOfOrigin": "Earth Colony Mars",
+  "description": "...",
+  "coverImageUrl": "https://...",
+  "defaultLanguage": "en",
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-03-20T14:22:00.000Z",
+  "publishedAt": "2024-02-01T08:00:00.000Z",
+  "eras": [
+    {
+      "name": "Early Life",
+      "type": "past",
+      "startYear": 2200,
+      "endYear": 2230,
+      "description": "Born on Mars colony..."
+    }
+  ],
+  "abilities": [
+    {
+      "name": "Zero-G Combat",
+      "category": "combat",
+      "level": 5,
+      "description": "Expert in zero-gravity combat maneuvers",
+      "sourceType": "custom"
+    }
+  ],
+  "repositories": {
+    "dcos": [{ "title": "Core Values", "path": "/dcos/core-values", "preview": "..." }],
+    "references": [{ "title": "Mars Colonial History", "type": "book", "url": "https://...", "description": "..." }],
+    "worlds": [{ "name": "Sol Federation", "genre": "Sci-Fi", "summary": "..." }]
+  },
+  "links": {
+    "self": "/api/context/elara-stormrider",
+    "profile": "/bio/elara-stormrider"
+  }
+}
+```
+
+**Headers:**
+- `Content-Type: application/json`
+- `Cache-Control: public, max-age=60, stale-while-revalidate=300`
+
+#### `GET /.well-known/oasisbio.json`
+
+OasisBio protocol discovery document. Returns metadata about the API including supported protocols and endpoints.
+
+**Response:**
+```json
+{
+  "name": "OasisBio",
+  "description": "Open Identity Context Infrastructure for the AI Era",
+  "version": "1.0",
+  "protocols": {
+    "rest": {
+      "endpoint": "https://oasisbio.com/api/context/{slug}",
+      "method": "GET",
+      "headers": { "Content-Type": "application/json" }
+    },
+    "oauth": {
+      "authorizationEndpoint": "https://oasisbio.com/api/oauth/authorize",
+      "tokenEndpoint": "https://oasisbio.com/api/oauth/token",
+      "scopes": {
+        "context:read": "Read identity context information",
+        "context:full": "Full access to identity context"
+      }
+    }
+  },
+  "discovery": {
+    "type": "application/json",
+    "url": "https://oasisbio.com/.well-known/oasisbio.json"
+  },
+  "links": {
+    "documentation": "https://oasisbio.com/docs",
+    "developerPortal": "https://oasisbio.com/developer",
+    "createIdentity": "https://oasisbio.com/create"
+  }
+}
+```
+
+### OAuth Token Endpoints
+
+#### `POST /api/oauth/revoke`
 
 **Body:** `{ token, token_type_hint?: 'access_token' | 'refresh_token' }`
 
@@ -1867,7 +1965,7 @@ OIDC discovery document. No authentication required.
   "userinfo_endpoint": "https://oasisbio.com/api/oauth/userinfo",
   "revocation_endpoint": "https://oasisbio.com/api/oauth/revoke",
   "jwks_uri": "https://oasisbio.com/api/oauth/.well-known/jwks.json",
-  "scopes_supported": ["profile", "email", "oasisbios:read", "oasisbios:full", "dcos:read"],
+  "scopes_supported": ["profile", "email", "oasisbios:read", "oasisbios:full", "dcos:read", "context:read"],
   "response_types_supported": ["code"],
   "grant_types_supported": ["authorization_code", "refresh_token"],
   "code_challenge_methods_supported": ["S256"],

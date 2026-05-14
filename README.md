@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>A cross-generational identity protocol system for building expandable digital identities across eras, worlds, and dimensions.</strong>
+  <strong>Open Identity Context Infrastructure for the AI Era. Stop reintroducing yourself to every AI.</strong>
 </p>
 
 <p align="center">
@@ -16,11 +16,7 @@
 
 ---
 
-> **One day, humanity achieves digital immortality. Would you choose to return to your 18-year-old self, or continue living your life at 80?**
->
-> OasisBio was born for this — a place to record everything that makes you *you*. Your dreams. Your imagined worldview. The way you express yourself.
->
-> — [**OasisBio Manifesto**](OasisBio%20Manifesto.md)
+> **The AI era needs a new identity layer.** Every time you use a new AI assistant, you re-explain who you are. OasisBio fixes this — create your structured identity once, let machines understand you everywhere.
 
 ---
 
@@ -36,36 +32,34 @@
 
 ## ✨ What is OasisBio?
 
-**OasisBio is not just a character creator. It's a digital identity infrastructure for the metaverse era.**
+**OasisBio is an open identity context infrastructure for the AI era.**
 
-Build layered, multi-dimensional identities that span across time, fictional worlds, and alternate realities. Record who you are, who you were, and who you might become — then connect it all to the future.
+Build structured, machine-readable identity profiles that AI assistants and applications can instantly understand. Stop reintroducing yourself to every AI — create your context once, use it everywhere.
 
 ### Core Modules
 
 | Module | What it does |
 |--------|-------------|
-| 🧬 **Identity Builder** | Multi-mode profiles: real, fictional, hybrid, future, alternate, worldbound |
-| ⏳ **Era Timeline** | Past / Present / Future / Alternate / Worldbound versions of one identity |
-| 🌍 **World Builder** | 6-module guided worldbuilding (Core → Time → Rules → Civilization → Environment → Narrative) |
-| ⚡ **Ability Pool** | Categorized skill system with era/world binding & proficiency levels |
-| 📜 **DCOS Repository** | Dynamic Core Operating Script — narrative documents with versioning |
-| 🔗 **References Library** | External resources with auto-enrichment (OG metadata extraction) |
-| 🎭 **3D Model Viewer** | GLB format viewer powered by Three.js with era-specific previews |
-| 🔐 **OAuth Provider** | "Continue with Oasis" — OAuth 2.0 + PKCE + OIDC for third-party apps |
-| 🧠 **Nuwa AI** | Cognitive framework distillation: mental models, decision heuristics, expression DNA |
-| 🏷️ **Tag System** | Polymorphic tags across entities (bios, worlds, references) |
-| 👥 **Relationships** | Bidirectional character-to-character links |
+| 🧬 **Identity Context** | Structured profiles with AI-readable data format |
+| 🔗 **Context API** | REST endpoint GET /api/context/:slug for machine access |
+| 🔐 **OAuth Provider** | "Continue with Oasis" — OAuth 2.0 + PKCE + OIDC with context:read scope |
+| ⚡ **Ability Pool** | Machine-consumable skill profiles with proficiency levels |
+| 📜 **DCOS Repository** | Core operating scripts that define your decision-making framework |
+| 🔍 **References Library** | External knowledge that shapes your identity context |
+| 🌍 **World Context** | Environments and settings that influence your identity |
+| 🧠 **Nuwa AI** | Cognitive framework distillation for AI understanding |
+| 🏷️ **Tag System** | Polymorphic tags across entities for categorization |
+| 👥 **Relationships** | Connections between identities for network context |
 
-### Identity Modes
+### Identity Context Features
 
-| Mode | Description |
-|------|-------------|
-| **Real** | Your actual self (professional, personal) |
-| **Fictional** | Characters, avatars, RPG personas |
-| **Hybrid** | Real base + creative elements |
-| **Future** | Your goal self (2030 Nobel laureate?) |
-| **Alternate** | Parallel universe versions ("what if I became a rockstar?") |
-| **Worldbound** | Identities tied to specific fictional worlds |
+| Feature | Description |
+|---------|-------------|
+| **Machine-Readable** | Structured JSON format that AI can parse instantly |
+| **Portable** | Use via REST API, OAuth, or .well-known endpoint |
+| **Privacy-Controlled** | Fine-grained permissions, you decide what each app reads |
+| **OAuth-Enabled** | Standard OAuth 2.0 integration for third-party apps |
+| **Version-Tracked** | Evolution of identity over time |
 
 ---
 
@@ -280,7 +274,7 @@ See [LICENSE](LICENSE) for details.
 
 **Built with care by [Oasis Company](https://github.com/zbbsdsb).**
 
-*Digital identities for the metaverse era.* 🌊
+*Open identity context infrastructure for the AI era.* 🌊
 
 [Report Bug](https://github.com/zbbsdsb/oasisbio/issues) · [Request Feature](https://github.com/zbbsdsb/oasisbio/issues) · [Live Demo](https://oasisbio.oasiscompany.org)
 
