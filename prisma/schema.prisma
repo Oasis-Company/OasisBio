@@ -29,6 +29,10 @@ model User {
   profiles      Profile[]
   exportHistory ExportHistory[]
   oauthApps     OauthApp[]
+  deoProfile    DeoProfile?
+  diaProfile    DiaProfile?
+  assistantSessions    AssistantSession[]
+  assistantPermissions AssistantPermission[]
 
   @@index([createdAt])
   @@index([email])
@@ -497,4 +501,73 @@ model NuwaSuggestion {
   @@index([runId, scope])
   @@index([decision])
   @@map("nuwa_suggestions")
+}
+
+model DeoProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  systemPrompt  String   @db.Text
+  apiEndpoint   String?
+  apiKey        String?  @db.Text
+  model         String   @default("gpt-4o")
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("deo_profiles")
+}
+
+model DiaProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  systemPrompt  String   @db.Text
+  apiEndpoint   String?
+  apiKey        String?  @db.Text
+  model         String   @default("gpt-4o")
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("dia_profiles")
+}
+
+model AssistantSession {
+  id            String    @id @default(cuid())
+  userId        String
+  agent         String    @default("deo")
+  title         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  messages      AssistantMessage[]
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("assistant_sessions")
+}
+
+model AssistantMessage {
+  id            String    @id @default(cuid())
+  sessionId     String
+  role          String
+  content       String    @db.Text
+  metadata      Json?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  session       AssistantSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@map("assistant_messages")
+}
+
+model AssistantPermission {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  level         String    @default("read")
+  permissions   Json
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("assistant_permissions")
 }

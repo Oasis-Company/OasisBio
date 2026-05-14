@@ -204,6 +204,10 @@ export type UserWhereInput = {
   profiles?: Prisma.ProfileListRelationFilter
   exportHistory?: Prisma.ExportHistoryListRelationFilter
   oauthApps?: Prisma.OauthAppListRelationFilter
+  deoProfile?: Prisma.XOR<Prisma.DeoProfileNullableScalarRelationFilter, Prisma.DeoProfileWhereInput> | null
+  diaProfile?: Prisma.XOR<Prisma.DiaProfileNullableScalarRelationFilter, Prisma.DiaProfileWhereInput> | null
+  assistantSessions?: Prisma.AssistantSessionListRelationFilter
+  assistantPermissions?: Prisma.AssistantPermissionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -220,6 +224,10 @@ export type UserOrderByWithRelationInput = {
   profiles?: Prisma.ProfileOrderByRelationAggregateInput
   exportHistory?: Prisma.ExportHistoryOrderByRelationAggregateInput
   oauthApps?: Prisma.OauthAppOrderByRelationAggregateInput
+  deoProfile?: Prisma.DeoProfileOrderByWithRelationInput
+  diaProfile?: Prisma.DiaProfileOrderByWithRelationInput
+  assistantSessions?: Prisma.AssistantSessionOrderByRelationAggregateInput
+  assistantPermissions?: Prisma.AssistantPermissionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -239,6 +247,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   profiles?: Prisma.ProfileListRelationFilter
   exportHistory?: Prisma.ExportHistoryListRelationFilter
   oauthApps?: Prisma.OauthAppListRelationFilter
+  deoProfile?: Prisma.XOR<Prisma.DeoProfileNullableScalarRelationFilter, Prisma.DeoProfileWhereInput> | null
+  diaProfile?: Prisma.XOR<Prisma.DiaProfileNullableScalarRelationFilter, Prisma.DiaProfileWhereInput> | null
+  assistantSessions?: Prisma.AssistantSessionListRelationFilter
+  assistantPermissions?: Prisma.AssistantPermissionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -281,6 +293,10 @@ export type UserCreateInput = {
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -297,6 +313,10 @@ export type UserUncheckedCreateInput = {
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -313,6 +333,10 @@ export type UserUpdateInput = {
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -329,6 +353,10 @@ export type UserUncheckedUpdateInput = {
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -496,6 +524,62 @@ export type UserUpdateOneRequiredWithoutOauthAppsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOauthAppsInput, Prisma.UserUpdateWithoutOauthAppsInput>, Prisma.UserUncheckedUpdateWithoutOauthAppsInput>
 }
 
+export type UserCreateNestedOneWithoutDeoProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDeoProfileInput, Prisma.UserUncheckedCreateWithoutDeoProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDeoProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDeoProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDeoProfileInput, Prisma.UserUncheckedCreateWithoutDeoProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDeoProfileInput
+  upsert?: Prisma.UserUpsertWithoutDeoProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDeoProfileInput, Prisma.UserUpdateWithoutDeoProfileInput>, Prisma.UserUncheckedUpdateWithoutDeoProfileInput>
+}
+
+export type UserCreateNestedOneWithoutDiaProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDiaProfileInput, Prisma.UserUncheckedCreateWithoutDiaProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDiaProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDiaProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDiaProfileInput, Prisma.UserUncheckedCreateWithoutDiaProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDiaProfileInput
+  upsert?: Prisma.UserUpsertWithoutDiaProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDiaProfileInput, Prisma.UserUpdateWithoutDiaProfileInput>, Prisma.UserUncheckedUpdateWithoutDiaProfileInput>
+}
+
+export type UserCreateNestedOneWithoutAssistantSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssistantSessionsInput, Prisma.UserUncheckedCreateWithoutAssistantSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssistantSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAssistantSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssistantSessionsInput, Prisma.UserUncheckedCreateWithoutAssistantSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssistantSessionsInput
+  upsert?: Prisma.UserUpsertWithoutAssistantSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssistantSessionsInput, Prisma.UserUpdateWithoutAssistantSessionsInput>, Prisma.UserUncheckedUpdateWithoutAssistantSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutAssistantPermissionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssistantPermissionsInput, Prisma.UserUncheckedCreateWithoutAssistantPermissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssistantPermissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAssistantPermissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssistantPermissionsInput, Prisma.UserUncheckedCreateWithoutAssistantPermissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssistantPermissionsInput
+  upsert?: Prisma.UserUpsertWithoutAssistantPermissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssistantPermissionsInput, Prisma.UserUpdateWithoutAssistantPermissionsInput>, Prisma.UserUncheckedUpdateWithoutAssistantPermissionsInput>
+}
+
 export type UserCreateWithoutProfilesInput = {
   id: string
   name?: string | null
@@ -509,6 +593,10 @@ export type UserCreateWithoutProfilesInput = {
   oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilesInput = {
@@ -524,6 +612,10 @@ export type UserUncheckedCreateWithoutProfilesInput = {
   oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilesInput = {
@@ -555,6 +647,10 @@ export type UserUpdateWithoutProfilesInput = {
   oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilesInput = {
@@ -570,6 +666,10 @@ export type UserUncheckedUpdateWithoutProfilesInput = {
   oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -585,6 +685,10 @@ export type UserCreateWithoutAccountsInput = {
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -600,6 +704,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -631,6 +739,10 @@ export type UserUpdateWithoutAccountsInput = {
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -646,6 +758,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -661,6 +777,10 @@ export type UserCreateWithoutSessionsInput = {
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -676,6 +796,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -707,6 +831,10 @@ export type UserUpdateWithoutSessionsInput = {
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -722,6 +850,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOasisBiosInput = {
@@ -737,6 +869,10 @@ export type UserCreateWithoutOasisBiosInput = {
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOasisBiosInput = {
@@ -752,6 +888,10 @@ export type UserUncheckedCreateWithoutOasisBiosInput = {
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOasisBiosInput = {
@@ -783,6 +923,10 @@ export type UserUpdateWithoutOasisBiosInput = {
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOasisBiosInput = {
@@ -798,6 +942,10 @@ export type UserUncheckedUpdateWithoutOasisBiosInput = {
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExportHistoryInput = {
@@ -813,6 +961,10 @@ export type UserCreateWithoutExportHistoryInput = {
   oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExportHistoryInput = {
@@ -828,6 +980,10 @@ export type UserUncheckedCreateWithoutExportHistoryInput = {
   oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExportHistoryInput = {
@@ -859,6 +1015,10 @@ export type UserUpdateWithoutExportHistoryInput = {
   oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExportHistoryInput = {
@@ -874,6 +1034,10 @@ export type UserUncheckedUpdateWithoutExportHistoryInput = {
   oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOauthAppsInput = {
@@ -889,6 +1053,10 @@ export type UserCreateWithoutOauthAppsInput = {
   oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
   profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOauthAppsInput = {
@@ -904,6 +1072,10 @@ export type UserUncheckedCreateWithoutOauthAppsInput = {
   oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
   profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
   exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOauthAppsInput = {
@@ -935,6 +1107,10 @@ export type UserUpdateWithoutOauthAppsInput = {
   oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
   profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOauthAppsInput = {
@@ -950,6 +1126,378 @@ export type UserUncheckedUpdateWithoutOauthAppsInput = {
   oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
   profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
   exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDeoProfileInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDeoProfileInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDeoProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDeoProfileInput, Prisma.UserUncheckedCreateWithoutDeoProfileInput>
+}
+
+export type UserUpsertWithoutDeoProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDeoProfileInput, Prisma.UserUncheckedUpdateWithoutDeoProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDeoProfileInput, Prisma.UserUncheckedCreateWithoutDeoProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDeoProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDeoProfileInput, Prisma.UserUncheckedUpdateWithoutDeoProfileInput>
+}
+
+export type UserUpdateWithoutDeoProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDeoProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDiaProfileInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDiaProfileInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDiaProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDiaProfileInput, Prisma.UserUncheckedCreateWithoutDiaProfileInput>
+}
+
+export type UserUpsertWithoutDiaProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDiaProfileInput, Prisma.UserUncheckedUpdateWithoutDiaProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDiaProfileInput, Prisma.UserUncheckedCreateWithoutDiaProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDiaProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDiaProfileInput, Prisma.UserUncheckedUpdateWithoutDiaProfileInput>
+}
+
+export type UserUpdateWithoutDiaProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDiaProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAssistantSessionsInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAssistantSessionsInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAssistantSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssistantSessionsInput, Prisma.UserUncheckedCreateWithoutAssistantSessionsInput>
+}
+
+export type UserUpsertWithoutAssistantSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssistantSessionsInput, Prisma.UserUncheckedUpdateWithoutAssistantSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssistantSessionsInput, Prisma.UserUncheckedCreateWithoutAssistantSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssistantSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssistantSessionsInput, Prisma.UserUncheckedUpdateWithoutAssistantSessionsInput>
+}
+
+export type UserUpdateWithoutAssistantSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssistantSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantPermissions?: Prisma.AssistantPermissionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAssistantPermissionsInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAssistantPermissionsInput = {
+  id: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  oasisBios?: Prisma.OasisBioUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  exportHistory?: Prisma.ExportHistoryUncheckedCreateNestedManyWithoutUserInput
+  oauthApps?: Prisma.OauthAppUncheckedCreateNestedManyWithoutOwnerInput
+  deoProfile?: Prisma.DeoProfileUncheckedCreateNestedOneWithoutUserInput
+  diaProfile?: Prisma.DiaProfileUncheckedCreateNestedOneWithoutUserInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAssistantPermissionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssistantPermissionsInput, Prisma.UserUncheckedCreateWithoutAssistantPermissionsInput>
+}
+
+export type UserUpsertWithoutAssistantPermissionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssistantPermissionsInput, Prisma.UserUncheckedUpdateWithoutAssistantPermissionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssistantPermissionsInput, Prisma.UserUncheckedCreateWithoutAssistantPermissionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssistantPermissionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssistantPermissionsInput, Prisma.UserUncheckedUpdateWithoutAssistantPermissionsInput>
+}
+
+export type UserUpdateWithoutAssistantPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssistantPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  oasisBios?: Prisma.OasisBioUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  exportHistory?: Prisma.ExportHistoryUncheckedUpdateManyWithoutUserNestedInput
+  oauthApps?: Prisma.OauthAppUncheckedUpdateManyWithoutOwnerNestedInput
+  deoProfile?: Prisma.DeoProfileUncheckedUpdateOneWithoutUserNestedInput
+  diaProfile?: Prisma.DiaProfileUncheckedUpdateOneWithoutUserNestedInput
+  assistantSessions?: Prisma.AssistantSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -964,6 +1512,8 @@ export type UserCountOutputType = {
   profiles: number
   exportHistory: number
   oauthApps: number
+  assistantSessions: number
+  assistantPermissions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -973,6 +1523,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   profiles?: boolean | UserCountOutputTypeCountProfilesArgs
   exportHistory?: boolean | UserCountOutputTypeCountExportHistoryArgs
   oauthApps?: boolean | UserCountOutputTypeCountOauthAppsArgs
+  assistantSessions?: boolean | UserCountOutputTypeCountAssistantSessionsArgs
+  assistantPermissions?: boolean | UserCountOutputTypeCountAssistantPermissionsArgs
 }
 
 /**
@@ -1027,6 +1579,20 @@ export type UserCountOutputTypeCountOauthAppsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.OauthAppWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssistantSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssistantSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssistantPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssistantPermissionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1042,6 +1608,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
   exportHistory?: boolean | Prisma.User$exportHistoryArgs<ExtArgs>
   oauthApps?: boolean | Prisma.User$oauthAppsArgs<ExtArgs>
+  deoProfile?: boolean | Prisma.User$deoProfileArgs<ExtArgs>
+  diaProfile?: boolean | Prisma.User$diaProfileArgs<ExtArgs>
+  assistantSessions?: boolean | Prisma.User$assistantSessionsArgs<ExtArgs>
+  assistantPermissions?: boolean | Prisma.User$assistantPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1083,6 +1653,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
   exportHistory?: boolean | Prisma.User$exportHistoryArgs<ExtArgs>
   oauthApps?: boolean | Prisma.User$oauthAppsArgs<ExtArgs>
+  deoProfile?: boolean | Prisma.User$deoProfileArgs<ExtArgs>
+  diaProfile?: boolean | Prisma.User$diaProfileArgs<ExtArgs>
+  assistantSessions?: boolean | Prisma.User$assistantSessionsArgs<ExtArgs>
+  assistantPermissions?: boolean | Prisma.User$assistantPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1097,6 +1671,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     profiles: Prisma.$ProfilePayload<ExtArgs>[]
     exportHistory: Prisma.$ExportHistoryPayload<ExtArgs>[]
     oauthApps: Prisma.$OauthAppPayload<ExtArgs>[]
+    deoProfile: Prisma.$DeoProfilePayload<ExtArgs> | null
+    diaProfile: Prisma.$DiaProfilePayload<ExtArgs> | null
+    assistantSessions: Prisma.$AssistantSessionPayload<ExtArgs>[]
+    assistantPermissions: Prisma.$AssistantPermissionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1506,6 +2084,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   profiles<T extends Prisma.User$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   exportHistory<T extends Prisma.User$exportHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exportHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExportHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   oauthApps<T extends Prisma.User$oauthAppsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$oauthAppsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OauthAppPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deoProfile<T extends Prisma.User$deoProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$deoProfileArgs<ExtArgs>>): Prisma.Prisma__DeoProfileClient<runtime.Types.Result.GetResult<Prisma.$DeoProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  diaProfile<T extends Prisma.User$diaProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$diaProfileArgs<ExtArgs>>): Prisma.Prisma__DiaProfileClient<runtime.Types.Result.GetResult<Prisma.$DiaProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  assistantSessions<T extends Prisma.User$assistantSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assistantSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssistantSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assistantPermissions<T extends Prisma.User$assistantPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assistantPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssistantPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2071,6 +2653,92 @@ export type User$oauthAppsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.OauthAppScalarFieldEnum | Prisma.OauthAppScalarFieldEnum[]
+}
+
+/**
+ * User.deoProfile
+ */
+export type User$deoProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeoProfile
+   */
+  select?: Prisma.DeoProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeoProfile
+   */
+  omit?: Prisma.DeoProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeoProfileInclude<ExtArgs> | null
+  where?: Prisma.DeoProfileWhereInput
+}
+
+/**
+ * User.diaProfile
+ */
+export type User$diaProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DiaProfile
+   */
+  select?: Prisma.DiaProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DiaProfile
+   */
+  omit?: Prisma.DiaProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DiaProfileInclude<ExtArgs> | null
+  where?: Prisma.DiaProfileWhereInput
+}
+
+/**
+ * User.assistantSessions
+ */
+export type User$assistantSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssistantSession
+   */
+  select?: Prisma.AssistantSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssistantSession
+   */
+  omit?: Prisma.AssistantSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssistantSessionInclude<ExtArgs> | null
+  where?: Prisma.AssistantSessionWhereInput
+  orderBy?: Prisma.AssistantSessionOrderByWithRelationInput | Prisma.AssistantSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AssistantSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssistantSessionScalarFieldEnum | Prisma.AssistantSessionScalarFieldEnum[]
+}
+
+/**
+ * User.assistantPermissions
+ */
+export type User$assistantPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssistantPermission
+   */
+  select?: Prisma.AssistantPermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssistantPermission
+   */
+  omit?: Prisma.AssistantPermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssistantPermissionInclude<ExtArgs> | null
+  where?: Prisma.AssistantPermissionWhereInput
+  orderBy?: Prisma.AssistantPermissionOrderByWithRelationInput | Prisma.AssistantPermissionOrderByWithRelationInput[]
+  cursor?: Prisma.AssistantPermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssistantPermissionScalarFieldEnum | Prisma.AssistantPermissionScalarFieldEnum[]
 }
 
 /**
