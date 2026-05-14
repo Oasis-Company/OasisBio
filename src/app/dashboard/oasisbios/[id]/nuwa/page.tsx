@@ -776,6 +776,46 @@ function SuggestionCard({
   const isDcos = item.scope === 'dcos';
   const dcosType = isDcos ? (item.payload?.type as string) ?? null : null;
   const dcosConfig = dcosType ? DCOS_TYPE_CONFIG[dcosType] : null;
+  const consistencyScore = item.confidence ? Math.round(item.confidence * 100) : 0;
+
+  // Helper to get "What this means" text
+  const getWhatThisMeans = () => {
+    if (item.rationale) return item.rationale;
+    
+    // Fallback based on scope and operation
+    switch (item.scope) {
+      case 'dcos':
+        return 'This suggestion adds depth to your character\'s cognitive framework.';
+      case 'description':
+        return 'This suggestion enhances your character\'s core description.';
+      case 'ability':
+        return 'This suggestion adds or updates an ability for your character.';
+      case 'era':
+        return 'This suggestion adds or updates an era in your character\'s timeline.';
+      case 'world':
+        return 'This suggestion adds or updates a world associated with your character.';
+      case 'reference':
+        return 'This suggestion adds a reference source for your character.';
+      default:
+        return 'This suggestion provides an improvement to your character.';
+    }
+  };
+
+  // Helper to get "Recommended action" text
+  const getRecommendedAction = () => {
+    switch (item.operation) {
+      case 'create':
+        return 'Review the new item and accept if it fits your vision.';
+      case 'update':
+        return 'Check the changes and accept if they improve your character.';
+      case 'append':
+        return 'Accept to add this content to your existing character.';
+      case 'replace':
+        return 'Consider if this replacement better captures your character.';
+      default:
+        return 'Review and decide whether to accept or reject this suggestion.';
+    }
+  };
 
   return (
     <Card
@@ -797,11 +837,6 @@ function SuggestionCard({
                 </span>
               )}
               <span className="text-xs text-muted-foreground font-mono">{item.operation}</span>
-              {item.confidence && (
-                <span className="text-xs text-muted-foreground">
-                  {Math.round(item.confidence * 100)}% confidence
-                </span>
-              )}
               {item.decision !== 'pending' && (
                 <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${
                   isAccepted ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
@@ -812,16 +847,39 @@ function SuggestionCard({
             </div>
 
             {/* Title */}
-            {item.title && <h4 className="font-medium text-sm mb-1">{item.title}</h4>}
+            {item.title && <h4 className="font-medium text-sm mb-2">{item.title}</h4>}
+
+            {/* Consistency Score Visualization */}
+            <div className="mb-3">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-medium text-muted-foreground">Consistency Score</span>
+                <span className="text-xs font-bold text-purple-600">{consistencyScore}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
+                  style={{ width: `${consistencyScore}%` }}
+                />
+              </div>
+            </div>
+
+            {/* "What this means" section */}
+            <div className="mb-2">
+              <span className="text-xs font-semibold text-purple-700">What this means:</span>
+              <p className="text-sm text-muted-foreground mt-1">{getWhatThisMeans()}</p>
+            </div>
+
+            {/* "Recommended action" section */}
+            <div className="mb-2">
+              <span className="text-xs font-semibold text-blue-700">Recommended action:</span>
+              <p className="text-sm text-muted-foreground mt-1">{getRecommendedAction()}</p>
+            </div>
 
             {/* Dcos-specific rich rendering */}
             {isDcos && dcosType && !expanded && (
-              <DcosPreview type={dcosType} payload={item.payload} />
-            )}
-
-            {/* Rationale (for non-dcos or when collapsed) */}
-            {item.rationale && (!isDcos || !dcosConfig) && (
-              <p className="text-sm text-muted-foreground line-clamp-2">{item.rationale}</p>
+              <div className="mt-2">
+                <DcosPreview type={dcosType} payload={item.payload} />
+              </div>
             )}
 
             {/* Expanded Payload */}
