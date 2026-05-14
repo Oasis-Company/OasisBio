@@ -21,33 +21,33 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'OasisBio - Digital Identity Builder & Character Creator Platform',
-  description: 'OasisBio is a comprehensive digital identity builder and character creator platform for building expandable fictional character identities across eras.',
+  title: 'OasisBio - Open Identity Context for the AI Era',
+  description: 'Create one portable, AI-readable identity. Stop reintroducing yourself to every app and AI. OasisBio is the open identity context infrastructure for the AI era.',
   keywords: [
-    'digital identity builder',
-    'character creator platform',
-    'fictional character builder',
-    'character archive',
-    'character identity system',
-    'persona builder',
-    'worldbuilding character creator',
-    'character profile creator',
-    'digital persona platform',
-    'character database'
+    'AI identity passport',
+    'identity context infrastructure',
+    'machine-readable identity',
+    'AI-ready profile',
+    'portable identity',
+    'open identity protocol',
+    'structured identity',
+    'OAuth identity context',
+    'AI context layer',
+    'digital identity for AI'
   ],
   authors: [
     { name: 'Ceaserzhao', url: 'https://oasisbio.com' }
   ],
   publisher: 'Oasis Company',
   openGraph: {
-    title: 'OasisBio - Digital Identity Builder',
-    description: 'Build and manage expandable digital identities across eras',
+    title: 'OasisBio - Your AI-Powered Identity Passport',
+    description: 'Create one portable, AI-readable identity. Stop reintroducing yourself to every app and AI.',
     type: 'website',
     siteName: 'OasisBio',
   },
   twitter: {
-    title: 'OasisBio - Digital Identity Builder',
-    description: 'Build and manage expandable digital identities across eras',
+    title: 'OasisBio - AI Identity Passport',
+    description: 'Stop reintroducing yourself to every AI. Create your identity once, use it everywhere.',
     card: 'summary_large_image',
   },
 };

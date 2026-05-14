@@ -8,8 +8,9 @@ export const SCOPES = {
   profile: 'Access your basic profile (username, display name, avatar)',
   email: 'Access your email address',
   'oasisbios:read': 'View your character list',
-  'oasisbios:full': 'View your characters\' full details (abilities, worlds, eras, references)',
-  'dcos:read': 'Read your DCOS documents',
+  'oasisbios:full': "View your characters' full details (abilities, worlds, eras, references)",
+  'dcos:read': "Read your DCOS documents",
+  'context:read': "Read your structured identity context (machine-readable profile)",
 } as const;
 
 export type ScopeName = keyof typeof SCOPES;

@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
+import { HintIcon } from '@/components/Tooltip';
 import { useRouter, useSearchParams } from 'next/navigation';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { useToast } from '@/components/Toast';
@@ -167,6 +168,11 @@ export default function CreateOasisBioPage() {
                   <div>
                     <label htmlFor="identityMode" className="block text-sm font-medium mb-1">
                       Identity Mode
+                      <HintIcon
+                        hint={`Real: Your actual self in the real world\nFictional: Completely fictional characters\nHybrid: Mix of real and fictional elements\nFuture: Your future self\nAlternate: Parallel universe versions\nWorldbound: Characters bound to specific fictional worlds`}
+                        variant="info"
+                        side="top"
+                      />
                     </label>
                     <select
                       id="identityMode"
@@ -179,6 +185,7 @@ export default function CreateOasisBioPage() {
                       <option value="hybrid">Hybrid</option>
                       <option value="future">Future</option>
                       <option value="alternate">Alternate</option>
+                      <option value="worldbound">Worldbound</option>
                     </select>
                   </div>
                   <div className="flex justify-end pt-4">

@@ -33,7 +33,7 @@ describe('NavItem', () => {
   });
 
   it('should call onClick handler when clicked', () => {
-    const onClick = jest.fn((e) => e.preventDefault());
+    const onClick = jest.fn();
     render(<NavItem {...defaultProps} onClick={onClick} />);
     
     const navItem = screen.getByRole('link');
