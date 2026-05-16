@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#7C3AED"/>
+  <!-- Oasis droplet / identity mark -->
+  <circle cx="32" cy="24" r="10" fill="white" opacity="0.95"/>
+  <!-- Base bar representing ground / presence -->
+  <rect x="12" y="40" width="40" height="5" rx="2.5" fill="white" opacity="0.8"/>
+  <rect x="18" y="47" width="28" height="4" rx="2" fill="white" opacity="0.55"/>
+  <rect x="24" y="53" width="16" height="3" rx="1.5" fill="white" opacity="0.35"/>
+</svg>

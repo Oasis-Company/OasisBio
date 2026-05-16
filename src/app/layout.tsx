@@ -39,17 +39,29 @@ export const metadata: Metadata = {
     { name: 'Ceaserzhao', url: 'https://oasisbio.com' }
   ],
   publisher: 'Oasis Company',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'OasisBio - Your AI-Powered Identity Passport',
     description: 'Create one portable, AI-readable identity. Stop reintroducing yourself to every app and AI.',
     type: 'website',
     siteName: 'OasisBio',
+    url: 'https://oasisbio.com',
   },
   twitter: {
     title: 'OasisBio - AI Identity Passport',
     description: 'Stop reintroducing yourself to every AI. Create your identity once, use it everywhere.',
     card: 'summary_large_image',
   },
+  metadataBase: new URL('https://oasisbio.com'),
 };
 
 export default function RootLayout({

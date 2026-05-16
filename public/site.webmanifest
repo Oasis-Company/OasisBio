@@ -1,0 +1,17 @@
+{
+  "name": "OasisBio",
+  "short_name": "OasisBio",
+  "description": "Open Identity Context for the AI Era",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}
