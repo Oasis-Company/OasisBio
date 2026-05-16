@@ -25,6 +25,8 @@ const PROTECTED_PREFIXES = [
 /**
  * Auth routes that authenticated users should not access.
  * Authenticated requests are redirected to /dashboard.
+ * Note: /auth/callback and /auth/confirm are intentionally excluded —
+ * they must be accessible regardless of auth state to complete OAuth/email flows.
  */
 const AUTH_PREFIXES = ['/auth/login', '/auth/register'];
 

@@ -1,6 +1,15 @@
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, GetObjectCommandOutput } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { r2Config } from '@/lib/config';
+
+// Read R2 env directly to avoid pulling in server-only config module
+// (cloudflare-r2 is only called from server-side API routes, never from client bundles)
+const r2Config = {
+  get accessKeyId() { return process.env.CLOUDFLARE_R2_ACCESS_KEY_ID ?? ''; },
+  get secretAccessKey() { return process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY ?? ''; },
+  get endpoint() { return process.env.CLOUDFLARE_R2_ENDPOINT ?? ''; },
+  get bucketName() { return process.env.CLOUDFLARE_R2_BUCKET_NAME ?? ''; },
+  get accountId() { return process.env.CLOUDFLARE_R2_ACCOUNT_ID ?? ''; },
+};
 
 // Create S3 client for Cloudflare R2
 const s3Client = new S3Client({
