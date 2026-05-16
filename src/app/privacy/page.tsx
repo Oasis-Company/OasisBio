@@ -41,7 +41,7 @@ export default function PrivacyPage() {
               OasisBio (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is operated by Oasis Company (ceaserzhao).
               This Privacy Policy explains how we collect, use, disclose, and safeguard your
               information when you use our platform at{' '}
-              <a href="https://oasisbio.com" className="text-black underline">oasisbio.com</a>{' '}
+              <a href="https://oasisbio.oasiscompany.org" className="text-black underline">oasisbio.oasiscompany.org</a>{' '}
               and any related services (collectively, the &quot;Service&quot;).
             </p>
             <p className="mt-3">

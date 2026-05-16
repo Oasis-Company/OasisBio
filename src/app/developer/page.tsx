@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useAuth } from '@/lib/auth.client';
 import { CopyButton } from '@/components/CopyButton';
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.com';
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.oasiscompany.org';
 
 const SCOPES = [
   { name: 'profile', desc: 'username, display name, avatar URL' },

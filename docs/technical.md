@@ -1497,8 +1497,8 @@ Execute in this exact order:
 ### Supabase Auth Configuration
 
 In Supabase dashboard → Authentication → URL Configuration:
-- **Site URL:** `https://your-domain.com`
-- **Redirect URLs:** Add `https://your-domain.com/auth/callback`
+- **Site URL:** `https://oasisbio.oasiscompany.org`
+- **Redirect URLs:** Add `https://oasisbio.oasiscompany.org/auth/callback`
 
 ### Storage Buckets (create manually in Supabase Storage)
 

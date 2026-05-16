@@ -20,11 +20,11 @@ OasisBio provides OAuth 2.0 with OpenID Connect (OIDC) support, allowing you to:
 
 | Endpoint | URL |
 |----------|-----|
-| Authorization | `https://oasisbio.com/oauth/authorize` |
-| Token | `https://oasisbio.com/api/oauth/token` |
-| UserInfo | `https://oasisbio.com/api/oauth/userinfo` |
-| JWKS | `https://oasisbio.com/oauth/.well-known/jwks.json` |
-| OpenID Config | `https://oasisbio.com/oauth/.well-known/openid-configuration` |
+| Authorization | `https://oasisbio.oasiscompany.org/oauth/authorize` |
+| Token | `https://oasisbio.oasiscompany.org/api/oauth/token` |
+| UserInfo | `https://oasisbio.oasiscompany.org/api/oauth/userinfo` |
+| JWKS | `https://oasisbio.oasiscompany.org/oauth/.well-known/jwks.json` |
+| OpenID Config | `https://oasisbio.oasiscompany.org/oauth/.well-known/openid-configuration` |
 
 ## Available Scopes
 
@@ -55,7 +55,7 @@ Create an OAuth app in the OasisBio developer portal:
 #### Step 2.1: Redirect to Authorization
 
 ```
-GET https://oasisbio.com/oauth/authorize
+GET https://oasisbio.oasiscompany.org/oauth/authorize
   ?client_id=YOUR_CLIENT_ID
   &redirect_uri=https://yourapp.com/callback
   &response_type=code
@@ -76,7 +76,7 @@ GET https://yourapp.com/callback
 #### Step 2.3: Exchange Code for Tokens
 
 ```bash
-curl -X POST https://oasisbio.com/api/oauth/token \
+curl -X POST https://oasisbio.oasiscompany.org/api/oauth/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=authorization_code" \
   -d "code=AUTHORIZATION_CODE" \
@@ -100,7 +100,7 @@ Response:
 ### 3. Use the Access Token
 
 ```bash
-curl https://oasisbio.com/api/oauth/userinfo \
+curl https://oasisbio.oasiscompany.org/api/oauth/userinfo \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
 
@@ -111,7 +111,7 @@ Response:
   "sub": "user_123",
   "username": "johndoe",
   "display_name": "John Doe",
-  "avatar_url": "https://oasisbio.com/avatars/johndoe.png",
+  "avatar_url": "https://oasisbio.oasiscompany.org/avatars/johndoe.png",
   "email": "john@example.com"
 }
 ```
@@ -119,7 +119,7 @@ Response:
 ### 4. Refresh Tokens (Optional)
 
 ```bash
-curl -X POST https://oasisbio.com/api/oauth/token \
+curl -X POST https://oasisbio.oasiscompany.org/api/oauth/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=refresh_token" \
   -d "refresh_token=REFRESH_TOKEN" \
@@ -139,7 +139,7 @@ const clientSecret = process.env.OASIS_CLIENT_SECRET;
 
 async function getUserInfo(accessToken: string) {
   const response = await axios.get(
-    'https://oasisbio.com/api/oauth/userinfo',
+    'https://oasisbio.oasiscompany.org/api/oauth/userinfo',
     {
       headers: { Authorization: `Bearer ${accessToken}` }
     }
@@ -155,7 +155,7 @@ import requests
 
 def get_user_info(access_token):
     response = requests.get(
-        'https://oasisbio.com/api/oauth/userinfo',
+        'https://oasisbio.oasiscompany.org/api/oauth/userinfo',
         headers={'Authorization': f'Bearer {access_token}'}
     )
     return response.json()

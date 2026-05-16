@@ -16,7 +16,7 @@ If you discover a security vulnerability, please report it responsibly:
 
 **Do NOT** create a public GitHub issue for security vulnerabilities.
 
-Instead, please send details to **security@oasisbio.com** with:
+Instead, please send details to **security@oasiscompany.org** with:
 
 - Type of vulnerability
 - Full paths of source file(s) related to the vulnerability

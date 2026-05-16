@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     'digital identity for AI'
   ],
   authors: [
-    { name: 'Ceaserzhao', url: 'https://oasisbio.com' }
+    { name: 'Ceaserzhao', url: 'https://oasisbio.oasiscompany.org' }
   ],
   publisher: 'Oasis Company',
   icons: {
@@ -54,14 +54,14 @@ export const metadata: Metadata = {
     description: 'Create one portable, AI-readable identity. Stop reintroducing yourself to every app and AI.',
     type: 'website',
     siteName: 'OasisBio',
-    url: 'https://oasisbio.com',
+    url: 'https://oasisbio.oasiscompany.org',
   },
   twitter: {
     title: 'OasisBio - AI Identity Passport',
     description: 'Stop reintroducing yourself to every AI. Create your identity once, use it everywhere.',
     card: 'summary_large_image',
   },
-  metadataBase: new URL('https://oasisbio.com'),
+  metadataBase: new URL('https://oasisbio.oasiscompany.org'),
 };
 
 export default function RootLayout({

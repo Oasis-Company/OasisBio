@@ -65,7 +65,7 @@ export async function GET(
     }
 
     const context = {
-      $schema: 'https://oasisbio.com/context/v1.json',
+      $schema: `${process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.oasiscompany.org'}/context/v1.json`,
       id: oasisBio.id,
       slug: oasisBio.slug,
       title: oasisBio.title,

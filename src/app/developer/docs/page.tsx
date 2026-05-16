@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.com';
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.oasiscompany.org';
 
 const LOGO_URL = '/assets/oasis_logo.svg';
 

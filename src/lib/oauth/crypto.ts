@@ -11,7 +11,7 @@ export function getJwtIssuer(): string {
   if (host) {
     return host.startsWith('http') ? host : `https://${host}`;
   }
-  return 'https://oasisbio.com';
+  return 'https://oasisbio.oasiscompany.org';
 }
 
 // ─────────────────────────────────────────────

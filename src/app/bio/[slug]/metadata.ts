@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `${oasisBio.tagline}${oasisBio.description ? ' - ' + oasisBio.description : ''}`
     : oasisBio.description || 'A digital identity on OasisBio';
   
-  const url = `https://oasisbio.com/bio/${slug}`;
+  const url = `${process.env.NEXT_PUBLIC_APP_URL ?? 'https://oasisbio.oasiscompany.org'}/bio/${slug}`;
 
   return {
     title: `${oasisBio.title} – Character Profile | OasisBio`,

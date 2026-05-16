@@ -15,7 +15,7 @@ OasisBio is an OAuth 2.0 Authorization Server. Third-party applications can inte
 The official logo for the "Continue with Oasis" button is available at:
 
 ```
-https://oasisbio.com/assets/oasis_logo.svg
+https://oasisbio.oasiscompany.org/assets/oasis_logo.svg
 ```
 
 Direct download: [`/assets/oasis_logo.svg`](/assets/oasis_logo.svg)
@@ -34,12 +34,12 @@ Direct download: [`/assets/oasis_logo.svg`](/assets/oasis_logo.svg)
 ### Button HTML
 
 ```html
-<!-- Logo: https://oasisbio.com/assets/oasis_logo.svg -->
-<a href="https://oasisbio.com/oauth/authorize?..."
+<!-- Logo: https://oasisbio.oasiscompany.org/assets/oasis_logo.svg -->
+<a href="https://oasisbio.oasiscompany.org/oauth/authorize?..."
    style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
           background:#000;color:#fff;border-radius:8px;text-decoration:none;
           font-family:sans-serif;font-size:15px;font-weight:500;">
-  <img src="https://oasisbio.com/assets/oasis_logo.svg" width="20" height="17" alt="Oasis" />
+  <img src="https://oasisbio.oasiscompany.org/assets/oasis_logo.svg" width="20" height="17" alt="Oasis" />
   Continue with Oasis
 </a>
 ```
@@ -57,7 +57,7 @@ Go to [/developer/apps/new](/developer/apps/new) and create an OAuth app. You'll
 ### 2. Add the button
 
 ```html
-<a href="https://oasisbio.com/oauth/authorize?client_id=YOUR_CLIENT_ID
+<a href="https://oasisbio.oasiscompany.org/oauth/authorize?client_id=YOUR_CLIENT_ID
          &redirect_uri=YOUR_REDIRECT_URI&response_type=code
          &scope=profile+email&state=RANDOM_STATE
          &code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256"
@@ -75,7 +75,7 @@ After the user approves, they're redirected to your `redirect_uri` with `?code=<
 Exchange the code for tokens:
 
 ```javascript
-const res = await fetch('https://oasisbio.com/api/oauth/token', {
+const res = await fetch('https://oasisbio.oasiscompany.org/api/oauth/token', {
   method: 'POST',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
@@ -94,13 +94,13 @@ const { access_token, refresh_token, expires_in } = await res.json();
 
 ```javascript
 // User profile (requires 'profile' scope)
-const profile = await fetch('https://oasisbio.com/api/oauth/userinfo', {
+const profile = await fetch('https://oasisbio.oasiscompany.org/api/oauth/userinfo', {
   headers: { Authorization: `Bearer ${access_token}` },
 }).then(r => r.json());
 // → { sub, username, display_name, avatar_url, email }
 
 // Character list (requires 'oasisbios:read' scope)
-const characters = await fetch('https://oasisbio.com/api/oauth/resources/oasisbios', {
+const characters = await fetch('https://oasisbio.oasiscompany.org/api/oauth/resources/oasisbios', {
   headers: { Authorization: `Bearer ${access_token}` },
 }).then(r => r.json());
 ```
@@ -270,7 +270,7 @@ function ContinueWithOasis({
     const challenge = base64url(await sha256(verifier));
     sessionStorage.setItem('pkce_verifier', verifier);
 
-    const url = new URL('https://oasisbio.com/oauth/authorize');
+    const url = new URL('https://oasisbio.oasiscompany.org/oauth/authorize');
     url.searchParams.set('client_id', clientId);
     url.searchParams.set('redirect_uri', redirectUri);
     url.searchParams.set('response_type', 'code');
