@@ -159,29 +159,69 @@ export default function ExploreContent({ filters }: ExploreContentProps) {
   if (oasisBios.length === 0) {
     const hasFilters = filters.searchTerm || (filters.selectedEra && filters.selectedEra !== 'All') || (filters.selectedType && filters.selectedType !== 'All');
     return (
-      <div className="text-center py-20">
-        <div className="mx-auto w-20 h-20 mb-6 flex items-center justify-center rounded-full bg-muted">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
+      <div className="flex flex-col items-center justify-center py-20">
+        <div className="text-center max-w-2xl mx-auto">
+          {/* Icon */}
+          <div className="mx-auto w-24 h-24 mb-8 flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30">
+            {hasFilters ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            )}
+          </div>
+          
+          {/* Title */}
+          <h2 className="text-2xl font-bold mb-3">
+            {hasFilters ? '没有找到匹配的身份' : '还没有公开身份'}
+          </h2>
+          <p className="text-muted-foreground mb-8">
+            {hasFilters 
+              ? '尝试调整你的筛选条件或搜索词，看看有没有其他发现' 
+              : '成为第一个创建并分享身份的人！让你的故事被世界看见'}
+          </p>
+          
+          {/* Actions */}
+          {hasFilters ? (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="outline" size="lg" onClick={() => window.location.reload()}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                清除筛选
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="min-w-[220px]">
+                <a href="/auth/login">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  创建第一个身份
+                </a>
+              </Button>
+            </div>
+          )}
+          
+          {/* Extra tip for empty community */}
+          {!hasFilters && (
+            <div className="mt-10 pt-8 border-t border-border">
+              <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <div className="text-left">
+                  <p className="font-medium text-foreground mb-1">为什么创建第一个？</p>
+                  <p>你将成为 OasisBio 社区的开拓者，你的身份会成为其他人的灵感来源！</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <h3 className="text-xl font-medium mb-2">
-          {hasFilters ? 'No OasisBios found' : 'No OasisBios yet'}
-        </h3>
-        <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-          {hasFilters 
-            ? 'Try adjusting your filters or search term to find what you\'re looking for.' 
-            : 'Be the first to create an OasisBio and share it with the community!'}
-        </p>
-        {hasFilters ? (
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            Clear Filters
-          </Button>
-        ) : (
-          <Button asChild>
-            <a href="/auth/login">Create Your First OasisBio</a>
-          </Button>
-        )}
       </div>
     );
   }

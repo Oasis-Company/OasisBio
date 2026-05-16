@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { ExportModal } from '@/components/ExportModal';
 import { ImportModal } from '@/components/ImportModal';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function OasisBiosPage() {
   const { user } = useAuth();
@@ -214,7 +215,7 @@ export default function OasisBiosPage() {
               </Button>
             )}
             <Button asChild>
-              <a href="/dashboard/oasisbios/new">Create New OasisBio</a>
+              <Link href="/dashboard/oasisbios/new">Create New OasisBio</Link>
             </Button>
           </div>
         </div>
@@ -232,19 +233,63 @@ export default function OasisBiosPage() {
         )}
 
         {oasisBios.length === 0 ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>No OasisBios Yet</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                You haven't created any OasisBios yet. Start by creating your first one.
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="text-center max-w-2xl mx-auto">
+              {/* Icon */}
+              <div className="mx-auto w-24 h-24 mb-8 flex items-center justify-center rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              
+              {/* Title */}
+              <h2 className="text-2xl font-bold mb-3">开始创建你的身份故事</h2>
+              <p className="text-muted-foreground mb-8">
+                在这里，你可以思考"你是谁"——记录真实的你，或者探索你想成为的样子。没有标准答案，只有你的故事。
               </p>
-              <Button className="mt-4" asChild>
-                <a href="/dashboard/oasisbios/new">Create First OasisBio</a>
-              </Button>
-            </CardContent>
-          </Card>
+              
+              {/* Actions */}
+              <div className="flex justify-center">
+                <Button asChild size="lg" className="min-w-[200px]">
+                  <Link href="/dashboard/oasisbios/new">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    创建新身份
+                  </Link>
+                </Button>
+              </div>
+              
+              {/* Question prompts */}
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div className="p-4 rounded-lg bg-muted/30">
+                  <p className="text-muted-foreground">• 你最珍视的价值观是什么？</p>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/30">
+                  <p className="text-muted-foreground">• 什么让你感到真正的快乐？</p>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/30">
+                  <p className="text-muted-foreground">• 你希望别人如何记住你？</p>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/30">
+                  <p className="text-muted-foreground">• 你想探索自己的哪些方面？</p>
+                </div>
+              </div>
+              
+              {/* Tip */}
+              <div className="mt-10 pt-8 border-t border-border">
+                <div className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  <div className="text-left">
+                    <p className="font-medium text-foreground mb-1">需要帮助？</p>
+                    <p>Deo/Dia 助手和 Nuwa 可以陪伴你一起探索，让你的表达更自然。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {oasisBios.map((oasisBio) => (

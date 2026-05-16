@@ -27,6 +27,16 @@ export type OtpErrorCategory =
 
 export type OtpPhase = 'send' | 'verify';
 
+export type AuthErrorCode =
+  | 'AUTH_001'
+  | 'AUTH_002'
+  | 'AUTH_003'
+  | 'AUTH_004'
+  | 'AUTH_005'
+  | 'AUTH_006'
+  | 'AUTH_007'
+  | 'AUTH_008';
+
 export interface ClassifiedOtpError {
   /** User-facing message (safe to render) */
   message: string;
@@ -34,7 +44,48 @@ export interface ClassifiedOtpError {
   category: OtpErrorCategory;
   /** Whether the user should be offered a "resend" option */
   canResend: boolean;
+  /** Error code for tracking and documentation */
+  code: AuthErrorCode;
 }
+
+// ---------------------------------------------------------------------------
+// AUTH_001-AUTH_008 Error Code Definitions
+// ---------------------------------------------------------------------------
+
+const ERROR_MESSAGES: Record<AuthErrorCode, { zh: string; en: string }> = {
+  AUTH_001: {
+    zh: '网络连接失败，请检查您的网络连接后重试。',
+    en: 'Unable to reach our server. Please check your internet connection and try again.',
+  },
+  AUTH_002: {
+    zh: '验证码无效或已过期，请重新发送验证码。',
+    en: 'This verification code is invalid or has expired.',
+  },
+  AUTH_003: {
+    zh: '未找到该邮箱对应的账户，您是否需要注册一个新账户？',
+    en: 'No account found with this email. Want to create one?',
+  },
+  AUTH_004: {
+    zh: '操作次数过多，请稍后再试。',
+    en: 'Too many attempts. Please wait a moment before trying again.',
+  },
+  AUTH_005: {
+    zh: '邮件发送额度已用完，请使用 Google/GitHub 登录，或几小时后再试。',
+    en: "We've hit our daily email limit. Please try again in a few hours, or use Google/GitHub sign-in instead.",
+  },
+  AUTH_006: {
+    zh: '账户不存在，请重新登录。',
+    en: 'Account not found. Please try signing in again.',
+  },
+  AUTH_007: {
+    zh: '发送验证码时出错，请重试。',
+    en: 'Something went wrong. Please try again.',
+  },
+  AUTH_008: {
+    zh: '发生未知错误，请检查您的输入后重试。',
+    en: 'Something went wrong. Please check your input and try again.',
+  },
+};
 
 // ---------------------------------------------------------------------------
 // Supabase error classification rules
@@ -139,21 +190,24 @@ export function classifyOtpError(
     message: '',
     category,
     canResend: false,
+    code: 'AUTH_008',
   };
 
   switch (category) {
     case 'network':
-      result.message =
-        'Unable to reach our server. Please check your internet connection and try again.';
+      result.message = ERROR_MESSAGES.AUTH_001.zh;
+      result.code = 'AUTH_001';
       result.canResend = true;
       break;
 
     case 'invalid':
       if (phase === 'verify') {
-        result.message = 'This verification code is invalid or has expired.';
+        result.message = ERROR_MESSAGES.AUTH_002.zh;
+        result.code = 'AUTH_002';
         result.canResend = true;
       } else {
-        result.message = 'Something went wrong. Please try again.';
+        result.message = ERROR_MESSAGES.AUTH_007.zh;
+        result.code = 'AUTH_007';
         result.canResend = true;
       }
       break;
@@ -161,33 +215,33 @@ export function classifyOtpError(
     case 'not_found':
       if (phase === 'send') {
         // During login — user doesn't exist, suggest registering
-        result.message =
-          'No account found with this email. Want to create one?';
+        result.message = ERROR_MESSAGES.AUTH_003.zh;
+        result.code = 'AUTH_003';
       } else {
         // During verify — shouldn't happen normally
-        result.message =
-          'Account not found. Please try signing in again.';
+        result.message = ERROR_MESSAGES.AUTH_006.zh;
+        result.code = 'AUTH_006';
       }
       result.canResend = false; // Resending won't help if email doesn't exist
       break;
 
     case 'rate_limit':
-      result.message =
-        'Too many attempts. Please wait a moment before trying again.';
+      result.message = ERROR_MESSAGES.AUTH_004.zh;
+      result.code = 'AUTH_004';
       result.canResend = false;
       break;
 
     case 'quota':
-      result.message =
-        "We've hit our daily email limit. Please try again in a few hours, or use Google/GitHub sign-in instead.";
+      result.message = ERROR_MESSAGES.AUTH_005.zh;
+      result.code = 'AUTH_005';
       result.canResend = false;
       break;
 
     case 'unknown':
     default:
       // Don't expose raw Supabase messages — they may contain internal details
-      result.message =
-        'Something went wrong. Please check your input and try again.';
+      result.message = ERROR_MESSAGES.AUTH_008.zh;
+      result.code = 'AUTH_008';
       result.canResend = phase === 'send'; // Allow retry on send, be cautious on verify
       break;
   }

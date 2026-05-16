@@ -11,6 +11,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, handleApiError } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
+const FORBIDDEN_WORDS = [
+  'admin', 'api', 'auth', 'oauth', 'login', 'logout', 'signup', 'signin',
+  'register', 'password', 'reset', 'verify', 'account', 'profile', 'settings',
+  'dashboard', 'billing', 'payment', 'subscribe', 'subscriptions',
+  'user', 'users', 'developer', 'developers', 'app', 'apps', 'docs',
+  'static', 'public', 'private', 'internal', 'external', 'test',
+  'demo', 'dev', 'staging', 'prod', 'production', 'api-v1', 'api-v2',
+  'www', 'mail', 'ftp', 'smtp', 'imap', 'webmail', 'help', 'support',
+  'contact', 'about', 'blog', 'news', 'press', 'careers', 'jobs',
+  'terms', 'privacy', 'policy', 'legal', 'copyright', 'trademark',
+  'robots', 'sitemap', 'favicon', 'cdn', 'assets', 'images', 'img',
+  'css', 'js', 'json', 'xml', 'html', 'htm', 'php', 'asp', 'jsp',
+  'cgi', 'bin', 'tmp', 'temp', 'cache', 'log', 'logs', 'backup',
+  'admin-panel', 'control-panel', 'manage', 'manager', 'moderator',
+  'root', 'super', 'sys', 'system', 'webmaster', 'hostmaster',
+  'postmaster', 'abuse', 'noc', 'security', 'info', 'info@',
+];
+
 export async function GET(request: NextRequest) {
   try {
     await requireAuth(); // Must be logged in (rate-limit / prevent enumeration)
@@ -34,6 +52,15 @@ export async function GET(request: NextRequest) {
     }
     if (slug.length > 60) {
       return NextResponse.json({ available: false, reason: 'too_long' });
+    }
+
+    // Check forbidden words
+    const slugParts = slug.split('-');
+    const hasForbiddenWord = FORBIDDEN_WORDS.some(word => 
+      slug === word || slugParts.includes(word)
+    );
+    if (hasForbiddenWord) {
+      return NextResponse.json({ available: false, reason: 'forbidden' });
     }
 
     // Check uniqueness (excluding current bio)
