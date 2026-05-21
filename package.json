@@ -24,6 +24,7 @@
     "@types/archiver": "^7.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/unzipper": "^0.10.11",
+    "@vercel/og": "^0.6.3",
     "archiver": "^7.0.1",
     "bcryptjs": "^3.0.3",
     "fast-check": "^4.6.0",

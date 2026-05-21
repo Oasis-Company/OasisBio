@@ -33,6 +33,7 @@ model User {
   diaProfile    DiaProfile?
   assistantSessions    AssistantSession[]
   assistantPermissions AssistantPermission[]
+  proustAnswers ProustAnswer[]
 
   @@index([createdAt])
   @@index([email])
@@ -570,4 +571,19 @@ model AssistantPermission {
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("assistant_permissions")
+}
+
+model ProustAnswer {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  question  String
+  answer    String
+  source    String   @default("proust")
+  isPublic  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("proust_answer")
 }

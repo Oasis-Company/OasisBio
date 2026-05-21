@@ -4,6 +4,59 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import ModelViewerWrapper from '@/components/ModelViewerWrapper';
+import type { Metadata, ResolvingMetadata } from 'next';
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const oasisBio = await prisma.oasisBio.findUnique({
+    where: { slug, visibility: 'public' },
+    include: { user: { include: { profiles: true } } },
+  });
+
+  if (!oasisBio) {
+    return {
+      title: 'OasisBio - Character Not Found',
+    };
+  }
+
+  const profile = oasisBio.user.profiles[0];
+  let ogImageUrl = '/api/og/proust/placeholder';
+
+  if (profile) {
+    ogImageUrl = `/api/og/proust/${profile.username}`;
+  }
+
+  return {
+    title: `${oasisBio.title} | OasisBio`,
+    description: oasisBio.tagline || 'An identity archive in the OasisBio system.',
+    openGraph: {
+      title: `${oasisBio.title} | OasisBio`,
+      description: oasisBio.tagline || 'An identity archive in the OasisBio system.',
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${oasisBio.title} - Identity Archive`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${oasisBio.title} | OasisBio`,
+      description: oasisBio.tagline || 'An identity archive in the OasisBio system.',
+      images: [ogImageUrl],
+    },
+  };
+}
 
 async function getOasisBio(slug: string) {
   const oasisBio = await prisma.oasisBio.findUnique({
