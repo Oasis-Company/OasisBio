@@ -11,7 +11,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import NavigationBar from '@/components/navigation/NavigationBar';
 import { useToast } from '@/components/Toast';
 import Link from 'next/link';
-// import { decodeTemplateData, CHARACTER_TEMPLATES, encodeTemplateData } from '@/lib/character-templates';
 
 type Step = 1 | 2 | 3;
 type SlugStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid' | 'forbidden' | 'error';
@@ -85,7 +84,6 @@ export default function CreateOasisBioPage() {
 
   const fromSlug = searchParams.get('from') ?? null;
   const [sourceTitle, setSourceTitle] = useState<string | null>(null);
-  const [showQuickStart, setShowQuickStart] = useState(true);
 
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -119,18 +117,18 @@ export default function CreateOasisBioPage() {
   const checkSlugAvailability = useCallback(async (slugValue: string) => {
     if (!slugValue || slugValue.length < 3) {
       setSlugStatus(slugValue ? 'invalid' : 'idle');
-      setSlugMessage(slugValue && slugValue.length > 0 && slugValue.length < 3 ? '至少需要3个字符' : '');
+      setSlugMessage(slugValue && slugValue.length > 0 && slugValue.length < 3 ? 'At least 3 characters required' : '');
       return;
     }
 
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slugValue)) {
       setSlugStatus('invalid');
-      setSlugMessage('只允许小写字母、数字和连字符');
+      setSlugMessage('Only lowercase letters, numbers, and hyphens allowed');
       return;
     }
 
     setSlugStatus('checking');
-    setSlugMessage('正在检查...');
+    setSlugMessage('Checking availability...');
 
     try {
       const res = await fetch(`/api/oasisbios/check-slug?slug=${encodeURIComponent(slugValue)}`);
@@ -138,31 +136,31 @@ export default function CreateOasisBioPage() {
 
       if (data.available) {
         setSlugStatus('available');
-        setSlugMessage(`/bio/${slugValue} 可用 ✓`);
+        setSlugMessage(`/bio/${slugValue} is available ✓`);
       } else {
         if (data.reason === 'taken') {
           setSlugStatus('taken');
-          setSlugMessage(`已被 "${data.conflictTitle ?? '其他角色'}" 使用`);
+          setSlugMessage(`Already used by "${data.conflictTitle ?? 'another identity'}`);
         } else if (data.reason === 'publication_taken') {
           setSlugStatus('taken');
-          setSlugMessage('该 URL 已被占用');
+          setSlugMessage('This URL is already taken');
         } else if (data.reason === 'forbidden') {
           setSlugStatus('forbidden');
-          setSlugMessage('该 URL 包含禁用词 ⚠');
+          setSlugMessage('This URL contains forbidden words ⚠');
         } else if (data.reason === 'too_short') {
           setSlugStatus('invalid');
-          setSlugMessage('至少需要3个字符');
+          setSlugMessage('At least 3 characters required');
         } else if (data.reason === 'too_long') {
           setSlugStatus('invalid');
-          setSlugMessage('最多60个字符');
+          setSlugMessage('Maximum 60 characters');
         } else {
           setSlugStatus('invalid');
-          setSlugMessage('无效的 URL 格式');
+          setSlugMessage('Invalid URL format');
         }
       }
     } catch {
       setSlugStatus('error');
-      setSlugMessage('无法验证 URL');
+      setSlugMessage('Could not verify URL');
     }
   }, []);
 
@@ -226,21 +224,14 @@ export default function CreateOasisBioPage() {
       return;
     }
 
-    // const templateParam = searchParams.get('template');
-    // if (templateParam) {
-    //   const templateData = decodeTemplateData(templateParam);
-    //   if (templateData) {
-    //     setTitle(templateData.title);
-    //     setTagline(templateData.tagline);
-    //     setIdentityMode(templateData.identityMode);
-    //     if (templateData.eraName) setEraName(templateData.eraName);
-    //     if (templateData.eraType) setEraType(templateData.eraType);
-    //     if (templateData.abilityName) setAbilityName(templateData.abilityName);
-    //     if (templateData.abilityDescription) setAbilityDescription(templateData.abilityDescription);
-    //     setSourceTitle(templateData.title);
-    //     return;
-    //   }
-    // }
+    const starterEraType = searchParams.get('eraType');
+    const starterTitle = searchParams.get('title');
+    if (starterEraType) {
+      setEraType(starterEraType);
+      if (starterTitle) {
+        setSourceTitle(starterTitle);
+      }
+    }
 
     if (fromSlug) {
       fetch(`/api/oasisbios/public?search=${encodeURIComponent(fromSlug)}&limit=1`)
@@ -274,10 +265,10 @@ export default function CreateOasisBioPage() {
     setFieldError('');
     try {
       if (!slug) {
-        throw new Error('URL 是必填项');
+        throw new Error('URL is required');
       }
       if (slugStatus !== 'available') {
-        throw new Error('请使用一个可用的 URL');
+        throw new Error('Please use an available URL');
       }
 
       const payload: Record<string, unknown> = {
@@ -299,7 +290,7 @@ export default function CreateOasisBioPage() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || '创建失败');
+      if (!res.ok) throw new Error(data.error || 'Creation failed');
       if (user) {
         clearDraft(user.id);
       }
@@ -307,7 +298,7 @@ export default function CreateOasisBioPage() {
       setCreatedBioId(data.id);
       setShowSuccessModal(true);
     } catch (err) {
-      setFieldError(err instanceof Error ? err.message : '创建失败');
+      setFieldError(err instanceof Error ? err.message : 'Creation failed');
     } finally {
       setIsSubmitting(false);
     }
@@ -315,7 +306,7 @@ export default function CreateOasisBioPage() {
 
   const handlePublishNow = () => {
     setShowSuccessModal(false);
-    success('Your character is ready to be published!');
+    success('Your identity archive is ready!');
     router.push(`/dashboard/oasisbios/${createdBioId}`);
   };
 
@@ -332,9 +323,9 @@ export default function CreateOasisBioPage() {
   const formatLastSaved = () => {
     if (!lastSaved) return '';
     const now = new Date();
-    const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
+    const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000;
     if (diff < 60) return 'Just now';
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago';
     return lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
@@ -351,83 +342,21 @@ export default function CreateOasisBioPage() {
               <Link href="/dashboard/oasisbios" className="text-sm text-muted-foreground hover:underline">
                 ← Back to My OasisBios
               </Link>
-              <h1 className="text-3xl font-display font-bold mt-2">创建新身份</h1>
+              <h1 className="text-3xl font-display font-bold mt-2">Create Identity Archive</h1>
               <p className="text-muted-foreground mt-1">
-                创造你自己
+                OasisBio is your digital immortality archive - document the real you
               </p>
               {sourceTitle && (
                 <div className="mt-3 inline-flex items-center gap-2 px-3 py-2 bg-purple-50 border border-purple-200 rounded-lg text-sm dark:bg-purple-950/30 dark:border-purple-800">
                   <span className="text-purple-600">🍂</span>
-                  <span>Inspired by <strong>{sourceTitle}</strong> — use it as a starting point</span>
+                  <span>Starting point: <strong>{sourceTitle}</strong></span>
                 </div>
               )}
               <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-muted/50 border border-border rounded-full text-xs text-muted-foreground">
                 <span>✨</span>
-                <span>需要灵感？可以问问 Deo 和 Dia</span>
+                <span>Need inspiration? Ask Deo and Dia</span>
               </div>
             </div>
-
-            {/* Quick Start Templates */}
-            {/* {showQuickStart && step === 1 && !sourceTitle && !searchParams.get('template') && (
-              <div className="mb-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold">快速开始</h2>
-                  <button 
-                    onClick={() => setShowQuickStart(false)}
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    跳过 →
-                  </button>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {CHARACTER_TEMPLATES.map((template) => (
-                    <Card 
-                      key={template.id} 
-                      className="cursor-pointer hover:shadow-md transition-all group border-2 border-transparent hover:border-purple-200"
-                      onClick={() => {
-                        const encoded = encodeTemplateData(template.data);
-                        router.push(`/dashboard/oasisbios/new?template=${encoded}`);
-                      }}
-                    >
-                      <CardHeader className="pb-2">
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-2xl">{template.icon}</span>
-                            <div>
-                              <CardTitle className="text-base">{template.name}</CardTitle>
-                            </div>
-                          </div>
-                          <span className="text-xs px-2 py-1 bg-muted rounded-full capitalize">
-                            {template.category}
-                          </span>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                          {template.description}
-                        </p>
-                        <div className="bg-muted/30 rounded-lg p-3">
-                          <p className="font-medium text-sm">{template.preview.title}</p>
-                          <p className="text-xs text-muted-foreground">{template.preview.tagline}</p>
-                        </div>
-                        <div className="mt-3 text-xs text-purple-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                          点击使用此模板 →
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                  <Card className="flex flex-col items-center justify-center p-8 border-dashed cursor-pointer hover:bg-muted/30 transition-colors">
-                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                    </div>
-                    <p className="text-sm font-medium text-foreground">从零开始</p>
-                    <p className="text-xs text-muted-foreground mt-1">完全自定义</p>
-                  </Card>
-                </div>
-              </div>
-            )}*/}
 
             {/* Restore Draft Modal */}
             {showRestoreModal && (
@@ -473,9 +402,9 @@ export default function CreateOasisBioPage() {
                 )}
               </div>
               <div className="flex justify-between text-xs font-mono text-muted-foreground">
-                <span>Identity</span>
+                <span>Basic Info</span>
                 <span>Era (optional)</span>
-                <span>Review</span>
+                <span>Review & Save</span>
               </div>
             </div>
 
@@ -488,38 +417,41 @@ export default function CreateOasisBioPage() {
                 <CardContent className="space-y-4">
                   <div>
                     <label htmlFor="title" className="block text-sm font-medium mb-1">
-                      Character Name <span className="text-destructive">*</span>
+                      Identity Name <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="title"
-                      placeholder="e.g. Ada Lovelace, Kaelen Voss"
+                      placeholder="e.g., Current Me, 20-Year-Old Me, Future Me"
                       value={title}
                       onChange={e => setTitle(e.target.value)}
                       required
                     />
                     <p className="text-xs text-muted-foreground mt-1">
-                      别人怎么称呼你？你希望怎么介绍自己？
+                      Which period of your life does this identity represent?
                     </p>
                   </div>
                   <div>
                     <label htmlFor="tagline" className="block text-sm font-medium mb-1">
-                      Tagline
+                      One-Line Description
                     </label>
                     <Input
                       id="tagline"
-                      placeholder="One-line description"
+                      placeholder="Summarize this version of you in one sentence"
                       value={tagline}
                       onChange={e => setTagline(e.target.value)}
                     />
                     <p className="text-xs text-muted-foreground mt-1">
-                      用一句话总结你最特别的地方
+                      Leave a marker for your future self
                     </p>
                   </div>
                   <div>
                     <label htmlFor="identityMode" className="block text-sm font-medium mb-1">
-                      Identity Mode
+                      Identity Type
                       <HintIcon
-                        hint={`Real: 真实的你，记录现在的自己\nFictional: 你想探索的一个想象中的你\nHybrid: 混合真实和想象的你\nFuture: 未来的你，你想成为的样子\nAlternate: 平行宇宙中的你\nWorldbound: 在某个世界观中的你`}
+                        hint={`Real: The real you, documenting your current self
+Future: The you that you want to become
+Alternate: You in a parallel universe
+Hybrid: A mix of real and imagined`}
                         variant="info"
                         side="top"
                       />
@@ -530,19 +462,17 @@ export default function CreateOasisBioPage() {
                       onChange={e => setIdentityMode(e.target.value)}
                       className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     >
-                      <option value="real">Real</option>
-                      <option value="fictional">Fictional</option>
-                      <option value="hybrid">Hybrid</option>
-                      <option value="future">Future</option>
-                      <option value="alternate">Alternate</option>
-                      <option value="worldbound">Worldbound</option>
+                      <option value="real">Real - The real you</option>
+                      <option value="future">Future - The you want to become</option>
+                      <option value="alternate">Alternate - Parallel universe</option>
+                      <option value="hybrid">Hybrid - Mix of real and imagined</option>
                     </select>
                   </div>
                   <div className="flex justify-end pt-4">
                     <Button
                       onClick={() => {
                         if (!title.trim()) {
-                          setFieldError('Character name is required');
+                          setFieldError('Identity name is required');
                           return;
                         }
                         setFieldError('');
@@ -560,11 +490,11 @@ export default function CreateOasisBioPage() {
             {step === 2 && (
               <Card variant="outlined">
                 <CardHeader>
-                  <CardTitle>Step 2: Add an Era & Ability (Optional)</CardTitle>
+                  <CardTitle>Step 2: Add Era and Trait (Optional)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <p className="text-sm text-muted-foreground">
-                    Give your character a temporal anchor and a special ability. You can add more later.
+                    Give this identity a temporal anchor and document a trait you're proud of. You can add more later.
                   </p>
 
                   {/* Era Section */}
@@ -577,17 +507,17 @@ export default function CreateOasisBioPage() {
                         </label>
                         <Input
                           id="eraName"
-                          placeholder="e.g. The Gilded Age, Year 2145"
+                          placeholder="e.g., College Years, Early Career, 2030"
                           value={eraName}
                           onChange={e => setEraName(e.target.value)}
                         />
                         <p className="text-xs text-muted-foreground mt-1">
-                          你生活在什么时空？现在、未来还是理想中的世界？
+                          Which period of your life does this identity belong to?
                         </p>
                       </div>
                       <div>
                         <label htmlFor="eraType" className="block text-sm font-medium mb-1">
-                          Era Type
+                          Time Type
                         </label>
                         <select
                           id="eraType"
@@ -595,10 +525,10 @@ export default function CreateOasisBioPage() {
                           onChange={e => setEraType(e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                         >
-                          <option value="past">Past</option>
-                          <option value="present">Present</option>
-                          <option value="future">Future</option>
-                          <option value="alternate">Alternate</option>
+                          <option value="past">Past - The past</option>
+                          <option value="present">Present - Right now</option>
+                          <option value="future">Future - The future</option>
+                          <option value="alternate">Alternate - Parallel</option>
                         </select>
                       </div>
                     </div>
@@ -606,28 +536,28 @@ export default function CreateOasisBioPage() {
 
                   {/* Ability Section */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold">Ability</h3>
+                    <h3 className="text-sm font-semibold">Trait</h3>
                     <div>
                       <label htmlFor="abilityName" className="block text-sm font-medium mb-1">
-                        Ability Name
+                        Trait Name
                       </label>
                       <Input
                         id="abilityName"
-                        placeholder="e.g. Time Manipulation, Healing Factor"
+                        placeholder="e.g., Empathy, Fast Learner, Persistence"
                         value={abilityName}
                         onChange={e => setAbilityName(e.target.value)}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        你最引以为傲的特质或能力是什么？
+                        What trait do you value most about yourself in this period?
                       </p>
                     </div>
                     <div>
                       <label htmlFor="abilityDescription" className="block text-sm font-medium mb-1">
-                        Ability Description
+                        Detailed Description
                       </label>
                       <textarea
                         id="abilityDescription"
-                        placeholder="Describe the ability..."
+                        placeholder="Document what this trait means to you..."
                         value={abilityDescription}
                         onChange={e => setAbilityDescription(e.target.value)}
                         rows={3}
@@ -661,15 +591,15 @@ export default function CreateOasisBioPage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <p className="text-sm text-muted-foreground">
-                    这是将要创建的内容。您以后可以编辑所有内容。
+                    This is what will be created. You can edit everything later.
                   </p>
 
                   {/* Slug Input */}
                   <div className="space-y-2">
                     <label htmlFor="slug" className="block text-sm font-medium">
-                      URL 别名 (Slug)
+                      URL Slug
                       <HintIcon
-                        hint="这将是您角色页面的公开 URL，例如 /bio/ada-lovelace"
+                        hint="This will be your public identity URL, e.g., /bio/2024-me"
                         variant="info"
                         side="top"
                       />
@@ -680,7 +610,7 @@ export default function CreateOasisBioPage() {
                         id="slug"
                         value={slug}
                         onChange={(e) => handleSlugChange(e.target.value)}
-                        placeholder="ada-lovelace"
+                        placeholder="2024-me"
                         className={
                           slugStatus === 'available'
                             ? 'border-green-500 focus:ring-green-500'
@@ -706,32 +636,32 @@ export default function CreateOasisBioPage() {
                   {/* Preview */}
                   <div className="border border-border rounded-lg p-4 bg-muted/30 space-y-3">
                     <div>
-                      <span className="text-xs font-mono text-muted-foreground">NAME</span>
-                      <p className="font-semibold text-lg">{title || '(untitled)'}</p>
+                      <span className="text-xs font-mono text-muted-foreground">Identity Name</span>
+                      <p className="font-semibold text-lg">{title || '(not set)'}</p>
                     </div>
                     {tagline && (
                       <div>
-                        <span className="text-xs font-mono text-muted-foreground">TAGLINE</span>
+                        <span className="text-xs font-mono text-muted-foreground">One-Line Description</span>
                         <p className="text-muted-foreground">{tagline}</p>
                       </div>
                     )}
                     <div>
                       <span className="text-xs font-mono text-muted-foreground">URL</span>
-                      <p className="font-mono text-sm">/bio/{slug || '(待设置)'}</p>
+                      <p className="font-mono text-sm">/bio/{slug || '(not set)'}</p>
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-muted-foreground">MODE</span>
+                      <span className="text-xs font-mono text-muted-foreground">Type</span>
                       <p className="capitalize">{identityMode}</p>
                     </div>
                     {eraName && (
                       <div>
-                        <span className="text-xs font-mono text-muted-foreground">ERA</span>
+                        <span className="text-xs font-mono text-muted-foreground">Era</span>
                         <p>{eraName} <span className="text-muted-foreground">({eraType})</span></p>
                       </div>
                     )}
                     {abilityName && (
                       <div>
-                        <span className="text-xs font-mono text-muted-foreground">ABILITY</span>
+                        <span className="text-xs font-mono text-muted-foreground">Trait</span>
                         <p>{abilityName}</p>
                         {abilityDescription && (
                           <p className="text-sm text-muted-foreground mt-1">{abilityDescription}</p>
@@ -751,7 +681,7 @@ export default function CreateOasisBioPage() {
                       ← Back
                     </Button>
                     <Button onClick={handleSubmit} disabled={isSubmitting}>
-                      {isSubmitting ? 'Saving...' : 'Save & Preview →'}
+                      {isSubmitting ? 'Saving...' : 'Save Archive →'}
                     </Button>
                   </div>
                 </CardContent>

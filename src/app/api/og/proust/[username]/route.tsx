@@ -1,9 +1,7 @@
 import { ImageResponse } from '@vercel/og'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { ProustCardOG } from '@/components/proust/ProustCardOG'
-
-export const runtime = 'edge'
 
 export async function GET(
   request: NextRequest,

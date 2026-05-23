@@ -5,17 +5,58 @@ import { useAuth } from '@/lib/auth.client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { CharacterTemplateCard } from '@/components/CharacterTemplateCard';
-import { CHARACTER_TEMPLATES } from '@/lib/character-templates';
 import NavigationBar from '@/components/navigation/NavigationBar';
 
-export default function TemplatesPage() {
+const LIFE_STAGE_STARTERS = [
+  {
+    id: 'current-self',
+    title: 'Your Current Self',
+    description: 'Start from who you are right now, documenting your current thoughts, skills, and worldview',
+    icon: '🧘',
+    eraType: 'present',
+    hint: 'Best for new users'
+  },
+  {
+    id: 'past-self',
+    title: 'Your Past Self',
+    description: 'Document a specific period of your life - college years, early career, etc.',
+    icon: '📸',
+    eraType: 'past',
+    hint: 'Create a time capsule'
+  },
+  {
+    id: 'future-vision',
+    title: 'Your Future Self',
+    description: 'Define who you want to become, documenting your vision and goals',
+    icon: '🔮',
+    eraType: 'future',
+    hint: 'Set your direction'
+  },
+  {
+    id: 'parallel-self',
+    title: 'Your Parallel Self',
+    description: 'Explore who you might have been with different life choices',
+    icon: '🌌',
+    eraType: 'alternate',
+    hint: 'For creative exploration'
+  }
+];
+
+export default function LifeStageStartersPage() {
   const { user } = useAuth();
   const router = useRouter();
 
   if (!user) {
     return null;
   }
+
+  const handleSelect = (starter: typeof LIFE_STAGE_STARTERS[0]) => {
+    const params = new URLSearchParams({
+      eraType: starter.eraType,
+      title: starter.title
+    });
+    router.push(`/dashboard/oasisbios/new?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,22 +69,40 @@ export default function TemplatesPage() {
               <Link href="/dashboard/oasisbios" className="text-sm text-muted-foreground hover:underline">
                 ← Back to My OasisBios
               </Link>
-              <h1 className="text-3xl font-display font-bold mt-2">Choose a Template</h1>
+              <h1 className="text-3xl font-display font-bold mt-2">Choose Your Starting Point</h1>
               <p className="text-muted-foreground mt-1">
-                Pick a template to get started quickly. You can customize everything after selecting.
+                OasisBio is your identity archive - which version of you will you document?
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {CHARACTER_TEMPLATES.map((template) => (
-                <CharacterTemplateCard key={template.id} template={template} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {LIFE_STAGE_STARTERS.map((starter) => (
+                <div
+                  key={starter.id}
+                  onClick={() => handleSelect(starter)}
+                  className="p-6 border border-border rounded-lg hover:bg-muted/30 cursor-pointer transition-all hover:border-purple-200"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="text-4xl">{starter.icon}</div>
+                    <span className="text-xs px-2 py-1 bg-muted rounded-full">
+                      {starter.hint}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{starter.title}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {starter.description}
+                  </p>
+                  <div className="mt-4 text-sm text-purple-600 font-medium">
+                    Start documenting →
+                  </div>
+                </div>
               ))}
             </div>
 
-            <div className="text-center">
-              <p className="text-muted-foreground mb-4">Or start from scratch</p>
+            <div className="text-center pt-4 border-t border-border">
+              <p className="text-muted-foreground mb-4">Or start completely from scratch</p>
               <Button asChild>
-                <Link href="/dashboard/oasisbios/new">Create Blank Character</Link>
+                <Link href="/dashboard/oasisbios/new">Start from Blank</Link>
               </Button>
             </div>
           </div>
