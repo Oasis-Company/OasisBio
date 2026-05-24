@@ -323,7 +323,7 @@ export default function CreateOasisBioPage() {
   const formatLastSaved = () => {
     if (!lastSaved) return '';
     const now = new Date();
-    const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000;
+    const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
     if (diff < 60) return 'Just now';
     if (diff < 3600) return `${Math.floor(diff / 60)}m ago';
     return lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
