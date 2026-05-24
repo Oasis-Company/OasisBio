@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useAuth } from '@/lib/auth.client';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -73,7 +73,7 @@ const clearDraft = (userId: string): void => {
   } catch {}
 };
 
-export default function CreateOasisBioPage() {
+function CreateOasisBioPageContent() {
   const { user, supabase } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -698,5 +698,15 @@ export default function CreateOasisBioPage() {
         onContinueEditing={handleContinueEditing}
       />
     </div>
+  );
+}
+
+export default function CreateOasisBioPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="animate-pulse text-muted-foreground">Loading...</div>
+    </div>}>
+      <CreateOasisBioPageContent />
+    </Suspense>
   );
 }
