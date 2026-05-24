@@ -34,8 +34,7 @@ const saveDraft = (userId: string, data: DraftData): void => {
       ...data,
       savedAt: new Date().toISOString(),
     }));
-  } catch {
-  }
+  } catch {}
 };
 
 const loadDraft = (userId: string): DraftData | null => {
@@ -54,8 +53,7 @@ const loadDraft = (userId: string): DraftData | null => {
         slug: parsed.slug ?? '',
       };
     }
-  } catch {
-  }
+  } catch {}
   return null;
 };
 
@@ -72,15 +70,14 @@ const generateSlugFromTitle = (title: string): string => {
 const clearDraft = (userId: string): void => {
   try {
     localStorage.removeItem(getDraftKey(userId));
-  } catch {
-  }
+  } catch {}
 };
 
 export default function CreateOasisBioPage() {
   const { user, supabase } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { success, error: toastError } = useToast();
+  const { success } = useToast();
 
   const fromSlug = searchParams.get('from') ?? null;
   const [sourceTitle, setSourceTitle] = useState<string | null>(null);
@@ -325,7 +322,7 @@ export default function CreateOasisBioPage() {
     const now = new Date();
     const diff = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
     if (diff < 60) return 'Just now';
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
     return lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
@@ -336,7 +333,6 @@ export default function CreateOasisBioPage() {
 
         <div className="flex-1 p-6 md:p-8">
           <div className="max-w-4xl mx-auto">
-
             {/* Header */}
             <div className="mb-8">
               <Link href="/dashboard/oasisbios" className="text-sm text-muted-foreground hover:underline">
@@ -380,13 +376,9 @@ export default function CreateOasisBioPage() {
             <div className="mb-10">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  {[1, 2, 3].map(s => (
+                  {[1, 2, 3].map((s) => (
                     <div key={s} className="flex-1">
-                      <div
-                        className={`h-1.5 rounded-full transition-colors duration-300 ${
-                          s <= step ? 'bg-black' : 'bg-muted'
-                        }`}
-                      />
+                      <div className={`h-1.5 rounded-full transition-colors duration-300 ${s <= step ? 'bg-black' : 'bg-muted'}`} />
                     </div>
                   ))}
                 </div>
@@ -423,7 +415,7 @@ export default function CreateOasisBioPage() {
                       id="title"
                       placeholder="e.g., Current Me, 20-Year-Old Me, Future Me"
                       value={title}
-                      onChange={e => setTitle(e.target.value)}
+                      onChange={(e) => setTitle(e.target.value)}
                       required
                     />
                     <p className="text-xs text-muted-foreground mt-1">
@@ -438,7 +430,7 @@ export default function CreateOasisBioPage() {
                       id="tagline"
                       placeholder="Summarize this version of you in one sentence"
                       value={tagline}
-                      onChange={e => setTagline(e.target.value)}
+                      onChange={(e) => setTagline(e.target.value)}
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       Leave a marker for your future self
@@ -448,10 +440,7 @@ export default function CreateOasisBioPage() {
                     <label htmlFor="identityMode" className="block text-sm font-medium mb-1">
                       Identity Type
                       <HintIcon
-                        hint={`Real: The real you, documenting your current self
-Future: The you that you want to become
-Alternate: You in a parallel universe
-Hybrid: A mix of real and imagined`}
+                        hint="Real: The real you, documenting your current self\nFuture: The you that you want to become\nAlternate: You in a parallel universe\nHybrid: A mix of real and imagined"
                         variant="info"
                         side="top"
                       />
@@ -459,7 +448,7 @@ Hybrid: A mix of real and imagined`}
                     <select
                       id="identityMode"
                       value={identityMode}
-                      onChange={e => setIdentityMode(e.target.value)}
+                      onChange={(e) => setIdentityMode(e.target.value)}
                       className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     >
                       <option value="real">Real - The real you</option>
@@ -509,7 +498,7 @@ Hybrid: A mix of real and imagined`}
                           id="eraName"
                           placeholder="e.g., College Years, Early Career, 2030"
                           value={eraName}
-                          onChange={e => setEraName(e.target.value)}
+                          onChange={(e) => setEraName(e.target.value)}
                         />
                         <p className="text-xs text-muted-foreground mt-1">
                           Which period of your life does this identity belong to?
@@ -522,7 +511,7 @@ Hybrid: A mix of real and imagined`}
                         <select
                           id="eraType"
                           value={eraType}
-                          onChange={e => setEraType(e.target.value)}
+                          onChange={(e) => setEraType(e.target.value)}
                           className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                         >
                           <option value="past">Past - The past</option>
@@ -545,7 +534,7 @@ Hybrid: A mix of real and imagined`}
                         id="abilityName"
                         placeholder="e.g., Empathy, Fast Learner, Persistence"
                         value={abilityName}
-                        onChange={e => setAbilityName(e.target.value)}
+                        onChange={(e) => setAbilityName(e.target.value)}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
                         What trait do you value most about yourself in this period?
@@ -559,7 +548,7 @@ Hybrid: A mix of real and imagined`}
                         id="abilityDescription"
                         placeholder="Document what this trait means to you..."
                         value={abilityDescription}
-                        onChange={e => setAbilityDescription(e.target.value)}
+                        onChange={(e) => setAbilityDescription(e.target.value)}
                         rows={3}
                         className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                       />
@@ -571,7 +560,15 @@ Hybrid: A mix of real and imagined`}
                       ← Back
                     </Button>
                     <div className="flex gap-2">
-                      <Button variant="ghost" onClick={() => { setEraName(''); setAbilityName(''); setAbilityDescription(''); handleNext(3); }}>
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          setEraName('');
+                          setAbilityName('');
+                          setAbilityDescription('');
+                          handleNext(3);
+                        }}
+                      >
                         Skip
                       </Button>
                       <Button onClick={() => handleNext(3)}>
@@ -615,19 +612,19 @@ Hybrid: A mix of real and imagined`}
                           slugStatus === 'available'
                             ? 'border-green-500 focus:ring-green-500'
                             : slugStatus === 'taken' || slugStatus === 'invalid' || slugStatus === 'forbidden'
-                            ? 'border-red-500 focus:ring-red-500'
-                            : ''
+                              ? 'border-red-500 focus:ring-red-500'
+                              : ''
                         }
                       />
                     </div>
                     <p
-                      className={`text-sm ${
+                      className={
                         slugStatus === 'available'
-                          ? 'text-green-600'
+                          ? 'text-sm text-green-600'
                           : slugStatus === 'checking'
-                          ? 'text-muted-foreground'
-                          : 'text-red-600'
-                      }`}
+                            ? 'text-sm text-muted-foreground'
+                            : 'text-sm text-red-600'
+                      }
                     >
                       {slugMessage}
                     </p>
@@ -656,7 +653,9 @@ Hybrid: A mix of real and imagined`}
                     {eraName && (
                       <div>
                         <span className="text-xs font-mono text-muted-foreground">Era</span>
-                        <p>{eraName} <span className="text-muted-foreground">({eraType})</span></p>
+                        <p>
+                          {eraName} <span className="text-muted-foreground">({eraType})</span>
+                        </p>
                       </div>
                     )}
                     {abilityName && (
@@ -687,7 +686,6 @@ Hybrid: A mix of real and imagined`}
                 </CardContent>
               </Card>
             )}
-
           </div>
         </div>
       </div>
