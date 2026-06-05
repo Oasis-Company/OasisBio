@@ -39,6 +39,7 @@
   ],
   "exclude": [
     "node_modules",
+    "prepare",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",

@@ -28,7 +28,7 @@ function ConfirmContent() {
       if (errorParam) {
         setState('error');
         setError({
-          message: errorDescription ? decodeURIComponent(errorDescription) : '验证链接无效，请重新尝试',
+          message: errorDescription ? decodeURIComponent(errorDescription) : 'Invalid verification link. Please try again.',
           code: errorParam,
         });
         return;
@@ -51,13 +51,13 @@ function ConfirmContent() {
 
       if (!type) {
         setState('error');
-        setError({ message: '无效的验证链接，缺少类型参数', code: 'MISSING_TYPE' });
+        setError({ message: 'Invalid verification link — missing type parameter.', code: 'MISSING_TYPE' });
         return;
       }
 
       if (!tokenHash && !legacyToken) {
         setState('error');
-        setError({ message: '无效的验证链接，缺少验证令牌', code: 'MISSING_TOKEN' });
+        setError({ message: 'Invalid verification link — missing token.', code: 'MISSING_TOKEN' });
         return;
       }
 
@@ -75,7 +75,7 @@ function ConfirmContent() {
           // For legacy flows we redirect back with an error since we can't recover email
           setState('error');
           setError({
-            message: '此验证链接格式已过期，请重新发起验证',
+            message: 'This verification link format is outdated. Please request a new one.',
             code: 'LEGACY_TOKEN',
           });
           return;
@@ -84,7 +84,7 @@ function ConfirmContent() {
         if (verifyError) {
           setState('error');
           setError({
-            message: verifyError.message || '验证失败，请重新尝试',
+            message: verifyError.message || 'Verification failed. Please try again.',
             code: verifyError.code,
           });
           return;
@@ -96,7 +96,7 @@ function ConfirmContent() {
         }, 1500);
       } catch {
         setState('error');
-        setError({ message: '发生未知错误，请重试', code: 'UNKNOWN' });
+        setError({ message: 'An unexpected error occurred. Please try again.', code: 'UNKNOWN' });
       }
     };
 
@@ -113,7 +113,7 @@ function ConfirmContent() {
               <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
             <p className="text-lg text-muted-foreground animate-pulse">
-              正在验证邮箱链接，请稍候...
+              Verifying your link, please wait...
             </p>
           </div>
         );
@@ -136,8 +136,8 @@ function ConfirmContent() {
                 />
               </svg>
             </div>
-            <p className="text-lg text-green-600 font-medium mb-2">验证成功！</p>
-            <p className="text-sm text-muted-foreground">正在跳转到控制台...</p>
+            <p className="text-lg text-green-600 font-medium mb-2">Verified!</p>
+            <p className="text-sm text-muted-foreground">Redirecting to your dashboard...</p>
           </div>
         );
 
@@ -159,21 +159,21 @@ function ConfirmContent() {
                 />
               </svg>
             </div>
-            <p className="text-lg text-red-600 font-medium mb-2">验证失败</p>
+            <p className="text-lg text-red-600 font-medium mb-2">Verification Failed</p>
             <p className="text-sm text-muted-foreground text-center mb-6">{error?.message}</p>
             <div className="flex flex-col gap-3 w-full">
               <Link
                 href="/auth/login"
                 className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90 transition-colors"
               >
-                返回登录页面
+                Back to Sign In
               </Link>
               <button
                 type="button"
                 onClick={() => window.location.reload()}
                 className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-medium text-muted-foreground border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
               >
-                重新尝试
+                Try Again
               </button>
             </div>
           </div>
@@ -181,7 +181,7 @@ function ConfirmContent() {
     }
   };
 
-  return <AuthForm title="邮箱验证">{renderContent()}</AuthForm>;
+  return <AuthForm title="Email Verification">{renderContent()}</AuthForm>;
 }
 
 export default function ConfirmPage() {

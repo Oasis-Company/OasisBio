@@ -38,10 +38,10 @@ function LoginContent() {
       const msg = oauthErrorDescription
         ? decodeURIComponent(oauthErrorDescription)
         : oauthError === 'missing_code'
-          ? '授权链接无效，请重新尝试'
+          ? 'Invalid authorization link. Please try again.'
           : oauthError === 'exchange_failed' || oauthError === 'server_error'
-            ? '登录失败，请重新尝试'
-            : '登录失败：' + oauthError;
+            ? 'Sign in failed. Please try again.'
+            : 'Sign in failed: ' + oauthError;
       setClassifiedError({ message: msg, category: 'unknown', canResend: false, code: 'AUTH_008' });
     }
   }, [searchParams]);
@@ -81,14 +81,14 @@ function LoginContent() {
         if (classified.category === 'not_found') setSuggestRegister(true);
       } else {
         setClassifiedError({
-          message: '发生未知错误',
+          message: 'An unexpected error occurred.',
           category: 'unknown',
           canResend: true,
           code: 'AUTH_008',
         });
       }
     } else {
-      setSuccess('验证码已发送，请查收您的邮箱');
+      setSuccess('Code sent — please check your inbox.');
       setResendCountdown(30);
     }
   };
@@ -116,14 +116,14 @@ function LoginContent() {
         if (classified.category === 'not_found') setSuggestRegister(true);
       } else {
         setClassifiedError({
-          message: '发生未知错误',
+          message: 'An unexpected error occurred.',
           category: 'unknown',
           canResend: true,
           code: 'AUTH_008',
         });
       }
     } else {
-      setSuccess('验证码已发送，请查收您的邮箱');
+      setSuccess('Code sent — please check your inbox.');
       setStep('otp');
       setResendCountdown(30);
     }
@@ -150,37 +150,34 @@ function LoginContent() {
         if (classified.canResend) setCanResend(true);
       } else {
         setClassifiedError({
-          message: '发生未知错误',
+          message: 'An unexpected error occurred.',
           category: 'unknown',
           canResend: true,
           code: 'AUTH_008',
         });
       }
     } else {
-      // onAuthStateChange in SessionProvider will update context;
-      // router.replace triggers after session state updates via useEffect above
       router.replace(callbackUrl);
     }
   };
 
   return (
-    <AuthForm title="登录" error={classifiedError?.message ?? ''} success={success}>
+    <AuthForm title="Sign In" error={classifiedError?.message ?? ''} success={success}>
       {step === 'email' ? (
         <form onSubmit={handleSendOtp} className="space-y-6">
           <AuthInput
             id="email"
             type="email"
-            label="邮箱"
+            label="Email"
             placeholder="your@email.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setClassifiedError(null); }}
             required
           />
           <AuthButton type="submit" fullWidth isLoading={isSending}>
-            发送验证码
+            Send Code
           </AuthButton>
           
-          {/* 可操作的错误处理按钮 */}
           {classifiedError && (
             <div className="flex flex-col gap-3 mt-2">
               {classifiedError.canResend && (
@@ -190,7 +187,7 @@ function LoginContent() {
                   onClick={handleSendOtp}
                   disabled={isSending}
                 >
-                  🔄 重新发送验证码
+                  🔄 Resend Code
                 </button>
               )}
               {classifiedError.category === 'not_found' && (
@@ -198,7 +195,7 @@ function LoginContent() {
                   href="/auth/register"
                   className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm text-primary border border-primary rounded-md hover:bg-primary/5 transition-colors"
                 >
-                  ➕ 注册新账户
+                  ➕ Create an Account
                 </a>
               )}
             </div>
@@ -209,7 +206,7 @@ function LoginContent() {
           <AuthInput
             id="email"
             type="email"
-            label="邮箱"
+            label="Email"
             value={email}
             onChange={() => {}}
             disabled
@@ -218,8 +215,8 @@ function LoginContent() {
           <AuthInput
             id="otp"
             type="text"
-            label="验证码"
-            placeholder="请输入6位验证码"
+            label="Verification Code"
+            placeholder="Enter the 6-digit code"
             value={otp}
             onChange={(e) => { setOtp(e.target.value); setClassifiedError(null); }}
             required
@@ -231,18 +228,17 @@ function LoginContent() {
               variant="outline"
               onClick={() => { setStep('email'); setClassifiedError(null); setSuccess(''); }}
             >
-              更改邮箱
+              Change Email
             </AuthButton>
             <AuthButton type="submit" isLoading={isVerifying}>
-              验证验证码
+              Verify Code
             </AuthButton>
           </div>
           
-          {/* 重新发送按钮 */}
           <div className="flex justify-center">
             {resendCountdown > 0 ? (
               <span className="text-sm text-muted-foreground">
-                {resendCountdown} 秒后可重新发送
+                Resend in {resendCountdown}s
               </span>
             ) : canResend ? (
               <button
@@ -251,12 +247,11 @@ function LoginContent() {
                 onClick={handleResendOtp}
                 disabled={isSending}
               >
-                {isSending ? '发送中...' : '重新发送验证码'}
+                {isSending ? 'Sending...' : 'Resend Code'}
               </button>
             ) : null}
           </div>
           
-          {/* 可操作的错误处理按钮 */}
           {classifiedError && (
             <div className="flex flex-col gap-3">
               {classifiedError.canResend && canResend && (
@@ -266,7 +261,7 @@ function LoginContent() {
                   onClick={handleResendOtp}
                   disabled={isSending}
                 >
-                  🔄 重新发送验证码
+                  🔄 Resend Code
                 </button>
               )}
               <button
@@ -274,7 +269,7 @@ function LoginContent() {
                 className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm text-muted-foreground border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
                 onClick={() => { setStep('email'); setClassifiedError(null); setSuccess(''); }}
               >
-                ✏️ 更改邮箱地址
+                ✏️ Change Email Address
               </button>
             </div>
           )}
@@ -286,16 +281,16 @@ function LoginContent() {
       <div className="mt-6 text-center">
         {suggestRegister ? (
           <p className="text-sm text-muted-foreground">
-            还没有账户？{' '}
+            No account yet?{' '}
             <a href="/auth/register" className="text-primary hover:underline font-medium">
-              免费创建一个
+              Create one for free
             </a>
           </p>
         ) : (
           <p className="text-sm text-muted-foreground">
-            还没有账户？{' '}
+            No account yet?{' '}
             <a href="/auth/register" className="text-primary hover:underline">
-              注册
+              Sign up
             </a>
           </p>
         )}

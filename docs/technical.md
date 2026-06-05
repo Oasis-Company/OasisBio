@@ -1606,7 +1606,21 @@ All Edge Functions share:
 
 ---
 
-## 15. OAuth Provider
+## 15. Identity Context API (Fetch)
+
+> **Growth Strategy (2026-06-05):** These endpoints are the core of the **OasisBio Fetch** growth pivot — repositioning OasisBio from a closed-loop product to an open identity infrastructure for AI agents. See `growth/GROWTH-STRATEGY.md` and `growth/FETCH-SPEC.md`.
+
+#### Implementation Status
+
+| Endpoint | Status | Growth Role |
+|----------|--------|-------------|
+| `GET /api/context/[slug]` | ✅ Implemented | Main Fetch endpoint — AI agents read user identity |
+| `GET /.well-known/oasisbio.json` | ❌ Not implemented | Machine discovery — planned for Phase 1 |
+| `GET /api/oauth/resources/oasisbios` | ✅ Implemented | OAuth-scoped alternative (requires token) |
+
+---
+
+## 16. OAuth Provider
 
 OasisBio implements a full OAuth 2.0 Authorization Server with PKCE support and OpenID Connect discovery. Third-party applications can use "Continue with Oasis" to authenticate users and access their character data with explicit consent.
 

@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
 
+/**
+ * GET /.well-known/oasisbio.json
+ *
+ * Machine-discovery endpoint. AI agents and developer tools use this to
+ * automatically discover OasisBio Fetch API + OAuth endpoints.
+ */
 export async function GET(request: Request) {
   const baseUrl = new URL(request.url).origin;
 
@@ -12,17 +17,23 @@ export async function GET(request: Request) {
       rest: {
         endpoint: `${baseUrl}/api/context/{slug}`,
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        example: `curl ${baseUrl}/api/context/your-slug`,
+        note: 'Only public OasisBio identities are accessible without authentication.',
       },
       oauth: {
         authorizationEndpoint: `${baseUrl}/api/oauth/authorize`,
         tokenEndpoint: `${baseUrl}/api/oauth/token`,
+        revocationEndpoint: `${baseUrl}/api/oauth/revoke`,
         scopes: {
-          'context:read': 'Read identity context information',
-          'context:full': 'Full access to identity context',
+          'profile': 'username, display name, avatar URL',
+          'email': 'email address',
+          'oasisbios:read': 'Character list (title, slug, cover)',
+          'oasisbios:full': 'Full character data (abilities, worlds, eras, references)',
+          'dcos:read': 'DCOS document content',
         },
+        grantTypes: ['authorization_code', 'refresh_token'],
+        pkceRequired: true,
       },
     },
     discovery: {
@@ -30,9 +41,10 @@ export async function GET(request: Request) {
       url: `${baseUrl}/.well-known/oasisbio.json`,
     },
     links: {
-      documentation: `${baseUrl}/docs`,
+      documentation: `${baseUrl}/developer/docs`,
       developerPortal: `${baseUrl}/developer`,
-      createIdentity: `${baseUrl}/create`,
+      createIdentity: `${baseUrl}/dashboard`,
+      explore: `${baseUrl}/explore`,
     },
   };
 

@@ -7,6 +7,10 @@ export type ProustCardOGProps = {
   isFallback?: boolean
 }
 
+// Satori-compatible serif stack — Georgia is available in Vercel's OG runtime
+const SERIF = 'Georgia, "Times New Roman", Times, serif'
+const SANS = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+
 export function ProustCardOG({
   username,
   question,
@@ -15,6 +19,11 @@ export function ProustCardOG({
   profileUrl,
   isFallback = false,
 }: ProustCardOGProps) {
+  // Trim answer to avoid overflow — max ~160 chars for 3-line display at 42px
+  const trimmedAnswer = answer.length > 160
+    ? answer.slice(0, 157) + '...'
+    : answer
+
   return (
     <div
       style={{
@@ -23,147 +32,187 @@ export function ProustCardOG({
         justifyContent: 'space-between',
         width: '100%',
         height: '100%',
-        backgroundColor: '#FAFAF8',
-        padding: '80px 80px',
-        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+        backgroundColor: '#F8F6F2',
+        padding: '72px 80px',
+        fontFamily: SANS,
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* ── Header ── */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* Wordmark */}
         <div
           style={{
-            fontSize: '28px',
+            fontSize: '13px',
             fontWeight: 700,
-            letterSpacing: '0.02em',
-            color: '#111827',
+            letterSpacing: '0.22em',
+            color: '#1A1A1A',
+            fontFamily: SANS,
           }}
         >
           OASISBIO
         </div>
+        {/* Rule line */}
+        <div
+          style={{
+            flex: 1,
+            height: '1px',
+            backgroundColor: '#C8C4BC',
+            marginLeft: '20px',
+          }}
+        />
       </div>
 
+      {/* ── Body ── */}
       {isFallback ? (
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
-            flexGrow: 1,
-            padding: '0 40px',
+            flex: 1,
+            padding: '0 0',
+            marginTop: '56px',
+            marginBottom: '56px',
           }}
         >
           <div
             style={{
-              fontSize: '48px',
-              fontWeight: 600,
-              color: '#111827',
-              marginBottom: '24px',
-              textAlign: 'center',
-              lineHeight: 1.2,
+              fontSize: '13px',
+              letterSpacing: '0.18em',
+              color: '#888880',
+              fontFamily: SANS,
+              marginBottom: '32px',
+              textTransform: 'uppercase' as const,
             }}
           >
-            Capture Your Identity
+            THE PROUST QUESTIONNAIRE
           </div>
           <div
             style={{
-              fontSize: '24px',
-              color: '#4B5563',
-              textAlign: 'center',
+              fontSize: '52px',
+              lineHeight: 1.15,
+              color: '#1A1A1A',
+              fontFamily: SERIF,
+              fontWeight: 400,
+            }}
+          >
+            Who are you
+            <br />
+            across time?
+          </div>
+          <div
+            style={{
+              marginTop: '28px',
+              fontSize: '20px',
+              color: '#666660',
+              fontFamily: SANS,
               lineHeight: 1.5,
             }}
           >
-            The Proust Questionnaire, reimagined for your identity universe
+            Compile your identity universe.
           </div>
         </div>
       ) : (
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-            padding: '40px 0',
-            justifyContent: 'center',
+            flex: 1,
+            marginTop: '56px',
+            marginBottom: '40px',
           }}
         >
+          {/* Left accent bar */}
           <div
             style={{
-              fontSize: '14px',
-              fontWeight: 600,
-              textTransform: 'uppercase' as const,
-              letterSpacing: '0.2em',
-              color: '#6B7280',
-              marginBottom: '32px',
+              width: '3px',
+              backgroundColor: '#1A1A1A',
+              marginRight: '40px',
+              borderRadius: '2px',
             }}
-          >
-            {question}
-          </div>
-
+          />
           <div
             style={{
-              fontSize: '44px',
-              lineHeight: 1.3,
-              color: '#111827',
-              fontFamily: 'Georgia, Times New Roman, Times, serif',
-              marginBottom: '32px',
-              maxHeight: '180px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              flex: 1,
             }}
           >
-            "{answer}"
+            {/* Question */}
+            <div
+              style={{
+                fontSize: '13px',
+                fontWeight: 600,
+                letterSpacing: '0.18em',
+                color: '#888880',
+                fontFamily: SANS,
+                marginBottom: '28px',
+                textTransform: 'uppercase' as const,
+              }}
+            >
+              {question}
+            </div>
+            {/* Answer — hero text */}
+            <div
+              style={{
+                fontSize: '42px',
+                lineHeight: 1.35,
+                color: '#1A1A1A',
+                fontFamily: SERIF,
+                fontWeight: 400,
+              }}
+            >
+              &ldquo;{trimmedAnswer}&rdquo;
+            </div>
           </div>
         </div>
       )}
 
+      {/* ── Footer ── */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-end',
-          borderTop: '1px solid #E5E7EB',
-          paddingTop: '32px',
+          borderTop: '1px solid #C8C4BC',
+          paddingTop: '28px',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
-              fontSize: '24px',
+              fontSize: '18px',
               fontWeight: 600,
-              color: '#111827',
-              marginBottom: '8px',
+              color: '#1A1A1A',
+              fontFamily: SANS,
+              marginBottom: '6px',
             }}
           >
             {isFallback ? 'OasisBio' : displayName}
           </div>
-          {!isFallback && (
-            <div
-              style={{
-                fontSize: '16px',
-                color: '#6B7280',
-              }}
-            >
-              @{username} · Their identity universe
-            </div>
-          )}
-          {isFallback && (
-            <div
-              style={{
-                fontSize: '16px',
-                color: '#6B7280',
-              }}
-            >
-              oasisbio.oasiscompany.org
-            </div>
-          )}
+          <div
+            style={{
+              fontSize: '13px',
+              color: '#888880',
+              fontFamily: SANS,
+              letterSpacing: '0.04em',
+            }}
+          >
+            {isFallback
+              ? 'oasisbio.oasiscompany.org'
+              : `@${username} · identity universe`}
+          </div>
         </div>
 
         <div
           style={{
-            fontSize: '14px',
-            color: '#9CA3AF',
+            fontSize: '13px',
+            color: '#AAAAAA',
+            fontFamily: SANS,
+            letterSpacing: '0.04em',
           }}
         >
-          {isFallback ? 'proust questionnaire' : profileUrl}
+          {isFallback ? 'oasisbio.oasiscompany.org' : profileUrl}
         </div>
       </div>
     </div>

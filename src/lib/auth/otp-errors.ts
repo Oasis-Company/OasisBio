@@ -195,18 +195,18 @@ export function classifyOtpError(
 
   switch (category) {
     case 'network':
-      result.message = ERROR_MESSAGES.AUTH_001.zh;
+      result.message = ERROR_MESSAGES.AUTH_001.en;
       result.code = 'AUTH_001';
       result.canResend = true;
       break;
 
     case 'invalid':
       if (phase === 'verify') {
-        result.message = ERROR_MESSAGES.AUTH_002.zh;
+        result.message = ERROR_MESSAGES.AUTH_002.en;
         result.code = 'AUTH_002';
         result.canResend = true;
       } else {
-        result.message = ERROR_MESSAGES.AUTH_007.zh;
+        result.message = ERROR_MESSAGES.AUTH_007.en;
         result.code = 'AUTH_007';
         result.canResend = true;
       }
@@ -214,35 +214,32 @@ export function classifyOtpError(
 
     case 'not_found':
       if (phase === 'send') {
-        // During login — user doesn't exist, suggest registering
-        result.message = ERROR_MESSAGES.AUTH_003.zh;
+        result.message = ERROR_MESSAGES.AUTH_003.en;
         result.code = 'AUTH_003';
       } else {
-        // During verify — shouldn't happen normally
-        result.message = ERROR_MESSAGES.AUTH_006.zh;
+        result.message = ERROR_MESSAGES.AUTH_006.en;
         result.code = 'AUTH_006';
       }
-      result.canResend = false; // Resending won't help if email doesn't exist
+      result.canResend = false;
       break;
 
     case 'rate_limit':
-      result.message = ERROR_MESSAGES.AUTH_004.zh;
+      result.message = ERROR_MESSAGES.AUTH_004.en;
       result.code = 'AUTH_004';
       result.canResend = false;
       break;
 
     case 'quota':
-      result.message = ERROR_MESSAGES.AUTH_005.zh;
+      result.message = ERROR_MESSAGES.AUTH_005.en;
       result.code = 'AUTH_005';
       result.canResend = false;
       break;
 
     case 'unknown':
     default:
-      // Don't expose raw Supabase messages — they may contain internal details
-      result.message = ERROR_MESSAGES.AUTH_008.zh;
+      result.message = ERROR_MESSAGES.AUTH_008.en;
       result.code = 'AUTH_008';
-      result.canResend = phase === 'send'; // Allow retry on send, be cautious on verify
+      result.canResend = phase === 'send';
       break;
   }
 

@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import ModelViewerWrapper from '@/components/ModelViewerWrapper';
+import { getLatestPublicProustAnswerByUsername } from '@/lib/proust';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
@@ -76,6 +77,9 @@ async function getOasisBio(slug: string) {
       relationshipsB: {
         include: { characterA: { select: { title: true, slug: true, visibility: true } } }
       },
+      user: {
+        include: { profiles: { select: { username: true, displayName: true } } }
+      },
     },
   });
 
@@ -97,6 +101,12 @@ export default async function PublicOasisBioPage({
   if (!oasisBio) {
     notFound();
   }
+
+  // Fetch Proust answer for this user
+  const profile = oasisBio.user.profiles?.[0];
+  const proustAnswer = profile?.username
+    ? await getLatestPublicProustAnswerByUsername(profile.username)
+    : null;
 
   const relationships = [
     ...oasisBio.relationshipsA
@@ -513,6 +523,43 @@ export default async function PublicOasisBioPage({
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Proust Questionnaire Section ── */}
+      {proustAnswer && (
+        <section className="py-32 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="mb-16">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-sm font-mono text-muted-foreground">◆</span>
+                  <div className="h-px flex-grow bg-border"></div>
+                </div>
+                <p className="text-xs font-mono tracking-[0.18em] text-muted-foreground uppercase mb-3">
+                  Proust Questionnaire
+                </p>
+                <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight">
+                  A Fragment of the Universe
+                </h2>
+              </div>
+
+              <div className="flex gap-8 md:gap-16 max-w-4xl">
+                <div className="w-0.5 bg-foreground self-stretch flex-shrink-0 rounded-full" />
+                <div className="flex-1">
+                  <p className="text-xs font-mono tracking-[0.18em] text-muted-foreground uppercase mb-6">
+                    {proustAnswer.question}
+                  </p>
+                  <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display leading-relaxed text-foreground">
+                    &ldquo;{proustAnswer.answer}&rdquo;
+                  </blockquote>
+                  <p className="mt-8 text-sm text-muted-foreground font-mono">
+                    — {proustAnswer.displayName}
+                  </p>
                 </div>
               </div>
             </div>

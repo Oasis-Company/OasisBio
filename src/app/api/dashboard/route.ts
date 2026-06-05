@@ -7,6 +7,12 @@ export async function GET() {
     const user = await requireAuth();
     const userId = user.id;
 
+    // Fetch user profile for DashboardData.user
+    const profile = await prisma.profile.findFirst({
+      where: { userId: user.id },
+      select: { username: true, displayName: true, avatarUrl: true },
+    });
+
     const [
       oasisBiosCount,
       abilitiesCount,
@@ -31,6 +37,8 @@ export async function GET() {
         select: {
           id: true,
           title: true,
+          tagline: true,
+          summary: true,
           slug: true,
           updatedAt: true,
           _count: {
@@ -48,16 +56,37 @@ export async function GET() {
       id: oasisBio.id,
       type: 'oasisBio_update',
       title: oasisBio.title,
-      slug: oasisBio.slug,
+      description: oasisBio.tagline || oasisBio.summary || '',
       timestamp: oasisBio.updatedAt.toISOString(),
-      stats: {
-        abilities: oasisBio._count.abilities,
-        worlds: oasisBio._count.worlds,
-        models: oasisBio._count.models,
-      },
     }));
 
+    // Account status (TODO: integrate with real subscription system)
+    const accountStatus = {
+      subscription: 'Free',
+      oasisBiosLimit: 3,
+      oasisBiosUsed: oasisBiosCount,
+      storageUsed: 0, // TODO: calculate from actual storage
+      storageLimit: 100,
+    };
+
+    // System status (TODO: implement real health checks)
+    const systemStatus = {
+      api: 'Online',
+      database: 'Online',
+      storage: 'Online',
+    };
+
     return NextResponse.json({
+      user: {
+        id: user.id,
+        name: profile?.displayName || user.email || 'User',
+        email: user.email,
+        profile: profile ? {
+          username: profile.username,
+          displayName: profile.displayName,
+          avatarUrl: profile.avatarUrl,
+        } : null,
+      },
       stats: {
         oasisBios: oasisBiosCount,
         abilities: abilitiesCount,
@@ -68,6 +97,8 @@ export async function GET() {
         eras: erasCount,
       },
       recentActivities,
+      accountStatus,
+      systemStatus,
     });
   } catch (error) {
     return handleApiError(error);

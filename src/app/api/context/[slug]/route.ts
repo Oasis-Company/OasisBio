@@ -83,26 +83,14 @@ export async function GET(
       createdAt: oasisBio.createdAt.toISOString(),
       updatedAt: oasisBio.updatedAt.toISOString(),
       publishedAt: oasisBio.publishedAt?.toISOString() ?? null,
-      eras: oasisBio.eras.map((era): {
-        name: string;
-        type: string;
-        startYear: number | null;
-        endYear: number | null;
-        description: string | null;
-      } => ({
+      eras: oasisBio.eras.map((era) => ({
         name: era.name,
         type: era.eraType,
         startYear: era.startYear,
         endYear: era.endYear,
         description: era.description,
       })),
-      abilities: oasisBio.abilities.map((ability): {
-        name: string;
-        category: string;
-        level: number;
-        description: string | null;
-        sourceType: string;
-      } => ({
+      abilities: oasisBio.abilities.map((ability) => ({
         name: ability.name,
         category: ability.category,
         level: ability.level,
@@ -110,31 +98,18 @@ export async function GET(
         sourceType: ability.sourceType,
       })),
       repositories: {
-        dcos: oasisBio.dcosFiles.map((dcos): {
-          title: string;
-          path: string;
-          preview: string;
-        } => ({
+        dcos: oasisBio.dcosFiles.map((dcos) => ({
           title: dcos.title,
           path: dcos.folderPath,
           preview: dcos.content.substring(0, 500),
         })),
-        references: oasisBio.references.map((ref): {
-          title: string;
-          type: string;
-          url: string | null;
-          description: string | null;
-        } => ({
+        references: oasisBio.references.map((ref) => ({
           title: ref.title,
           type: ref.sourceType,
           url: ref.url,
           description: ref.description,
         })),
-        worlds: oasisBio.worlds.map((world): {
-          name: string;
-          genre: string | null;
-          summary: string | null;
-        } => ({
+        worlds: oasisBio.worlds.map((world) => ({
           name: world.name,
           genre: world.aestheticKeywords,
           summary: world.summary,
