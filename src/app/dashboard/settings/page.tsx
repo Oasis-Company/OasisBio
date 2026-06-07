@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useRouter } from 'next/navigation';
 import { validateSettingsForm } from '@/lib/validation';
 import NavigationBar from '@/components/navigation/NavigationBar';
+import { CopyButton } from '@/components/CopyButton';
 
 interface Profile {
   id: string;
@@ -46,6 +47,7 @@ const navItems = [
   { id: 'publishing', label: 'Publishing' },
   { id: 'storage', label: 'Storage' },
   { id: 'security', label: 'Security' },
+  { id: 'ai-agent', label: 'AI Agent Setup' },
 ];
 
 export default function SettingsPage() {
@@ -75,6 +77,29 @@ export default function SettingsPage() {
     confirmPassword: '',
   });
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  const [oasisBios, setOasisBios] = useState<Array<{ id: string; title: string; slug: string; visibility: string }>>([]);
+  const [loadingOasisBios, setLoadingOasisBios] = useState(true);
+  const [selectedOasisBioId, setSelectedOasisBioId] = useState<string>('');
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('universal');
+
+  const fetchOasisBios = async () => {
+    setLoadingOasisBios(true);
+    try {
+      const res = await fetch('/api/oasisbios');
+      if (res.ok) {
+        const data = await res.json();
+        const publicBios = (data.oasisBios || data).filter((bio: any) => bio.visibility === 'public');
+        setOasisBios(publicBios);
+        if (publicBios.length > 0 && !selectedOasisBioId) {
+          setSelectedOasisBioId(publicBios[0].id);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching oasis bios:', err);
+    } finally {
+      setLoadingOasisBios(false);
+    }
+  };
 
   useEffect(() => {
     if (isLoading) return;
@@ -83,6 +108,7 @@ export default function SettingsPage() {
       return;
     }
     fetchSettings();
+    fetchOasisBios();
   }, [isLoading, user, router]);
 
   const fetchSettings = async () => {
@@ -556,6 +582,161 @@ export default function SettingsPage() {
                             </div>
                           </div>
                         </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {activeSection === 'ai-agent' && (
+                    <Card variant="outlined">
+                      <CardHeader>
+                        <div className="flex items-center gap-3">
+                          <span className="text-muted-foreground font-mono">07</span>
+                          <div>
+                            <CardTitle>AI Agent Setup</CardTitle>
+                            <CardDescription>Connect your AI agents to your OasisBio identity</CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        {loadingOasisBios ? (
+                          <div className="py-12 flex flex-col items-center justify-center text-muted-foreground">
+                            <div className="w-8 h-8 border-4 border-gray-200 border-t-black rounded-full animate-spin mb-4"></div>
+                            <p>Loading characters...</p>
+                          </div>
+                        ) : oasisBios.length === 0 ? (
+                          <div className="text-center py-8">
+                            <div className="text-4xl mb-4">🤖</div>
+                            <h3 className="text-lg font-semibold mb-2">No public characters yet</h3>
+                            <p className="text-muted-foreground mb-4">
+                              Publish a character first to get your Fetch URL
+                            </p>
+                            <Button asChild>
+                              <a href="/dashboard/oasisbios">Go to My Characters</a>
+                            </Button>
+                          </div>
+                        ) : (
+                          <>
+                            {/* Character Selector */}
+                            <div>
+                              <label htmlFor="oasisBioSelect" className="block text-sm font-medium mb-2">
+                                Select your character
+                              </label>
+                              <select
+                                id="oasisBioSelect"
+                                value={selectedOasisBioId}
+                                onChange={(e) => setSelectedOasisBioId(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                              >
+                                {oasisBios.map((bio) => (
+                                  <option key={bio.id} value={bio.id}>
+                                    {bio.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+
+                            {/* Fetch URL Display */}
+                            {selectedOasisBioId && (() => {
+                              const selectedBio = oasisBios.find(b => b.id === selectedOasisBioId);
+                              const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://oasisbio.oasiscompany.org'}/api/context/${selectedBio?.slug}`;
+                              return (
+                                <div>
+                                  <label htmlFor="fetchUrl" className="block text-sm font-medium mb-2">
+                                    Your Fetch URL
+                                  </label>
+                                  <div className="flex items-center gap-2">
+                                    <div id="fetchUrl" className="flex-1 bg-muted px-3 py-2 rounded-md font-mono text-sm overflow-x-auto" role="textbox" aria-label="Fetch URL">
+                                      {fetchUrl}
+                                    </div>
+                                    <CopyButton value={fetchUrl} label="Copy" successMessage="Fetch URL copied!" />
+                                  </div>
+                                </div>
+                              );
+                            })()}
+
+                            <div className="border-t border-gray-200 pt-6">
+                              {/* Template Selector */}
+                              <div className="mb-4">
+                                <fieldset>
+                                  <legend className="block text-sm font-medium mb-2">
+                                    Quick Setup (select your AI tool)
+                                  </legend>
+                                  <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Template selector">
+                                    {[
+                                      { id: 'universal', label: 'Universal' },
+                                      { id: 'chatgpt_claude', label: 'ChatGPT / Claude' },
+                                      { id: 'cursor_windsurf', label: 'Cursor / Windsurf' },
+                                      { id: 'oneline', label: 'One-Line' },
+                                    ].map((template) => (
+                                      <button
+                                        key={template.id}
+                                        type="button"
+                                        onClick={() => setSelectedTemplate(template.id)}
+                                        role="radio"
+                                        aria-checked={selectedTemplate === template.id}
+                                        aria-label={`Select ${template.label} template`}
+                                        className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                                          selectedTemplate === template.id
+                                            ? 'bg-black text-white'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                      >
+                                        {template.label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                              {/* Prompt Preview */}
+                              {selectedOasisBioId && (() => {
+                                const selectedBio = oasisBios.find(b => b.id === selectedOasisBioId);
+                                const slug = selectedBio?.slug || '{your-slug}';
+                                const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://oasisbio.oasiscompany.org';
+
+                                const templates: Record<string, string> = {
+                                  universal: `Before answering, fetch my identity context:
+curl -s ${baseUrl}/api/context/${slug} | jq -r '.summary, .eras[], .abilities[]'
+Use this context to personalize your response.`,
+                                  chatgpt_claude: `My identity context is published at:
+${baseUrl}/api/context/${slug}
+
+Please fetch and read it before answering. Reference my background where relevant.`,
+                                  cursor_windsurf: `// User identity context (OasisBio):
+// Fetch: GET ${baseUrl}/api/context/${slug}
+// Use this to understand the user's background, preferences, and current projects.`,
+                                  oneline: `OasisBio context: ${baseUrl}/api/context/${slug}`,
+                                };
+
+                                const prompt = templates[selectedTemplate] || templates.universal;
+                                return (
+                                  <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                      <label className="block text-sm font-medium">
+                                        Copy this prompt
+                                      </label>
+                                      <CopyButton value={prompt} label="Copy" successMessage="Prompt copied!" />
+                                    </div>
+                                    <pre className="bg-muted p-4 rounded-md text-sm font-mono whitespace-pre-wrap overflow-x-auto" role="textbox" aria-label="Prompt preview">
+                                      {prompt}
+                                    </pre>
+                                  </div>
+                                );
+                              })()}
+
+                              {/* How it works */}
+                              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                                <h4 className="font-semibold text-sm mb-2">How it works:</h4>
+                                <ol className="text-sm text-muted-foreground space-y-1">
+                                  <li>1. Select your character above</li>
+                                  <li>2. Choose your AI tool</li>
+                                  <li>3. Copy the prompt and paste into your AI</li>
+                                  <li>4. Your AI now knows your identity context!</li>
+                                </ol>
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </CardContent>
                     </Card>
                   )}

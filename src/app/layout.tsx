@@ -3,6 +3,7 @@ import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { SessionProviderWrapper } from '@/components/SessionProviderWrapper';
+import { ToastProvider } from '@/components/Toast';
 import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google';
 
 const playfairDisplay = Playfair_Display({
@@ -73,11 +74,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProviderWrapper>
-          <Navbar />
-          <main className="pt-20">
-            {children}
-          </main>
-          <Footer />
+          <ToastProvider>
+            <Navbar />
+            <main className="pt-20">
+              {children}
+            </main>
+            <Footer />
+          </ToastProvider>
         </SessionProviderWrapper>
       </body>
     </html>

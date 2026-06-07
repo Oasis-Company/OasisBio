@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import ModelViewerWrapper from '@/components/ModelViewerWrapper';
 import { getLatestPublicProustAnswerByUsername } from '@/lib/proust';
+import FetchCtaButton from '@/components/FetchCtaButton';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
@@ -605,6 +606,38 @@ export default async function PublicOasisBioPage({
           </div>
         </section>
       )}
+
+      {/* ── Fetch CTA Section ── */}
+      <section className="py-24 bg-gradient-to-b from-black to-black/90 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="text-4xl mb-6">🤖</div>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              Want your AI to know me?
+            </h2>
+            <p className="text-white/70 mb-8 text-lg">
+              Copy this to give your AI context about me. Paste it into ChatGPT, Claude, or any AI agent.
+            </p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+              <pre className="text-sm font-mono text-left overflow-x-auto mb-4 whitespace-pre-wrap">
+{`Before answering, fetch my identity context:
+curl -s https://oasisbio.oasiscompany.org/api/context/${oasisBio.slug} | jq -r '.summary, .eras[], .abilities[]'
+Use this context to personalize your response.`}
+              </pre>
+              <FetchCtaButton
+                variant="dark"
+                value={`Before answering, fetch my identity context:
+curl -s https://oasisbio.oasiscompany.org/api/context/${oasisBio.slug} | jq -r '.summary, .eras[], .abilities[]'
+Use this context to personalize your response.`}
+                label="Copy Prompt"
+              />
+            </div>
+            <p className="mt-6 text-sm text-white/50">
+              Or just share this URL: <span className="font-mono">https://oasisbio.oasiscompany.org/api/context/{oasisBio.slug}</span>
+            </p>
+          </div>
+        </div>
+      </section>
 
       <footer className="py-20 bg-black text-white">
         <div className="container mx-auto px-4">

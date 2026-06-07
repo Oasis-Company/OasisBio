@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import crypto from 'crypto';
 
 // ─────────────────────────────────────────────
 // Types
@@ -29,6 +28,19 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
 // ─────────────────────────────────────────────
+// Helper: Generate random ID (browser compatible)
+// ─────────────────────────────────────────────
+
+const generateId = (): string => {
+  const chars = '0123456789abcdef';
+  let id = '';
+  for (let i = 0; i < 8; i++) {
+    id += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return id;
+};
+
+// ─────────────────────────────────────────────
 // Provider
 // ─────────────────────────────────────────────
 
@@ -40,7 +52,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toast = useCallback((message: string, type: ToastType = 'info') => {
-    const id = crypto.randomUUID().slice(0, 8);
+    const id = generateId();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => dismiss(id), 3500);
   }, [dismiss]);
