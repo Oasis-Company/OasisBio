@@ -22,6 +22,9 @@ jest.mock('@/lib/prisma', () => ({
     oauthAuthorizationCode: {
       create: jest.fn(),
     },
+    oauthApp: {
+      findUnique: jest.fn(),
+    },
   },
 }));
 
@@ -98,6 +101,14 @@ describe('POST /api/oauth/authorize — Authorization Code Flow', () => {
     mockWithCSRF.mockReturnValue(null);
     // Default: DB create succeeds
     (mockPrisma.oauthAuthorizationCode.create as jest.Mock).mockResolvedValue({});
+    // Default: OAuth app exists
+    (mockPrisma.oauthApp.findUnique as jest.Mock).mockResolvedValue({
+      id: CLIENT_ID,
+      clientId: CLIENT_ID,
+      name: 'Test App',
+      redirectUris: [REDIRECT_URI],
+      scopes: ['profile', 'oasisbios:read', 'oasisbios:write'],
+    });
   });
 
   // ── 1. CSRF Protection ────────────────────────────────────────────────────
