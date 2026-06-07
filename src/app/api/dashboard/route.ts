@@ -6,6 +6,14 @@ export async function GET() {
   try {
     const user = await requireAuth();
     const userId = user.id;
+    
+    // Debug logging for authentication issues
+    if (!userId) {
+      console.error('[dashboard] Authentication failed: userId is undefined');
+      throw new Error('Authentication failed');
+    }
+    
+    console.log('[dashboard] Successfully authenticated user:', userId);
 
     // Fetch user profile for DashboardData.user
     const profile = await prisma.profile.findFirst({

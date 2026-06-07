@@ -81,7 +81,7 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/auth/login" className="no-underline">
+              <Link href="/auth/register" className="no-underline">
                 <Button size="lg" className="px-8 py-6 text-lg bg-white text-black hover:bg-gray-100">
                   Create My Identity Card
                 </Button>
@@ -541,7 +541,7 @@ export default function Home() {
 
             {/* CTA Button */}
             <div className="inline-block">
-              <Link href="/auth/login" className="no-underline">
+              <Link href="/auth/register" className="no-underline">
                 <Button size="lg" className="px-10 py-8 text-lg bg-white text-black hover:bg-gray-100">
                   Create My Identity Card
                 </Button>

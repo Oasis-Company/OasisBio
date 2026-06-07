@@ -378,7 +378,7 @@ function CreateOasisBioPageContent() {
                 <div className="flex items-center gap-2">
                   {[1, 2, 3].map((s) => (
                     <div key={s} className="flex-1">
-                      <div className={`h-1.5 rounded-full transition-colors duration-300 ${s <= step ? 'bg-black' : 'bg-muted'}`} />
+                      <div className={`h-1.5 rounded-full transition-colors duration-300 ${s <= step ? 'bg-primary' : 'bg-muted-foreground/30'}`} />
                     </div>
                   ))}
                 </div>

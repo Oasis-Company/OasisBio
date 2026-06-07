@@ -63,13 +63,31 @@ export default function DashboardPage() {
         setLoading(true);
         setError(null);
         const response = await fetch('/api/dashboard');
+        
+        // Try to parse error response for better debugging
+        let errorMessage = 'Failed to load dashboard data';
         if (!response.ok) {
-          throw new Error('Failed to fetch dashboard data');
+          try {
+            const errorData = await response.json();
+            if (errorData?.error?.message) {
+              errorMessage = errorData.error.message;
+            } else if (errorData?.error?.code) {
+              errorMessage = `Error ${errorData.error.code}: ${errorData.error.message || 'Unknown error'}`;
+            }
+          } catch {
+            // If we can't parse JSON, use status text
+            errorMessage = `${response.status} ${response.statusText}`;
+          }
         }
+        
+        if (!response.ok) {
+          throw new Error(errorMessage);
+        }
+        
         const data = await response.json();
         setDashboardData(data);
       } catch (err) {
-        setError('Failed to load dashboard data');
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
         console.error('Error fetching dashboard data:', err);
       } finally {
         setLoading(false);

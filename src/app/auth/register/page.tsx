@@ -122,7 +122,7 @@ export default function RegisterPage() {
           <AuthButton type="submit" fullWidth isLoading={isSubmitting}>
             Continue with Email
           </AuthButton>
-          <p className="text-xs text-center text-muted-foreground">
+            <p className="text-xs text-center text-muted-foreground">
             By creating an account, you agree to our{' '}
             <a href="/terms" className="underline hover:text-foreground transition-colors">Terms of Service</a>
             {' '}and{' '}

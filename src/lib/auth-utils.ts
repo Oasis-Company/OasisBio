@@ -12,9 +12,11 @@ export async function requireAuth() {
   const user = await getServerUser();
 
   if (!user) {
-    throw new AuthError('Unauthorized', 401);
+    console.error('[auth] requireAuth: No user found in session');
+    throw new AuthError('Unauthorized - Please log in again', 401);
   }
 
+  console.log('[auth] requireAuth: User authenticated:', user.id);
   return user;
 }
 
@@ -91,14 +93,25 @@ export async function requireWorldDocumentOwnership(documentId: string, userId: 
 }
 
 export function handleApiError(error: unknown): NextResponse {
-  console.error('[api] Error:', error);
-
+  // Log detailed error information
   if (error instanceof AuthError) {
+    console.error('[api] Auth error:', {
+      code: error.code,
+      statusCode: error.statusCode,
+      message: error.message,
+    });
     return NextResponse.json(
       { error: { code: error.code, message: error.message } },
       { status: error.statusCode }
     );
   }
+
+  // Log unexpected errors with stack trace
+  console.error('[api] Unexpected error:', {
+    name: error instanceof Error ? error.name : 'Unknown',
+    message: error instanceof Error ? error.message : String(error),
+    stack: error instanceof Error ? error.stack : undefined,
+  });
 
   return NextResponse.json(
     { error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
