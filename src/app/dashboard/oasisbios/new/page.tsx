@@ -488,7 +488,12 @@ function CreateOasisBioPageContent() {
 
                   {/* Era Section */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold">Era</h3>
+                    <div>
+                      <h3 className="text-sm font-semibold">Era</h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        A period of your life with a distinct identity. Think: "College Years", "First Job", "Parenthood".
+                      </p>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="eraName" className="block text-sm font-medium mb-1">
@@ -496,7 +501,7 @@ function CreateOasisBioPageContent() {
                         </label>
                         <Input
                           id="eraName"
-                          placeholder="e.g., College Years, Early Career, 2030"
+                          placeholder="e.g., College Years, Early Career"
                           value={eraName}
                           onChange={(e) => setEraName(e.target.value)}
                         />
@@ -525,7 +530,12 @@ function CreateOasisBioPageContent() {
 
                   {/* Ability Section */}
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold">Trait</h3>
+                    <div>
+                      <h3 className="text-sm font-semibold">Trait</h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Something you value about yourself in this era — a strength, a habit, or a way of seeing the world.
+                      </p>
+                    </div>
                     <div>
                       <label htmlFor="abilityName" className="block text-sm font-medium mb-1">
                         Trait Name
@@ -670,7 +680,7 @@ function CreateOasisBioPageContent() {
                   </div>
 
                   {fieldError && (
-                    <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm">
+                    <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm dark:bg-destructive/20 dark:border-destructive/50">
                       {fieldError}
                     </div>
                   )}

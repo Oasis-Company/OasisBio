@@ -15,6 +15,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { syncUserToPrisma } from '@/lib/user-sync';
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -40,13 +41,24 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = await createClient();
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+    const { data: sessionData, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
     if (exchangeError) {
       const loginUrl = new URL('/auth/login', origin);
       loginUrl.searchParams.set('error', exchangeError.code ?? 'exchange_failed');
       loginUrl.searchParams.set('error_description', exchangeError.message);
       return NextResponse.redirect(loginUrl);
+    }
+
+    // Sync user to database before redirecting
+    if (sessionData?.user) {
+      try {
+        await syncUserToPrisma(sessionData.user);
+      } catch (syncError) {
+        console.error('[callback] Failed to sync user to database:', syncError);
+        // We don't block the user from accessing the app if sync fails
+        // They can still use the app, and we'll retry on next request
+      }
     }
 
     // Session is now set in cookies — redirect to dashboard

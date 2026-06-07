@@ -304,10 +304,16 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="text-center py-8 text-muted-foreground">
-                        <p>You have no draft OasisBios</p>
-                        <Button className="mt-4" asChild>
-                          <a href="/dashboard/oasisbios/new">Create New Draft</a>
+                      <div className="text-center py-8">
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                          </svg>
+                        </div>
+                        <p className="text-muted-foreground font-medium mb-1">Your first identity is waiting to be born</p>
+                        <p className="text-sm text-muted-foreground/70 mb-4">Start with a simple question: Who are you right now?</p>
+                        <Button asChild>
+                          <a href="/dashboard/oasisbios/new">Create My First Identity</a>
                         </Button>
                       </div>
                     </div>
@@ -321,11 +327,14 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="text-center py-8 text-muted-foreground">
-                        <p>You have no published OasisBios</p>
-                        <Button className="mt-4" asChild>
-                          <a href="/dashboard/oasisbios">Manage Bios</a>
-                        </Button>
+                      <div className="text-center py-8">
+                        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.01m0-5.99A2.25 2.25 0 016 6.75v11.25m0-9.75A2.25 2.25 0 018.25 4.5m0 11.25A2.25 2.25 0 0110.5 15.75V6.75M12 3v12m3.75-10.5a2.25 2.25 0 012.25 2.25v7.5m0-9.75a2.25 2.25 0 00-2.25-2.25H15m0 12.5A2.25 2.25 0 0017.25 21H6.75a2.25 2.25 0 01-2.25-2.25V6.75" />
+                          </svg>
+                        </div>
+                        <p className="text-muted-foreground font-medium mb-1">Nothing published yet</p>
+                        <p className="text-sm text-muted-foreground/70">That's okay — identities need time to grow.</p>
                       </div>
                     </div>
                   </CardContent>
@@ -358,17 +367,21 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Quick Actions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Button asChild className="justify-start sm:justify-center text-center sm:text-left">
+              {/* Quick Actions — progressive disclosure: show full set only after user has created content */}
+              <div className={`grid gap-4 ${(dashboardData?.stats?.oasisBios || 0) === 0 ? 'grid-cols-1 sm:grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}`}>
+                {/* Primary action: always visible */}
+                <Button asChild className="justify-center">
                   <a href="/dashboard/oasisbios/new">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 sm:mr-2 mx-auto sm:mx-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span className="hidden sm:inline">Create</span> OasisBio
+                    Create OasisBio
                   </a>
                 </Button>
-                <Button asChild className="justify-start sm:justify-center text-center sm:text-left">
+                {/* Secondary actions: only shown after first OasisBio is created */}
+                {(dashboardData?.stats?.oasisBios || 0) > 0 && (
+                <>
+                <Button asChild variant="outline" className="justify-start sm:justify-center text-center sm:text-left">
                   <a href="/dashboard/worlds">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 sm:mr-2 mx-auto sm:mx-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -393,6 +406,8 @@ export default function DashboardPage() {
                     Settings
                   </a>
                 </Button>
+                </>
+                )}
               </div>
             </div>
 
@@ -432,21 +447,21 @@ export default function DashboardPage() {
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">API</span>
                       <span className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.api === 'Online' ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.api === 'Online' ? 'bg-green-400' : 'bg-red-400'}`}></span>
                         <span className="font-medium">{dashboardData?.systemStatus?.api || 'Online'}</span>
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Database</span>
                       <span className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.database === 'Online' ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.database === 'Online' ? 'bg-green-400' : 'bg-red-400'}`}></span>
                         <span className="font-medium">{dashboardData?.systemStatus?.database || 'Online'}</span>
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Storage</span>
                       <span className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.storage === 'Online' ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                        <span className={`w-2 h-2 rounded-full ${dashboardData?.systemStatus?.storage === 'Online' ? 'bg-green-400' : 'bg-red-400'}`}></span>
                         <span className="font-medium">{dashboardData?.systemStatus?.storage || 'Online'}</span>
                       </span>
                     </div>

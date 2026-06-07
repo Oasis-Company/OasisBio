@@ -148,10 +148,10 @@ export function SuccessModal({
         <div className="relative z-10">
           <div className="text-6xl mb-4 animate-bounce">🎉</div>
 
-          <h2 className="text-2xl font-bold mb-2">Congratulations!</h2>
+          <h2 className="text-2xl font-bold mb-2">Your identity archive has been created!</h2>
 
           <p className="text-muted-foreground mb-6">
-            Your character <span className="font-semibold text-foreground">{bioName}</span> has been created successfully!
+            <span className="font-semibold text-foreground">{bioName}</span> is ready. What's next?
           </p>
 
           <div className="mb-6">
@@ -221,10 +221,10 @@ export function SuccessModal({
 
           <div className="space-y-3">
             <Button onClick={onPublishNow} size="lg" className="w-full">
-              Publish Now
+              Edit & Add More Details
             </Button>
             <Button onClick={onContinueEditing} variant="ghost" size="md" className="w-full">
-              Continue Editing Later
+              Go to My Identity List
             </Button>
           </div>
         </div>

@@ -5,12 +5,14 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth.client';
 import { AuthForm, AuthButton, AuthInput, OAuthButtons } from '@/components/auth';
 import { classifyOtpError } from '@/lib/auth/otp-errors';
+import { useToast } from '@/components/Toast';
 
 type Step = 'form' | 'otp';
 
 export default function RegisterPage() {
   const { supabase, user } = useAuth();
   const router = useRouter();
+  const { success: toastSuccess } = useToast();
 
   const [step, setStep] = useState<Step>('form');
   const [email, setEmail] = useState('');
@@ -94,6 +96,7 @@ export default function RegisterPage() {
         setError('An unknown error occurred');
       }
     } else {
+      toastSuccess(`Welcome to OasisBio, ${displayName || 'there'}! 👋 Your identity universe starts here.`);
       router.replace('/dashboard');
     }
   };
@@ -131,15 +134,26 @@ export default function RegisterPage() {
         </form>
       ) : (
         <form onSubmit={handleVerifyOtp} className="space-y-6">
-          <AuthInput
-            id="email"
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium text-foreground">Email</label>
+            <button
+              type="button"
+              className="text-xs text-primary hover:underline"
+              onClick={() => { setStep('form'); setError(''); setSuccess(''); }}
+            >
+              Change email
+            </button>
+          </div>
+          <input
             type="email"
-            label="Email"
             value={email}
-            onChange={() => {}}
             disabled
-            required
+            className="w-full px-3 py-2 border border-input rounded-md bg-muted text-muted-foreground text-sm cursor-not-allowed"
+            readOnly
           />
+          <p className="text-xs text-muted-foreground">
+            Check your inbox (and spam folder) for a 6-digit code from OasisBio.
+          </p>
           <AuthInput
             id="otp"
             type="text"
@@ -155,20 +169,24 @@ export default function RegisterPage() {
               variant="outline"
               onClick={() => { setStep('form'); setError(''); setSuccess(''); }}
             >
-              Go Back
+              ← Back
             </AuthButton>
             <AuthButton type="submit" isLoading={isVerifying}>
               Verify & Create Account
             </AuthButton>
           </div>
-          {canResend && (
+          {canResend ? (
             <button
               type="button"
-              className="text-sm text-primary hover:underline"
-              onClick={() => { setStep('form'); setError(''); setSuccess(''); }}
+              className="text-sm text-primary hover:underline w-text-center mx-auto block"
+              onClick={handleSendOtp}
             >
-              Resend verification code
+              Didn't get the code? Resend verification code
             </button>
+          ) : (
+            <p className="text-xs text-center text-muted-foreground">
+              Didn't get the code? You can resend in 30 seconds.
+            </p>
           )}
         </form>
       )}

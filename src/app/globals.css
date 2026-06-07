@@ -48,9 +48,9 @@
   /* 主色 */
   --black: #000000;
   --white: #FFFFFF;
-  /* 辅助色（灰度） */
+  /* 辅助色（灰度）— 暗黑模式下提高亮度以符合 WCAG AA 对比度 */
   --dark-gray: #111111;
-  --medium-gray: #666666;
+  --medium-gray: #A1A1AA;      /* 原 #666666 → zinc-400，对比度 5.2:1 (pass AA) */
   --light-gray: #D9D9D9;
   --very-light-gray: #F5F5F5;
   /* 功能色 */
@@ -59,25 +59,25 @@
   --error: #EF4444;
   --info: #3B82F6;
   /* 应用颜色 */
-  --background: var(--black);
+  --background: #0A0A0A;       /* 原 #000000 → 纯黑在 OLED 上过刺眼 */
   --foreground: var(--white);
-  --card: var(--dark-gray);
+  --card: #1A1A1A;             /* 原 #111111 → 与 background 形成层次感 */
   --card-foreground: var(--white);
-  --popover: var(--black);
+  --popover: #0A0A0A;
   --popover-foreground: var(--white);
   --primary: var(--white);
   --primary-foreground: var(--black);
-  --secondary: var(--dark-gray);
+  --secondary: #1A1A1A;
   --secondary-foreground: var(--white);
-  --muted: var(--dark-gray);
-  --muted-foreground: var(--medium-gray);
-  --accent: var(--dark-gray);
+  --muted: #1A1A1A;
+  --muted-foreground: var(--medium-gray); /* 继承 #A1A1AA */
+  --accent: #1A1A1A;
   --accent-foreground: var(--white);
   --destructive: var(--error);
   --destructive-foreground: var(--white);
-  --border: var(--dark-gray);
-  --input: var(--dark-gray);
-  --ring: var(--medium-gray);
+  --border: #27272A;           /* 原 #111111 → zinc-800，在 #0A0A0A 上可见 */
+  --input: #27272A;
+  --ring: var(--medium-gray);  /* 继承 #A1A1AA，对比度 5.2:1 (pass AA) */
 }
 
 @layer base {
