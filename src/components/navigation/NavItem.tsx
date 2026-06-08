@@ -1,34 +1,38 @@
 import React from 'react';
-import { Button } from '../Button';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { NavItemProps } from './navigation.types';
 
-export function NavItem({ href, label, icon, active = false, onClick, category }: NavItemProps) {
-  const getCategoryColor = (cat?: string) => {
-    switch (cat) {
-      case 'profile': return 'text-blue-500';
-      case 'identity': return 'text-purple-500';
-      case 'content': return 'text-green-500';
-      case 'system': return 'text-orange-500';
-      default: return 'text-foreground';
+const categoryColor: Record<string, string> = {
+  profile: 'text-blue-500',
+  identity: 'text-purple-500',
+  content: 'text-green-500',
+  system: 'text-orange-500',
+};
+
+export function NavItem({ href, label, icon, active: activeProp, onClick, category }: NavItemProps) {
+  const pathname = usePathname();
+  const isActive = activeProp ?? (
+    pathname === href || pathname?.startsWith(href + '/')
+  );
+
+  const baseClasses = `
+    w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium
+    transition-colors duration-150
+    ${isActive
+      ? 'bg-primary/10 text-primary'
+      : 'text-foreground hover:bg-muted'
     }
-  };
+  `.trim().replace(/\s+/g, ' ');
 
   return (
-    <Button
-      asChild
-      variant={active ? "primary" : "ghost"}
-      className={`w-full justify-start ${active ? 'bg-primary/10 text-primary' : ''}`}
-      onClick={onClick}
-    >
-      <a 
-        href={href} 
-        className="flex items-center"
-      >
-        <span className={`mr-2 ${getCategoryColor(category)}`}>
+    <Link href={href} onClick={onClick} passHref>
+      <span className={baseClasses}>
+        <span className={`${categoryColor[category ?? ''] ?? 'text-foreground'} flex-shrink-0`}>
           {icon}
         </span>
-        <span className={active ? 'font-medium' : ''}>{label}</span>
-      </a>
-    </Button>
+        <span className={isActive ? 'font-semibold' : ''}>{label}</span>
+      </span>
+    </Link>
   );
 }

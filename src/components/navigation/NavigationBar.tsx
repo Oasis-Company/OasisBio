@@ -7,6 +7,10 @@ import { NavigationBarProps } from './navigation.types';
 const NavigationBar: React.FC<NavigationBarProps> = ({ user, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   const navItems = [
     {
       category: 'profile',
@@ -84,23 +88,32 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ user, onLogout }) => {
     <>
       <MobileMenuToggle isOpen={mobileMenuOpen} onToggle={() => setMobileMenuOpen(!mobileMenuOpen)} />
       
+      {/* 
+        Sidebar layout:
+        - Mobile: fixed overlay (inset-0), bg-background with z-40
+        - Desktop: sticky left sidebar (lg:flex lg:flex-col), h-screen
+      */}
       <div className={`
-        lg:w-64 bg-muted/50 border-r border-border p-6 
-        ${mobileMenuOpen ? 'fixed inset-0 z-40' : 'hidden lg:flex'}
-        sticky top-0 h-screen flex flex-col overflow-y-auto transition-all duration-300
+        fixed inset-y-0 left-0 z-30
+        w-64 bg-background border-r border-border
+        transform transition-transform duration-300 ease-in-out
+        ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:relative lg:translate-x-0 lg:flex lg:flex-col lg:h-screen lg:overflow-y-auto
+        p-6 flex flex-col
       `}>
+        {/* Logo & title */}
         <div className="mb-8">
           <h1 className="text-2xl font-display font-bold">OasisBio</h1>
           <p className="text-muted-foreground text-sm">Dashboard</p>
           
           {/* User Information */}
           <div className="mt-6 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center transition-transform duration-300 hover:scale-105">
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
               {user?.profile?.avatarUrl ? (
                 <img 
                   src={user.profile.avatarUrl} 
                   alt={user?.name || 'User'} 
-                  className="w-full h-full rounded-full object-cover transition-opacity duration-300"
+                  className="w-full h-full rounded-full object-cover"
                 />
               ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,7 +128,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ user, onLogout }) => {
           </div>
         </div>
         
-        <nav className="flex-1 space-y-6">
+        {/* Navigation */}
+        <nav className="flex-1 space-y-6 overflow-y-auto">
           {navItems.map((group, index) => (
             <div key={index} className="space-y-1">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-2">
@@ -131,17 +145,18 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ user, onLogout }) => {
                   label={item.label}
                   icon={item.icon}
                   category={group.category}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={handleNavClick}
                 />
               ))}
             </div>
           ))}
         </nav>
         
+        {/* Logout */}
         <div className="mt-auto pt-6 border-t border-border">
           <Button 
             variant="ghost" 
-            className="w-full justify-start transition-all duration-300 hover:bg-red-50 hover:text-red-600"
+            className="w-full justify-start text-muted-foreground hover:bg-red-50 hover:text-red-600"
             onClick={() => {
               onLogout();
               setMobileMenuOpen(false);
@@ -154,6 +169,14 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ user, onLogout }) => {
           </Button>
         </div>
       </div>
+
+      {/* Mobile overlay backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 z-20 bg-black/50 lg:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
     </>
   );
 }
