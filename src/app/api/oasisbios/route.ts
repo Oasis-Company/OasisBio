@@ -5,16 +5,20 @@ import { prisma } from '@/lib/prisma';
 // GET /api/oasisbios - Get user's OasisBios
 export async function GET(_request: NextRequest) {
   try {
+    console.log('[api/oasisbios] GET request received');
     const user = await requireAuth();
+    console.log('[api/oasisbios] User authenticated:', user.id);
     const userId = user.id;
 
     const oasisBios = await prisma.oasisBio.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
     });
+    console.log('[api/oasisbios] Found', oasisBios.length, 'OasisBios');
 
     return NextResponse.json(oasisBios);
   } catch (error) {
+    console.error('[api/oasisbios] GET error:', error);
     return handleApiError(error);
   }
 }

@@ -35,12 +35,14 @@ export default function OasisBiosPage() {
         setError(null);
         const response = await fetch('/api/oasisbios');
         if (!response.ok) {
-          throw new Error('Failed to fetch OasisBios');
+          const errorData = await response.json().catch(() => null);
+          const message = errorData?.error?.message || errorData?.error || `Server error: ${response.status}`;
+          throw new Error(message);
         }
         const data = await response.json();
         setOasisBios(data);
       } catch (err) {
-        setError('Failed to load OasisBios');
+        setError(err instanceof Error ? err.message : 'Failed to load OasisBios');
         console.error('Error fetching OasisBios:', err);
       } finally {
         setLoading(false);
