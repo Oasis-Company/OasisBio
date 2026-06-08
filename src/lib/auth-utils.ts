@@ -114,7 +114,12 @@ export function handleApiError(error: unknown): NextResponse {
   });
 
   return NextResponse.json(
-    { error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+    {
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: error instanceof Error ? error.message : String(error),
+      }
+    },
     { status: 500 }
   );
 }
