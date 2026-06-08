@@ -4,107 +4,97 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* 主色 */
-  --black: #000000;
-  --white: #FFFFFF;
-  /* 辅助色（灰度） */
-  --dark-gray: #111111;
-  --medium-gray: #666666;
-  --light-gray: #D9D9D9;
-  --very-light-gray: #F5F5F5;
-  /* 功能色 */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --info: #3B82F6;
-  /* 应用颜色 */
-  --background: var(--white);
-  --foreground: var(--black);
-  --card: var(--white);
-  --card-foreground: var(--black);
-  --popover: var(--white);
-  --popover-foreground: var(--black);
-  --primary: var(--black);
-  --primary-foreground: var(--white);
-  --secondary: var(--very-light-gray);
-  --secondary-foreground: var(--medium-gray);
-  --muted: var(--very-light-gray);
-  --muted-foreground: var(--medium-gray);
-  --accent: var(--very-light-gray);
-  --accent-foreground: var(--black);
-  --destructive: var(--error);
-  --destructive-foreground: var(--white);
-  --border: var(--light-gray);
-  --input: var(--light-gray);
-  --ring: var(--black);
-  /* 字体 */
-  --font-display: 'Inter Tight', 'Helvetica Now', 'Satoshi', sans-serif;
-  --font-sans: 'Inter', 'Suisse Intl', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
-}
-
-.dark {
-  /* 主色 */
-  --black: #000000;
-  --white: #FFFFFF;
-  /* 辅助色（灰度）— 暗黑模式下提高亮度以符合 WCAG AA 对比度 */
-  --dark-gray: #111111;
-  --medium-gray: #A1A1AA;      /* 原 #666666 → zinc-400，对比度 5.2:1 (pass AA) */
-  --light-gray: #D9D9D9;
-  --very-light-gray: #F5F5F5;
-  /* 功能色 */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --info: #3B82F6;
-  /* 应用颜色 */
-  --background: #0A0A0A;       /* 原 #000000 → 纯黑在 OLED 上过刺眼 */
-  --foreground: var(--white);
-  --card: #1A1A1A;             /* 原 #111111 → 与 background 形成层次感 */
-  --card-foreground: var(--white);
-  --popover: #0A0A0A;
-  --popover-foreground: var(--white);
-  --primary: var(--white);
-  --primary-foreground: var(--black);
-  --secondary: #1A1A1A;
-  --secondary-foreground: var(--white);
-  --muted: #1A1A1A;
-  --muted-foreground: var(--medium-gray); /* 继承 #A1A1AA */
-  --accent: #1A1A1A;
-  --accent-foreground: var(--white);
-  --destructive: var(--error);
-  --destructive-foreground: var(--white);
-  --border: #27272A;           /* 原 #111111 → zinc-800，在 #0A0A0A 上可见 */
-  --input: #27272A;
-  --ring: var(--medium-gray);  /* 继承 #A1A1AA，对比度 5.2:1 (pass AA) */
-}
-
 @layer base {
+  /* ==========================================================
+   * OasisBio Design System — HSL CSS Variables
+   *
+   * Light tokens: :root  |  Dark tokens: .dark
+   * Placed inside @layer base so they override Tailwind Preflight's
+   * default :root variables (Preflight runs before @layer base content).
+   * ========================================================== */
+
+  :root {
+    /* --- HSL raw values (whitespace-separated, no commas) --- */
+    --background: 0 0% 100%;        /* white */
+    --foreground: 0 0% 3.9%;       /* near-black */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 3.9%;          /* near-black */
+    --primary-foreground: 0 0% 98%; /* near-white */
+    --secondary: 0 0% 96.1%;        /* #F5F5F5 */
+    --secondary-foreground: 0 0% 44.9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 44.9%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 3.9%;
+    --destructive: 0 84.2% 60.2%;  /* red-ish */
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;          /* light-gray */
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    /* --- functional (hex) --- */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --info: #3B82F6;
+    /* --- fonts --- */
+    --font-display: 'Inter Tight', 'Helvetica Now', 'Satoshi', sans-serif;
+    --font-sans: 'Inter', 'Suisse Intl', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;       /* #0A0A0A */
+    --foreground: 0 0% 98%;        /* near-white */
+    --card: 0 0% 10%;             /* #1A1A1A */
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;           /* white text */
+    --primary-foreground: 0 0% 3.9%;
+    --secondary: 0 0% 10%;         /* #1A1A1A */
+    --secondary-foreground: 0 0% 88%;
+    --muted: 0 0% 10%;            /* #1A1A1A */
+    --muted-foreground: 0 0% 63%; /* #A1A1AA — WCAG AA (~5.2:1) */
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%;      /* brighter red on dark */
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 17%;           /* #2B2B2E ≈ zinc-800 */
+    --input: 0 0% 17%;
+    --ring: 0 0% 63%;             /* matches muted-foreground */
+  }
+
+  /* --- Base element styles --- */
   body {
     @apply bg-background text-foreground font-sans;
   }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
+
   code, pre {
     font-family: var(--font-mono);
   }
-  
+
   .font-mono {
     font-family: var(--font-mono);
   }
-  /* 可访问性 */
+
+  /* Accessibility — focus rings */
   * {
     @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
-  
-  /* 跳过链接 */
+
+  /* Skip link */
   .skip-link {
     @apply absolute top-[-40px] left-0 bg-primary text-primary-foreground px-4 py-2 transition-all duration-200 focus:top-0 z-50;
   }
-  
-  /* 键盘导航焦点样式 */
+
+  /* Keyboard navigation focus style */
   button:focus,
   a:focus,
   input:focus,
@@ -112,8 +102,8 @@
   textarea:focus {
     @apply outline-none ring-2 ring-ring ring-offset-2;
   }
-  
-  /* 屏幕阅读器专用 */
+
+  /* Screen reader only */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -125,23 +115,23 @@
     white-space: nowrap;
     border-width: 0;
   }
-  
-  /* 高对比度模式支持 */
+
+  /* High contrast mode support */
   @media (prefers-contrast: high) {
     :root {
-      --background: #FFFFFF;
-      --foreground: #000000;
-      --border: #000000;
+      --background: 0 0% 100%;
+      --foreground: 0 0% 0%;
+      --border: 0 0% 0%;
     }
-    
+
     .dark {
-      --background: #000000;
-      --foreground: #FFFFFF;
-      --border: #FFFFFF;
+      --background: 0 0% 0%;
+      --foreground: 0 0% 100%;
+      --border: 0 0% 100%;
     }
   }
-  
-  /* 减少动画模式支持 */
+
+  /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -154,43 +144,43 @@
 }
 
 @layer utilities {
-  /* 微交互效果 */
+  /* Micro-interactions */
   .hover-lift {
     @apply transition-all duration-300 hover:translate-y-[-2px] hover:shadow-md;
   }
-  
+
   .hover-scale {
     @apply transition-transform duration-200 hover:scale-105;
   }
-  
+
   .hover-opacity {
     @apply transition-opacity duration-200 hover:opacity-80;
   }
-  
+
   .focus-ring {
     @apply transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
-  
-  /* 关键帧动画 */
+
+  /* Keyframe animations */
   .animate-fade-in {
     animation: fadeIn 0.6s ease-in-out;
   }
-  
+
   .animate-slide-up {
     animation: slideUp 0.6s ease-out;
   }
-  
+
   .animate-typewriter {
     animation: typewriter 3s steps(40, end);
     overflow: hidden;
     white-space: nowrap;
     border-right: 3px solid;
   }
-  
+
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-  
+
   .animate-rotate-slow {
     animation: rotate 20s linear infinite;
   }
@@ -205,74 +195,40 @@
   }
 }
 
-/* 动画关键帧 */
+/* Animation keyframes */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes typewriter {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Tooltip entrance — subtle scale + fade */
 @keyframes tooltipEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(2px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.96) translateY(2px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* Tooltip exit — quick fade out */
 @keyframes tooltipExit {
-  from {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.98) translateY(1px);
-  }
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to { opacity: 0; transform: scale(0.98) translateY(1px); }
 }
